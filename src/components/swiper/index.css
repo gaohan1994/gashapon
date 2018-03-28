@@ -1,0 +1,79 @@
+.container {
+    position: relative;
+    width: 720px;
+    height: 350px;
+    float: left;    
+    overflow: hidden;
+    background: #dddddd;
+}
+
+.container {
+    aspect-ratio: '720:350';
+}
+
+.itemlabel {
+    width: 160px;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    font-size: 24px;
+    border-radius: 30px 0 0 30px;
+    background: #f5ad72;
+    text-align: center;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.trig {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.trig > span {
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    display: inline-block;
+    background: #ffffff;
+    width: 26px;
+    height: 6px;
+    margin: 0 0 0 16px;
+}
+
+.trig > .on {
+    background: #f27a7a;
+}
+
+.wrapItem {
+    position: relative;
+    width: 720px;
+    height: 350px;
+}
+
+.imageItem {
+    display: block;
+    position: relative;
+    float: left;
+    width: 720px;
+    height: 350px;
+    content: normal !important;
+    border: 0px;
+}
+
+.imageItem {
+    aspect-ratio: '720:350';
+}

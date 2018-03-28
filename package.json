@@ -1,0 +1,131 @@
+{
+  "name": "gashapon",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "7.1.6",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-react-css-modules": "^3.3.3",
+    "case-sensitive-paths-webpack-plugin": "2.1.1",
+    "chalk": "1.1.3",
+    "css-loader": "0.28.7",
+    "cssnano": "^3.10.0",
+    "dotenv": "4.0.0",
+    "es6-promise": "^4.2.4",
+    "extract-text-webpack-plugin": "3.0.2",
+    "file-loader": "0.11.2",
+    "fork-ts-checker-webpack-plugin": "^0.2.8",
+    "fs-extra": "3.0.1",
+    "graphql-request": "^1.5.1",
+    "html-webpack-plugin": "2.29.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jest": "20.0.4",
+    "lodash": "^4.17.5",
+    "object-assign": "4.1.1",
+    "postcss-aspect-ratio-mini": "0.0.2",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-flexbugs-fixes": "3.2.0",
+    "postcss-loader": "2.0.8",
+    "postcss-px-to-viewport": "0.0.3",
+    "postcss-viewport-units": "^0.1.4",
+    "postcss-write-svg": "^3.0.1",
+    "promise": "8.0.1",
+    "raf": "3.4.0",
+    "react": "^16.2.0",
+    "react-css-modules": "^4.7.1",
+    "react-dev-utils": "4.2.1",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-swipeable-views": "^0.12.13",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "sass-loader": "^6.0.7",
+    "source-map-loader": "^0.2.1",
+    "style-loader": "0.19.0",
+    "sw-precache-webpack-plugin": "0.11.4",
+    "ts-jest": "^20.0.7",
+    "ts-loader": "^2.3.7",
+    "tsconfig-paths-webpack-plugin": "^2.0.0",
+    "tslint": "^5.7.0",
+    "tslint-react": "^3.2.0",
+    "url-loader": "0.6.2",
+    "webpack": "3.8.1",
+    "webpack-dev-server": "2.9.4",
+    "webpack-manifest-plugin": "1.3.2",
+    "whatwg-fetch": "2.0.3"
+  },
+  "scripts": {
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js --env=jsdom"
+  },
+  "devDependencies": {
+    "@types/isomorphic-fetch": "^0.0.34",
+    "@types/jest": "^22.2.0",
+    "@types/lodash": "^4.14.104",
+    "@types/node": "^9.4.7",
+    "@types/react": "^16.0.40",
+    "@types/react-css-modules": "^4.6.1",
+    "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
+    "@types/react-router-dom": "^4.2.4",
+    "@types/react-swipeable-views": "^0.12.1",
+    "@types/redux-logger": "^3.0.5",
+    "eruda": "^1.4.3",
+    "typescript": "^2.7.2",
+    "typings-for-css-modules-loader": "^1.7.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
+    ],
+    "testEnvironment": "node",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/config/jest/typescriptTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web"
+    },
+    "moduleFileExtensions": [
+      "mjs",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "web.js",
+      "js",
+      "web.jsx",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "/Users/Gao/Desktop/rankts/tsconfig.test.json"
+      }
+    }
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}

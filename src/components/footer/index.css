@@ -1,0 +1,46 @@
+.container {
+    position: fixed;
+    z-index: 20;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 720px;
+    height: 100px;
+    background: #ffffff;
+}
+
+.container {
+    aspect-ratio: '720:100';
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.logo {
+    width: 332px;
+    height: 86px;
+    background-image: url('http://net.huanmusic.com/www/h5/%E5%9B%BE%E5%B1%82-5.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    float: left;
+    margin: 7px 0 0 30px;
+}
+
+.logo {
+    aspect-ratio: '332:86';
+}
+
+.download {
+    width: 180px;
+    height: 56px;
+    background-image: url('http://net.huanmusic.com/www/h5/%E7%82%B9%E5%87%BB%E4%B8%8B%E8%BD%BD.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    float: left;
+    margin: 22px 0 0 100px;
+}
