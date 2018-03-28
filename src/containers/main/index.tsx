@@ -50,7 +50,6 @@ class Main extends React.Component<Props, State> {
         return (
             <div styleName="container">
                 <Header/>
-                {/* <Swiper images={getWrapImages}/> */}
                 <Footer/>
             </div>
         );
