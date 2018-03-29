@@ -1,11 +1,10 @@
 .container {
-    width: 720px;
+    width: 750px;
     min-height: 100vh;
-    padding-bottom: 100px;
+    padding-bottom: 144px;
     background-color: #f7f7f7;
-    content: normal !important;
 }
-.container::after {
+.container::after, .hotItems::after {
     content: '';
     display: block;
     height: 0;
@@ -13,158 +12,22 @@
     clear: both;
 }
 
-.daliymusic, .playlists, .tribes {
-    position: relative;
-    background-color: #ffffff;
-    float: left;
-    width: 680px;
-    margin: 20px 0 0 20px;
+.hotItems {
+    width: 750px;
+    border-bottom: 2px solid #281300;
+    background: #dec7a8;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
-    /* border: 2px solid #dddddd; */
-    border-radius: 10px;
-    -webkit-box-shadow: 6px 6px 6px  #dddddd;
-            box-shadow: 6px 6px 6px  #dddddd;
+    padding-top: 20px;
 }
 
-.daliymusic {
-    height: 345px;
-}
-
-.daliymusic {
-    aspect-ratio: '680:345';
-}
-
-.daliymusic::after, playlistBox::after {
-    content: '';
-    display: block;
-    height: 0;
-    overflow: hidden;
-    clear: both;
-}
-
-.more, .listmore {
-    z-index: 10;
-    display: block;
-    position: absolute;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
-
-.more {
-    right: 0;
-    top: 0;
-    background-image: url('http://net.huanmusic.com/www/h5/%E6%9B%B4%E5%A4%9A%E5%B7%A6%E8%BE%B9.png');
-    width: 130px;
-    height: 50px;
-}
-
-.more {
-    aspect-ratio: '130:50';
-}
-
-.title {
+.hotItem {
     position: relative;
     float: left;
-    width: 100%;
-    height: 70px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-}
-
-.icon, .tribeIcon {
-    display: block;
+    margin: 0 0 20px 20px;
+    width: 345px;
+    height: 240px;
     background-repeat: no-repeat;
-    background-size: 100%;
-}
-
-.icon {
-    width: 200px;
-    height: 30px;
-    background-image: url('http://net.huanmusic.com/www/h5/%E6%96%B0%E6%AD%8C%E6%A6%9C1.png');
-}
-
-.icon, .tribeIcon {
-    aspect-ratio: '200:30';
-}
-
-.musics, .tribesBox {
-    float: left;
-    width: 100%;
-    overflow: hidden;
-}
-
-.musicitem {
-    float: left;
-    margin-left: 20px;
-}
-
-.playlists {
-    height: 300px;
-}
-
-.playlists {
-    aspect-ratio: '680:300';
-}
-
-.listmore {
-    left: 0;
-    bottom: 0;
-    width: 94px;
-    height: 82px;
-    background-image: url('http://net.huanmusic.com/www/h5/%E6%9B%B4%E5%A4%9A.png');
-}
-
-.listtitle {
-    float: left;
-    width: 110px;
-    height: 300px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-}
-
-.listicon {
-    display: block;
-    width: 30px;
-    height: 136px;
-    background-image: url('http://net.huanmusic.com/www/h5/%E6%AD%8C%E5%8D%95%E6%8E%A8%E8%8D%901.png');
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
-.tribes {
-    height: 250px;
-    margin-bottom: 20px;
-}
-
-.playlistBox {
-    position: relative;
-    float: right;
-    width: 560px;
-    height: 300px;
-}
-
-.tribeIcon {
-    width: 164px;
-    height: 28px;
-    background-image: url('http://net.huanmusic.com/www/h5/2%E6%8E%A8%E8%8D%90%E5%9C%88%E5%AD%901.png');
-}
-
-.tribeItem {
-    float: left;
-    margin-left: 16px;
+    background-size: cover;
+    background-position: center center;
 }

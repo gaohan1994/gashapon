@@ -83,7 +83,7 @@ export type WrapImageType = {
     pic     : string;
     tag     : string;
     title   : string;
-    type    : 2;
+    type    : number;
 };
 
-export type WrapImagesType = Array<WrapImageType>;
+export type WrapImagesType = WrapImageType[];

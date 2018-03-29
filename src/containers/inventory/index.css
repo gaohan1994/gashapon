@@ -1,0 +1,6 @@
+.container {
+    width: 750px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}

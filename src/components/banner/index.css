@@ -1,0 +1,44 @@
+.container {
+    width: 750px;
+    height: 200px;
+    position: relative;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.banner, bannerType {
+    display: block;
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.banner {
+    width: 750px;
+    height: 180px;
+}
+
+.banner {
+    aspect-ratio: '750:180';
+}
+
+.bannerType {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 750px;
+    height: 66px;
+}
+
+.bannerType {
+    aspect-ratio: '750:66';
+}

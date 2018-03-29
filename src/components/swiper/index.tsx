@@ -106,13 +106,14 @@ class Swiper extends React.Component<Props, State> {
                     key={i}
                     styleName="wrapItem"
                 >
-                    <img 
-                        
+                    <i
                         onClick={this.linkTo.bind(this, item.type, item.param)}
                         styleName="imageItem"
-                        src={item.pic 
-                            ? `http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
-                            : `${config.empty_pic}`}
+                        style={{
+                            backgroundImage: item.pic 
+                            ? `url(${config.empty_pic.url})` 
+                            : `url(${config.empty_pic.url})`
+                        }}
                     />
                     <div styleName="itemlabel">
                         {item.tag}

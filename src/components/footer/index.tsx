@@ -1,30 +1,65 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
+import history from '../../history';
 
-interface Props {
+/**
+ * 
+ * 尽量使用纯组件
+ * @param {any} {} 
+ */
 
+interface NavType {
+    _id     : number;
+    nav     : string;
+    title   : string;
+    img     : string;
 }
 
-interface State {
-    
-}
+const navs: Array<NavType> = [
+    {
+        _id: 1,
+        nav: '/',
+        title: 'recommend',
+        img: '',
+    },
+    {
+        _id: 2,
+        nav: '/gashapon',
+        title: 'gashapon',
+        img: '',
+    },
+    {
+        _id: 3,
+        nav: '/inventory',
+        title: 'inventory',
+        img: '',
+    },
+    {
+        _id: 4,
+        nav: '/my',
+        title: 'my',
+        img: '',
+    },
+];
 
-class Footer extends React.Component<Props, State> {
+const onNavHandle = (index: string): void => {
+    history.push(index);
+};
 
-    constructor(props: Props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <footer styleName="container">
-                <div styleName="logo"/>
-                <div styleName="download"/>
-            </footer>
-        );
-    }
-}
+const Footer = ({}) => (
+    <footer styleName="container">
+        {navs.map((item: NavType) => (
+            <div 
+                key={item._id}
+                styleName="item" 
+                onClick={() => onNavHandle(item.nav)}
+            >
+                {item.title}
+            </div>
+        ))}
+    </footer>
+);
 
 const FooterHoc = CSSModules(Footer, styles);
 

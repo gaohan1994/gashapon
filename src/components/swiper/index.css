@@ -1,14 +1,14 @@
 .container {
     position: relative;
-    width: 720px;
-    height: 350px;
+    width: 710px;
+    height: 440px;
     float: left;    
     overflow: hidden;
     background: #dddddd;
 }
 
 .container {
-    aspect-ratio: '720:350';
+    aspect-ratio: '710:440';
 }
 
 .itemlabel {
@@ -60,20 +60,23 @@
 
 .wrapItem {
     position: relative;
-    width: 720px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
 }
 
 .imageItem {
     display: block;
     position: relative;
     float: left;
-    width: 720px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
     content: normal !important;
     border: 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 }
 
 .imageItem {
-    aspect-ratio: '720:350';
+    aspect-ratio: '710:440';
 }

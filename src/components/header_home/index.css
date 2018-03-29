@@ -1,0 +1,59 @@
+.container {
+    width: 750px;
+    height: 560px;
+    position: relative;
+    border-bottom: 2px solid #281300;
+    background: #be8e4e;
+}
+
+.container {
+    aspect-ratio: '750:100';
+}
+
+.clock, .search {
+    display: block;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.clock {
+    position: absolute;
+    z-index: 10;
+    width: 70px;
+    height: 200px;
+    left: 16px;
+    top: 0;
+    background: #f7cb67;
+}
+
+.search {
+    width: 370px;
+    height: 60px;
+    float: left;
+    background: #fff6e8;
+    margin: 20px 0 0 100px;
+}
+
+.item {
+    float: left;
+    width: 60px;
+    height: 80px;
+    background: #fff6e8;
+    margin: 10px 0 0 26px;
+}
+
+.swiper {
+    float: left;
+    width: 714px;
+    margin: 10px 0 0 18px;
+    height: 444px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border: 2px solid #271400;
+}
