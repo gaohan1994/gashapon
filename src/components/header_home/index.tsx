@@ -2,9 +2,13 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Swiper from '../swiper';
+import { connect } from 'react-redux';
+import { Stores } from '../../types/reducerTypes';
+import { BannerType } from '../../types/componentTypes';
+import { getBanners } from '../../reducers/main';
 
 interface Props {
-
+    getBanners: {contents: BannerType[]};
 }
 
 interface State {
@@ -18,22 +22,7 @@ class Header extends React.Component<Props, State> {
     }
 
     render() {
-        const images = [
-            {
-                param   : '1',
-                pic     : '',
-                tag     : '3',
-                title   : '4',
-                type    : 444,
-            },
-            {
-                param   : '2',
-                pic     : '',
-                tag     : '4',
-                title   : '5',
-                type    : 554,
-            }
-        ];
+        const { getBanners } = this.props;
         return (
             <header styleName="container">
                 <i styleName="clock"/>
@@ -43,7 +32,7 @@ class Header extends React.Component<Props, State> {
                 <div styleName="item">分类</div>
                 <div styleName="swiper">
                     <Swiper
-                        images={images}
+                        images={getBanners.contents}
                     />
                 </div>
             </header>
@@ -52,4 +41,9 @@ class Header extends React.Component<Props, State> {
 }
 
 const HeaderHoc = CSSModules(Header, styles);
-export default HeaderHoc;
+
+export const mapStateToProps = (state: Stores) => ({
+    getBanners: getBanners(state),
+});
+
+export default connect(mapStateToProps)(HeaderHoc);

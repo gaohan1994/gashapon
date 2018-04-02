@@ -44,13 +44,14 @@ const navs: Array<NavType> = [
 ];
 
 const onNavHandle = (index: string): void => {
+    console.log('index', index);
     history.push(index);
 };
 
 const Footer = ({}) => (
     <footer styleName="container">
         {navs.map((item: NavType) => (
-            <div 
+            <div
                 key={item._id}
                 styleName="item" 
                 onClick={() => onNavHandle(item.nav)}

@@ -1,6 +1,9 @@
 .container {
     width: 345px;
-    height: 210px;
+    height: 436px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border: 2px solid #281300;
     position: relative;
 }
 
@@ -32,10 +35,10 @@
     left: 0;
     right: 0;
     width: 100%;
-    height: 30px;
-    line-height: 30px;
+    height: 68px;
+    line-height: 68px;
     padding: 0 10px;
-    font-size: 14px;
+    font-size: 24px;
     background: rgba(255, 255, 255, .8);
 }
 
@@ -50,14 +53,24 @@
     float: right;
     right: 0;
     top: 0;
-    width: 40px;
-    height: 45px;
+    width: 76px;
+    height: 90px;
     background: yellow;
     margin-right: 10px;
 }
 
 .collect {
     position: absolute;
-    bottom: 40px;
+    bottom: 78px;
     left: 10px;
+    width: 150px;
+    height: 60px;
+    line-height: 60px;
+    padding-left: 60px;
+    background: #dddddd;
+}
+
+.collectNum {
+    position: absolute;
+    font-size: 24px;
 }

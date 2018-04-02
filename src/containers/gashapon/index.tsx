@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
@@ -10,21 +10,20 @@ import GashaItem from '../../components/gashapon_item';
 import { Stores } from '../../types/reducerTypes';
 
 import { 
-    WrapImagesType,
+    Gashapons
 } from '../../types/componentTypes';
 
 import { 
-
+    loadGashapons
 } from '../../actions/main';
 
 import { 
-
+    getGashapons
 } from '../../reducers/main';
 
 export interface Props {
-    getWrapImages   : WrapImagesType;
-    loadMainImages  : () => void;
-    children        : any;
+    getGashapons    : Gashapons;
+    loadGashapons   : () => void;
 }
 
 export interface State {
@@ -41,17 +40,24 @@ class Gashapon extends React.Component<Props, State> {
 
     componentDidMount() {
         const { 
-
+            loadGashapons
         } = this.props;
+        loadGashapons();
     }
 
     render() {
-        const { } = this.props;
+        const { getGashapons } = this.props;
+        console.log('getGashapons', getGashapons);
         return (
             <div styleName="container">
-                <div styleName="item">
-                    <GashaItem/>
-                </div>
+                {getGashapons.map((item, i) => (
+                    <div 
+                        key={i}
+                        styleName="item"
+                    >
+                        <GashaItem item={item}/>
+                    </div>
+                ))}
                 <Footer/>
             </div>
         );
@@ -62,11 +68,11 @@ class Gashapon extends React.Component<Props, State> {
 const GashaponHoc = CSSModules(Gashapon, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-
+    getGashapons: getGashapons(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-
+    loadGashapons: bindActionCreators(loadGashapons, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

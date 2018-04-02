@@ -4,12 +4,12 @@ import * as CSSModules from 'react-css-modules';
 // import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
-import Footer from '../../components/footer';
+import Header from '../../components/haeder_set';
 
 import { Stores } from '../../types/reducerTypes';
 
 import { 
-    
+    WrapImagesType,
 } from '../../types/componentTypes';
 
 import { 
@@ -21,7 +21,9 @@ import {
 } from '../../reducers/main';
 
 export interface Props {
-    
+    getWrapImages   : WrapImagesType;
+    loadMainImages  : () => void;
+    children        : any;
 }
 
 export interface State {
@@ -30,11 +32,11 @@ export interface State {
 
 /**
  * @returns 
- * @memberof Inventory
- * 蛋柜
+ * @memberof NoMatch
+ * 首页
  * render:
  */
-class Inventory extends React.Component<Props, State> {
+class Setting extends React.Component<Props, State> {
 
     componentDidMount() {
         const { 
@@ -46,14 +48,17 @@ class Inventory extends React.Component<Props, State> {
         const { } = this.props;
         return (
             <div styleName="container">
-                <Footer/>
+                <Header 
+                    title="设置"
+                    nav="my"
+                />
             </div>
         );
     }
 
 }
 
-const InventoryHoc = CSSModules(Inventory, styles);
+const SettingHoc = CSSModules(Setting, styles);
 
 export const mapStateToProps = (state: Stores) => ({
 
@@ -66,4 +71,4 @@ export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
     Object.assign({}, ownProps, stateProps, dispatchProps);
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(InventoryHoc);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SettingHoc);

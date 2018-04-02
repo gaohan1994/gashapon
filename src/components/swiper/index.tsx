@@ -2,14 +2,14 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import config from '../../config/index';
-import { WrapImagesType, WrapImageType } from '../../types/componentTypes';
+import { BannerType } from '../../types/componentTypes';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 
 const AutoSwipeableViews = autoPlay(SwipeableViews);
 
 interface Props {
-    images: WrapImagesType;
+    images: BannerType[];
 }
 
 interface State {
@@ -100,7 +100,7 @@ class Swiper extends React.Component<Props, State> {
             data: Array<JSX.Element> = [],
             trig: Array<JSX.Element> = [];
             
-        images.map((item: WrapImageType, i) => {
+        images.map((item: BannerType, i) => {
             data.push(
                 <div 
                     key={i}
@@ -111,13 +111,13 @@ class Swiper extends React.Component<Props, State> {
                         styleName="imageItem"
                         style={{
                             backgroundImage: item.pic 
-                            ? `url(${config.empty_pic.url})` 
+                            ? `url(http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350)` 
                             : `url(${config.empty_pic.url})`
                         }}
                     />
-                    <div styleName="itemlabel">
+                    {/* <div styleName="itemlabel">
                         {item.tag}
-                    </div>
+                    </div> */}
                 </div>
             );
             trig.push(

@@ -10,6 +10,7 @@ import Gashapon from './containers/gashapon';
 import Inventory from './containers/inventory';
 import NoMatch from './containers/nomatch';
 import My from './containers/my';
+import Setting from './containers/set';
 
 const routes = (
     <Switch>
@@ -17,6 +18,7 @@ const routes = (
         <Route path="/gashapon"     component={Gashapon}/>
         <Route path="/inventory"    component={Inventory}/>
         <Route path="/my"           component={My}/>
+        <Route path="/set"          component={Setting}/>
         
         <Route component={NoMatch}/>
     </Switch>

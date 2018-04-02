@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Header from '../../components/header_home';
@@ -12,21 +12,19 @@ import Banner from '../../components/banner';
 import { Stores } from '../../types/reducerTypes';
 
 import { 
-    WrapImagesType,
+
 } from '../../types/componentTypes';
 
 import { 
-
+    loadBanners
 } from '../../actions/main';
 
-import { 
+import {
 
 } from '../../reducers/main';
 
 export interface Props {
-    getWrapImages   ?: WrapImagesType;
-    loadMainImages  ?: () => void;
-    children        ?: any;
+    loadBanners : () => void;
 }
 
 export interface State {
@@ -44,12 +42,12 @@ class Main extends React.Component<Props, State> {
 
     componentDidMount() {
         const { 
-
+            loadBanners
         } = this.props;
+        loadBanners();
     }
 
     render() {
-        const { } = this.props;
         return (
             <div styleName="container">
                 <Header/>
@@ -102,11 +100,11 @@ class Main extends React.Component<Props, State> {
 const MainHoc = CSSModules(Main, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-
+    
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-
+    loadBanners: bindActionCreators(loadBanners, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
