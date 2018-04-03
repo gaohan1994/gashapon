@@ -1,0 +1,8 @@
+.container {
+    font-size: 30px;
+}
+
+[button-type="button-primary"] {
+    background: #f27a7a;
+    color: #ffffff;
+}

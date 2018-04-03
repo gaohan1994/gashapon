@@ -2,33 +2,29 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import history from '../../history';
+import Meta from 'react-document-meta';
 
 interface Props {
-    title: string;
-    nav: string;
+    title       : string;
+    metaTitle   ?: string;
 }
 
-// class Header extends React.Component<Props, State> {
-
-//     render() {
-//         return (
-            // <header styleName="container">
-            //     <i styleName="gift"/>
-            //     <div styleName="money">money</div>
-            // </header>
-//         );
-//     }
-// }
-
-const onNavHandle = (param: string): void => {
-    // history.push(`/${param}`);
+const onNavHandle = (): void => {
     history.goBack();
 };  
 
-const Header = ({title, nav}: Props) => (
+const renderMeta = (metaTitle: string): object => {
+    const meta = {title: metaTitle};
+    return meta;
+};
+
+const Header = ({title, metaTitle}: Props) => (
     <header styleName="container">
+        {metaTitle
+        ? <Meta {...renderMeta(metaTitle)}/> 
+        : ''}
         <i/>
-        <span onClick={() => onNavHandle(nav)}>{title}</span>
+        <span onClick={() => onNavHandle()}>{title}</span>
     </header>
 );
 

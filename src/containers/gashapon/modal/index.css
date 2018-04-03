@@ -1,0 +1,51 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    -webkit-transition: all 1s ease-out;
+    transition: all 1s ease-out;
+    background: #ffffff;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.title, .image, .tip, .button {
+    float: left;
+    display: block;
+    background: #f27a7a;
+}
+
+.title {
+    margin: 50px 0 0 188px;
+    width: 375px;
+    height: 150px;
+}
+
+.image {
+    width: 400px;
+    height: 600px;
+    margin: 50px 0 0 175px;
+}
+
+.tip {
+    width: 410px;
+    height: 40px;
+    margin: 50px 0 0 170px;
+}
+
+.button {
+    width: 200px;
+    height: 60px;
+    margin: 50px 0 0 275px;
+}

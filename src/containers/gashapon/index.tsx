@@ -1,81 +1,125 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
-import Footer from '../../components/footer';
-import GashaItem from '../../components/gashapon_item';
+import Header from '../../components/header_gashapon';
+import Modal from './modal';
 
 import { Stores } from '../../types/reducerTypes';
 
 import { 
-    Gashapons
+    
 } from '../../types/componentTypes';
 
 import { 
-    loadGashapons
+
 } from '../../actions/main';
 
 import { 
-    getGashapons
+
 } from '../../reducers/main';
 
-export interface Props {
-    getGashapons    : Gashapons;
-    loadGashapons   : () => void;
+interface Props {
+    match: {
+        params: {
+            id: string;
+        }
+    };
 }
 
-export interface State {
-    
+interface State {
+    showModal: boolean;
 }
 
 /**
  * @returns 
  * @memberof Gashapon
- * 首页
- * render:
  */
 class Gashapon extends React.Component<Props, State> {
 
+    constructor (props: Props) {
+        super(props);
+        this.state = {
+            showModal: true
+        };
+    }
+
     componentDidMount() {
         const { 
-            loadGashapons
+            match
         } = this.props;
-        loadGashapons();
+        console.log('this.props', match.params.id);
     }
 
     render() {
-        const { getGashapons } = this.props;
-        console.log('getGashapons', getGashapons);
+        const { } = this.props;
         return (
             <div styleName="container">
-                {getGashapons.map((item, i) => (
-                    <div 
-                        key={i}
-                        styleName="item"
-                    >
-                        <GashaItem item={item}/>
+                <Header/>
+                {this.renderModal()}
+                <div styleName="content">
+                    <div styleName="name">阿西吧把阿爸爸爸爸阿西吧把阿爸爸</div>
+                    <i styleName="collect"/>
+                    <i styleName="music"/>
+                    <div styleName="store">阿西吧把阿爸爸爸爸阿西吧把阿爸爸</div>
+                    <i styleName="show"/>
+                    <i styleName="barrage"/>
+                    <i styleName="chat"/>
+
+                    <div styleName="main">
+                        <div 
+                            styleName="gashaponImg"
+                            onClick={this.onShowModalHandle}
+                        >
+                            gashaponImg
+                        </div>
+                        <i styleName="button1" button-attr="button-attr"/>
+                        <i styleName="button2" button-attr="button-attr"/>
+                        <i styleName="button3" button-attr="button-attr"/>
+                        <i styleName="button4" button-attr="button-attr"/>
                     </div>
-                ))}
-                <Footer/>
+                </div>
             </div>
         );
     }
 
+    private onShowModalHandle = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    private onHideModalHandle = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
+    private renderModal = (): JSX.Element => {
+        const { showModal } = this.state;
+        console.log('showModal', showModal);
+        return (
+            <Modal 
+                display={showModal}
+                onHide={this.onHideModalHandle}
+            />
+        );
+    }
 }
 
 const GashaponHoc = CSSModules(Gashapon, styles);
 
-export const mapStateToProps = (state: Stores) => ({
-    getGashapons: getGashapons(state),
+const mapStateToProps = (state: Stores) => ({
+    
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadGashapons: bindActionCreators(loadGashapons, dispatch),
+const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
+
 });
 
-export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
     Object.assign({}, ownProps, stateProps, dispatchProps);
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(GashaponHoc);

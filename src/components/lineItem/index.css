@@ -1,4 +1,29 @@
 .container {
     width: 750px;
     height: 85px;
+    background: #f9f0e2;
+    line-height: 85px;
+    padding: 0 20px;
+    font-size: 26px;
+    border-bottom: 2px solid #c6b6a7;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background: #f27a7a;
 }

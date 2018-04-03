@@ -1,0 +1,38 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 750px;
+    height: 6vh;
+    background: #be8e4e;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.gift {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.gift {
+    float: left;
+    margin: 10px 0 0 20px;
+    width: 188px;
+    height: 50px;
+    background: #ffffff;
+}
+
+.money {
+    float: left;
+    margin: 10px 0 0 160px;
+    width: 360px;
+    height: 60px;
+    background: #ffffff;
+}

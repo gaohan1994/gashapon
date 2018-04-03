@@ -23,11 +23,11 @@ import {
 
 } from '../../reducers/main';
 
-export interface Props {
+interface Props {
 
 }
 
-export interface State {
+interface State {
     
 }
 
@@ -39,6 +39,10 @@ export interface State {
  */
 
 class My extends React.Component<Props, State> {
+
+    constructor (props: Props) {
+        super(props);
+    }
 
     componentDidMount(): void {
         const { 

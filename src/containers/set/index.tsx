@@ -5,6 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Header from '../../components/haeder_set';
+import Line from '../../components/lineItem';
 
 import { Stores } from '../../types/reducerTypes';
 
@@ -50,7 +51,16 @@ class Setting extends React.Component<Props, State> {
             <div styleName="container">
                 <Header 
                     title="设置"
-                    nav="my"
+                    metaTitle="设置"
+                />
+                <Line 
+                    value="账号"
+                    subValue="13456"
+                    param="account"
+                />
+                <Line 
+                    value="关于完蛋趣"
+                    param="about"
                 />
             </div>
         );

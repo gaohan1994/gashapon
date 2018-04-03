@@ -23,12 +23,12 @@ import {
 
 } from '../../reducers/main';
 
-export interface Props {
+interface Props {
     loadBanners : () => void;
 }
 
-export interface State {
-    
+interface State {
+    meta: string;
 }
 
 /**
@@ -42,9 +42,9 @@ class Main extends React.Component<Props, State> {
 
     componentDidMount() {
         const { 
-            loadBanners
+            // loadBanners
         } = this.props;
-        loadBanners();
+        // loadBanners();
     }
 
     render() {
@@ -99,15 +99,15 @@ class Main extends React.Component<Props, State> {
 
 const MainHoc = CSSModules(Main, styles);
 
-export const mapStateToProps = (state: Stores) => ({
+const mapStateToProps = (state: Stores) => ({
     
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
     loadBanners: bindActionCreators(loadBanners, dispatch),
 });
 
-export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
     Object.assign({}, ownProps, stateProps, dispatchProps);
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(MainHoc);

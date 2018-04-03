@@ -1,0 +1,64 @@
+.container {
+    width: 750px;
+    min-height: 100vh;
+    padding: 90px 0 0 0;
+    background: #dcc6a6;
+}
+
+.content {
+    position: relative;
+    width: 750px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+
+.moneySpan, .icon, .money {
+    display: block;
+}
+
+.record {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    width: 60px;
+    height: 30px;
+    background: #f27a7a;
+}
+
+.icon {
+    margin: 30px 0 0 0;
+    width: 100px;
+    height: 100px;
+    background: #f27a7a;
+}
+
+.moneySpan {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.money {
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.topup {
+    margin-top: 40px;
+    width: 690px;
+    height: 85px;
+    line-height: 85px;
+    padding: 0 20px;
+    font-size: 30px;
+    background: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 8px;
+}

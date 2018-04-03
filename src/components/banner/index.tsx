@@ -17,7 +17,6 @@ interface BannerType {
 }
 
 // class Banner extends React.Component<Props, State> {
-
 //     constructor(props: Props) {
 //         super(props);
 //     }
