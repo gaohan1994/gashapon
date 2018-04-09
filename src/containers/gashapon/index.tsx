@@ -37,7 +37,6 @@ interface Props {
 
 interface State {
     showModal           : boolean;
-    
     GashaponProductItem ?: GashaponProductItemType;
 }
 

@@ -15,7 +15,6 @@ interface Props {
 }
 
 // class Modal extends React.Component<Props, State> {
-
 //     render() {
 //         return (
 //             <div styleName="container">
