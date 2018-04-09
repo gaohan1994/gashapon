@@ -1,14 +1,24 @@
+export type GashaponProductItem = {
+    _id     : string;
+    name    : string;
+    pics    : string[];
+    quantity: number;
+    rate    : number;
+    status  : number;
+};
+
 export type Gashapon = {
-    name: string;
-    desc: string;
-    start_time: string;
-    end_time: string;
-    open_time: string;
-    price: number;
-    pics: string[];
-    product_list: object[];
-    genres: object[];
-    status: number;
+    _id             : string;
+    name            : string;
+    desc            : string;
+    start_time      : Date;
+    end_time        : Date;
+    open_time       : Date;
+    price           : number;
+    pics            : string[];
+    product_list    : GashaponProductItem[];
+    residue_quantity: number;
+    status          : number;
 };
 
 export type Gashapons = Gashapon[];
@@ -31,7 +41,7 @@ export type BannerType = {
 
 export type ReceiveBanner = {
     contents    : BannerType[];
-    publish_date: string;
+    publish_date: Date;
     status      : number;
 };
 

@@ -16,15 +16,23 @@
     clear: both;
 }
 
-.gift {
+.back, .home {
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
 
-.gift {
+.back {
     float: left;
     margin: 10px 0 0 20px;
-    width: 188px;
+    width: 60px;
+    height: 50px;
+    background: #ffffff;
+}
+
+.home {
+    float: left;
+    margin: 10px 0 0 20px;
+    width: 60px;
     height: 50px;
     background: #ffffff;
 }

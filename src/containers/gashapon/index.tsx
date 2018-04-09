@@ -1,25 +1,29 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Header from '../../components/header_gashapon';
 import Modal from './modal';
+import * as moment from 'moment';
+import config from '../../config';
+import { randomNum } from '../../config/util';
 
-import { Stores } from '../../types/reducerTypes';
+import { Stores } from '../../reducers/type';
 
 import { 
-    
+    Gashapon as GashaponType,
+    GashaponProductItem as GashaponProductItemType,
 } from '../../types/componentTypes';
 
 import { 
-
-} from '../../actions/main';
+    loadGashapon
+} from '../../actions/gashapon';
 
 import { 
-
-} from '../../reducers/main';
+    getGashapon
+} from '../../reducers/gashapon';
 
 interface Props {
     match: {
@@ -27,10 +31,14 @@ interface Props {
             id: string;
         }
     };
+    getGashapon: GashaponType;
+    loadGashapon: (_id: string) => void;
 }
 
 interface State {
-    showModal: boolean;
+    showModal           : boolean;
+    
+    GashaponProductItem ?: GashaponProductItemType;
 }
 
 /**
@@ -42,42 +50,47 @@ class Gashapon extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            showModal: true
+            showModal: false,
         };
     }
 
     componentDidMount() {
         const { 
-            match
+            match,
+            loadGashapon,
         } = this.props;
-        console.log('this.props', match.params.id);
+        loadGashapon(match.params.id);
     }
 
     render() {
-        const { } = this.props;
+        const { getGashapon } = this.props;
         return (
             <div styleName="container">
                 <Header/>
                 {this.renderModal()}
                 <div styleName="content">
-                    <div styleName="name">阿西吧把阿爸爸爸爸阿西吧把阿爸爸</div>
+                    {this.renderName()}
+                    {this.renderTime()}
                     <i styleName="collect"/>
                     <i styleName="music"/>
-                    <div styleName="store">阿西吧把阿爸爸爸爸阿西吧把阿爸爸</div>
+                    {this.renderStore()}
                     <i styleName="show"/>
                     <i styleName="barrage"/>
                     <i styleName="chat"/>
 
                     <div styleName="main">
+                        {/* 渲染扭蛋图片 */}
                         <div 
+                            bgimg-center="bgimg-center"
                             styleName="gashaponImg"
-                            onClick={this.onShowModalHandle}
-                        >
-                            gashaponImg
-                        </div>
+                            style={{backgroundImage: 
+                                    getGashapon.pics && getGashapon.pics[0]
+                                    ? `url(http://${config.host.pic}/${getGashapon.pics[0]})`
+                                    : `url(${config.empty_pic.url})`}}
+                        />
                         <i styleName="button1" button-attr="button-attr"/>
                         <i styleName="button2" button-attr="button-attr"/>
-                        <i styleName="button3" button-attr="button-attr"/>
+                        <i styleName="button3" button-attr="button-attr" onClick={() => this.onTestOneTime()}/>
                         <i styleName="button4" button-attr="button-attr"/>
                     </div>
                 </div>
@@ -85,10 +98,21 @@ class Gashapon extends React.Component<Props, State> {
         );
     }
 
+    private onTestOneTime = (): void => {
+        const { getGashapon } = this.props;
+        const data = getGashapon.product_list && getGashapon.product_list[randomNum(getGashapon.product_list.length)];
+        console.log('data', data);
+        this.setState({
+            showModal: true,
+            GashaponProductItem: data
+        });
+    }
+
     private onShowModalHandle = (): void => {
         this.setState({
             showModal: true
         });
+        console.log('onShowModalHandle', this.onShowModalHandle);
     }
 
     private onHideModalHandle = (): void => {
@@ -98,13 +122,49 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     private renderModal = (): JSX.Element => {
-        const { showModal } = this.state;
-        console.log('showModal', showModal);
+        const { showModal, GashaponProductItem } = this.state;
+        const { getGashapon } = this.props;
         return (
             <Modal 
                 display={showModal}
                 onHide={this.onHideModalHandle}
+                totalData={getGashapon}
+                data={GashaponProductItem}
             />
+        );
+    }
+
+    /**
+     * 渲染扭蛋标题
+     */
+    private renderName = (): JSX.Element => {
+        const { getGashapon } = this.props;
+        return (
+            <div styleName="name" word-overflow="word-overflow">
+                {`${getGashapon.name}  全${getGashapon.product_list && getGashapon.product_list.length}款`}
+            </div>
+        );
+    }
+
+    /**
+     * 渲染扭蛋开放时间
+     */
+    private renderTime = (): JSX.Element => {
+        const { getGashapon } = this.props;
+        return (
+            <div styleName="time" word-overflow="word-overflow">
+                开放购买时间：{moment(getGashapon.open_time).format('YYYY-MM-DD hh:mm')}
+            </div>
+        );
+    }
+
+    /**
+     * 渲染扭蛋库存
+     */
+    private renderStore = (): JSX.Element => {
+        const { getGashapon } = this.props;
+        return (
+            <div styleName="store">{`库存${getGashapon.residue_quantity}  ${getGashapon.price}元/个`}</div>
         );
     }
 }
@@ -112,11 +172,11 @@ class Gashapon extends React.Component<Props, State> {
 const GashaponHoc = CSSModules(Gashapon, styles);
 
 const mapStateToProps = (state: Stores) => ({
-    
+    getGashapon: getGashapon(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-
+    loadGashapon: bindActionCreators(loadGashapon, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

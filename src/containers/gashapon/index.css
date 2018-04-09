@@ -20,7 +20,7 @@
             align-items: center;
 }
 
-.name, .collect, .music, .store, .show, .barrage, .chat, .gashaponImg {
+.name, .collect, .music, .store, .show, .barrage, .chat, .gashaponImg, .time {
     position: absolute;
 }
 
@@ -29,6 +29,13 @@
     top: 10px;
     width: 610px;
     font-size: 40px;
+}
+
+.time {
+    left: 20px;
+    top: 60px;
+    width: 610px;
+    font-size: 20px;
 }
 
 .collect {
@@ -91,7 +98,6 @@
     left: 240px;
     width: 200px;
     height: 200px;
-    background: #000000;
 }
 
 .modal {

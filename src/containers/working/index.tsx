@@ -7,15 +7,15 @@ const onClickHandle = (): void => {
     history.push('/');
 };
 
-const NoMatch = ({}): JSX.Element => (
+const Working = ({}): JSX.Element => (
     <div 
         styleName="container"
         onClick={onClickHandle}
     >
-        这个页面啊瞎晃啥呢：（
+        正在建设中
     </div>
 );
 
-const NoMatchHoc = CSSModules(NoMatch, styles);
+const WorkingHoc = CSSModules(Working, styles);
 
-export default NoMatchHoc;
+export default WorkingHoc;

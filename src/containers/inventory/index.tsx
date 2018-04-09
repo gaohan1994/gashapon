@@ -6,7 +6,7 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 
-import { Stores } from '../../types/reducerTypes';
+import { Stores } from '../../reducers/type';
 
 import { 
     

@@ -16,8 +16,15 @@ class Header extends React.Component<Props, State> {
     render() {
         return (
             <header styleName="container">
-                <i styleName="gift"/>
-                <div 
+                <i
+                    styleName="back"
+                    onClick={() => this.onBackHandle()}
+                />
+                <i 
+                    styleName="home"
+                    onClick={() => this.onNavHandle('')}
+                />
+                <div
                     styleName="money"
                     onClick={() => this.onNavHandle('pay')}
                 >
@@ -29,6 +36,10 @@ class Header extends React.Component<Props, State> {
 
     private onNavHandle = (param: string): void => {
         history.push(`/${param}`);
+    }
+
+    private onBackHandle = (): void => {
+        history.goBack();
     }
 }
 

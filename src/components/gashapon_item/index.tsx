@@ -3,6 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import { Gashapon } from '../../types/componentTypes';
 import config from '../../config';
+import history from '../../history';
 
 interface Props {
     item: Gashapon;
@@ -23,14 +24,14 @@ interface Props {
 //     }
 // ];
 
-const onClickHandle = (): void => {
-    alert('Gashapon');
+const onClickHandle = (_id: string): void => {
+    history.push(`gashapon/${_id}`);
 };
 
 const Gashapon = ({item}: Props) => (
     <div 
         styleName="container"
-        onClick={onClickHandle}
+        onClick={() => onClickHandle(item._id)}
     >
         <i 
             styleName="cover"

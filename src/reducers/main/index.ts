@@ -1,13 +1,15 @@
-import { MainActions } from '../actions/main';
-import { Stores, Main } from '../types/reducerTypes';
+
+import { MainActions } from '../../actions/main';
+import { Stores } from '../type';
+import { Main } from './type';
 import { 
     RECEIVE_MAIN_GAHSAPONS,
     RECEIVE_MAIN_BANNERS,
-} from '../constants/main';
-import initState from './initState';
+} from '../../constants/main';
+import initState from './state';
 import { merge } from 'lodash';
 
-export default function main (state: Main = initState.main, action: MainActions): Main {
+export default function main (state: Main = initState, action: MainActions): Main {
     switch (action.type) {
 
         case RECEIVE_MAIN_GAHSAPONS:

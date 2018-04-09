@@ -7,7 +7,7 @@ import * as styles from './index.css';
 import Footer from '../../components/footer';
 import GashaItem from '../../components/gashapon_item';
 
-import { Stores } from '../../types/reducerTypes';
+import { Stores } from '../../reducers/type';
 
 import { 
     Gashapons
@@ -40,9 +40,9 @@ class Gashapon extends React.Component<Props, State> {
 
     componentDidMount() {
         const { 
-            // loadGashapons
+            loadGashapons
         } = this.props;
-        // loadGashapons();
+        loadGashapons();
     }
 
     render() {
@@ -62,7 +62,6 @@ class Gashapon extends React.Component<Props, State> {
             </div>
         );
     }
-
 }
 
 const GashaponHoc = CSSModules(Gashapon, styles);

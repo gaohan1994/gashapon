@@ -7,7 +7,7 @@ import * as styles from './index.css';
 import Header from '../../components/haeder_set';
 import Line from '../../components/lineItem';
 
-import { Stores } from '../../types/reducerTypes';
+import { Stores } from '../../reducers/type';
 
 import { 
     WrapImagesType,

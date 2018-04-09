@@ -12,6 +12,18 @@
     clear: both;
 }
 
+[word-overflow="word-overflow"] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+[bgimg-center="bgimg-center"] {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
 .hotItems {
     width: 750px;
     border-bottom: 2px solid #281300;

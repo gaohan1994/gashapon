@@ -9,7 +9,7 @@ import Footer from '../../components/footer';
 import config from '../../config';
 import Banner from '../../components/banner';
 
-import { Stores } from '../../types/reducerTypes';
+import { Stores } from '../../reducers/type';
 
 import { 
 

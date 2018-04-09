@@ -9,7 +9,7 @@ import Header from '../../components/header_my';
 import Menu from '../../components/menu';
 import history from '../../history';
 
-import { Stores } from '../../types/reducerTypes';
+import { Stores } from '../../reducers/type';
 
 import { 
     

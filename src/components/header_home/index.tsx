@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Swiper from '../swiper';
 import { connect } from 'react-redux';
-import { Stores } from '../../types/reducerTypes';
+import { Stores } from '../../reducers/type';
 import { BannerType } from '../../types/componentTypes';
 import { getBanners } from '../../reducers/main';
 

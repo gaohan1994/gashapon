@@ -18,19 +18,28 @@ export interface LoadBanners {
     banners: BannerType[];
 }
 
-export type MainActions = LoadGashapons | LoadBanners;
+export interface LoadGashapon {
+    type: constants.RECEIVE_GASHAPON;
+}
 
-export const loadGashapons = () => (dispatch: Dispatch<MainActions>) => 
-    fetch('/machine')
-    .then(res => res.json())
-    .then(res => {
-        if (res.success === true) {
-            dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: res.result});
-        } else {
-            throw new Error('loadGashapons error');
-        }
-    });
+export type MainActions = LoadGashapons | LoadBanners | LoadGashapon;
 
+export const loadGashapons = () => (dispatch: Dispatch<MainActions>) => {
+    try {
+        fetch('/machine')
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: res.result});
+            } else {
+                throw new Error('loadGashapons error');
+            }
+        });
+    } catch (err) {
+        console.log('loadGashapons err', err);
+    }
+};
+    
 export const loadBanners = () => (dispatch: Dispatch<MainActions>) => 
     fetch('/banner')
     .then(res => res.json())
@@ -41,3 +50,18 @@ export const loadBanners = () => (dispatch: Dispatch<MainActions>) =>
             throw new Error('loadBanners error');
         }
     });
+
+export const loadGashapon = (_id: string) => (dispatch: Dispatch<MainActions>): void => {
+    if (!_id) {
+        throw new Error('PARAM ERROR');
+    }
+    try {
+        fetch(`/machine/info/${_id}`)
+        .then(res => res.json())
+        .then(res => {
+            dispatch({type: constants.RECEIVE_GASHAPON, });
+        });
+    } catch (err) {
+        console.log('loadGashapon err', err);
+    }
+};
