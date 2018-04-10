@@ -1,0 +1,28 @@
+.container {
+    width: 750px;
+    height: 170px;
+    margin-bottom: 4px;
+    background: #dddddd;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.cover {
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 10px 0 0 10px;
+}
+
+.detail {
+    float: left;
+    width: 570px;
+    height: 150px;
+    margin: 10px 0 0 10px;
+}

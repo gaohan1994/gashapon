@@ -1,0 +1,23 @@
+.container {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+[text-font-weight="normal"] {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+[text-font-weight="bold"] {
+    font-size: 18px;
+    font-weight: bold;
+}

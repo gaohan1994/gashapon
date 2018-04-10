@@ -1,0 +1,3 @@
+
+export const RECEIVE_GASHAPON = 'RECEIVE_GASHAPON';
+export type RECEIVE_GASHAPON = typeof RECEIVE_GASHAPON;

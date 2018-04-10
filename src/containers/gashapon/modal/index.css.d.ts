@@ -4,3 +4,4 @@ export const image: string;
 export const tip: string;
 export const button: string;
 export const cover: string;
+export const name: string;

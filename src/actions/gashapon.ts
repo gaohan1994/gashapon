@@ -1,6 +1,6 @@
 require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
-import * as constants from '../constants/main';
+import * as constants from '../constants/gashapon';
 import { 
     Gashapon
 } from '../types/componentTypes';

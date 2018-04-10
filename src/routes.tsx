@@ -16,6 +16,7 @@ import About from './containers/about';
 import Help from './containers/about/help';
 import Pay from './containers/pay';
 import Gashapon from './containers/gashapon';
+import Order from './containers/order';
 
 const routes = (
     <Switch>
@@ -30,6 +31,7 @@ const routes = (
         <Route path="/about"            component={About}/>
         <Route path="/help"             component={Help}/>
         <Route path="/pay"              component={Pay}/>
+        <Route path="/order"            component={Order}/>
         
         <Route component={NoMatch}/>
     </Switch>

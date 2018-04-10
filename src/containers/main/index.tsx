@@ -42,9 +42,9 @@ class Main extends React.Component<Props, State> {
 
     componentDidMount() {
         const { 
-            // loadBanners
+            loadBanners
         } = this.props;
-        // loadBanners();
+        loadBanners();
     }
 
     render() {

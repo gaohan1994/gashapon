@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import config from '../../config/index';
-// import history from '../../history';
+import history from '../../history';
 
 /**
  * menus item
@@ -11,17 +11,18 @@ import config from '../../config/index';
 interface Props {
     menus   : MenuItem[];
     height  ?: number;
+    
 }
 
 interface MenuItem {
-    _id     : number;
-    img     : string;
-    param   ?: string;
+    _id             : number;
+    img             : string;
+    param           ?: string;
+    propsClickHandle?: () => void;
 }
 
 const onClickHandle = (param?: string): void => {
-    // history.push(`${param}`);
-    console.log('onClickhandle');
+    history.push(`${param}`);
 };
 
 const noParamHandle = (): void => {/*no empty*/};
@@ -30,6 +31,7 @@ const Menu = ({menus, height}: Props) => (
     <ul styleName="container">
         {menus.map((item) => (
             <li 
+                bgimg-center="bgimg-center"
                 key={item._id}
                 styleName="item"
                 style={{
@@ -38,11 +40,11 @@ const Menu = ({menus, height}: Props) => (
                             ? `${(height / 750) * 100}vw` 
                             : `20vw`
                 }}
-                onClick={
-                    item.param
-                    ? () => onClickHandle(item.param)
-                    : () => noParamHandle()
-                }
+                onClick={item.propsClickHandle
+                        ? item.propsClickHandle
+                        : item.param
+                            ? () => onClickHandle(item.param)
+                            : () => noParamHandle()}
             />
         ))}
     </ul>

@@ -18,11 +18,7 @@ export interface LoadBanners {
     banners: BannerType[];
 }
 
-export interface LoadGashapon {
-    type: constants.RECEIVE_GASHAPON;
-}
-
-export type MainActions = LoadGashapons | LoadBanners | LoadGashapon;
+export type MainActions = LoadGashapons | LoadBanners;
 
 export const loadGashapons = () => (dispatch: Dispatch<MainActions>) => {
     try {
@@ -50,18 +46,3 @@ export const loadBanners = () => (dispatch: Dispatch<MainActions>) =>
             throw new Error('loadBanners error');
         }
     });
-
-export const loadGashapon = (_id: string) => (dispatch: Dispatch<MainActions>): void => {
-    if (!_id) {
-        throw new Error('PARAM ERROR');
-    }
-    try {
-        fetch(`/machine/info/${_id}`)
-        .then(res => res.json())
-        .then(res => {
-            dispatch({type: constants.RECEIVE_GASHAPON, });
-        });
-    } catch (err) {
-        console.log('loadGashapon err', err);
-    }
-};

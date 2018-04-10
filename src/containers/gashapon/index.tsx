@@ -31,7 +31,7 @@ interface Props {
             id: string;
         }
     };
-    getGashapon: GashaponType;
+    getGashapon : GashaponType;
     loadGashapon: (_id: string) => void;
 }
 

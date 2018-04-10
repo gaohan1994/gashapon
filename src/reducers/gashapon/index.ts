@@ -3,7 +3,7 @@ import { Stores } from '../type';
 import { Gashapon } from './type';
 import { 
     RECEIVE_GASHAPON
-} from '../../constants/main';
+} from '../../constants/gashapon';
 import initState from './state';
 import { merge } from 'lodash';
 

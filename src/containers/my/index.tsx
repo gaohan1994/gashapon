@@ -124,7 +124,7 @@ class My extends React.Component<Props, State> {
                 _id: 1,
                 value: '我的订单',
                 img: '',
-                param: '123',
+                param: 'order',
             },
             {
                 _id: 2,
