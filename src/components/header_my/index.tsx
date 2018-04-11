@@ -21,7 +21,9 @@ class Header extends React.Component<Props, State> {
                     styleName="money"
                     onClick={() => this.onNavHandle('pay')}
                 >
-                    pay
+                    <span styleName="moneyIcon">￥</span>
+                    0
+                    <i styleName="pay"/>
                 </div>
             </header>
         );

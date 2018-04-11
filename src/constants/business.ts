@@ -1,0 +1,2 @@
+export const RECEIVE_ORDERS = 'RECEIVE_ORDERS';
+export type RECEIVE_ORDERS = typeof RECEIVE_ORDERS;

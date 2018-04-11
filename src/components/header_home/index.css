@@ -22,14 +22,19 @@
     clear: both;
 }
 
+.clock, .item1, .item2, .item3 {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
 .clock {
     position: absolute;
     z-index: 10;
-    width: 70px;
+    width: 80px;
     height: 200px;
     left: 16px;
     top: 0;
-    background: #f7cb67;
+    background-image: url('http://net.huanmusic.com/gasha/gif-sign.gif');
 }
 
 .search {
@@ -40,12 +45,23 @@
     margin: 20px 0 0 100px;
 }
 
-.item {
+.item1, .item2, .item3 {
     float: left;
     width: 60px;
     height: 80px;
-    background: #fff6e8;
     margin: 10px 0 0 26px;
+}
+
+.item1 {
+    background-image: url('http://net.huanmusic.com/gasha/icon-home-sort.png');
+}
+
+.item2 {
+    background-image: url('http://net.huanmusic.com/gasha/icon-home-zt.png');
+}
+
+.item3 {
+    background-image: url('http://net.huanmusic.com/gasha/icon-home-message.png');
 }
 
 .swiper {

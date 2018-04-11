@@ -1,66 +1,61 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-import history from '../../history';
+import Menu from '../menu';
 
-/**
- * 
- * 尽量使用纯组件
- * @param {any} {} 
- */
-
-interface NavType {
-    _id     : number;
-    nav     : string;
-    title   : string;
-    img     : string;
+class Footer extends React.Component<{}, {}> {
+    render () {
+        const navs = [
+            {
+                _id: 1,
+                param: '/',
+                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
+                size: '172px auto',
+                position: window.location.pathname === '/' 
+                            ? '-.5px -.5px'
+                            : '-86.5px -.5px'
+            },
+            {
+                _id: 2,
+                param: '/gashapon',
+                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
+                size: '172px auto',
+                position: window.location.pathname === '/gashapon' 
+                            ? '-.5px -71.5px'
+                            : '-86.5px -71.5px'
+            },
+            {
+                _id: 3,
+                param: '/inventory',
+                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
+                size: '172px auto',
+                position: window.location.pathname === '/inventory' 
+                            ? '-.5px -142.5px'
+                            : '-86.5px -142.5px'
+            },
+            {
+                _id: 4,
+                param: '/my',
+                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
+                size: '172px auto',
+                position: window.location.pathname === '/my' 
+                            ? '-.5px -213.5px'
+                            : '-86.5px -213.5px'
+            },
+        ];
+        return (
+            <footer styleName="container">
+                <Menu 
+                    menus={navs}
+                    height={160} 
+                    iconWidth="85px"
+                    iconHeight="70px"
+                    iconSize="big"
+                />
+            </footer>
+        );
+    }
 }
-
-const navs: Array<NavType> = [
-    {
-        _id: 1,
-        nav: '/',
-        title: 'recommend',
-        img: '',
-    },
-    {
-        _id: 2,
-        nav: '/gashapon',
-        title: 'gashapon',
-        img: '',
-    },
-    {
-        _id: 3,
-        nav: '/inventory',
-        title: 'inventory',
-        img: '',
-    },
-    {
-        _id: 4,
-        nav: '/my',
-        title: 'my',
-        img: '',
-    },
-];
-
-const onNavHandle = (index: string): void => {
-    console.log('index', index);
-    history.push(index);
-};
-
-const Footer = ({}) => (
-    <footer styleName="container">
-        {navs.map((item: NavType) => (
-            <div
-                key={item._id}
-                styleName="item" 
-                onClick={() => onNavHandle(item.nav)}
-            >
-                {item.title}
-            </div>
-        ))}
-    </footer>
-);
 
 const FooterHoc = CSSModules(Footer, styles);
 

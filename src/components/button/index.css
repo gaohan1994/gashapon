@@ -1,8 +1,22 @@
 .container {
     font-size: 30px;
+    border-radius: 10px;
+    text-align: center;
 }
 
 [button-type="button-primary"] {
     background: #f27a7a;
     color: #ffffff;
+}
+
+[button-size="big"] {
+    width: 700px;
+    height: 80px;
+    line-height: 80px;
+}
+
+[button-size="normal"] {
+    width: 600px;
+    height: 60px;
+    line-height: 60px;
 }

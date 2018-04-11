@@ -2,18 +2,21 @@ import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
-import { MainActions } from '../../actions/main';
+
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 import GashaItem from '../../components/gashapon_item';
 import Menu from '../../components/menu';
+
+import User from '../../classes/user';
+import Business from '../../classes/business';
 
 import { Stores } from '../../reducers/type';
 
 import { 
     Gashapon
 } from '../../types/componentTypes';
-
+import { InventoryActions } from '../../actions/inventory';
 import { 
     loadInventory
 } from '../../actions/inventory';
@@ -55,6 +58,24 @@ class Inventory extends React.Component<Props, State> {
         }
     }
 
+    public doOrderHandle = async (): Promise<void> => {
+        const { getInventory } = this.props;
+        const u = new User({
+            _id     : '5ac1f31087e83ef4915abc02',
+            address : '123',
+            receiver: 'gaohan',
+            phone   : '15659995443',
+        });
+        const user = u.getBusinessUser();
+        // const products: any = [];    
+        const result = await Business.doOrderMethod(user, getInventory); 
+        if (result.success === true) {
+            console.log('ok');
+        } else {
+            console.log(`${result.type}--${result.message}`);
+        }
+    }
+
     render() {
         const { getInventory } = this.props;
         return (
@@ -77,20 +98,29 @@ class Inventory extends React.Component<Props, State> {
         const menus = [
             {
                 _id: 1,
-                value: '变卖',
-                img: '',
+                img: 'http://net.huanmusic.com/gasha/txt-box-btn.png',
+                size: '63px auto',
+                position: '25% 39%',
                 propsClickHandle: this.onMenuClickHandle.bind(this, 'sale')
             },
             {
                 _id: 2,
-                value: '下单',
-                img: '',
-                propsClickHandle: this.onMenuClickHandle.bind(this, 'order')
+                img: 'http://net.huanmusic.com/gasha/txt-box-btn.png',
+                size: '63px auto',
+                position: '50% 0',
+                propsClickHandle: this.doOrderHandle.bind(this)
             }
         ];
         return (
             <div styleName="menu">
-                <Menu menus={menus} height={100}/>
+                <Menu
+                    menus={menus} 
+                    height={80}
+                    iconWidth="63px"
+                    iconHeight="21px"
+                    menuColor="#787672"
+                    menuImage="http://gacha.52toys.com/image/alert-header-bg.png"
+                />
             </div>  
         );
     }
@@ -102,7 +132,7 @@ export const mapStateToProps = (state: Stores) => ({
     getInventory: getInventory(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>) => ({
     loadInventory: bindActionCreators(loadInventory, dispatch),
 });
 

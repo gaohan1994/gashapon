@@ -16,7 +16,7 @@
     clear: both;
 }
 
-.gift {
+.gift, .pay {
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -26,13 +26,40 @@
     margin: 10px 0 0 20px;
     width: 188px;
     height: 50px;
-    background: #ffffff;
+    background-image: url('http://gacha.52toys.com/image/icon-get-gift.png');
 }
 
 .money {
+    position: relative;
     float: left;
     margin: 10px 0 0 160px;
     width: 360px;
     height: 60px;
-    background: #ffffff;
+    line-height: 60px;
+    background: #ffeacb;
+    font-size: 24px;
+    padding-left: 50px;
+    padding-right: 100px;
+    text-align: center;
+}
+
+.moneyIcon {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 60px;
+    font-size: 24px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.pay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100px;
+    height: 60px;
+    background-image: url('http://net.huanmusic.com/gasha/icon-recharge.png');
 }

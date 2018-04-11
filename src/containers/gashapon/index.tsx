@@ -9,7 +9,8 @@ import Modal from './modal';
 import * as moment from 'moment';
 import config from '../../config';
 import { randomNum } from '../../config/util';
-
+import User from '../../classes/user';
+import GashaponClass from '../../classes/gashapon';
 import { Stores } from '../../reducers/type';
 
 import { 
@@ -87,14 +88,32 @@ class Gashapon extends React.Component<Props, State> {
                                     ? `url(http://${config.host.pic}/${getGashapon.pics[0]})`
                                     : `url(${config.empty_pic.url})`}}
                         />
-                        <i styleName="button1" button-attr="button-attr"/>
-                        <i styleName="button2" button-attr="button-attr"/>
+                        <i styleName="button1" button-attr="button-attr" onClick={() => this.doGashaponHandle(1)}/>
+                        <i styleName="button2" button-attr="button-attr" onClick={() => this.doGashaponHandle(2)}/>
                         <i styleName="button3" button-attr="button-attr" onClick={() => this.onTestOneTime()}/>
-                        <i styleName="button4" button-attr="button-attr"/>
+                        <i styleName="button4" button-attr="button-attr" onClick={() => this.doGashaponHandle(3)}/>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    private doGashaponHandle = async (count: number): Promise<void> => {
+        const { match } = this.props;
+        const u = new User({_id: '5ac1f31087e83ef4915abc02', name: 'Ghan', headimg: '1'});
+        const user = u.getGashaponUser();
+        const g = new GashaponClass({user: user, count: count, machineId: match.params.id});
+        const result = await g.doGashaponMethod();
+        if (result.success === true) {
+            console.log('ok');
+            this.setState({
+                showModal: true,
+                GashaponProductItem: result.data && result.data.product_list && result.data.product_list[0]
+            });
+        } else {
+            console.log(`${result.type}--${result.message}`);
+            alert(result.message);
+        }
     }
 
     private onTestOneTime = (): void => {
@@ -115,9 +134,10 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     private onHideModalHandle = (): void => {
-        this.setState({
-            showModal: false
-        });
+        window.location.reload();
+        // this.setState({
+        //     showModal: false
+        // });
     }
 
     private renderModal = (): JSX.Element => {

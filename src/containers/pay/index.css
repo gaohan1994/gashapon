@@ -52,13 +52,44 @@
 }
 
 .topup {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     margin-top: 40px;
     width: 690px;
-    height: 85px;
-    line-height: 85px;
     padding: 0 20px;
-    font-size: 30px;
     background: #ffffff;
     border: 2px solid #000000;
     border-radius: 8px;
+}
+
+.topup > span {
+    display: block;
+    width: 150px;
+    line-height: 85px;
+    font-size: 30px;
+}
+
+.moneyInput {
+    display: block;
+    width: 430px;
+    height: 85px;
+    line-height: 85px;
+    font-size: 30px;
+    border: 0px
+}
+
+.moneyInput:focus {
+    border: 0px none;
+}
+
+.buttonBox {
+    margin-top: 40px;
 }

@@ -25,7 +25,7 @@ class Hoc extends React.Component<Props, State> {
             setMeta: this.setMeta
         };
     }
-
+    
     constructor (props: Props) {
         super(props);
         this.state = {

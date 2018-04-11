@@ -27,9 +27,9 @@ class Header extends React.Component<Props, State> {
             <header styleName="container">
                 <i styleName="clock"/>
                 <i styleName="search"/>
-                <div styleName="item">分类</div>
-                <div styleName="item">分类</div>
-                <div styleName="item">分类</div>
+                <div styleName="item1"/>
+                <div styleName="item2"/>
+                <div styleName="item3"/>
                 <div styleName="swiper">
                     <Swiper
                         images={getBanners.contents}

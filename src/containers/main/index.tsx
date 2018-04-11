@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
@@ -40,7 +41,7 @@ interface State {
  */
 class Main extends React.Component<Props, State> {
 
-    componentDidMount() {
+    async componentDidMount() {
         const { 
             loadBanners
         } = this.props;

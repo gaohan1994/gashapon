@@ -19,12 +19,11 @@ export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>
         fetch(`/home/${userId}`)
         .then(res => res.json())
         .then(res => {
-            console.log('res', res);
-            // if (res.success === true) {
-            //     dispatch({type: constants.RECEIVE_HOME_USERDATA, inventory: res.result});
-            // } else {
-            //     throw new Error('loadUserData res false');
-            // }
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_HOME_USERDATA, userdata: res.result});
+            } else {
+                throw new Error('loadUserData res false');
+            }
         });
     } catch (err) {
         console.log('loadUserData err', err);
