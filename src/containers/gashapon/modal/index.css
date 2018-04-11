@@ -52,16 +52,16 @@
 
 .image {
     position: relative;
-    width: 400px;
+    width: 450px;
     height: 600px;
-    margin: 50px 0 0 175px;
+    margin: 50px 0 0 150px;
     background: -webkit-gradient(linear,left top, right top,from(#351b00),color-stop(#865A21),to(#351b00));
     background: linear-gradient(to right,#351b00,#865A21,#351b00);
 }
 
 .cover {
     position: absolute;
-    width: 360px;
+    width: 410px;
     height: 520px;
     top: 20px;
     left: 20px;
@@ -102,3 +102,8 @@
     text-align: center;
 }
 
+.item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}

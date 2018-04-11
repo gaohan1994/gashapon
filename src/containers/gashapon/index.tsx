@@ -25,11 +25,13 @@ import {
 } from '../../types/user';
 
 import { 
-    loadGashapon
+    loadGashapon,
+    changeGashaponLoading,
 } from '../../actions/gashapon';
 
 import { 
-    getGashapon
+    getGashapon,
+    getLoadingStatus,
 } from '../../reducers/gashapon';
 
 import { 
@@ -45,11 +47,13 @@ interface Props {
     getUserdata : Userdata;
     getGashapon : GashaponType;
     loadGashapon: (_id: string) => void;
+    changeGashaponLoading: (status: boolean) => void;
+    getLoadingStatus: boolean;
 }
 
 interface State {
     showModal           : boolean;
-    GashaponProductItem ?: GashaponProductItemType;
+    GashaponProductItem ?: GashaponProductItemType[];
 }
 
 /**
@@ -58,6 +62,8 @@ interface State {
  */
 class Gashapon extends React.Component<Props, State> {
 
+    private timer: any;
+
     constructor (props: Props) {
         super(props);
         this.state = {
@@ -65,7 +71,7 @@ class Gashapon extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
+    componentDidMount () {
         const { 
             match,
             loadGashapon,
@@ -73,11 +79,18 @@ class Gashapon extends React.Component<Props, State> {
         loadGashapon(match.params.id);
     }
 
+    componentWillUnmount () {
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
+    }
+
     render() {
         const { getGashapon } = this.props;
         return (
             <Hoc>
                 <div styleName="container">
+                    {this.renderLoading()}
                     <Header/>
                     {this.renderModal()}
                     <div styleName="content">
@@ -121,7 +134,7 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     private doGashaponHandle = async (count: number): Promise<void> => {
-        const { getUserdata, getGashapon } = this.props;
+        const { getUserdata, getGashapon, changeGashaponLoading } = this.props;
 
         const u = new User({
             _id: getUserdata._id, 
@@ -130,29 +143,35 @@ class Gashapon extends React.Component<Props, State> {
             remain: getUserdata.remain
         });
         const user = u.getUser();
-
         const g = new GashaponClass({user: user, count: count, machine: getGashapon});
         const result = await g.doGashaponMethod();
-
+        
         if (result.success === true) {
             console.log('ok');
-            this.setState({
-                showModal: true,
-                GashaponProductItem: result.data && result.data.product_list && result.data.product_list[0]
-            });
+            changeGashaponLoading(true);
+
+            this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
         } else {
             console.log(`${result.type}--${result.message}`);
             alert(result.message);
         }
     }
 
+    private timeoutHandle = (result: any) => {
+        changeGashaponLoading(false);
+        this.setState({
+            showModal: true,
+            GashaponProductItem: result.data && result.data.product_list
+        });
+    }
+
     private onTestOneTime = (): void => {
         const { getGashapon } = this.props;
         const data = getGashapon.product_list && getGashapon.product_list[randomNum(getGashapon.product_list.length)];
-        console.log('data', data);
+
         this.setState({
             showModal: true,
-            GashaponProductItem: data
+            GashaponProductItem: [data]
         });
     }
 
@@ -165,9 +184,18 @@ class Gashapon extends React.Component<Props, State> {
 
     private onHideModalHandle = (): void => {
         window.location.reload();
-        // this.setState({
-        //     showModal: false
-        // });
+    }
+
+    private renderLoading = (): JSX.Element | string => {
+        const { getLoadingStatus } = this.props;
+        
+        if (getLoadingStatus === true) {
+            return (
+                <div styleName="loading">正在扭蛋~请稍等</div>
+            );
+        } else {
+            return '';
+        }
     }
 
     private renderModal = (): JSX.Element => {
@@ -228,10 +256,12 @@ const GashaponHoc = CSSModules(Gashapon, styles);
 const mapStateToProps = (state: Stores) => ({
     getGashapon: getGashapon(state),
     getUserdata: getUserdata(state),
+    getLoadingStatus: getLoadingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadGashapon: bindActionCreators(loadGashapon, dispatch),
+    loadGashapon            : bindActionCreators(loadGashapon, dispatch),
+    changeGashaponLoading   : bindActionCreators(changeGashaponLoading, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

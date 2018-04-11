@@ -55,7 +55,6 @@ class Setting extends React.Component<Props, State> {
                 />
                 <Line 
                     value="账号"
-                    subValue="13456"
                     param="account"
                 />
                 <Line 

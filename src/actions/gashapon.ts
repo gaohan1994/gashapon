@@ -12,7 +12,12 @@ export interface LoadGashapon {
     gashapon: Gashapon;
 }
 
-export type GashaponActions = LoadGashapon;
+export interface ChangeLoading {
+    type: constants.CHANGE_LOADING_STATUS;
+    status: boolean;
+}
+
+export type GashaponActions = LoadGashapon | ChangeLoading;
 
 export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions>): void => {
     if (!_id) {
@@ -30,5 +35,13 @@ export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions
         });
     } catch (err) {
         console.log('loadGashapon err', err);
+    }
+};
+
+export const changeGashaponLoading = (status: boolean) => (dispatch: Dispatch<GashaponActions>): void => {
+    try {
+        dispatch({type: constants.CHANGE_LOADING_STATUS, status: status});
+    } catch (err) {
+        console.log('err', err);
     }
 };

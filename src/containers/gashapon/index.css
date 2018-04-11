@@ -28,7 +28,8 @@
 }
 
 .name, .time {
-    text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff
+    text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff;
+    z-index: 2;
 }
 
 .collect, .gashaponImagePart {
@@ -71,6 +72,7 @@
     bottom: 20px;
     font-size: 30px;
     width: 280px;
+    z-index: 2;
     color: #ffffff;
 }
 
@@ -157,4 +159,22 @@
     width: 90px;
     height: 90px;
     position: absolute;
+}
+
+.loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    
+    z-index: 10;
+    width: 400px;
+    height: 200px;
+    background: #ffffff;
+    border-radius: 20px;
+    color: #f27a7a;
+    font-size: 30px;
+    text-align: center;
+    line-height: 200px;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
 }

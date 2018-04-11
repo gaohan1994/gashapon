@@ -31,8 +31,11 @@ export interface DoGashaponMethodReturnObject {
 
 class Gashapon {
 
+    /* 进行扭蛋业务的用户 */
     private user    : UserType;
+    /* 进行扭蛋的次数 */
     private count   : number;
+    /* 扭蛋机 */
     private machine : GashaponType;
     
     constructor ({user, count, machine}: Param) {

@@ -97,7 +97,7 @@ class Pay extends React.Component<Props, State> {
                             clickHandle={() => this.onClickHandle()}
                         />
                     </div>
-                    <span styleName="tips">*账户余额不能体现</span>
+                    <span styleName="tips">*账户余额不能提现</span>
                 </div>
             </div>
         );

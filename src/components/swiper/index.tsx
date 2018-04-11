@@ -5,7 +5,6 @@ import config from '../../config/index';
 import { BannerType } from '../../types/componentTypes';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-
 const AutoSwipeableViews = autoPlay(SwipeableViews);
 
 interface Props {

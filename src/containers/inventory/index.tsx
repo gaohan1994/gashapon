@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
-
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 import GashaItem from '../../components/gashapon_item';
@@ -10,12 +9,9 @@ import Menu from '../../components/menu';
 import Hoc from '../hoc';
 import { Userdata } from '../../types/user';
 import history from '../../history';
-
 import User from '../../classes/user';
 import Business from '../../classes/business';
-
 import { Stores } from '../../reducers/type';
-
 import { 
     Gashapon
 } from '../../types/componentTypes';
@@ -53,7 +49,7 @@ class Inventory extends React.Component<Props, State> {
     componentDidMount() {
         const userId = '5ac1f31087e83ef4915abc02';
         const { 
-            loadInventory
+            loadInventory,
         } = this.props;
         loadInventory(userId);
     }
