@@ -1,0 +1,39 @@
+
+.money {
+    position: absolute;
+    float: left;
+    top: 10px;
+    right: 20px;
+    width: 360px;
+    height: 60px;
+    line-height: 60px;
+    background: #ffeacb;
+    font-size: 24px;
+    padding-left: 50px;
+    padding-right: 100px;
+    text-align: center;
+}
+
+
+.moneyIcon {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 60px;
+    font-size: 24px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.pay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100px;
+    height: 60px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url('http://net.huanmusic.com/gasha/icon-recharge.png');
+}

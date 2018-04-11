@@ -18,10 +18,21 @@
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    background-image: url('http://gacha.52toys.com/image/gacha-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 .name, .collect, .music, .store, .show, .barrage, .chat, .gashaponImg, .time {
     position: absolute;
+}
+
+.name, .time {
+    text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff
+}
+
+.collect, .gashaponImagePart {
+    background-repeat: no-repeat;
 }
 
 .name {
@@ -41,9 +52,10 @@
 .collect {
     right: 20px;
     top: 10px;
-    width: 60px;
-    height: 60px;
-    background: #f27a7a;
+    /* width: 60px;
+    height: 60px; */
+    background-image: url('http://net.huanmusic.com/gasha/gacha-icon.png');
+    /* background: #f27a7a; */
 }
 
 .music {
@@ -51,7 +63,7 @@
     top: 100px;
     width: 80px;
     height: 80px;
-    background: #f27a7a;
+    /* background: #f27a7a; */
 }
 
 .store {
@@ -59,6 +71,7 @@
     bottom: 20px;
     font-size: 30px;
     width: 280px;
+    color: #ffffff;
 }
 
 .show {
@@ -66,7 +79,7 @@
     left: 325px;
     width: 100px;
     height: 100px;
-    background: #f27a7a;
+    /* background: #f27a7a; */
 }
 
 .barrage {
@@ -74,7 +87,7 @@
     bottom: 20px;
     width: 60px;
     height: 60px;
-    background: #f27a7a;
+    /* background: #f27a7a; */
 }
 
 .chat {
@@ -82,48 +95,66 @@
     bottom: 20px;
     height: 60px;
     width: 60px;
-    background: #f27a7a;
+    /* background: #f27a7a; */
 }
 
 .main {
     width: 680px;
     height: 1000px;
-    background: #f27a7a;
+    /* background: #f27a7a; */
     position: relative;
+    
+}
+
+.gashaponImagePart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-image: url('http://gacha.52toys.com/image/gacha/v4-gacha-body.png');
+    background-size: 100% 100%;
 }
 
 .gashaponImg {
     position: absolute;
-    top: 100px;
-    left: 240px;
-    width: 200px;
-    height: 200px;
+    top: 27%;
+    left: 31%;
+    width: 39%;
+    height: 280px;
 }
 
 .modal {
     position: absolute;
 }
 
+.button1, .button2, .button3, .button4 {
+    z-index: 2;
+    background-image: url('http://gacha.52toys.com/image/gacha/v4-button-play.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
 .button1 {
-    bottom: 20%;
-    left: 10%;
+    bottom: 26%;
+    left: 15.5%;
 }
 .button2 {
-    bottom: 10%;
-    left: 20%;
+    bottom: 16%;
+    left: 23%;
 }
 .button3 {
-    bottom: 10%;
-    right: 20%;
+    bottom: 16%;
+    right: 21%;
 }
 .button4 {
-    bottom: 20%;
-    right: 10%;
+    bottom: 26%;
+    right: 13.5%;
 }
 
 [button-attr='button-attr'] {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     position: absolute;
-    background: #ffffff;
 }

@@ -23,10 +23,7 @@
 
 .back {
     float: left;
-    margin: 10px 0 0 20px;
-    width: 60px;
-    height: 50px;
-    background: #ffffff;
+    margin: 20px 0 0 20px;
 }
 
 .home {
@@ -34,7 +31,7 @@
     margin: 10px 0 0 20px;
     width: 60px;
     height: 50px;
-    background: #ffffff;
+    background-image: url('http://gacha.52toys.com/image/icon-go-index.png');
 }
 
 .money {

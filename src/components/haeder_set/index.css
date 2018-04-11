@@ -7,3 +7,18 @@
     height: 90px;
     background: #be8e4e;
 }
+
+.icon {
+    display: block;
+    position: absolute;
+    left: 20px;
+    top: 22px;
+}
+
+.text {
+    display: block;
+    position: absolute;
+    left: 70px;
+    top: 20px;
+    color: #ffffff;
+}

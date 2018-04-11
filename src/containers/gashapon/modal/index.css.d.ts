@@ -1,4 +1,5 @@
 export const container: string;
+export const bgimg: string;
 export const title: string;
 export const image: string;
 export const tip: string;

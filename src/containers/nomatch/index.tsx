@@ -12,7 +12,7 @@ const NoMatch = ({}): JSX.Element => (
         styleName="container"
         onClick={onClickHandle}
     >
-        这个页面啊瞎晃啥呢：（
+        没这个页面啊，瞎晃啥呢 ：（
     </div>
 );
 

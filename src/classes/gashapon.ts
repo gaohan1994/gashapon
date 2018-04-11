@@ -1,10 +1,11 @@
-import { GashaponUser } from './user';
-import { GashaponProductItem } from '../types/componentTypes';
+import { UserType } from './user';
+import { GashaponProductItem, Gashapon as GashaponType } from '../types/componentTypes';
+import * as Numeral from 'numeral';
 
 interface Param {
-    user: GashaponUser;
-    count: number;
-    machineId: string;
+    user        : UserType;
+    count       : number;
+    machine     : GashaponType;
 }
 
 export interface DoGashaponMethodReturnObject {
@@ -30,14 +31,14 @@ export interface DoGashaponMethodReturnObject {
 
 class Gashapon {
 
-    private user: GashaponUser;
-    private count: number;
-    private machineId: string;
+    private user    : UserType;
+    private count   : number;
+    private machine : GashaponType;
     
-    constructor ({user, count, machineId}: Param) {
+    constructor ({user, count, machine}: Param) {
         this.user       = user;
         this.count      = count;
-        this.machineId  = machineId;
+        this.machine    = machine;
     }
     
     public doGashaponMethod = async (): Promise<DoGashaponMethodReturnObject> => {
@@ -51,6 +52,10 @@ class Gashapon {
                 throw new Error('用户name错误');
             } else if (!this.user.headimg) {
                 throw new Error('用户headimg错误');
+            } else if (!this.user.remain) {
+                throw new Error('用户余额错误');
+            } else if (!this.machine._id) {
+                throw new Error('扭蛋数据错误');
             }
         } catch (err) {
             console.log(err.message);
@@ -61,6 +66,14 @@ class Gashapon {
         }
 
         try {
+
+            if (this.user.remain < (this.count * Numeral(this.machine.price / 100).value())) {
+                return {
+                    type: 'ERROR_GASHAPON',
+                    message: '余额不足'
+                };
+            }
+
             const result = await fetch(`/pay/product/${this.user._id}`, {
                 method: 'POST',
                 headers: {
@@ -68,7 +81,7 @@ class Gashapon {
                 },
                 body: JSON.stringify({
                     count               : this.count,
-                    machine_id          : this.machineId,
+                    machine_id          : this.machine._id,
                     from_user_name      : this.user.name,
                     from_user_headimgurl: this.user.headimg
                 })

@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Header from '../../components/header_gashapon';
+import Hoc from '../hoc';
 import Modal from './modal';
+import * as Numeral from 'numeral';
 import * as moment from 'moment';
 import config from '../../config';
 import { randomNum } from '../../config/util';
@@ -19,6 +21,10 @@ import {
 } from '../../types/componentTypes';
 
 import { 
+    Userdata
+} from '../../types/user';
+
+import { 
     loadGashapon
 } from '../../actions/gashapon';
 
@@ -26,12 +32,17 @@ import {
     getGashapon
 } from '../../reducers/gashapon';
 
+import { 
+    getUserdata
+} from '../../reducers/home';
+
 interface Props {
     match: {
         params: {
             id: string;
         }
     };
+    getUserdata : Userdata;
     getGashapon : GashaponType;
     loadGashapon: (_id: string) => void;
 }
@@ -65,45 +76,64 @@ class Gashapon extends React.Component<Props, State> {
     render() {
         const { getGashapon } = this.props;
         return (
-            <div styleName="container">
-                <Header/>
-                {this.renderModal()}
-                <div styleName="content">
-                    {this.renderName()}
-                    {this.renderTime()}
-                    <i styleName="collect"/>
-                    <i styleName="music"/>
-                    {this.renderStore()}
-                    <i styleName="show"/>
-                    <i styleName="barrage"/>
-                    <i styleName="chat"/>
-
-                    <div styleName="main">
-                        {/* 渲染扭蛋图片 */}
-                        <div 
-                            bgimg-center="bgimg-center"
-                            styleName="gashaponImg"
-                            style={{backgroundImage: 
-                                    getGashapon.pics && getGashapon.pics[0]
-                                    ? `url(http://${config.host.pic}/${getGashapon.pics[0]})`
-                                    : `url(${config.empty_pic.url})`}}
+            <Hoc>
+                <div styleName="container">
+                    <Header/>
+                    {this.renderModal()}
+                    <div styleName="content">
+                        {this.renderName()}
+                        {this.renderTime()}
+                        <i 
+                            styleName="collect" 
+                            style={{
+                                width: '27.5px', 
+                                height: '43.5px',
+                                backgroundPosition: '-58px -45px',
+                                backgroundSize: '146.5px auto',
+                            }}
                         />
-                        <i styleName="button1" button-attr="button-attr" onClick={() => this.doGashaponHandle(1)}/>
-                        <i styleName="button2" button-attr="button-attr" onClick={() => this.doGashaponHandle(2)}/>
-                        <i styleName="button3" button-attr="button-attr" onClick={() => this.onTestOneTime()}/>
-                        <i styleName="button4" button-attr="button-attr" onClick={() => this.doGashaponHandle(3)}/>
+                        <i styleName="music"/>
+                        {this.renderStore()}
+                        <i styleName="show"/>
+                        <i styleName="barrage"/>
+                        <i styleName="chat"/>
+
+                        <div styleName="main">
+                            {/* 渲染扭蛋图片 */}
+                            <div styleName="gashaponImagePart">1</div>
+                            <div 
+                                bgimg-center="bgimg-center"
+                                styleName="gashaponImg"
+                                style={{backgroundImage: 
+                                        getGashapon.pics && getGashapon.pics[0]
+                                        ? `url(http://${config.host.pic}/${getGashapon.pics[0]})`
+                                        : `url(${config.empty_pic.url})`}}
+                            />
+                            <i styleName="button1" button-attr="button-attr" onClick={() => this.doGashaponHandle(3)}/>
+                            <i styleName="button2" button-attr="button-attr" onClick={() => this.doGashaponHandle(10)}/>
+                            <i styleName="button3" button-attr="button-attr" onClick={() => this.onTestOneTime()}/>
+                            <i styleName="button4" button-attr="button-attr" onClick={() => this.doGashaponHandle(1)}/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Hoc>
         );
     }
 
     private doGashaponHandle = async (count: number): Promise<void> => {
-        const { match } = this.props;
-        const u = new User({_id: '5ac1f31087e83ef4915abc02', name: 'Ghan', headimg: '1'});
-        const user = u.getGashaponUser();
-        const g = new GashaponClass({user: user, count: count, machineId: match.params.id});
+        const { getUserdata, getGashapon } = this.props;
+
+        const u = new User({
+            _id: getUserdata._id, 
+            name: getUserdata.name, 
+            headimg: config.empty_pic.url, 
+            remain: getUserdata.remain
+        });
+        const user = u.getUser();
+
+        const g = new GashaponClass({user: user, count: count, machine: getGashapon});
         const result = await g.doGashaponMethod();
+
         if (result.success === true) {
             console.log('ok');
             this.setState({
@@ -183,7 +213,12 @@ class Gashapon extends React.Component<Props, State> {
     private renderStore = (): JSX.Element => {
         const { getGashapon } = this.props;
         return (
-            <div styleName="store">{`库存${getGashapon.residue_quantity}  ${getGashapon.price}元/个`}</div>
+            <div styleName="store">
+                {`库存${getGashapon.residue_quantity}  
+                ${getGashapon.price 
+                    ? Numeral(getGashapon.price / 100).value() 
+                    : 0}元/个`}
+            </div>
         );
     }
 }
@@ -192,6 +227,7 @@ const GashaponHoc = CSSModules(Gashapon, styles);
 
 const mapStateToProps = (state: Stores) => ({
     getGashapon: getGashapon(state),
+    getUserdata: getUserdata(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({

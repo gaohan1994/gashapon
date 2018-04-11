@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-import history from '../../history';
+import Recharge from '../recharge';
 
 interface Props {
 
@@ -17,20 +17,9 @@ class Header extends React.Component<Props, State> {
         return (
             <header styleName="container">
                 <i styleName="gift"/>
-                <div 
-                    styleName="money"
-                    onClick={() => this.onNavHandle('pay')}
-                >
-                    <span styleName="moneyIcon">￥</span>
-                    0
-                    <i styleName="pay"/>
-                </div>
+                <Recharge/>
             </header>
         );
-    }
-
-    private onNavHandle = (param: string): void => {
-        history.push(`/${param}`);
     }
 }
 

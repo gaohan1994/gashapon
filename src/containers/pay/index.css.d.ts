@@ -5,3 +5,6 @@ export const icon: string;
 export const money: string;
 export const record: string;
 export const topup: string;
+export const moneyInput: string;
+export const buttonBox: string;
+export const tips: string;

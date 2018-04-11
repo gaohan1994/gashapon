@@ -9,6 +9,7 @@ export const barrage: string;
 export const chat: string;
 export const gashaponImg: string;
 export const time: string;
+export const gashaponImagePart: string;
 export const main: string;
 export const modal: string;
 export const button1: string;

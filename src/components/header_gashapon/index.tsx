@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import history from '../../history';
+import Recharge from '../recharge';
 
 interface Props {
 
@@ -18,18 +19,20 @@ class Header extends React.Component<Props, State> {
             <header styleName="container">
                 <i
                     styleName="back"
+                    style={{
+                        backgroundImage: 'url(http://net.huanmusic.com/gasha/gacha-icon.png)',
+                        backgroundPosition: '-119px -28px',
+                        backgroundSize: '146.5px auto',
+                        width: '21px',
+                        height: '21px',
+                    }}
                     onClick={() => this.onBackHandle()}
                 />
                 <i 
                     styleName="home"
                     onClick={() => this.onNavHandle('')}
                 />
-                <div
-                    styleName="money"
-                    onClick={() => this.onNavHandle('pay')}
-                >
-                    pay
-                </div>
+                <Recharge/>
             </header>
         );
     }

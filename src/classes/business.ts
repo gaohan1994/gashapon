@@ -1,4 +1,4 @@
-import { BusinessUser, GashaponUser } from './user';
+import { UserType } from './user';
 import * as numeral from 'numeral';
 
 type Products = object[];
@@ -15,7 +15,7 @@ class Business {
      * doOrderMethod 下单
      * 
      */
-    public doOrderMethod = async (user: BusinessUser, products: Products): Promise<ReturnObject> => {
+    public doOrderMethod = async (user: UserType, products: Products): Promise<ReturnObject> => {
         try {
             if (!user) {
                 throw new Error('用户数据错误');
@@ -33,7 +33,7 @@ class Business {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'GET_WRONG_USER_PARAM',
+                type: 'GET_WRONG_PARAM',
                 message: err.message
             };
         }
@@ -69,7 +69,7 @@ class Business {
         }
     }
 
-    public doRechargeMethod = async (user: GashaponUser, value: number): Promise<ReturnObject> => {
+    public doRechargeMethod = async (user: UserType, value: number): Promise<ReturnObject> => {
         try {
             if (!user) {
                 throw new Error('用户数据错误');
@@ -91,7 +91,8 @@ class Business {
         }
 
         try {
-            const money = numeral(value);
+            const money = numeral(value).value();
+            console.log('money', money);
             const result = await fetch(`/pay/recharge/${user._id}`, {
                 method: 'POST',
                 headers: {

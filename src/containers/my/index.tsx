@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 import Header from '../../components/header_my';
 import Menu from '../../components/menu';
 import history from '../../history';
-
+import Hoc from '../hoc';
+import config from '../../config';
+import { Userdata } from '../../types/user';
 import { Stores } from '../../reducers/type';
 
 import { 
@@ -16,7 +18,7 @@ import {
 } from '../../types/componentTypes';
 
 import { 
-    loadUserData
+
 } from '../../actions/home';
 
 import { 
@@ -24,6 +26,7 @@ import {
 } from '../../reducers/home';
 
 interface Props {
+    getUserdata: Userdata;
     loadUserData: (userId: string) => void;
 }
 
@@ -46,10 +49,8 @@ class My extends React.Component<Props, State> {
 
     componentDidMount(): void {
         const { 
-            loadUserData
+
         } = this.props;
-        const userId = '5ac1f31087e83ef4915abc02';
-        loadUserData(userId);
     }
 
     public onNavHandle = (param: string): void => {
@@ -71,12 +72,35 @@ class My extends React.Component<Props, State> {
     }
 
     private renderProfile = (): JSX.Element => {
+        const { getUserdata } = this.props;
+        console.log('getUserdata', getUserdata);
         return (
             <div styleName="user">
                 <i 
                     styleName="set"
                     onClick={() => this.onNavHandle('set')}
                 />
+                <div 
+                    bgimg-center="bgimg-center"
+                    styleName="cover"
+                    style={{
+                        backgroundImage: `url(${config.empty_pic.url})`
+                    }}
+                />
+                <div styleName="module">
+                    <span styleName="status">
+                        {getUserdata._id && getUserdata.name
+                        ? getUserdata.name
+                        : '未登录'}
+                    </span>
+                    <i 
+                        bgimg-center="bgimg-center"
+                        styleName="sex"
+                        style={{
+                            backgroundImage: `url(http://net.huanmusic.com/www/img/rs/%E7%94%B7%E6%A0%87%E8%AF%86.png)`
+                        }}
+                    />
+                </div>
                 {/* <i styleName="money"/> */}
             </div>
         );
@@ -213,13 +237,15 @@ class My extends React.Component<Props, State> {
             },
         ];
         return (
-            <div styleName="data">
-                <div styleName="dataBanner">我的数据</div>
-                <Menu 
-                    menus={menus}
-                    height={190}
-                />
-            </div>
+            <Hoc>
+                <div styleName="data">
+                    <div styleName="dataBanner">我的数据</div>
+                    <Menu 
+                        menus={menus}
+                        height={190}
+                    />
+                </div>
+            </Hoc>
         );
     }
 }
@@ -231,7 +257,7 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadUserData: bindActionCreators(loadUserData, dispatch),
+
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

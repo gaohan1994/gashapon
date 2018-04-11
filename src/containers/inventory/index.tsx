@@ -7,6 +7,9 @@ import * as styles from './index.css';
 import Footer from '../../components/footer';
 import GashaItem from '../../components/gashapon_item';
 import Menu from '../../components/menu';
+import Hoc from '../hoc';
+import { Userdata } from '../../types/user';
+import history from '../../history';
 
 import User from '../../classes/user';
 import Business from '../../classes/business';
@@ -25,7 +28,12 @@ import {
     getInventory
 } from '../../reducers/inventory';
 
+import { 
+    getUserdata
+} from '../../reducers/home';
+
 interface Props {
+    getUserdata     : Userdata;
     getInventory    : Gashapon[];
     loadInventory   : (userId: string) => void;
 }
@@ -59,38 +67,43 @@ class Inventory extends React.Component<Props, State> {
     }
 
     public doOrderHandle = async (): Promise<void> => {
-        const { getInventory } = this.props;
+        const { getInventory, getUserdata } = this.props;
         const u = new User({
-            _id     : '5ac1f31087e83ef4915abc02',
-            address : '123',
-            receiver: 'gaohan',
-            phone   : '15659995443',
+            _id     : getUserdata._id,
+            address : getUserdata.address && getUserdata.address.detail_home && getUserdata.address.detail_area
+                        ? `${getUserdata.address.detail_area} ${getUserdata.address.detail_home}`
+                        : '',
+            receiver: getUserdata.name,
+            phone   : getUserdata.phone,
         });
-        const user = u.getBusinessUser();
-        // const products: any = [];    
+        const user = u.getUser();  
         const result = await Business.doOrderMethod(user, getInventory); 
         if (result.success === true) {
             console.log('ok');
+            history.push('/success');
         } else {
             console.log(`${result.type}--${result.message}`);
+            alert(result.message);
         }
     }
 
     render() {
         const { getInventory } = this.props;
         return (
-            <div styleName="container">
-                {getInventory.map((item, i) => (
-                    <div 
-                        key={i}
-                        styleName="item"
-                    >
-                        <GashaItem item={item}/>
-                    </div>
-                ))}
-                {this.renderMenu()}
-                <Footer/>
-            </div>
+            <Hoc>
+                <div styleName="container">
+                    {getInventory.map((item, i) => (
+                        <div 
+                            key={i}
+                            styleName="item"
+                        >
+                            <GashaItem item={item}/>
+                        </div>
+                    ))}
+                    {this.renderMenu()}
+                    <Footer/>
+                </div>
+            </Hoc>
         );
     }
 
@@ -130,6 +143,7 @@ const InventoryHoc = CSSModules(Inventory, styles);
 
 export const mapStateToProps = (state: Stores) => ({
     getInventory: getInventory(state),
+    getUserdata : getUserdata(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>) => ({
