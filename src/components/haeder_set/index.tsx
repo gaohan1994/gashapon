@@ -8,6 +8,7 @@ import history from '../../history';
 interface Props {
     title       : string;
     metaTitle   ?: string;
+    propsClick  ?: () => void;
 }
 
 const onNavHandle = (): void => {
@@ -19,7 +20,7 @@ const onNavHandle = (): void => {
 //     return meta;
 // };
 
-const Header = ({title, metaTitle}: Props) => (
+const Header = ({title, metaTitle, propsClick}: Props) => (
     <header styleName="container">
         {/* {metaTitle
         ? <Meta {...renderMeta(metaTitle)}/> 
@@ -33,11 +34,11 @@ const Header = ({title, metaTitle}: Props) => (
                 width: '21px',
                 height: '21px',
             }}
-            onClick={() => onNavHandle()}
+            onClick={propsClick ? propsClick : () => onNavHandle()}
         />
         <span 
             styleName="text"
-            onClick={() => onNavHandle()}
+            onClick={propsClick ? propsClick : () => onNavHandle()}
         >
             {title}
         </span>

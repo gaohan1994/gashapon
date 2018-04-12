@@ -31,7 +31,7 @@ class Modal extends React.Component<Props, State> {
         };
     }
 
-    render () {
+    render (): JSX.Element {
         const { display, onHide } = this.props;
         return (
             <div 

@@ -7,6 +7,7 @@ import * as styles from './index.css';
 import Header from '../../components/header_gashapon';
 import Hoc from '../hoc';
 import Modal from './modal';
+import SelectModal from './selectmodal';
 import * as Numeral from 'numeral';
 import * as moment from 'moment';
 import config from '../../config';
@@ -53,6 +54,7 @@ interface Props {
 
 interface State {
     showModal           : boolean;
+    showSelectModal     : boolean;
     GashaponProductItem ?: GashaponProductItemType[];
 }
 
@@ -68,6 +70,7 @@ class Gashapon extends React.Component<Props, State> {
         super(props);
         this.state = {
             showModal: false,
+            showSelectModal: false,
         };
     }
 
@@ -93,6 +96,7 @@ class Gashapon extends React.Component<Props, State> {
                     {this.renderLoading()}
                     <Header/>
                     {this.renderModal()}
+                    {this.redderSelectModal()}
                     <div styleName="content">
                         {this.renderName()}
                         {this.renderTime()}
@@ -113,7 +117,12 @@ class Gashapon extends React.Component<Props, State> {
 
                         <div styleName="main">
                             {/* 渲染扭蛋图片 */}
-                            <div styleName="gashaponImagePart">1</div>
+                            <div styleName="gashaponImagePart">
+                                <div 
+                                    styleName="centerClick"
+                                    onClick={this.doShowSelectModalHandle}
+                                />
+                            </div>
                             <div 
                                 bgimg-center="bgimg-center"
                                 styleName="gashaponImg"
@@ -175,6 +184,18 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
+    private doShowSelectModalHandle = (): void => {
+        this.setState({
+            showSelectModal: true
+        });
+    }
+
+    private doHideSelectModalHandle = (): void => {
+        this.setState({
+            showSelectModal: false
+        });
+    }
+
     private onShowModalHandle = (): void => {
         this.setState({
             showModal: true
@@ -207,6 +228,19 @@ class Gashapon extends React.Component<Props, State> {
                 onHide={this.onHideModalHandle}
                 totalData={getGashapon}
                 data={GashaponProductItem}
+            />
+        );
+    }
+
+    private redderSelectModal = (): JSX.Element => {
+        const { showSelectModal } = this.state;
+        const { getGashapon } = this.props;
+        console.log('showSelectModal', showSelectModal);
+        return (
+            <SelectModal 
+                display={showSelectModal}
+                totalData={getGashapon}
+                onHideHandle={this.doHideSelectModalHandle}
             />
         );
     }
@@ -254,8 +288,8 @@ class Gashapon extends React.Component<Props, State> {
 const GashaponHoc = CSSModules(Gashapon, styles);
 
 const mapStateToProps = (state: Stores) => ({
-    getGashapon: getGashapon(state),
-    getUserdata: getUserdata(state),
+    getGashapon     : getGashapon(state),
+    getUserdata     : getUserdata(state),
     getLoadingStatus: getLoadingStatus(state),
 });
 

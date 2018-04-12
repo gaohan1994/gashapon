@@ -119,6 +119,14 @@
     background-size: 100% 100%;
 }
 
+.centerClick {
+    position: absolute;
+    top: 27%;
+    left: 31%;
+    width: 39%;
+    height: 280px;
+}
+
 .gashaponImg {
     position: absolute;
     top: 27%;

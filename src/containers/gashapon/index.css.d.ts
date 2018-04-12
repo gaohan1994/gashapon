@@ -16,3 +16,4 @@ export const button1: string;
 export const button2: string;
 export const button3: string;
 export const button4: string;
+export const loading: string;
