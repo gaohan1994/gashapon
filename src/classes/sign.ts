@@ -1,3 +1,4 @@
+import { getAccessToken } from '../config/util';
 
 interface Register {
     name    : string;
@@ -11,12 +12,28 @@ export interface DoRegisterMethodReturnObject {
     message ?: string;
 }
 
+export interface CheckAuthReturnObject {
+    success ?: boolean;
+    type    ?: string;
+    message ?: string;
+}
+
 interface Login {
     phone: string;
     password: string;
 }
 
 class Sign {
+
+    private user: {
+        _id?: string;
+    };
+
+    constructor () {
+        this.user = {
+            _id: getAccessToken() ? getAccessToken() : ''
+        };
+    }
 
     public doRegisterMethod = async ({name, password, phone}: Register): Promise<DoRegisterMethodReturnObject> => {
         try {
@@ -107,6 +124,27 @@ class Sign {
             return {
                 type: 'ERROR_LOGIN',
                 message: '登录失败'
+            };
+        }
+    }
+
+    public doCheckAuth = (): CheckAuthReturnObject => {
+        try {
+            console.log(this.user);
+            if (!this.user) {
+                throw new Error('用户数据错误');
+            } else if (!this.user._id) {
+                throw new Error('用户数据错误');
+            } else {
+                return {
+                    success: true
+                };
+            }
+        } catch (err) {
+            console.log('未登录');
+            return {
+                type: 'FAIL_LOGIN',
+                message: '未登录'
             };
         }
     }

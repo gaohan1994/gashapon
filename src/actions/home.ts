@@ -2,6 +2,7 @@ require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/home';
 import { Dispatch } from 'redux';
+import { Gashapon } from '../types/componentTypes';
 // import config from '../config/index';
 
 export interface LoadUserData {
@@ -9,11 +10,16 @@ export interface LoadUserData {
     userdata: {};
 }
 
-export type HomeActions = LoadUserData;
+export interface LoadCollectGashapons {
+    type: constants.RECEIVE_HOME_COLLECT;
+    gashapons: Array<any>;
+}
+
+export type HomeActions = LoadUserData | LoadCollectGashapons;
 
 export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>): void => {
     if (!userId) {
-        throw new Error('PARAM ERROR');
+        throw new Error('PARAM_ERROR');
     }
     try {
         fetch(`/home/${userId}`)
@@ -27,5 +33,35 @@ export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>
         });
     } catch (err) {
         console.log('loadUserData err', err);
+    }
+};
+
+export const loadCollectGashapons = (machineIds: string[]) => (dispatch: Dispatch<HomeActions>): void => {
+    if (!machineIds) {
+        throw new Error('PARAM_ERROR');
+    }
+
+    try {
+        const gashapons: Gashapon[] = [];
+        const promise = machineIds.map((id: string) => {
+            return fetch(`/machine/info/${id}`)
+                    .then(res => res.json());
+        });
+
+        Promise
+            .all(promise)
+            .then(data => {
+                data.map(item => {
+                    if (item.success === true) {
+                        gashapons.push(item.result);
+                    } else {
+                        throw new Error(`loadCollectGashapons error`);
+                    }
+                });
+                dispatch({type: constants.RECEIVE_HOME_COLLECT, gashapons: gashapons});
+            });
+
+    } catch (err) {
+        console.log('loadCollectGashapons err', err);
     }
 };

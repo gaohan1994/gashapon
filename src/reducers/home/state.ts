@@ -1,3 +1,4 @@
 export default {
-    userdata: {}
+    userdata: {},
+    gashapons: [],
 };

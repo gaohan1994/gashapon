@@ -5,15 +5,23 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Stores } from '../../reducers/type';
 import { HomeActions , loadUserData } from '../../actions/home';
-// import { getUserdata } from '../../reducers/home';
+import { getUserdata } from '../../reducers/home';
+import { Userdata } from '../../types/user';
 
 interface Props {
     children    : JSX.Element;
+    getUserdata ?: Userdata;
     loadUserData?: (userId: string) => void;
 }
 
 interface State {
     title: string;
+}
+
+interface CheckAuthReturnObject {
+    success ?: boolean;
+    type    ?: string;
+    message ?: string;
 }
 
 /**
@@ -47,6 +55,29 @@ class Hoc extends React.Component<Props, State> {
         }
     }
 
+    public doCheckAuth = (): CheckAuthReturnObject => {
+        const { getUserdata } = this.props;
+
+        try {
+            if (!getUserdata) {
+                throw new Error('用户数据错误');
+            } else if (!getUserdata._id) {
+                throw new Error('用户数据错误');
+            } else {
+                return {
+                    success: true
+                };
+            }
+        } catch (err) {
+            console.log('未登录');
+            return {
+                type: 'FAIL_LOGIN',
+                message: '未登录'
+            };
+        }
+        
+    }
+
     render() {
         const { title } = this.state;
         const meta = {
@@ -67,7 +98,7 @@ class Hoc extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: Stores) => ({
-    // getUserdata: 
+    getUserdata: getUserdata(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<HomeActions>) => ({

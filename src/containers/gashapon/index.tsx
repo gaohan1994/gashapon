@@ -12,6 +12,7 @@ import * as Numeral from 'numeral';
 import * as moment from 'moment';
 import config from '../../config';
 import { randomNum } from '../../config/util';
+import Sign from '../../classes/sign';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
 import { Stores } from '../../reducers/type';
@@ -45,11 +46,11 @@ interface Props {
             id: string;
         }
     };
-    getUserdata : Userdata;
-    getGashapon : GashaponType;
-    loadGashapon: (_id: string) => void;
-    changeGashaponLoading: (status: boolean) => void;
-    getLoadingStatus: boolean;
+    getUserdata             : Userdata;
+    getGashapon             : GashaponType;
+    getLoadingStatus        : boolean;
+    loadGashapon            : (_id: string) => void;
+    changeGashaponLoading   : (status: boolean) => void;
 }
 
 interface State {
@@ -100,15 +101,7 @@ class Gashapon extends React.Component<Props, State> {
                     <div styleName="content">
                         {this.renderName()}
                         {this.renderTime()}
-                        <i 
-                            styleName="collect" 
-                            style={{
-                                width: '27.5px', 
-                                height: '43.5px',
-                                backgroundPosition: '-58px -45px',
-                                backgroundSize: '146.5px auto',
-                            }}
-                        />
+                        {this.renderCollect()}
                         <i styleName="music"/>
                         {this.renderStore()}
                         <i styleName="show"/>
@@ -157,11 +150,58 @@ class Gashapon extends React.Component<Props, State> {
         
         if (result.success === true) {
             changeGashaponLoading(true);
-
             this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
         } else {
             console.log(`${result.type}--${result.message}`);
             alert(result.message);
+        }
+    }
+
+    private doCollectGashaponHandle = async (): Promise<void> => {
+        const { getGashapon, getUserdata } = this.props;
+        const access = Sign.doCheckAuth();
+        if (access.success === true) {
+            const u = new User({
+                _id: getUserdata._id
+            });
+            const user = u.getUser();
+            const g = new GashaponClass({user: user, machine: getGashapon});
+            const result = await g.doCollectGashaponMethod();
+            
+            if (result.success === true) {
+                alert('收藏成功');
+                window.location.reload();
+            } else {
+                console.log(`${result.type}--${result.message}`);
+                alert(result.message);
+            }
+        } else {
+            console.log('未登录');
+            /* do login stuff */
+        }
+    }
+
+    private doCancelCollectGashaponHandle = async (): Promise<void> => {
+        const { getGashapon, getUserdata } = this.props;
+        const access = Sign.doCheckAuth();
+        if (access.success === true) {
+            const u = new User({
+                _id: getUserdata._id
+            });
+            const user = u.getUser();
+            const g = new GashaponClass({user: user, machine: getGashapon});
+            const result = await g.doCancelCollectGashaponMethod();
+            
+            if (result.success === true) {
+                alert('取消收藏成功');
+                window.location.reload();
+            } else {
+                console.log(`${result.type}--${result.message}`);
+                alert(result.message);
+            }
+        } else {
+            console.log('未登录');
+            /* do login stuff */
         }
     }
 
@@ -251,7 +291,8 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon } = this.props;
         return (
             <div styleName="name" word-overflow="word-overflow">
-                {`${getGashapon.name}  全${getGashapon.product_list && getGashapon.product_list.length}款`}
+                {`${getGashapon.name || '加载中'}  
+                全${(getGashapon.product_list && getGashapon.product_list.length) || 0}款`}
             </div>
         );
     }
@@ -268,6 +309,34 @@ class Gashapon extends React.Component<Props, State> {
         );
     }
 
+    /*渲染 是否收藏*/
+    private renderCollect = (): JSX.Element | string => {
+        const { getUserdata, match } = this.props;
+        
+        if (getUserdata.collect_machines) {
+            const result = getUserdata.collect_machines.machines.findIndex(item => item === match.params.id);
+           
+            return (
+                <i 
+                    onClick={result === -1 
+                            ? this.doCollectGashaponHandle
+                            : this.doCancelCollectGashaponHandle}
+                    styleName="collect" 
+                    style={{
+                        width: '27.5px', 
+                        height: '43.5px',
+                        backgroundPosition: '-58px -45px',
+                        backgroundSize: '146.5px auto',
+                    }}
+                />
+            );
+            
+        } else {
+            return '';
+        }
+        
+    }
+
     /**
      * 渲染扭蛋库存
      */
@@ -275,7 +344,7 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon } = this.props;
         return (
             <div styleName="store">
-                {`库存${getGashapon.residue_quantity}  
+                {`库存${getGashapon.residue_quantity || 0}  
                 ${getGashapon.price 
                     ? Numeral(getGashapon.price / 100).value() 
                     : 0}元/个`}

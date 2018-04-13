@@ -4,7 +4,7 @@ import * as Numeral from 'numeral';
 
 interface Param {
     user        : UserType;
-    count       : number;
+    count       ?: number;
     machine     : GashaponType;
 }
 
@@ -29,6 +29,12 @@ export interface DoGashaponMethodReturnObject {
     };
 }
 
+export interface DoCollectMethodReturnObject {
+    success ?: boolean;
+    type    ?: string;
+    message ?: string;
+}
+
 class Gashapon {
 
     /* 进行扭蛋业务的用户 */
@@ -40,10 +46,13 @@ class Gashapon {
     
     constructor ({user, count, machine}: Param) {
         this.user       = user;
-        this.count      = count;
+        this.count      = count || 0;
         this.machine    = machine;
     }
     
+    /**
+     * 扭蛋 Method
+     */
     public doGashaponMethod = async (): Promise<DoGashaponMethodReturnObject> => {
 
         try {
@@ -106,6 +115,108 @@ class Gashapon {
             return {
                 type: 'ERROR_GASHAPON',
                 message: '扭蛋失败'
+            };
+        }
+    }
+
+    public doCollectGashaponMethod = async (): Promise<DoCollectMethodReturnObject> => {
+
+        try {
+            if (!this.user) {
+                throw new Error('用户数据错误');
+            } else if (!this.user._id) {
+                throw new Error('用户_id错误');
+            } else if (!this.machine._id) {
+                throw new Error('扭蛋数据错误');
+            }
+        } catch (err) {
+            console.log(err.message);
+            return {
+                type: 'GET_WRONG_PARAM',
+                message: err.message
+            };
+        }
+
+        try {
+
+            const result = await fetch(`/collect/machines/renew/${this.user._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    machines: [this.machine._id],
+                })
+            })
+            .then(res => res.json());
+
+            if (result.success) {
+                return { 
+                    success: true
+                };
+            } else {
+                return {
+                    type: 'ERROR_COLLECT_GASHAPON',
+                    message: result.message
+                };
+            }
+
+        } catch (err) {
+            console.log('收藏失败', err);
+            return {
+                type: 'ERROR_COLLECT_GASHAPON',
+                message: '收藏失败'
+            };
+        }
+    }
+
+    public doCancelCollectGashaponMethod = async (): Promise<DoCollectMethodReturnObject> => {
+
+        try {
+            if (!this.user) {
+                throw new Error('用户数据错误');
+            } else if (!this.user._id) {
+                throw new Error('用户_id错误');
+            } else if (!this.machine._id) {
+                throw new Error('扭蛋数据错误');
+            }
+        } catch (err) {
+            console.log(err.message);
+            return {
+                type: 'GET_WRONG_PARAM',
+                message: err.message
+            };
+        }
+
+        try {
+
+            const result = await fetch(`/collect/machines/delete/${this.user._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    machines: [this.machine._id],
+                })
+            })
+            .then(res => res.json());
+
+            if (result.success) {
+                return { 
+                    success: true
+                };
+            } else {
+                return {
+                    type: 'ERROR_CANCEL_COLLECT_GASHAPON',
+                    message: result.message
+                };
+            }
+
+        } catch (err) {
+            console.log('取消收藏失败', err);
+            return {
+                type: 'ERROR_CANCEL_COLLECT_GASHAPON',
+                message: '取消收藏失败'
             };
         }
     }

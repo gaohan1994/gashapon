@@ -29,14 +29,22 @@ describe('Gashapon 测试', () => {
         status          : 1,
     };
 
-    it('渲染Gashapon测试', () => {
+    it('渲染 Gashapon div 测试', () => {
         const gashapon = shallow(<Gashapon item={data}/>);
         expect(gashapon.find('div')).toHaveLength(1);
+    });
+
+    it('渲染 Gashapon i 测试', () => {
+        const gashapon = shallow(<Gashapon item={data}/>);
         expect(gashapon.find('i')).toHaveLength(1);
+    });
+
+    it('渲染 Gashapon span 测试', () => {
+        const gashapon = shallow(<Gashapon item={data}/>);
         expect(gashapon.find('span')).toHaveLength(1);
     });
 
-    it('渲染item.name测试', () => {
+    it('渲染 item name 测试', () => {
         const gashapon = shallow(<Gashapon item={data}/>);
         expect(gashapon.find('span').text()).toEqual(data.name);
     });

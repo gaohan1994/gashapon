@@ -112,6 +112,7 @@ class My extends React.Component<Props, State> {
                 _id: 1,
                 value: '收藏',
                 img: 'http://net.huanmusic.com/gasha/gacha-center.png',
+                param: 'collect',
                 size: '127px auto',
                 position: '-38px 0',
             },
