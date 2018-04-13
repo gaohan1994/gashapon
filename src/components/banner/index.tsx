@@ -54,4 +54,5 @@ const Banner = ({banner, BannerType}: Props) => (
 );
 
 const BannerHoc = CSSModules(Banner, styles);
+
 export default BannerHoc;

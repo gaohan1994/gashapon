@@ -67,6 +67,8 @@
     "test": "node scripts/test.js --env=jsdom"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.9",
+    "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/isomorphic-fetch": "^0.0.34",
     "@types/jest": "^22.2.0",
     "@types/lodash": "^4.14.104",
@@ -79,8 +81,14 @@
     "@types/react-router-dom": "^4.2.4",
     "@types/react-swipeable-views": "^0.12.1",
     "@types/redux-logger": "^3.0.5",
+    "@types/sinon": "^4.3.1",
     "@types/wx-js-sdk-dt": "^1.2.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eruda": "^1.4.3",
+    "identity-obj-proxy": "^3.0.0",
+    "react-test-renderer": "^16.3.1",
+    "sinon": "^4.5.0",
     "typescript": "^2.7.2",
     "typings-for-css-modules-loader": "^1.7.0"
   },
@@ -106,7 +114,8 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$"
     ],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^react-native$": "react-native-web",
+      "\\.css$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "mjs",

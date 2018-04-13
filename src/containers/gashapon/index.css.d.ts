@@ -11,6 +11,7 @@ export const gashaponImg: string;
 export const time: string;
 export const gashaponImagePart: string;
 export const main: string;
+export const centerClick: string;
 export const modal: string;
 export const button1: string;
 export const button2: string;

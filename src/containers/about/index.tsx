@@ -4,18 +4,6 @@ import * as styles from './index.css';
 import Header from '../../components/haeder_set';
 import Line from '../../components/lineItem';
 
-import { 
-
-} from '../../types/componentTypes';
-
-import { 
-
-} from '../../actions/main';
-
-import { 
-
-} from '../../reducers/main';
-
 const About = ({}): JSX.Element => (
     <div styleName="container">
         <Header 

@@ -146,17 +146,16 @@ class Gashapon extends React.Component<Props, State> {
         const { getUserdata, getGashapon, changeGashaponLoading } = this.props;
 
         const u = new User({
-            _id: getUserdata._id, 
-            name: getUserdata.name, 
-            headimg: config.empty_pic.url, 
-            remain: getUserdata.remain
+            _id     : getUserdata._id, 
+            name    : getUserdata.name, 
+            headimg : config.empty_pic.url, 
+            remain  : getUserdata.remain
         });
         const user = u.getUser();
         const g = new GashaponClass({user: user, count: count, machine: getGashapon});
         const result = await g.doGashaponMethod();
         
         if (result.success === true) {
-            console.log('ok');
             changeGashaponLoading(true);
 
             this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);

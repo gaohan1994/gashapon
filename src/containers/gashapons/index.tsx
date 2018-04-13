@@ -21,12 +21,12 @@ import {
     getGashapons
 } from '../../reducers/main';
 
-export interface Props {
+interface Props {
     getGashapons    : Gashapons;
     loadGashapons   : () => void;
 }
 
-export interface State {
+interface State {
     
 }
 
