@@ -1,6 +1,9 @@
 export default {
-    gashapons: [],
+    gashapons   : [],
+    loading     : false,
+    lastGenre   : '',
     banners: {
         contents: []
-    }
+    },
+    genres      : [],
 };

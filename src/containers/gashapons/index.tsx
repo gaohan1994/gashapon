@@ -6,6 +6,7 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 import GashaItem from '../../components/gashapon_item';
+import { arriveFooter } from '../../config/util';
 
 import { Stores } from '../../reducers/type';
 
@@ -14,7 +15,9 @@ import {
 } from '../../types/componentTypes';
 
 import { 
-    loadGashapons
+    loadGashapons,
+    loadGashaponsByGenre,
+    LoadGashaponsParam,
 } from '../../actions/main';
 
 import { 
@@ -22,12 +25,18 @@ import {
 } from '../../reducers/main';
 
 interface Props {
-    getGashapons    : Gashapons;
-    loadGashapons   : () => void;
+    match: {
+        params: {
+            genre: string;
+        }
+    };
+    getGashapons        : Gashapons;
+    loadGashapons       : () => void;
+    loadGashaponsByGenre: ({}: LoadGashaponsParam) => void;
 }
 
 interface State {
-    
+    page: number;
 }
 
 /**
@@ -38,16 +47,44 @@ interface State {
  */
 class Gashapon extends React.Component<Props, State> {
 
-    componentDidMount() {
-        const { 
-            loadGashapons
-        } = this.props;
-        loadGashapons();
+    constructor (props: Props) {
+        super(props);
+        this.state = {
+            page: 0
+        };
     }
 
-    render() {
+    componentDidMount(): void {
+        const { page } = this.state;
+        const { 
+            match,
+            loadGashapons,
+            loadGashaponsByGenre,
+        } = this.props;
+
+        if (!match.params.genre) {
+            loadGashapons();
+        } else {
+            loadGashaponsByGenre({genre: match.params.genre});
+        }
+        
+        arriveFooter.add('gashapons', () => {
+            if (!!match.params.genre) {
+                loadGashaponsByGenre({genre: match.params.genre, page: page + 1, callback: this.loadGashaponCallback});
+            }
+        });
+    }
+
+    componentWillUnmount(): void {
+        arriveFooter.remove('gashapons');
+    }
+
+    public loadGashaponCallback = (page: number): void => {
+        this.setState({page: page}, () => { console.log(this.state.page) ; } );
+    }
+
+    render(): JSX.Element {
         const { getGashapons } = this.props;
-        console.log('getGashapons', getGashapons);
         return (
             <div styleName="container">
                 {getGashapons.map((item, i) => (
@@ -58,6 +95,9 @@ class Gashapon extends React.Component<Props, State> {
                         <GashaItem item={item}/>
                     </div>
                 ))}
+                <div style={{width: '400px', height: '400px'}}>1</div>
+                <div style={{width: '400px', height: '400px'}}>1</div>
+                <div style={{width: '400px', height: '400px'}}>1</div>
                 <Footer/>
             </div>
         );
@@ -70,8 +110,9 @@ export const mapStateToProps = (state: Stores) => ({
     getGashapons: getGashapons(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadGashapons: bindActionCreators(loadGashapons, dispatch),
+export const mapDispatchToProps = (dispatch: Dispatch<MainActions>, state: Stores) => ({
+    loadGashapons       : bindActionCreators(loadGashapons, dispatch),
+    loadGashaponsByGenre: bindActionCreators(loadGashaponsByGenre, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

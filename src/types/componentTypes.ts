@@ -46,3 +46,12 @@ export type ReceiveBanner = {
 };
 
 export type WrapImagesType = Array<WrapImageType>;
+
+export type Genre = {
+    _id     : string;
+    name    : string;
+    desc    : string;
+    status  : number;
+};
+
+export type Genres = Genre[];

@@ -13,11 +13,12 @@ import Banner from '../../components/banner';
 import { Stores } from '../../reducers/type';
 
 import { 
-
+    
 } from '../../types/componentTypes';
 
 import { 
-    loadBanners
+    loadBanners,
+    loadGenres,
 } from '../../actions/main';
 
 import {
@@ -26,6 +27,7 @@ import {
 
 interface Props {
     loadBanners : () => void;
+    loadGenres  : () => void;
 }
 
 interface State {
@@ -43,9 +45,11 @@ class Main extends React.Component<Props, State> {
 
     async componentDidMount() {
         const { 
-            loadBanners
+            loadBanners,
+            loadGenres,
         } = this.props;
         loadBanners();
+        loadGenres();
     }
 
     render() {
@@ -105,7 +109,8 @@ const mapStateToProps = (state: Stores) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadBanners: bindActionCreators(loadBanners, dispatch),
+    loadBanners         : bindActionCreators(loadBanners, dispatch),
+    loadGenres          : bindActionCreators(loadGenres, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

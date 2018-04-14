@@ -1,4 +1,7 @@
 export type Main = {
-    gashapons: object[];
-    banners: object;
+    gashapons   : object[];
+    loading     : boolean;
+    lastGenre   : string;
+    banners     : object;
+    genres      : object[];
 };

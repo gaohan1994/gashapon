@@ -25,7 +25,7 @@ interface Props {
 // ];
 
 const onClickHandle = (_id: string): void => {
-    history.push(`gashapon/${_id}`);
+    history.push(`/gashapon/${_id}`);
 };
 
 const Gashapon = ({item}: Props) => (

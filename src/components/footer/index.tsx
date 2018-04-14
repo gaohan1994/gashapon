@@ -17,7 +17,7 @@ class Footer extends React.Component<{}, {}> {
             },
             {
                 _id: 2,
-                param: '/gashapon',
+                param: '/gashapons',
                 img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
                 size: '172px auto',
                 position: window.location.pathname === '/gashapon' 
