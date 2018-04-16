@@ -8,7 +8,7 @@ import {
 import initState from './state';
 import { merge } from 'lodash';
 
-export default function gashapon (state: Home = initState, action: HomeActions): Home {
+export default function home (state: Home = initState, action: HomeActions): Home {
     switch (action.type) {
 
         case RECEIVE_HOME_USERDATA:

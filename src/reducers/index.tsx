@@ -4,6 +4,7 @@ import gashapon from './gashapon/index';
 import inventory from './inventory/index';
 import business from './business/index';
 import home from './home/index';
+import status from './status/index';
 
 export default combineReducers({
     main        : main,
@@ -11,4 +12,5 @@ export default combineReducers({
     inventory   : inventory,
     business    : business,
     home        : home,
+    status      : status,
 });

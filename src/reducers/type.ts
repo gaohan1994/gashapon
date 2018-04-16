@@ -3,6 +3,7 @@ import { Gashapon } from './gashapon/type';
 import { Inventory } from './inventory/type';
 import { Business } from './business/type';
 import { Home } from './home/type';
+import { Status } from './status/type';
 
 export interface Stores {
     main        : Main;
@@ -10,4 +11,5 @@ export interface Stores {
     inventory   : Inventory;
     business    : Business;
     home        : Home;
+    status      : Status;
 }

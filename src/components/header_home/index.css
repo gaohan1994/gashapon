@@ -110,9 +110,6 @@
 .wrapper {
     position: absolute;
     width: 100%;
-    left: 0;
-    bottom: 0;
-    right: 0;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -122,6 +119,8 @@
             flex-direction: row;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+    -webkit-transition: all .4s ease-out;
+    transition: all .4s ease-out;
 }
 
 .bigButton, .smallButton {

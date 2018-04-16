@@ -9,6 +9,7 @@ import Header from '../../components/header_home';
 import Footer from '../../components/footer';
 import config from '../../config';
 import Banner from '../../components/banner';
+import Search from '../../components/search';
 
 import { Stores } from '../../reducers/type';
 
@@ -19,6 +20,7 @@ import {
 import { 
     loadBanners,
     loadGenres,
+    loadTopics,
 } from '../../actions/main';
 
 import {
@@ -28,6 +30,7 @@ import {
 interface Props {
     loadBanners : () => void;
     loadGenres  : () => void;
+    loadTopics  : () => void;
 }
 
 interface State {
@@ -47,15 +50,18 @@ class Main extends React.Component<Props, State> {
         const { 
             loadBanners,
             loadGenres,
+            loadTopics,
         } = this.props;
         loadBanners();
         loadGenres();
+        loadTopics();
     }
 
     render() {
         return (
             <div styleName="container">
                 <Header/>
+                <Search/>
                 {this.renderHotItems()}
                 <Banner/>
                 {this.renderHotItems()}
@@ -109,8 +115,9 @@ const mapStateToProps = (state: Stores) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadBanners         : bindActionCreators(loadBanners, dispatch),
-    loadGenres          : bindActionCreators(loadGenres, dispatch),
+    loadBanners : bindActionCreators(loadBanners, dispatch),
+    loadGenres  : bindActionCreators(loadGenres, dispatch),
+    loadTopics  : bindActionCreators(loadTopics, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

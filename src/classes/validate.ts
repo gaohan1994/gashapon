@@ -27,11 +27,17 @@ class Validator {
             let args = rule.args;
 
             this.cache.push(() => {
+                
                 let strategy = strategyAry.shift();
+                
                 strategyAry.unshift(value);
+
                 strategyAry.push(errorMsg);
+
                 strategyAry.push(elementName);
+
                 strategyAry.push(args);
+                
                 return strategies[strategy].apply(value, strategyAry);
             });
         });

@@ -114,9 +114,6 @@ class Swiper extends React.Component<Props, State> {
                             : `url(${config.empty_pic.url})`
                         }}
                     />
-                    {/* <div styleName="itemlabel">
-                        {item.tag}
-                    </div> */}
                 </div>
             );
             trig.push(
@@ -128,7 +125,7 @@ class Swiper extends React.Component<Props, State> {
         });
 
         const style = {
-            width: '100vw',
+            width: '95.2vw',
             height: '100%'
         };
 

@@ -24,6 +24,7 @@ const routes = (
     <Switch>
         <Route path="/" exact={true}    component={Main}/>
         <Route path="/gashapon/:id"     component={Gashapon}/>
+        <Route path="/gashapons/topic/:topic" component={Gashapons}/>
         <Route path="/gashapons/:genre" component={Gashapons}/>
         <Route path="/gashapons"        component={Gashapons}/>
         <Route path="/inventory"        component={Inventory}/>

@@ -1,6 +1,7 @@
-import gashapon from '../gashapon';
+import gashapon, { getGashapon, getLoadingStatus  } from '../gashapon';
 import { RECEIVE_GASHAPON, CHANGE_LOADING_STATUS } from '../../constants/gashapon';
 import initState from '../gashapon/state';
+import store from '../initState';
 
 describe('gashapon test', () => {
     const testData = {
@@ -46,5 +47,41 @@ describe('gashapon test', () => {
                 }
             )
         ).toEqual({gashapon: testData, loading: true});
+    });
+
+    it('should receive gashapon', () => {
+        const Store = {
+            ...store,
+            gashapon: {
+                gashapon: testData,
+                loading : false,
+            }
+        };
+
+        expect(getGashapon(Store)).toEqual(testData);
+    });
+
+    it('should receive loading status false', () => {
+        const Store = {
+            ...store,
+            gashapon: {
+                gashapon: testData,
+                loading : false,
+            }
+        };
+
+        expect(getLoadingStatus(Store)).toEqual(false);
+    });
+
+    it('should receive loading status true', () => {
+        const Store = {
+            ...store,
+            gashapon: {
+                gashapon: testData,
+                loading : true,
+            }
+        };
+
+        expect(getLoadingStatus(Store)).toEqual(true);
     });
 });

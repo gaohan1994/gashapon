@@ -20,7 +20,7 @@ class Footer extends React.Component<{}, {}> {
                 param: '/gashapons',
                 img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
                 size: '172px auto',
-                position: window.location.pathname === '/gashapon' 
+                position: window.location.pathname.indexOf('gashapons') !== -1
                             ? '-.5px -71.5px'
                             : '-86.5px -71.5px'
             },

@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Swiper from '../swiper';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
 import { 
     BannerType,
@@ -13,19 +13,24 @@ import {
 import { 
     getBanners, 
     getGenres,
+    getTopics,
 } from '../../reducers/main';
 import { 
-    MainActions,
-} from '../../actions/main';
+    StatusActions,
+    showSearchModal
+} from '../../actions/status';
 import history from '../../history';
 
 interface Props {
-    getBanners  ?: {contents: BannerType[]};
-    getGenres   ?: Genres;
+    getBanners      ?: {contents: BannerType[]};
+    getGenres       ?: Genres;
+    showSearchModal ?: () => void;
+    getTopics       ?: Genres;
 }
 
 interface State {
     showGenres: boolean;
+    showTopics: boolean;
 }
 
 class Header extends React.Component<Props, State> {
@@ -35,19 +40,21 @@ class Header extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            showGenres: false
+            showGenres: false,
+            showTopics: false,
         };
     }
 
     render() {
-        const { getBanners } = this.props;
+        const { getBanners, showSearchModal } = this.props;
         return (
             <header styleName="container">
                 {this.renderGenres()}
+                {this.renderTopics()}
                 <i styleName="clock"/>
-                <i styleName="search"/>
+                <i styleName="search" onClick={showSearchModal}/>
                 <div styleName="item1" onClick={this.toggleGenres}/>
-                <div styleName="item2"/>
+                <div styleName="item2" onClick={this.toggleTopics}/>
                 <div styleName="item3"/>
                 <div styleName="swiper">
                     {getBanners && getBanners.contents
@@ -66,7 +73,10 @@ class Header extends React.Component<Props, State> {
                 styleName={showGenres === true ? 'show' : 'hide'}
                 onClick={this.toggleGenres}
             >
-                <div styleName="wrapper">
+                <div 
+                    styleName="wrapper"
+                    style={{bottom: showGenres === true ? '0' : '-100vh'}}
+                >
                     <button styleName="bigButton">全部关注</button>
                     {getGenres && getGenres.map((item: Genre, i) => (
                         <button 
@@ -83,13 +93,53 @@ class Header extends React.Component<Props, State> {
         );
     }
 
+    private renderTopics = (): JSX.Element => {
+        const { showTopics } = this.state;
+        const { getTopics } = this.props;
+        return (
+            <div 
+                styleName={showTopics === true ? 'show' : 'hide'}
+                onClick={this.toggleTopics}
+            >
+                <div 
+                    styleName="wrapper"
+                    style={{bottom: showTopics === true ? '0' : '-80vh'}}
+                >
+                    <button styleName="bigButton">全部关注</button>
+                    {getTopics && getTopics.map((item: Genre, i) => (
+                        <button 
+                            key={i}
+                            styleName="smallButton"
+                            onClick={() => this.doChangeTopicHandle(item._id)}
+                        >
+                            {item.name}
+                        </button>
+                    ))}
+                    <button styleName="bigButton">取消</button>
+                </div>
+            </div>
+        );
+    }
+
     private doChangeGenreHandle = (genre: string): void => {
+        this.toggleGenres();
         history.push(`/gashapons/${genre}`);
+    }
+
+    private doChangeTopicHandle = (topic: string): void => {
+        this.toggleTopics();
+        history.push(`/gashapons/topic/${topic}`);
     }
 
     private toggleGenres = (): void => {
         this.setState({
             showGenres: !this.state.showGenres
+        });
+    }
+
+    private toggleTopics = (): void => {
+        this.setState({
+            showTopics: !this.state.showTopics
         });
     }
 }
@@ -99,10 +149,11 @@ const HeaderHoc = CSSModules(Header, styles);
 const mapStateToProps = (state: Stores) => ({
     getBanners  : getBanners(state),
     getGenres   : getGenres(state),
+    getTopics   : getTopics(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<MainActions>, state: Stores) => ({
-
+const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({
+    showSearchModal: bindActionCreators(showSearchModal, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

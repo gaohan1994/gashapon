@@ -99,6 +99,7 @@ class Gashapon {
                 })
             })
             .then(res => res.json());
+            
             if (result.success) {
                 return { 
                     success: true,
