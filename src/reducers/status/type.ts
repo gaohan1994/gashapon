@@ -1,4 +1,5 @@
 export type Status = {
-    searchStatus: boolean;
-    searchHistory: string[];
+    searchStatus    : boolean;
+    searchHistory   : string[];
+    newsStatus      : boolean;
 };

@@ -1,4 +1,5 @@
 export default {
-    searchStatus: false,
-    searchHistory: [],
+    searchStatus    : false,
+    searchHistory   : [],
+    newsStatus      : false,
 };

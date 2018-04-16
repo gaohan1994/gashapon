@@ -17,7 +17,8 @@ import {
 } from '../../reducers/main';
 import { 
     StatusActions,
-    showSearchModal
+    showSearchModal,
+    showNews,
 } from '../../actions/status';
 import history from '../../history';
 
@@ -26,6 +27,7 @@ interface Props {
     getGenres       ?: Genres;
     showSearchModal ?: () => void;
     getTopics       ?: Genres;
+    showNews        ?: () => void;
 }
 
 interface State {
@@ -46,7 +48,7 @@ class Header extends React.Component<Props, State> {
     }
 
     render() {
-        const { getBanners, showSearchModal } = this.props;
+        const { getBanners, showSearchModal, showNews } = this.props;
         return (
             <header styleName="container">
                 {this.renderGenres()}
@@ -55,7 +57,7 @@ class Header extends React.Component<Props, State> {
                 <i styleName="search" onClick={showSearchModal}/>
                 <div styleName="item1" onClick={this.toggleGenres}/>
                 <div styleName="item2" onClick={this.toggleTopics}/>
-                <div styleName="item3"/>
+                <div styleName="item3" onClick={showNews}/>
                 <div styleName="swiper">
                     {getBanners && getBanners.contents
                     ? <Swiper images={getBanners.contents}/>
@@ -79,7 +81,7 @@ class Header extends React.Component<Props, State> {
                 >
                     <button styleName="bigButton">全部关注</button>
                     {getGenres && getGenres.map((item: Genre, i) => (
-                        <button 
+                        <button
                             key={i}
                             styleName="smallButton"
                             onClick={() => this.doChangeGenreHandle(item._id)}
@@ -153,7 +155,8 @@ const mapStateToProps = (state: Stores) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({
-    showSearchModal: bindActionCreators(showSearchModal, dispatch),
+    showSearchModal : bindActionCreators(showSearchModal, dispatch),
+    showNews        : bindActionCreators(showNews, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

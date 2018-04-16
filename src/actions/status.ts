@@ -21,7 +21,15 @@ export interface EmptySearchItems {
     type: constants.EMPTY_SEARCH_ITEMS;
 }
 
-export type StatusActions = ShowSearch | HideSearch | AddSearchItem | EmptySearchItems;
+export interface ShowNews {
+    type: constants.SHOW_NEWS;
+}
+
+export interface HideNews {
+    type: constants.HIDE_NEWS;
+}
+
+export type StatusActions = ShowSearch | HideSearch | AddSearchItem | EmptySearchItems | ShowNews | HideNews;
 
 export const showSearchModal = () => (dispatch: Dispatch<StatusActions>): void => {
     try {
@@ -56,5 +64,21 @@ export const emptySearchItems = () => (dispatch: Dispatch<StatusActions>): void 
         dispatch({type: constants.EMPTY_SEARCH_ITEMS});
     } catch (err) {
         console.log('emptySearchItems err', err);
+    }
+};
+
+export const showNews = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.SHOW_NEWS});
+    } catch (err) {
+        console.log('showNews err', err);
+    }
+};
+
+export const hideNews = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.HIDE_NEWS});
+    } catch (err) {
+        console.log('hideNews err', err);
     }
 };

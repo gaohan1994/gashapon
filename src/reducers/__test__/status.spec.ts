@@ -1,9 +1,11 @@
-import status, { getSearchHisotry, getSearchStatus } from '../status';
+import status, { getSearchHisotry, getSearchStatus, getNewsStatus } from '../status';
 import { 
    SHOW_SEARCH_MODAL,
    HIDE_SEARCH_MODAL,
    ADD_SEARCH_ITEM,
    EMPTY_SEARCH_ITEMS, 
+   SHOW_NEWS,
+   HIDE_NEWS,
 } from '../../constants/status';
 import initState from '../status/state';
 import store from '../initState';
@@ -47,13 +49,28 @@ describe('status test begin', () => {
         });
     });
 
+    it('should set news status to true', () => {
+        expect(status(initState, {type: SHOW_NEWS})).toEqual({
+            ...initState,
+            newsStatus: true
+        });
+    });
+
+    it('should set news status to false', () => {
+        expect(status(initState, {type: HIDE_NEWS})).toEqual({
+            ...initState,
+            newsStatus: false
+        });
+    });
+
     describe('get method tests', () => {
 
         const Store = {
             ...store,
             status: {
                 searchStatus: true,
-                searchHistory: ['123']
+                searchHistory: ['123'],
+                newsStatus: true,
             }
         };
 
@@ -63,6 +80,10 @@ describe('status test begin', () => {
 
         it('should get searchHistory', () => {
             expect(getSearchHisotry(Store)).toEqual(['123']);
+        });
+
+        it('should get searchHistory', () => {
+            expect(getNewsStatus(Store)).toEqual(true);
         });
     });
 });

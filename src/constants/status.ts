@@ -9,3 +9,9 @@ export type ADD_SEARCH_ITEM = typeof ADD_SEARCH_ITEM;
 
 export const EMPTY_SEARCH_ITEMS = 'EMPTY_SEARCH_ITEMS';
 export type EMPTY_SEARCH_ITEMS = typeof EMPTY_SEARCH_ITEMS;
+
+export const SHOW_NEWS = 'SHOW_NEWS';
+export type SHOW_NEWS = typeof SHOW_NEWS;
+
+export const HIDE_NEWS  = 'HIDE_NEWS';
+export type HIDE_NEWS = typeof HIDE_NEWS;

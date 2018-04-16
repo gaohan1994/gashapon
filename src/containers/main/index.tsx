@@ -10,19 +10,16 @@ import Footer from '../../components/footer';
 import config from '../../config';
 import Banner from '../../components/banner';
 import Search from '../../components/search';
-
+import News from '../../components/news';
 import { Stores } from '../../reducers/type';
-
 import { 
     
 } from '../../types/componentTypes';
-
 import { 
     loadBanners,
     loadGenres,
     loadTopics,
 } from '../../actions/main';
-
 import {
 
 } from '../../reducers/main';
@@ -62,6 +59,7 @@ class Main extends React.Component<Props, State> {
             <div styleName="container">
                 <Header/>
                 <Search/>
+                <News/>
                 {this.renderHotItems()}
                 <Banner/>
                 {this.renderHotItems()}

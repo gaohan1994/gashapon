@@ -192,20 +192,6 @@ module.exports = {
                     },
                   },
                   use: [
-                    // {
-                    //   loader: require.resolve('style-loader'),
-                    //   options: {
-                    //     modules: true 
-                    //   }
-                    // },
-                    // { 
-                    //   loader: require.resolve('typings-for-css-modules-loader'),
-                    //   options: {
-                    //     namedExport: true,
-                    //     camelCase: true,
-                    //     modules: true,
-                    //   }
-                    // },
                     {
                       loader: require.resolve('css-loader'),
                       options: {
