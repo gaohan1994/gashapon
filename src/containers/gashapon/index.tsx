@@ -145,6 +145,7 @@ class Gashapon extends React.Component<Props, State> {
             remain  : getUserdata.remain
         });
         const user = u.getUser();
+        
         const g = new GashaponClass({user: user, count: count, machine: getGashapon});
         const result = await g.doGashaponMethod();
         
@@ -274,7 +275,6 @@ class Gashapon extends React.Component<Props, State> {
     private redderSelectModal = (): JSX.Element => {
         const { showSelectModal } = this.state;
         const { getGashapon } = this.props;
-        console.log('showSelectModal', showSelectModal);
         return (
             <SelectModal 
                 display={showSelectModal}
@@ -330,11 +330,9 @@ class Gashapon extends React.Component<Props, State> {
                     }}
                 />
             );
-            
         } else {
             return '';
         }
-        
     }
 
     /**

@@ -17,11 +17,11 @@
 }
 
 [text-font-weight="normal"] {
-    font-size: 14px;
+    font-size: 18;
     font-weight: normal;
 }
 
 [text-font-weight="bold"] {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
 }

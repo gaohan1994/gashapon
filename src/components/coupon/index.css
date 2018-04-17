@@ -1,0 +1,45 @@
+.container {
+    position: relative;
+    width: 710px;
+    height: 150px;
+    background: beige;   
+}
+
+.bge {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.price, .fullcut, .name, .time {
+    position: absolute;
+}
+
+.price {
+    left: 100px;
+    top: 20px;
+    color: #dcc6a6;
+}
+
+.price > span {
+    font-size: 50px;
+}
+
+.fullcut {
+    left: 100px;
+    top: 85px;
+    font-size: 16px;
+}
+
+.name {
+    left: 350px;
+    top: 25px;
+}
+
+.time {
+    left: 350px;
+    top: 85px;
+    font-size: 16px;
+}

@@ -3,6 +3,13 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Menu from '../menu';
 
+/**
+ * footer 组件
+ * 功能：实现页面跳转
+ * 
+ * @class Footer
+ * @extends {React.Component<{}, {}>}
+ */
 class Footer extends React.Component<{}, {}> {
     render () {
         const navs = [

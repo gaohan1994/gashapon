@@ -19,6 +19,8 @@ import Gashapon from './containers/gashapon';
 import Order from './containers/order';
 import Success from './containers/success';
 import Collect from './containers/collect';
+import Achievements from './containers/achievements';
+import Coupons from './containers/coupons';
 
 const routes = (
     <Switch>
@@ -38,6 +40,8 @@ const routes = (
         <Route path="/order"            component={Order}/>
         <Route path="/success"          component={Success}/>
         <Route path="/collect"          component={Collect}/>
+        <Route path="/achievements"     component={Achievements}/>
+        <Route path="/coupons"           component={Coupons}/>
 
         <Route component={NoMatch}/>
     </Switch>

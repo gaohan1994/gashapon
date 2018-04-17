@@ -28,6 +28,12 @@ const onClickHandle = (_id: string): void => {
     history.push(`/gashapon/${_id}`);
 };
 
+/**
+ * 扭蛋组件，gashapons页中展示的每个扭蛋
+ * bge 和 collect 暂时未显示 
+ * 
+ * @param param0 
+ */
 const Gashapon = ({item}: Props) => (
     <div 
         styleName="container"

@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 
 import Header from '../../components/haeder_set';
-import GashaItem from '../../components/gashapon_item';
+import GashaItem from '../../components/gashapon_row_item';
 
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -44,14 +44,13 @@ class Collect extends React.Component<Props, {}> {
                     key={i}
                     styleName="item"
                 >
-                    <GashaItem item={item}/>
+                    <GashaItem gashapon={item}/>
                 </div>
             ));
             return data;
         } else {
             return '';
         }
-        
     }
 }
 

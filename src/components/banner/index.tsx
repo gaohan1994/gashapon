@@ -16,24 +16,15 @@ interface BannerType {
     img: string;
 }
 
-// class Banner extends React.Component<Props, State> {
-//     constructor(props: Props) {
-//         super(props);
-//     }
-
-//     render() {
-//         return (
-//             <div styleName="container">
-//                 banner
-//             </div>
-//         );
-//     }
-// }
-
 const onClickHandle = (): void => {
     alert('hello');
 };
 
+/**
+ * 
+ * 
+ * @param {Props} {banner, BannerType} 
+ */
 const Banner = ({banner, BannerType}: Props) => (
     <div styleName="container">
         <i 

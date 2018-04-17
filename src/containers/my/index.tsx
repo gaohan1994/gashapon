@@ -132,6 +132,7 @@ class My extends React.Component<Props, State> {
             },
             {
                 _id: 4,
+                param: 'achievements',
                 value: '成就',
                 img: 'http://net.huanmusic.com/gasha/gacha-center.png',
                 size: '127px auto',
@@ -140,6 +141,7 @@ class My extends React.Component<Props, State> {
             {
                 _id: 5,
                 value: '优惠券',
+                param: 'coupons',
                 img: 'http://net.huanmusic.com/gasha/gacha-center.png',
                 size: '127px auto',
                 position: '0 -25px',

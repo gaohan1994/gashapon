@@ -24,6 +24,11 @@
     background-position: center center;
 }
 
+[bgimg-center="100"] {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
 [flex-center="all-center"] {
     display: -webkit-box;
     display: -ms-flexbox;

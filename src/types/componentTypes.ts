@@ -55,3 +55,9 @@ export type Genre = {
 };
 
 export type Genres = Genre[];
+
+export type Ticket = {
+    price: number;
+    value: string;
+    end_time: Date;
+};

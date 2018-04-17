@@ -31,12 +31,12 @@ class News extends React.Component<Props, State> {
         const { display, hideNews } = this.props;
 
         return (
-            <section 
+            <section
                 styleName={display === true ? 'show' : 'hide'}
                 flex-center="all-center"
                 onClick={hideNews}
             >
-                <div 
+                <div
                     styleName="content"
                     style={{bottom: display === true ? '10vh' : '-100vh'}}
                 >
