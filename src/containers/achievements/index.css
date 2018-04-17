@@ -4,3 +4,16 @@
     padding: 90px 0 0 0;
     background: #dcc6a6;
 }
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.item {
+    float: left;
+    margin: 20px 0 0 20px;
+}

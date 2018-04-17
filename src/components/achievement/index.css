@@ -1,0 +1,59 @@
+.container {
+    position: relative;
+    width: 710px;
+    height: 150px;
+    background: #dddddd;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.cover {
+    float: left;
+    width: 130px;
+    height: 130px;
+    margin: 10px 10px 0 10px;
+}
+
+.detail {
+    height: 100%;
+    width: 550px;
+    overflow: hidden;
+}
+
+.name, .desc, .progress {
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+}
+
+.name {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.desc {
+    font-size: 26px;
+}
+
+.progress {
+    position: relative;
+}
+
+.bar {
+    display: block;
+    width: 250px;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    font-size: 28px;
+    color: #ffffff;
+    border-radius: 6px;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
