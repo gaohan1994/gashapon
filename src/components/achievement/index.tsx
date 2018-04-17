@@ -41,11 +41,9 @@ class Achievement extends React.Component<Props, State> {
                             styleName="bar"
                             style={{backgroundImage: this.renderBackgroundImage()}}
                         >
-                            {`
-                            ${achievement && achievement.progress ? achievement.progress : 0}
+                            {achievement && achievement.progress ? achievement.progress : 0}
                             /
-                            ${achievement && achievement.totalProgress ? achievement.totalProgress : 1}
-                            `}
+                            {achievement && achievement.totalProgress ? achievement.totalProgress : 1}
                         </span>
                     </div>
                 </div>
