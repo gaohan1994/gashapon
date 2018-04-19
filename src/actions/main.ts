@@ -5,6 +5,9 @@ import {
     Gashapons,
     BannerType,
 } from '../types/componentTypes';
+import {
+    HotSearchWord
+} from '../components/search';
 import { Stores } from '../reducers/type';
 import { Dispatch } from 'redux';
 // import config from '../config/index';
@@ -12,16 +15,6 @@ import { Dispatch } from 'redux';
 export interface LoadGashapons {
     type        : constants.RECEIVE_MAIN_GAHSAPONS;
     gashapons   : Gashapons;
-}
-
-export interface LastLoadGenre {
-    type        : constants.LAST_LOAD_GASHAPONS_GENRE;
-    lastGenre   : string;
-}
-
-export interface LastLoadTopic {
-    type        : constants.LAST_LOAD_GASHAPONS_TOPIC;
-    lastTopic   : string;
 }
 
 export interface Loading {
@@ -39,9 +32,25 @@ export interface LoadTopics {
     topics  : object[];
 }
 
+export interface LoadLastGenre {
+    type        : constants.LAST_LOAD_GASHAPONS_GENRE;
+    lastGenre   : string;
+}
+
+export interface LoadLastTopic {
+    type        : constants.LAST_LOAD_GASHAPONS_TOPIC;
+    lastTopic   : string;
+}
+
+export interface LoadLastWord {
+    type        : constants.LAST_LOAD_GASHAPONS_WORD;
+    lastWord    : string;
+}
+
 export interface LoadGashaponsParam {
     genre   ?: string;
     topic   ?: string;
+    word    ?: string;
     page    ?: number;
     count   ?: number;
     callback?: (page: number) => void;
@@ -62,40 +71,23 @@ export interface LoadBannersByTopic {
     gashaponBanner  : BannerType[];
 }
 
+export interface LoadHotSearchWords {
+    type        : constants.RECEIVE_HOT_SEARCH_WORDS;
+    searchWords : HotSearchWord[];
+}
+
 export type MainActions = 
     LoadGashapons 
-    | LastLoadGenre 
     | Loading 
     | LoadBanners 
     | LoadGenres 
     | LoadTopics
-    | LastLoadTopic
     | LoadBannersByGenre
-    | LoadBannersByTopic;
-
-export const lastLoadGenre = (genre: string) => (dispatch: Dispatch<MainActions>) => {
-    try {
-        if (!genre) {
-            throw new Error('未传入gere');
-        } else {
-            dispatch({type: constants.LAST_LOAD_GASHAPONS_GENRE, lastGenre: genre});
-        }
-    } catch (err) {
-        console.log(err);
-    }
-};
-
-export const lastLoadTopic = (topic: string) => (dispatch: Dispatch<MainActions>) => {
-    try {
-        if (!topic) {
-            throw new Error('未传入topic');
-        } else {
-            dispatch({type: constants.LAST_LOAD_GASHAPONS_TOPIC, lastTopic: topic});
-        }
-    } catch (err) {
-        console.log(err);
-    }
-};
+    | LoadBannersByTopic
+    | LoadHotSearchWords
+    | LoadLastGenre
+    | LoadLastTopic
+    | LoadLastWord;
 
 /**
  * @param {Dispatch<MainActions>} dispatch 
@@ -120,6 +112,7 @@ export const loadGashaponsByGenre =
                 if (page === 0 && data.length > 0) {
                     return;
                 } else {
+                    console.log('lastGenre === genre', lastGenre === genre);
                     dispatch({type: constants.LOADING_GASHAPONS, loading: true});
                     fetch(`/machine/genre/${genre}`, {
                         method: 'POST',
@@ -137,14 +130,17 @@ export const loadGashaponsByGenre =
                             dispatch({type: constants.LOADING_GASHAPONS, loading: false});
                             data = data.concat(res.result);
                             dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: data});
-                            callback(page + 1);
+                            callback(page);
                         } else {
                             throw new Error('loadGashapons error');
                         }
                     });
                 }
             } else {
+                console.log('genre', genre);
+                dispatch({type: constants.LAST_LOAD_GASHAPONS_GENRE, lastGenre: genre});
                 dispatch({type: constants.LOADING_GASHAPONS, loading: true});
+
                 fetch(`/machine/genre/${genre}`, {
                     method: 'POST',
                     headers: {
@@ -158,7 +154,6 @@ export const loadGashaponsByGenre =
                 .then(res => res.json())
                 .then(res => {
                     if (res.success === true) {
-                        lastLoadGenre(genre);
                         dispatch({type: constants.LOADING_GASHAPONS, loading: false});
                         dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: res.result});
                     } else {
@@ -206,7 +201,7 @@ export const loadGashaponsByTopic =
                                 dispatch({type: constants.LOADING_GASHAPONS, loading: false});
                                 data = data.concat(res.result);
                                 dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: data});
-                                // callback(page + 1);
+                                callback(page);
                             } else {
                                 throw new Error('loadGashaponsByTopic error');
                             }
@@ -227,7 +222,7 @@ export const loadGashaponsByTopic =
                     .then(res => res.json())
                     .then(res => {
                         if (res.success === true) {
-                            lastLoadTopic(topic);
+                            dispatch({type: constants.LAST_LOAD_GASHAPONS_TOPIC, lastTopic: topic});
                             dispatch({type: constants.LOADING_GASHAPONS, loading: false});
                             dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: res.result});
                         } else {
@@ -237,6 +232,78 @@ export const loadGashaponsByTopic =
                 }
             } catch (err) {
                 console.log('loadGashaponsByTopic err', err);
+            }
+        } else {
+            return;
+        }
+};
+
+export const loadGashaponsByWord = 
+    ({word = '', page = 0, count = 20, callback = (page: number) => {/**/}}: LoadGashaponsParam) => 
+    (dispatch: Dispatch<MainActions>, state: () => Stores) => {
+    
+        let 
+            loadStatus  = state().main.loading,
+            lastWord    = state().main.lastWord,
+            data        = state().main.gashapons;
+        
+        if (loadStatus === false) {
+            try {
+                if (lastWord === word) {
+                    console.log('lastGenre === genre', lastWord === word);
+                    if (page === 0 && data.length > 0) {
+                        return;
+                    } else {
+                        dispatch({type: constants.LOADING_GASHAPONS, loading: true});
+                        fetch(`/search/machines/${encodeURIComponent(word)}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                page    : page,
+                                count   : count
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(res => {
+                            if (res.success === true) {
+                                dispatch({type: constants.LOADING_GASHAPONS, loading: false});
+                                data = data.concat(res.result);
+                                dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: data});
+                                callback(page);
+                            } else {
+                                throw new Error('loadGashaponsByWord error');
+                            }
+                        });
+                    }
+                } else {
+
+                    dispatch({type: constants.LOADING_GASHAPONS, loading: true});
+                    fetch(`/search/machines/${encodeURIComponent(word)}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            page    : page,
+                            count   : count
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.success === true) {
+                            dispatch({type: constants.LAST_LOAD_GASHAPONS_WORD, lastWord: word});
+
+                            dispatch({type: constants.LOADING_GASHAPONS, loading: false});
+                            dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: res.result});
+                        } else {
+                            throw new Error('loadGashaponsByWord error');
+                        }
+                    });
+                }
+            } catch (err) {
+                console.log('loadGashaponsByWord error');
             }
         } else {
             return;
@@ -340,5 +407,21 @@ export const loadTopics = () => (dispatch: Dispatch<MainActions>) => {
         });
     } catch (err) {
         console.log('loadTopics err', err);
+    }
+};
+
+export const loadHotSearchWords = () => (dispatch: Dispatch<MainActions>) => {
+    try {
+        fetch(`hot_search_word`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_HOT_SEARCH_WORDS, searchWords: res.result});
+            } else {
+                throw new Error('loadHotSearchWords error');
+            }
+        });
+    } catch (err) {
+        console.log('loadHotSearchWords', err);
     }
 };

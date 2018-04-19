@@ -60,9 +60,11 @@ const Gashapon = ({item}: Props) => (
             ))}
         </div>
         */}
-        {/* <div styleName="collect">
+        {/* 
+        <div styleName="collect">
             1123
-        </div> */}
+        </div> 
+        */}
         <span styleName="name">{item.name}</span>
     </div>
 );

@@ -6,12 +6,17 @@ import {
     RECEIVE_MAIN_GAHSAPONS,
     RECEIVE_MAIN_BANNERS,
     RECEIVE_GENRES,
-    LAST_LOAD_GASHAPONS_GENRE,
     LOADING_GASHAPONS,
     RECEIVE_TOPICS,
+    
     LAST_LOAD_GASHAPONS_TOPIC,
+    LAST_LOAD_GASHAPONS_GENRE,
+    LAST_LOAD_GASHAPONS_WORD,
+
     RECEIVE_BANNERS_BY_GENRE,
     RECEIVE_BANNERS_BY_TOPIC,
+    RECEIVE_HOT_SEARCH_WORDS,
+
 } from '../../constants/main';
 import initState from './state';
 import { merge } from 'lodash';
@@ -55,6 +60,11 @@ export default function main (state: Main = initState, action: MainActions): Mai
             state.lastTopic = lastTopic;
             return merge({}, state, {});
 
+        case LAST_LOAD_GASHAPONS_WORD:
+            const { lastWord } = action;
+            state.lastWord = lastWord;
+            return merge({}, state, {});
+
         case LOADING_GASHAPONS:
             const { loading } = action;
             state.loading = loading;
@@ -80,6 +90,11 @@ export default function main (state: Main = initState, action: MainActions): Mai
             state.gashaponBanner = gashaponBanner;
             return merge({}, state, {});
 
+        case RECEIVE_HOT_SEARCH_WORDS:
+            const { searchWords } = action;
+            state.searchWords = searchWords;
+            return merge({}, state, {});
+
         default: return state;
     }
 }
@@ -97,3 +112,5 @@ export const getGenres      = (state: Stores) => state.main.genres;
 export const getTopics      = (state: Stores) => state.main.topics;
 
 export const getGashaponBanner = (state: Stores) => state.main.gashaponBanner;
+
+export const getHotSearchWords = (state: Stores) => state.main.searchWords;

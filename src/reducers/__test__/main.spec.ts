@@ -15,8 +15,6 @@ import {
     RECEIVE_MAIN_BANNERS,
     RECEIVE_MAIN_GAHSAPONS,
     RECEIVE_TOPICS,
-    LAST_LOAD_GASHAPONS_GENRE,
-    LAST_LOAD_GASHAPONS_TOPIC,
     LOADING_GASHAPONS
 } from '../../constants/main';
 import initState from '../main/state';
@@ -45,9 +43,6 @@ describe('main test begin', () => {
         status: 0,
     }];
 
-    const lastGenre = 'test';
-    const lastTopic = 'testTopic';
-
     const banners = [{
         _id: '123',
         pic: '123',
@@ -61,22 +56,6 @@ describe('main test begin', () => {
         .toEqual({
             ...initState,
             gashapons: gashapons
-        });
-    });
-
-    it('should reecive last genre', () => {
-        expect(main(initState, {type: LAST_LOAD_GASHAPONS_GENRE, lastGenre: lastGenre}))
-        .toEqual({
-            ...initState,
-            lastGenre: lastGenre
-        });
-    });
-
-    it('should reecive last topic', () => {
-        expect(main(initState, {type: LAST_LOAD_GASHAPONS_TOPIC, lastTopic: lastTopic}))
-        .toEqual({
-            ...initState,
-            lastTopic: lastTopic
         });
     });
 
@@ -148,11 +127,13 @@ describe('main test begin', () => {
                 gashapons: gashapons,
                 lastGenre: '123',
                 lastTopic: '123',
+                lastWord : 'lastWord',
                 loading: true,
                 banners: banners,
                 genres: [{}],
                 topics: [{}],
                 gashaponBanner: banners,
+                searchWords: [{}],
             }
         };
 
