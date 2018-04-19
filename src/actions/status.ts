@@ -29,7 +29,23 @@ export interface HideNews {
     type: constants.HIDE_NEWS;
 }
 
-export type StatusActions = ShowSearch | HideSearch | AddSearchItem | EmptySearchItems | ShowNews | HideNews;
+export interface ShowPhone {
+    type: constants.SHOW_CHANGE_PHONE;
+}
+
+export interface HidePhone {
+    type: constants.HIDE_CHANGE_PHONE;
+}
+
+export type StatusActions = 
+    ShowSearch 
+    | HideSearch 
+    | AddSearchItem 
+    | EmptySearchItems 
+    | ShowNews 
+    | HideNews
+    | ShowPhone
+    | HidePhone;
 
 export const showSearchModal = () => (dispatch: Dispatch<StatusActions>): void => {
     try {
@@ -80,5 +96,21 @@ export const hideNews = () => (dispatch: Dispatch<StatusActions>): void => {
         dispatch({type: constants.HIDE_NEWS});
     } catch (err) {
         console.log('hideNews err', err);
+    }
+};
+
+export const showPhone = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.SHOW_CHANGE_PHONE});
+    } catch (err) {
+        console.log('showPhone err', err);
+    }
+};
+
+export const hidePhone = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.HIDE_CHANGE_PHONE});
+    } catch (err) {
+        console.log('hidePhone err', err);
     }
 };

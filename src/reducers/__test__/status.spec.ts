@@ -71,6 +71,7 @@ describe('status test begin', () => {
                 searchStatus: true,
                 searchHistory: ['123'],
                 newsStatus: true,
+                phoneStatus: true,
             }
         };
 

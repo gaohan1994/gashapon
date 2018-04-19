@@ -9,6 +9,8 @@ import {
     EMPTY_SEARCH_ITEMS,
     SHOW_NEWS,
     HIDE_NEWS,
+    SHOW_CHANGE_PHONE,
+    HIDE_CHANGE_PHONE,
 } from '../../constants/status';
 import initState from './state';
 import { merge } from 'lodash';
@@ -41,6 +43,14 @@ export default function status (state: Status = initState, action: StatusActions
             state.newsStatus = false;
             return merge({}, state, {});
 
+        case SHOW_CHANGE_PHONE:
+            state.phoneStatus = true;
+            return merge({}, state, {});
+
+        case HIDE_CHANGE_PHONE:
+            state.phoneStatus = false;
+            return merge({}, state, {});
+
         default: return state;
     }
 }
@@ -50,3 +60,5 @@ export const getSearchStatus = (state: Stores) => state.status.searchStatus;
 export const getSearchHisotry = (state: Stores) => state.status.searchHistory;
 
 export const getNewsStatus = (state: Stores) => state.status.newsStatus;
+
+export const getPhoneStatus = (state: Stores) => state.status.phoneStatus;

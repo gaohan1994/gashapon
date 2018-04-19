@@ -1,0 +1,37 @@
+.container {
+    width: 750px;
+    min-height: 100vh;
+    padding: 90px 0 0 0;
+    background: #dcc6a6;
+}
+
+.item {
+    width: 750px;
+    height: 90px;
+    background: #f9f0e2;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+    background: #f27a7a;
+    margin-left: 20px;
+}
+
+.phone {
+    font-size: 30px;
+    margin-left: 20px;
+}

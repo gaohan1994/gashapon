@@ -15,3 +15,9 @@ export type SHOW_NEWS = typeof SHOW_NEWS;
 
 export const HIDE_NEWS  = 'HIDE_NEWS';
 export type HIDE_NEWS = typeof HIDE_NEWS;
+
+export const SHOW_CHANGE_PHONE = 'SHOW_CHANGE_PHONE';
+export type SHOW_CHANGE_PHONE = typeof SHOW_CHANGE_PHONE;
+
+export const HIDE_CHANGE_PHONE = 'HIDE_CHANGE_PHONE';
+export type HIDE_CHANGE_PHONE = typeof HIDE_CHANGE_PHONE;

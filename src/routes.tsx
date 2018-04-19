@@ -21,6 +21,7 @@ import Success from './containers/success';
 import Collect from './containers/collect';
 import Achievements from './containers/achievements';
 import Coupons from './containers/coupons';
+import UserPhone from './containers/set/phone';
 
 const routes = (
     <Switch>
@@ -43,6 +44,7 @@ const routes = (
         <Route path="/collect"          component={Collect}/>
         <Route path="/achievements"     component={Achievements}/>
         <Route path="/coupons"          component={Coupons}/>
+        <Route path="/userphone"        component={UserPhone}/>
 
         <Route component={NoMatch}/>
     </Switch>

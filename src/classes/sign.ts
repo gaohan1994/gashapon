@@ -18,6 +18,23 @@ export interface CheckAuthReturnObject {
     message ?: string;
 }
 
+export interface GetVercodeReturnObject {
+    success ?: boolean;
+    type    ?: string;
+    message ?: string;
+}
+
+export interface DoChangePhoneMethodReturnObject {
+    success ?: boolean;
+    type    ?: string;
+    message ?: string;
+}
+
+export interface DoChangePhoneParam {
+    phone: string;
+    code : string;
+}
+
 interface Login {
     phone: string;
     password: string;
@@ -145,6 +162,90 @@ class Sign {
             return {
                 type: 'FAIL_LOGIN',
                 message: '未登录'
+            };
+        }
+    }
+
+    public getVercode = async (phone: string): Promise<GetVercodeReturnObject> => {
+        try {
+            if (!this.user) {
+                throw new Error('用户数据错误');
+            } else if (!this.user._id) {
+                throw new Error('用户数据错误');
+            } 
+        } catch (err) {
+            return {
+                type: 'FAIL_LOGIN',
+                message: '未登录'
+            };
+        }
+
+        try {
+            const result = await fetch('/code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phone
+                })
+            }).then(res => res.json());
+
+            if (result.success === true) {
+                return {success: true};
+            } else {
+                return {
+                    type: 'ERROR_GETVERCODE',
+                    message: '获取验证吗失败'
+                };
+            }
+        } catch (err) {
+            return {
+                type: 'ERROR_GETVERCODE',
+                message: err
+            };
+        }
+    }
+
+    public doChangePhoneMethod = async ({phone, code}: DoChangePhoneParam): Promise<DoChangePhoneMethodReturnObject> => {
+        try {
+            if (!this.user) {
+                throw new Error('用户数据错误');
+            } else if (!this.user._id) {
+                throw new Error('用户数据错误');
+            } else if (!phone) {
+                throw new Error('用户手机号码错误');
+            } else if (!code) {
+                throw new Error('用户验证码错误');
+            }
+        } catch (err) {
+            return {
+                type: 'ERROR_CHANGE_PHONE',
+                message: '数据错误'
+            };
+        }
+
+        try {
+            const result = await fetch(`/change/phone/${this.user._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone   : phone,
+                    code    : code
+                })
+            }).then(res => res.json());
+
+            if (result.success === true) {
+                return {success: true};
+            } else {
+                throw new Error('修改验证码失败');
+            }
+        } catch (err) {
+            return {
+                type: 'ERROR_CHANGE_PHONE',
+                message: err.message
             };
         }
     }
