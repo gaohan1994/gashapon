@@ -4,28 +4,44 @@ import * as styles from './index.css';
 import Header from '../../components/header_achievement';
 import Coupon from '../../components/coupon';
 
+import { connect, Dispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Stores } from '../../reducers/type';
+import { loadCoupons, CouponsActions } from '../../actions/coupons';
+import { getCoupons } from '../../reducers/coupons';
+import User from '../../classes/user';
+
 interface Props {
-
+    getCoupons  : object[];
+    loadCoupons : (userId: string) => void;
 }
 
-interface State {
-
-}
+interface State {}
 
 class Coupons extends React.Component<Props, State> {
+
+    constructor (props: Props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        const { loadCoupons } = this.props;
+        const u = new User({});
+        const user = u.getUser();
+
+        loadCoupons(user.userId);
+    }
+
     render () {
+        const { getCoupons } = this.props;
         return (
             <div styleName="container">
                 <Header/>
-                <div styleName="item">
-                    <Coupon/>
-                </div>
-                <div styleName="item">
-                    <Coupon/>
-                </div>
-                <div styleName="item">
-                    <Coupon/>
-                </div>
+                {getCoupons.map((item, i) => (
+                    <div styleName="item" key={i}>
+                        <Coupon/>
+                    </div>
+                ))}
             </div>
         );
     }
@@ -33,4 +49,15 @@ class Coupons extends React.Component<Props, State> {
 
 const CouponsHoc = CSSModules(Coupons, styles);
 
-export default CouponsHoc;
+export const mapStateToProps = (state: Stores) => ({
+    getCoupons: getCoupons(state),
+});
+
+export const mapDispatchToProps = (dispatch: Dispatch<CouponsActions>, state: Stores) => ({
+    loadCoupons: bindActionCreators(loadCoupons, dispatch),
+});
+
+export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+    Object.assign({}, ownProps, stateProps, dispatchProps);
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(CouponsHoc);

@@ -192,8 +192,6 @@ class Gashapon extends React.Component<Props, State> {
             prepareData = getBanners.contents;
         }
 
-        console.log('prepareData', prepareData);
-
         prepareData.map((item: BannerType, i) => {
             data.push(
                 <div 

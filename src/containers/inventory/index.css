@@ -1,6 +1,8 @@
 .container {
+    position: relative;
     width: 750px;
     min-height: 100vh;
+    padding-top: 6vh;
     background: #dbc5a8;
 }
 

@@ -1,5 +1,8 @@
+import { getAccessToken } from '../config/util';
+
 export interface UserType {
     _id     : string;
+    userId  : string;
     address : string;
     receiver: string;
     phone   : string;
@@ -9,7 +12,7 @@ export interface UserType {
 }
 
 interface Params {
-    _id     : string;
+    _id     ?: string;
     address ?: string;
     receiver?: string;
     phone   ?: string;
@@ -21,6 +24,8 @@ interface Params {
 class User {
     /* id */
     private _id     : string;
+    /* id cookie拿 */
+    private userId  : string;
     /* 地址 */
     private address : string;
     /* 收货人姓名 */
@@ -35,7 +40,8 @@ class User {
     private remain  : number;
 
     constructor ({_id, address, receiver, phone, name, headimg, remain}: Params) {
-        this._id        = _id;
+        this._id        = _id ? _id : '';
+        this.userId     = getAccessToken() ? getAccessToken() : '',
         this.address    = address   ? address : '';
         this.receiver   = receiver  ? receiver : '';
         this.phone      = phone     ? phone : '';
@@ -47,6 +53,7 @@ class User {
     public getUser = (): UserType => {
         return {
             _id     : this._id,
+            userId  : this.userId,
             address : this.address,
             receiver: this.receiver,
             phone   : this.phone,

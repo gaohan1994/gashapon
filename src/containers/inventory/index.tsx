@@ -11,13 +11,16 @@ import { Userdata } from '../../types/user';
 import history from '../../history';
 import User from '../../classes/user';
 import Business from '../../classes/business';
+import Header from '../../components/header_inventory';
 import { Stores } from '../../reducers/type';
 import { 
     Gashapon
 } from '../../types/componentTypes';
 import { InventoryActions } from '../../actions/inventory';
 import { 
-    loadInventory
+    loadInventory,
+    loadInventoryByWord,
+    LoadInventoryParam,
 } from '../../actions/inventory';
 
 import { 
@@ -27,15 +30,25 @@ import {
 import { 
     getUserdata
 } from '../../reducers/home';
+import { arriveFooter } from '../../config/util';
 
 interface Props {
+    location: {
+        pathname: string;
+    };
+    match: {
+        params: {
+            word: string;
+        };
+    };
     getUserdata     : Userdata;
     getInventory    : Gashapon[];
-    loadInventory   : (userId: string) => void;
+    loadInventory   : ({}: LoadInventoryParam) => void;
+    loadInventoryByWord: ({}: LoadInventoryParam) => void;
 }
 
 interface State {
-    
+    page: number;
 }
 
 /**
@@ -46,12 +59,75 @@ interface State {
  */
 class Inventory extends React.Component<Props, State> {
 
+    constructor (props: Props) {
+        super(props);
+        this.state = {
+            page: 0,
+        };
+    }
+
+    componentWillReceiveProps(nextProps: any) {
+        const { loadInventory, loadInventoryByWord } = this.props;
+        const u = new User({});
+        const user = u.getUser();
+        if (nextProps.location.pathname !== this.props.location.pathname) {
+            
+            if (!!nextProps.match.params.word) {
+
+                loadInventoryByWord({userId: user.userId, word: nextProps.match.params.word});
+            } else {
+                
+                loadInventory({userId: user.userId});
+            }
+        }
+     }
+
     componentDidMount() {
-        const userId = '5ac1f31087e83ef4915abc02';
         const { 
+            match,
             loadInventory,
         } = this.props;
-        loadInventory(userId);
+
+        const u = new User({});
+        const user = u.getUser();
+
+        if (!user.userId) {
+            /* do no id stuff */
+        } else {
+            if (!!match.params.word) {
+
+                loadInventoryByWord({userId: user.userId, word: match.params.word});
+            } else {
+                
+                loadInventory({userId: user.userId});
+            }
+    
+            arriveFooter.add('inventory', () => {
+    
+                if (!!match.params.word) {
+
+                    loadInventoryByWord({
+                        userId: user.userId, 
+                        word: match.params.word,
+                        page: this.state.page + 1,
+                        callback: this.loadInventoryCallback
+                    });
+                } else {
+                    
+                    loadInventory({
+                        userId  : user.userId,
+                        page    : this.state.page + 1,
+                        callback: this.loadInventoryCallback
+                    });
+                }
+            });
+        }
+    }
+
+    public loadInventoryCallback = (page: number): void => {
+        this.setState({
+            page: page + 1
+        });
     }
 
     public onMenuClickHandle = (type: string): void => {
@@ -84,10 +160,11 @@ class Inventory extends React.Component<Props, State> {
     }
 
     render() {
-        const { getInventory } = this.props;
+        const { getInventory, match } = this.props;
         return (
             <Hoc>
                 <div styleName="container">
+                    <Header title={match.params.word ? match.params.word : ''}/>
                     {getInventory.map((item, i) => (
                         <div 
                             key={i}
@@ -142,8 +219,9 @@ export const mapStateToProps = (state: Stores) => ({
     getUserdata : getUserdata(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
     loadInventory: bindActionCreators(loadInventory, dispatch),
+    loadInventoryByWord: bindActionCreators(loadInventoryByWord, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

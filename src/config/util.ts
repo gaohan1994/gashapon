@@ -68,6 +68,5 @@ export const arriveFooter = (function() {
         }
       }
     };
-  
-  }());
+}());
   

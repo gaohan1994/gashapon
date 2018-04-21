@@ -4,6 +4,7 @@ import inventory from './inventory/state';
 import business from './business/state';
 import home from './home/state';
 import status from './status/state';
+import coupons from './coupons/state';
 
 export default {
     main        : main,
@@ -12,4 +13,5 @@ export default {
     business    : business,
     home        : home,
     status      : status,
+    coupons     : coupons,
 };

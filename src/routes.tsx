@@ -31,6 +31,7 @@ const routes = (
         <Route path="/gashapons/topic/:topic"   component={Gashapons}/>
         <Route path="/gashapons/:genre" component={Gashapons}/>
         <Route path="/gashapons"        component={Gashapons}/>
+        <Route path="/inventory/word/:word"     component={Inventory}/>
         <Route path="/inventory"        component={Inventory}/>
         <Route path="/my"               component={My}/>
         <Route path="/set"              component={Setting}/>

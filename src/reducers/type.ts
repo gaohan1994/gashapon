@@ -4,6 +4,7 @@ import { Inventory } from './inventory/type';
 import { Business } from './business/type';
 import { Home } from './home/type';
 import { Status } from './status/type';
+import { Coupons } from './coupons/type';
 
 export interface Stores {
     main        : Main;
@@ -12,4 +13,5 @@ export interface Stores {
     business    : Business;
     home        : Home;
     status      : Status;
+    coupons     : Coupons;
 }

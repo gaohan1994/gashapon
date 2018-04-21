@@ -5,6 +5,7 @@ import config from '../../config/index';
 import { BannerType } from '../../types/componentTypes';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import history from '../../history';
 const AutoSwipeableViews = autoPlay(SwipeableViews);
 
 interface Props {
@@ -92,9 +93,14 @@ class Swiper extends React.Component<Props, State> {
         }
     }
 
+    public doNavHandle = (param: string): void => {
+        history.push(`/gashapon/${param}`);
+    }
+
     render() {
         const { current } = this.state;
         const { images } = this.props;
+        
         const 
             data: Array<JSX.Element> = [],
             trig: Array<JSX.Element> = [];
@@ -106,7 +112,7 @@ class Swiper extends React.Component<Props, State> {
                     styleName="wrapItem"
                 >
                     <i
-                        onClick={this.linkTo.bind(this, item.type, item.param)}
+                        onClick={() => this.doNavHandle(item.param)}
                         styleName="imageItem"
                         style={{
                             backgroundImage: item.pic 
