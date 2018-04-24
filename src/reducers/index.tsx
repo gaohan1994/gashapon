@@ -6,6 +6,7 @@ import business from './business/index';
 import home from './home/index';
 import status from './status/index';
 import coupons from './coupons/index';
+import check from './check/index';
 
 export default combineReducers({
     main        : main,
@@ -15,4 +16,5 @@ export default combineReducers({
     home        : home,
     status      : status,
     coupons     : coupons,
+    check       : check,
 });

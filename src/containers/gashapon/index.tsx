@@ -54,6 +54,7 @@ interface Props {
 }
 
 interface State {
+    audioPlaying        : boolean;
     showModal           : boolean;
     showSelectModal     : boolean;
     GashaponProductItem ?: GashaponProductItemType[];
@@ -67,11 +68,14 @@ class Gashapon extends React.Component<Props, State> {
 
     private timer: any;
 
+    private audio: any;
+
     constructor (props: Props) {
         super(props);
         this.state = {
-            showModal: false,
-            showSelectModal: false,
+            audioPlaying    : false,
+            showModal       : false,
+            showSelectModal : false,
         };
     }
 
@@ -89,11 +93,151 @@ class Gashapon extends React.Component<Props, State> {
         }
     }
 
+    public doGashaponHandle = async (count: number): Promise<void> => {
+        const { getUserdata, getGashapon, changeGashaponLoading } = this.props;
+
+        const u = new User({
+            _id     : getUserdata._id, 
+            name    : getUserdata.name, 
+            headimg : config.empty_pic.url, 
+            remain  : getUserdata.remain
+        });
+        const user = u.getUser();
+        
+        const g = new GashaponClass({user: user, count: count, machine: getGashapon});
+        const result = await g.doGashaponMethod();
+        
+        if (result.success === true) {
+            changeGashaponLoading(true);
+            this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
+        } else {
+            console.log(`${result.type}--${result.message}`);
+            alert(result.message);
+        }
+    }
+
+    public doCollectGashaponHandle = async (): Promise<void> => {
+        const { getGashapon, getUserdata } = this.props;
+        const access = Sign.doCheckAuth();
+        if (access.success === true) {
+            const u = new User({
+                _id: getUserdata._id
+            });
+            const user = u.getUser();
+            const g = new GashaponClass({user: user, machine: getGashapon});
+            const result = await g.doCollectGashaponMethod();
+            
+            if (result.success === true) {
+                alert('收藏成功');
+                window.location.reload();
+            } else {
+                console.log(`${result.type}--${result.message}`);
+                alert(result.message);
+            }
+        } else {
+            console.log('未登录');
+            /* do login stuff */
+        }
+    }
+
+    public doCancelCollectGashaponHandle = async (): Promise<void> => {
+        const { getGashapon, getUserdata } = this.props;
+        const access = Sign.doCheckAuth();
+        if (access.success === true) {
+            const u = new User({
+                _id: getUserdata._id
+            });
+            const user = u.getUser();
+            const g = new GashaponClass({user: user, machine: getGashapon});
+            const result = await g.doCancelCollectGashaponMethod();
+            
+            if (result.success === true) {
+                alert('取消收藏成功');
+                window.location.reload();
+            } else {
+                console.log(`${result.type}--${result.message}`);
+                alert(result.message);
+            }
+        } else {
+            console.log('未登录');
+            /* do login stuff */
+        }
+    }
+
+    public timeoutHandle = (result: any) => {
+        changeGashaponLoading(false);
+        this.setState({
+            showModal: true,
+            GashaponProductItem: result.data && result.data.product_list
+        });
+    }
+
+    public onTestOneTime = (): void => {
+        const { getGashapon } = this.props;
+        const data = getGashapon.product_list && getGashapon.product_list[randomNum(getGashapon.product_list.length)];
+
+        this.setState({
+            showModal: true,
+            GashaponProductItem: [data]
+        });
+    }
+
+    public doShowSelectModalHandle = (): void => {
+        this.setState({
+            showSelectModal: true
+        });
+    }
+
+    public doHideSelectModalHandle = (): void => {
+        this.setState({
+            showSelectModal: false
+        });
+    }
+
+    public onShowModalHandle = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModalHandle = (): void => {
+        window.location.reload();
+    }
+
+    public handleAudioCanplay = () => {
+        if (this.audio.paused === true) {
+            this.audio.play();
+        }
+        this.setState({
+            audioPlaying: this.audio.paused === true ? false : true
+        });
+    }
+
+    public onChangeMusicHandle = () => {
+        if (this.audio.paused === true) {
+            this.audio.play();
+        } else {
+            this.audio.pause();
+        }
+        this.setState({
+            audioPlaying: this.audio.paused === true ? false : true
+        });
+    }
+
     render() {
         const { getGashapon } = this.props;
         return (
             <Hoc>
                 <div styleName="container">
+                    <audio
+                        src="http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d"
+                        preload="metadata"
+                        autoPlay={true}
+                        ref={(audio) => { this.audio = audio; }}
+                        style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                        onCanPlay={() => this.handleAudioCanplay()}
+                        loop={true}
+                    />
                     {this.renderLoading()}
                     <Header/>
                     {this.renderModal()}
@@ -102,7 +246,7 @@ class Gashapon extends React.Component<Props, State> {
                         {this.renderName()}
                         {this.renderTime()}
                         {this.renderCollect()}
-                        <i styleName="music"/>
+                        {this.renderMusicIcon()}
                         {this.renderStore()}
                         <i styleName="show"/>
                         <i styleName="barrage"/>
@@ -133,118 +277,6 @@ class Gashapon extends React.Component<Props, State> {
                 </div>
             </Hoc>
         );
-    }
-
-    private doGashaponHandle = async (count: number): Promise<void> => {
-        const { getUserdata, getGashapon, changeGashaponLoading } = this.props;
-
-        const u = new User({
-            _id     : getUserdata._id, 
-            name    : getUserdata.name, 
-            headimg : config.empty_pic.url, 
-            remain  : getUserdata.remain
-        });
-        const user = u.getUser();
-        
-        const g = new GashaponClass({user: user, count: count, machine: getGashapon});
-        const result = await g.doGashaponMethod();
-        
-        if (result.success === true) {
-            changeGashaponLoading(true);
-            this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
-        } else {
-            console.log(`${result.type}--${result.message}`);
-            alert(result.message);
-        }
-    }
-
-    private doCollectGashaponHandle = async (): Promise<void> => {
-        const { getGashapon, getUserdata } = this.props;
-        const access = Sign.doCheckAuth();
-        if (access.success === true) {
-            const u = new User({
-                _id: getUserdata._id
-            });
-            const user = u.getUser();
-            const g = new GashaponClass({user: user, machine: getGashapon});
-            const result = await g.doCollectGashaponMethod();
-            
-            if (result.success === true) {
-                alert('收藏成功');
-                window.location.reload();
-            } else {
-                console.log(`${result.type}--${result.message}`);
-                alert(result.message);
-            }
-        } else {
-            console.log('未登录');
-            /* do login stuff */
-        }
-    }
-
-    private doCancelCollectGashaponHandle = async (): Promise<void> => {
-        const { getGashapon, getUserdata } = this.props;
-        const access = Sign.doCheckAuth();
-        if (access.success === true) {
-            const u = new User({
-                _id: getUserdata._id
-            });
-            const user = u.getUser();
-            const g = new GashaponClass({user: user, machine: getGashapon});
-            const result = await g.doCancelCollectGashaponMethod();
-            
-            if (result.success === true) {
-                alert('取消收藏成功');
-                window.location.reload();
-            } else {
-                console.log(`${result.type}--${result.message}`);
-                alert(result.message);
-            }
-        } else {
-            console.log('未登录');
-            /* do login stuff */
-        }
-    }
-
-    private timeoutHandle = (result: any) => {
-        changeGashaponLoading(false);
-        this.setState({
-            showModal: true,
-            GashaponProductItem: result.data && result.data.product_list
-        });
-    }
-
-    private onTestOneTime = (): void => {
-        const { getGashapon } = this.props;
-        const data = getGashapon.product_list && getGashapon.product_list[randomNum(getGashapon.product_list.length)];
-
-        this.setState({
-            showModal: true,
-            GashaponProductItem: [data]
-        });
-    }
-
-    private doShowSelectModalHandle = (): void => {
-        this.setState({
-            showSelectModal: true
-        });
-    }
-
-    private doHideSelectModalHandle = (): void => {
-        this.setState({
-            showSelectModal: false
-        });
-    }
-
-    private onShowModalHandle = (): void => {
-        this.setState({
-            showModal: true
-        });
-        console.log('onShowModalHandle', this.onShowModalHandle);
-    }
-
-    private onHideModalHandle = (): void => {
-        window.location.reload();
     }
 
     private renderLoading = (): JSX.Element | string => {
@@ -333,6 +365,22 @@ class Gashapon extends React.Component<Props, State> {
         } else {
             return '';
         }
+    }
+
+    /**
+     * 渲染扭蛋音乐播放开关
+     */
+    private renderMusicIcon = (): JSX.Element => {
+        const { audioPlaying } = this.state;
+        return (
+            <i 
+                styleName="music"
+                style={{
+                    background: audioPlaying === true ? '#ffffff' : '#000000'
+                }}
+                onClick={() => this.onChangeMusicHandle()}
+            />
+        );
     }
 
     /**

@@ -5,6 +5,7 @@ import business from './business/state';
 import home from './home/state';
 import status from './status/state';
 import coupons from './coupons/state';
+import check from './check/state';
 
 export default {
     main        : main,
@@ -14,4 +15,5 @@ export default {
     home        : home,
     status      : status,
     coupons     : coupons,
+    check       : check,
 };

@@ -5,6 +5,7 @@ import { Business } from './business/type';
 import { Home } from './home/type';
 import { Status } from './status/type';
 import { Coupons } from './coupons/type';
+import { Check } from './check/type';
 
 export interface Stores {
     main        : Main;
@@ -14,4 +15,5 @@ export interface Stores {
     home        : Home;
     status      : Status;
     coupons     : Coupons;
+    check       : Check;
 }

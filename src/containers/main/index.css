@@ -4,12 +4,29 @@
     padding-bottom: 144px;
     background-color: #f7f7f7;
 }
-.container::after, .hotItems::after {
+
+[container-with-header="true"] {
+    width: 750px;
+    min-height: 100vh;
+    padding-top: 6vh;
+    background-color: #f7f7f7;
+}
+
+[container-with-header="true"]::after, 
+[container-with-header="false"]::after, 
+.container::after, 
+.hotItems::after {
     content: '';
     display: block;
     height: 0;
     overflow: hidden;
     clear: both;
+}
+
+[container-with-header="false"] {
+    width: 750px;
+    min-height: 100vh;
+    background-color: #f7f7f7;
 }
 
 [word-overflow="word-overflow"] {

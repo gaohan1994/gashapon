@@ -5,6 +5,7 @@
     right: 0;
     width: 750px;
     height: 6vh;
+    line-height: 6vh;
     background: #be8e4e;
 }
 
@@ -16,10 +17,9 @@
 }
 
 .text {
-    font-size: 30px;
+    font-size: 2.8vh;
     display: block;
     position: absolute;
     left: 70px;
-    top: 20px;
     color: #ffffff;
 }

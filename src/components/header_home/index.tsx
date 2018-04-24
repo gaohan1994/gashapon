@@ -47,13 +47,39 @@ class Header extends React.Component<Props, State> {
         };
     }
 
+    public doChangeGenreHandle = (genre: string): void => {
+        this.toggleGenres();
+        history.push(`/gashapons/${genre}`);
+    }
+
+    public doChangeTopicHandle = (topic: string): void => {
+        this.toggleTopics();
+        history.push(`/gashapons/topic/${topic}`);
+    }
+
+    public toggleGenres = (): void => {
+        this.setState({
+            showGenres: !this.state.showGenres
+        });
+    }
+
+    public toggleTopics = (): void => {
+        this.setState({
+            showTopics: !this.state.showTopics
+        });
+    }
+
+    public goCheckHandle = () => {
+        history.push('/check');
+    }
+
     render() {
         const { getBanners, showSearchModal, showNews } = this.props;
         return (
             <header styleName="container">
                 {this.renderGenres()}
                 {this.renderTopics()}
-                <i styleName="clock"/>
+                <i styleName="clock" onClick={this.goCheckHandle}/>
                 <i styleName="search" onClick={showSearchModal}/>
                 <div styleName="item1" onClick={this.toggleGenres}/>
                 <div styleName="item2" onClick={this.toggleTopics}/>
@@ -121,28 +147,6 @@ class Header extends React.Component<Props, State> {
                 </div>
             </div>
         );
-    }
-
-    private doChangeGenreHandle = (genre: string): void => {
-        this.toggleGenres();
-        history.push(`/gashapons/${genre}`);
-    }
-
-    private doChangeTopicHandle = (topic: string): void => {
-        this.toggleTopics();
-        history.push(`/gashapons/topic/${topic}`);
-    }
-
-    private toggleGenres = (): void => {
-        this.setState({
-            showGenres: !this.state.showGenres
-        });
-    }
-
-    private toggleTopics = (): void => {
-        this.setState({
-            showTopics: !this.state.showTopics
-        });
     }
 }
 

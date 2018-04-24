@@ -11,11 +11,9 @@ import { BusinessActions } from '../../actions/business';
 import { 
     Gashapon,
 } from '../../types/componentTypes';
-
 import { 
     loadOrders
 } from '../../actions/business';
-
 import { 
     getOrders,
 } from '../../reducers/business';
@@ -43,10 +41,10 @@ class Order extends React.Component<Props, State> {
                 {getOrders.length > 0
                 ? getOrders.map((item: Gashapon) => (
                     item.product_list.map((data, i) => (
-                        <ProductItem 
-                            data={data}
+                        <ProductItem
                             key={i}
-                        />  
+                            data={data}
+                        />
                     ))
                 ))
                 : 'empty'}

@@ -64,7 +64,8 @@
     top: 100px;
     width: 80px;
     height: 80px;
-    /* background: #f27a7a; */
+    background: #f27a7a;
+    z-index: 50;
 }
 
 .store {
