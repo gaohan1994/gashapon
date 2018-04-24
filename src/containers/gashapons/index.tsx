@@ -44,6 +44,7 @@ interface Props {
     };
     match: {
         params: {
+            price?: string;
             genre?: string;
             topic?: string;
             word ?: string;
@@ -87,6 +88,7 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: any) {
+        
         const { 
             loadGashapons,
             loadGashaponsByGenre,
@@ -98,7 +100,17 @@ class Gashapon extends React.Component<Props, State> {
 
         if (nextProps.location.pathname !== this.props.location.pathname) {
             
-            if (!!nextProps.match.params.genre) {
+            if (!!nextProps.match.params.price) {
+
+                const price = JSON.parse(nextProps.match.params.price);
+                console.log('price', price);
+                loadGashaponsByGenre({
+                    genre       : nextProps.match.params.genre, 
+                    min_price   : price.min, 
+                    max_price   : price.max,
+                });
+                loadBannersByGenre(nextProps.match.params.genre);
+            } else if (!!nextProps.match.params.genre) {
 
                 loadGashaponsByGenre({genre: nextProps.match.params.genre});
                 loadBannersByGenre(nextProps.match.params.genre);
@@ -140,6 +152,16 @@ class Gashapon extends React.Component<Props, State> {
             loadTopics();
         }
 
+        if (!!match.params.price && !!match.params.genre) {
+
+            const price = JSON.parse(match.params.price);
+
+            loadGashaponsByGenre({
+                genre   : match.params.genre, min_price: price.min, max_price: price.max,
+            });
+            loadBannersByGenre(match.params.genre);
+        }
+
         if (!!match.params.genre) {
 
             loadGashaponsByGenre({genre: match.params.genre});
@@ -158,6 +180,19 @@ class Gashapon extends React.Component<Props, State> {
         
         arriveFooter.add('gashapons', (): void => {
             
+            if (!!match.params.price) {
+
+                const price = JSON.parse(match.params.price);
+
+                loadGashaponsByGenre({
+                    genre       : match.params.genre, 
+                    page        : this.state.page + 1, 
+                    min_price   : price.min,
+                    max_price   : price.max,
+                    callback    : this.loadGashaponCallback
+                });
+            }
+
             if (!!match.params.genre) {
                 loadGashaponsByGenre({
                     genre   : match.params.genre, 
@@ -206,15 +241,36 @@ class Gashapon extends React.Component<Props, State> {
         history.push(`/gashapons/topic/${topic}`);
     }
 
+    public doChangePriceHandle = ({min, max}: {min: number, max?: number}): void => {
+        console.log(min, max);
+        const { match } = this.props;
+        const price = {
+            min: min,
+            max: max
+        };
+        history.push(`/gashapons/${match.params.genre}/${JSON.stringify(price)}`);
+    }
+
     render(): JSX.Element {
-        const { getGashapons, getGashaponBanner, getBanners } = this.props;
+        const { 
+            match,
+            getGashapons, 
+            getGashaponBanner, 
+            getBanners,
+        } = this.props;
         return (
             <div styleName="container">
                 {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
                     ? this.renderBanners()
                     : ''}
+                
+                {match.params && match.params.genre
+                ? this.renderClass()
+                : ''}
+                {match.params && match.params.genre
+                ? this.renderPrice()
+                : ''}
 
-                {this.renderClass()}
                 {getGashapons.map((item, i) => (
                     <div 
                         key={i}
@@ -248,6 +304,17 @@ class Gashapon extends React.Component<Props, State> {
                         {item.name}
                     </span>
                 ))}
+            </div>
+        );
+    }
+
+    private renderPrice = (): JSX.Element => {
+        return (
+            <div>
+                <div onClick={() => this.doChangePriceHandle({min: 0, max: 8})}>0-8</div>
+                <div onClick={() => this.doChangePriceHandle({min: 9, max: 16})}>9-16</div>
+                <div onClick={() => this.doChangePriceHandle({min: 17, max: 24})}>17-24</div>
+                <div onClick={() => this.doChangePriceHandle({min: 24, max: 999})}>>24</div>
             </div>
         );
     }

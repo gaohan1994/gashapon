@@ -30,7 +30,8 @@ const routes = (
         <Route path="/gashapon/:id"     component={Gashapon}/>
         <Route path="/gashapons/word/:word"     component={Gashapons}/>
         <Route path="/gashapons/topic/:topic"   component={Gashapons}/>
-        <Route path="/gashapons/:genre" component={Gashapons}/>
+        <Route path="/gashapons/:genre/:price"  component={Gashapons}/>
+        <Route path="/gashapons/:genre"         component={Gashapons}/>
         <Route path="/gashapons"        component={Gashapons}/>
         <Route path="/inventory/word/:word"     component={Inventory}/>
         <Route path="/inventory"        component={Inventory}/>

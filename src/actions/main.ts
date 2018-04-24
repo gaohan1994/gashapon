@@ -111,7 +111,7 @@ export const loadGashaponsByGenre =
     if (loadStatus === false) {
         
         try {
-            const body = min_price && max_price
+            const body = typeof(min_price) === 'number' && typeof(max_price) === 'number'
                         ? {
                             page    : page,
                             count   : count,
@@ -123,6 +123,7 @@ export const loadGashaponsByGenre =
                             count   : count
                         };
 
+            console.log('body', body);
             if (lastGenre === genre) {
                 if (page === 0 && data.length > 0) {
                     return;
@@ -138,6 +139,7 @@ export const loadGashaponsByGenre =
                     })
                     .then(res => res.json())
                     .then(res => {
+                        console.log(res);
                         if (res.success === true) {
                             dispatch({type: constants.LOADING_GASHAPONS, loading: false});
                             data = data.concat(res.result);
