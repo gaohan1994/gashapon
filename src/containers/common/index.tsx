@@ -2,11 +2,13 @@ import * as React from 'react';
 import Phone from '../../components/phonemodal';
 
 /**
- * can not work
+ * 公共组件
+ * 
+ * @class Common
+ * @extends {React.Component<{}, {}>}
  */
 class Common extends React.Component <{}, {}> {
     render () {
-        console.log('ok');
         return (
             <div>
                 <Phone/>

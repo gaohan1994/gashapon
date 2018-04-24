@@ -9,7 +9,7 @@ import { getUserdata } from '../../reducers/home';
 import { Userdata } from '../../types/user';
 
 interface Props {
-    children    : JSX.Element;
+    children    ?: JSX.Element | JSX.Element[];
     getUserdata ?: Userdata;
     loadUserData?: (userId: string) => void;
 }

@@ -65,3 +65,33 @@
     color: #ffffff;
     background: #e6aa47;
 }
+
+.modal {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .7);
+    z-index: 40;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.wrapper {
+    position: absolute;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-transition: all .4s ease-out;
+    transition: all .4s ease-out;
+}

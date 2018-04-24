@@ -6,12 +6,17 @@ import Text from '../text';
 import { Gashapon } from '../../types/componentTypes';
 import * as moment from 'moment';
 import history from '../../history';
+import User from '../../classes/user';
+import GashaponClass from '../../classes/gashapon';
 
 interface Props {
     gashapon: Gashapon;
 }
 
-interface State {}
+interface State {
+    showModal       : boolean;
+    modalGahshapon  ?: Gashapon;
+}
 
 /**
  * 扭蛋行组件
@@ -21,14 +26,57 @@ interface State {}
  */
 class GashaponRow extends React.Component<Props, State> {
 
+    constructor (props: Props) {
+        super(props);
+        this.state = {
+            showModal: false,
+        };
+    }
+
     public goGashaponHandle = (_id: string): void => {
         history.push(`/gashapon/${_id}`);
+    }
+
+    public doShowModalHandle = (gashapon: Gashapon): void => {
+        this.setState({
+            modalGahshapon  : gashapon,
+            showModal       : true
+        });
+    }
+
+    public doHideModalHandle = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
+    public doCancelCollectGashaponHandle = async (): Promise<void> => {
+        const { modalGahshapon } = this.state;
+        const u = new User({});
+        const user = u.getUser();
+        if (!user.userId) {
+            /* do no sign stuff */
+        } else {
+            if (!!modalGahshapon) {
+                const g = new GashaponClass({user: user, machine: modalGahshapon});
+                const result = await g.doCancelCollectGashaponMethod();
+                
+                if (result.success === true) {
+                    alert('取消收藏成功');
+                    history.push('/my');
+                } else {
+                    console.log(`${result.type}--${result.message}`);
+                    alert(result.message);
+                }
+            }
+        }
     }
 
     render() {
         const { gashapon } = this.props;
         return (
             <div styleName="container">
+                {this.renderModal()}
                 <div 
                     bgimg-center="bgimg-center"
                     styleName="cover"
@@ -46,7 +94,7 @@ class GashaponRow extends React.Component<Props, State> {
 
                 <div styleName="footer">
                     <div styleName="button" onClick={() => this.goGashaponHandle(gashapon._id)}>扭蛋</div>
-                    <div styleName="button">...</div>
+                    <div styleName="button" onClick={() => this.doShowModalHandle(gashapon)}>...</div>
                 </div>
             </div>
         );
@@ -61,6 +109,30 @@ class GashaponRow extends React.Component<Props, State> {
             >
                 开售时间：{moment(gashapon.start_time).format('YYYY-MM-DD')}
             </span>
+        );
+    }
+
+    private renderModal = (): JSX.Element => {
+
+        const { showModal, modalGahshapon } = this.state;
+
+        return (
+            <div 
+                styleName="modal"
+                style={{
+                    visibility  : showModal === true ? 'visible' : 'hidden',
+                    opacity     : showModal === true ? 1 : 0
+                }}
+            >
+                <div 
+                    styleName="wrapper"
+                    style={{bottom: showModal === true ? '0' : '-100vh'}}
+                >
+                    <div onClick={() => this.doCancelCollectGashaponHandle()}>取消收藏</div>
+                    <div onClick={modalGahshapon && modalGahshapon._id ? () => this.goGashaponHandle(modalGahshapon._id) : () => {/**/}}>扭蛋</div>
+                    <div onClick={() => this.doHideModalHandle()}>3333</div>
+                </div>
+            </div>
         );
     }
 }

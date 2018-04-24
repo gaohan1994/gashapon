@@ -255,7 +255,7 @@ class Gashapon extends React.Component<Props, State> {
         const { 
             match,
             getGashapons, 
-            getGashaponBanner, 
+            getGashaponBanner,
             getBanners,
         } = this.props;
         return (

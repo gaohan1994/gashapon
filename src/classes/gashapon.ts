@@ -58,7 +58,7 @@ class Gashapon {
         try {
             if (!this.user) {
                 throw new Error('用户数据错误');
-            } else if (!this.user._id) {
+            } else if (!this.user.userId) {
                 throw new Error('用户_id错误');
             } else if (!this.user.name) {
                 throw new Error('用户name错误');
@@ -86,7 +86,7 @@ class Gashapon {
                 };
             }
 
-            const result = await fetch(`/pay/product/${this.user._id}`, {
+            const result = await fetch(`/pay/product/${this.user.userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ class Gashapon {
         try {
             if (!this.user) {
                 throw new Error('用户数据错误');
-            } else if (!this.user._id) {
+            } else if (!this.user.userId) {
                 throw new Error('用户_id错误');
             } else if (!this.machine._id) {
                 throw new Error('扭蛋数据错误');
@@ -140,7 +140,7 @@ class Gashapon {
 
         try {
 
-            const result = await fetch(`/collect/machines/renew/${this.user._id}`, {
+            const result = await fetch(`/collect/machines/renew/${this.user.userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ class Gashapon {
         try {
             if (!this.user) {
                 throw new Error('用户数据错误');
-            } else if (!this.user._id) {
+            } else if (!this.user.userId) {
                 throw new Error('用户_id错误');
             } else if (!this.machine._id) {
                 throw new Error('扭蛋数据错误');
@@ -191,7 +191,7 @@ class Gashapon {
 
         try {
 
-            const result = await fetch(`/collect/machines/delete/${this.user._id}`, {
+            const result = await fetch(`/collect/machines/delete/${this.user.userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
