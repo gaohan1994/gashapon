@@ -48,12 +48,14 @@ export interface LoadLastWord {
 }
 
 export interface LoadGashaponsParam {
-    genre   ?: string;
-    topic   ?: string;
-    word    ?: string;
-    page    ?: number;
-    count   ?: number;
-    callback?: (page: number) => void;
+    genre       ?: string;
+    topic       ?: string;
+    word        ?: string;
+    page        ?: number;
+    count       ?: number;
+    min_price   ?: number;
+    max_price   ?: number;
+    callback    ?: (page: number) => void;
 }
 
 export interface LoadBanners {
@@ -98,7 +100,7 @@ export type MainActions =
  * 5.使用lastLoadGenre传入这次搜索的类型
  */
 export const loadGashaponsByGenre = 
-    ({genre = '', page = 0, count = 20, callback = (page: number) => {/**/}}: LoadGashaponsParam) => 
+    ({genre = '', page = 0, count = 20, min_price, max_price, callback = (page: number) => {/**/}}: LoadGashaponsParam) => 
     (dispatch: Dispatch<MainActions>, state: () => Stores) => {
 
     let 
@@ -107,22 +109,32 @@ export const loadGashaponsByGenre =
         data        = state().main.gashapons;
 
     if (loadStatus === false) {
+        
         try {
+            const body = min_price && max_price
+                        ? {
+                            page    : page,
+                            count   : count,
+                            min_price: min_price,
+                            max_price: max_price,
+                        }
+                        : {
+                            page    : page,
+                            count   : count
+                        };
+
             if (lastGenre === genre) {
                 if (page === 0 && data.length > 0) {
                     return;
                 } else {
-                    console.log('lastGenre === genre', lastGenre === genre);
                     dispatch({type: constants.LOADING_GASHAPONS, loading: true});
+
                     fetch(`/machine/genre/${genre}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({
-                            page    : page,
-                            count   : count
-                        })
+                        body: JSON.stringify(body)
                     })
                     .then(res => res.json())
                     .then(res => {
@@ -137,7 +149,6 @@ export const loadGashaponsByGenre =
                     });
                 }
             } else {
-                console.log('genre', genre);
                 dispatch({type: constants.LAST_LOAD_GASHAPONS_GENRE, lastGenre: genre});
                 dispatch({type: constants.LOADING_GASHAPONS, loading: true});
 
@@ -146,10 +157,7 @@ export const loadGashaponsByGenre =
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        page    : page,
-                        count   : count
-                    })
+                    body: JSON.stringify(body)
                 })
                 .then(res => res.json())
                 .then(res => {
@@ -170,7 +178,7 @@ export const loadGashaponsByGenre =
 };
 
 export const loadGashaponsByTopic = 
-    ({topic = '', page = 0, count = 20, callback = (page: number) => {/**/}}: LoadGashaponsParam) => 
+    ({topic = '', page = 0, count = 20, min_price, max_price, callback = (page: number) => {/**/}}: LoadGashaponsParam) => 
     (dispatch: Dispatch<MainActions>, state: () => Stores) => {
         
     let 
@@ -180,6 +188,18 @@ export const loadGashaponsByTopic =
 
     if (loadStatus === false) {
         try {
+            const body = min_price && max_price
+                        ? {
+                            page    : page,
+                            count   : count,
+                            min_price: min_price,
+                            max_price: max_price,
+                        }
+                        : {
+                            page    : page,
+                            count   : count
+                        };
+
             if (lastTopic === topic) {
                 if (page === 0 && data.length > 0) {
                     return;
@@ -190,10 +210,7 @@ export const loadGashaponsByTopic =
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({
-                            page    : page,
-                            count   : count
-                        })
+                        body: JSON.stringify(body)
                     })
                     .then(res => res.json())
                     .then(res => {
@@ -214,10 +231,7 @@ export const loadGashaponsByTopic =
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        page    : page,
-                        count   : count
-                    })
+                    body: JSON.stringify(body)
                 })
                 .then(res => res.json())
                 .then(res => {

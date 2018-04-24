@@ -9,12 +9,17 @@ import GashaItem from '../../components/gashapon_item';
 import { arriveFooter } from '../../config/util';
 import { Stores } from '../../reducers/type';
 import config from '../../config/index';
+import history from '../../history';
 import { 
     Gashapons,
     BannerType,
+    Genres,
+    Genre,
 } from '../../types/componentTypes';
 import { 
     loadGashapons,
+    loadGenres,
+    loadTopics,
     loadGashaponsByGenre,
     loadGashaponsByTopic,
     loadBannersByGenre,
@@ -23,6 +28,8 @@ import {
     loadGashaponsByWord,
 } from '../../actions/main';
 import { 
+    getGenres,
+    getTopics,
     getGashapons,
     getGashaponBanner,
     getBanners,
@@ -32,6 +39,9 @@ import { autoPlay } from 'react-swipeable-views-utils';
 const AutoSwipeableViews = autoPlay(SwipeableViews);
 
 interface Props {
+    location: {
+        pathname: string;
+    };
     match: {
         params: {
             genre?: string;
@@ -48,6 +58,11 @@ interface Props {
     getGashaponBanner   : BannerType[];
     loadGashaponsByWord : ({}: LoadGashaponsParam) => void;
     getBanners          : {contents: BannerType[]};
+
+    loadGenres          : () => void;
+    loadTopics          : () => void;
+    getGenres           : Genres;
+    getTopics           : Genres;
 }
 
 interface State {
@@ -71,6 +86,36 @@ class Gashapon extends React.Component<Props, State> {
         };
     }
 
+    componentWillReceiveProps(nextProps: any) {
+        const { 
+            loadGashapons,
+            loadGashaponsByGenre,
+            loadGashaponsByTopic,
+            loadBannersByGenre,
+            loadBannersByTopic,
+            loadGashaponsByWord,
+        } = this.props;
+
+        if (nextProps.location.pathname !== this.props.location.pathname) {
+            
+            if (!!nextProps.match.params.genre) {
+
+                loadGashaponsByGenre({genre: nextProps.match.params.genre});
+                loadBannersByGenre(nextProps.match.params.genre);
+            } else if (!!nextProps.match.params.topic) {
+    
+                loadBannersByTopic(nextProps.match.params.topic);
+                loadGashaponsByTopic({topic: nextProps.match.params.topic});
+            } else if (!!nextProps.match.params.word) {
+    
+                loadGashaponsByWord({word: nextProps.match.params.word});
+            } else {
+                
+                loadGashapons();
+            }
+        }
+     }
+
     componentDidMount(): void {
         const { 
             match,
@@ -80,8 +125,21 @@ class Gashapon extends React.Component<Props, State> {
             loadBannersByGenre,
             loadBannersByTopic,
             loadGashaponsByWord,
+
+            getGenres,
+            getTopics,
+            loadGenres,
+            loadTopics,
         } = this.props;
         
+        if (getGenres.length === 0) {
+            loadGenres();
+        }
+        
+        if (getTopics.length === 0) {
+            loadTopics();
+        }
+
         if (!!match.params.genre) {
 
             loadGashaponsByGenre({genre: match.params.genre});
@@ -140,6 +198,14 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
+    public doChangeGenreHandle = (genre: string): void => {
+        history.push(`/gashapons/${genre}`);
+    }
+
+    public doChangeTopicHandle = (topic: string): void => {
+        history.push(`/gashapons/topic/${topic}`);
+    }
+
     render(): JSX.Element {
         const { getGashapons, getGashaponBanner, getBanners } = this.props;
         return (
@@ -147,6 +213,8 @@ class Gashapon extends React.Component<Props, State> {
                 {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
                     ? this.renderBanners()
                     : ''}
+
+                {this.renderClass()}
                 {getGashapons.map((item, i) => (
                     <div 
                         key={i}
@@ -155,12 +223,31 @@ class Gashapon extends React.Component<Props, State> {
                         <GashaItem item={item}/>
                     </div>
                 ))}
-
-                {/* <div style={{width: '400px', height: '400px'}}>1</div>
-                <div style={{width: '400px', height: '400px'}}>1</div>
-                <div style={{width: '400px', height: '400px'}}>1</div>
-                <div style={{width: '400px', height: '400px'}}>1</div> */}
                 <Footer/>
+            </div>
+        );
+    }
+
+    private renderClass = (): JSX.Element => {
+        const { getGenres, getTopics } = this.props;
+        return (
+            <div>
+                {getGenres.map((item: Genre, i: number) => (
+                    <span 
+                        key={i}
+                        onClick={() => this.doChangeGenreHandle(item._id)}
+                    >
+                        {item.name}
+                    </span>
+                ))}
+                {getTopics.map((item: Genre, i: number) => (
+                    <span 
+                        key={i}
+                        onClick={() => this.doChangeTopicHandle(item._id)}
+                    >
+                        {item.name}
+                    </span>
+                ))}
             </div>
         );
     }
@@ -199,7 +286,6 @@ class Gashapon extends React.Component<Props, State> {
                     styleName="wrapItem"
                 >
                     <i
-                        // onClick={this.linkTo.bind(this, item.type, item.param)}
                         styleName="imageItem"
                         style={{
                             backgroundImage: item.pic 
@@ -241,6 +327,8 @@ export const mapStateToProps = (state: Stores) => ({
     getGashapons        : getGashapons(state),
     getGashaponBanner   : getGashaponBanner(state),
     getBanners          : getBanners(state),
+    getGenres           : getGenres(state),
+    getTopics           : getTopics(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>, state: Stores) => ({
@@ -250,6 +338,8 @@ export const mapDispatchToProps = (dispatch: Dispatch<MainActions>, state: Store
     loadBannersByGenre  : bindActionCreators(loadBannersByGenre, dispatch),
     loadBannersByTopic  : bindActionCreators(loadBannersByTopic, dispatch),
     loadGashaponsByWord : bindActionCreators(loadGashaponsByWord, dispatch),
+    loadGenres          : bindActionCreators(loadGenres, dispatch),
+    loadTopics          : bindActionCreators(loadTopics, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

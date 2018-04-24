@@ -62,11 +62,11 @@ const Menu = ({menus, height, iconSize, menuColor, menuImage, iconWidth, iconHei
             <li 
                 key={item._id}
                 styleName="item"
-                style={{
-                    height: height 
-                                ? `${(height / 750) * 100}vw` 
-                                : `20vw`
-                }}
+                // style={{
+                //     height: height 
+                //                 ? `${(height / 750) * 100}vw` 
+                //                 : `20vw`
+                // }}
                 onClick={item.propsClickHandle
                         ? item.propsClickHandle
                         : item.param

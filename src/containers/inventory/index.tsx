@@ -124,6 +124,10 @@ class Inventory extends React.Component<Props, State> {
         }
     }
 
+    componentWillUnmount () {
+        arriveFooter.remove('inventory');
+    }
+
     public loadInventoryCallback = (page: number): void => {
         this.setState({
             page: page + 1

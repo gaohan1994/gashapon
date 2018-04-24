@@ -12,8 +12,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    width: 750px;
-    height: 144px;
+    width: 100vw;
+    height: 12vh;
     background: -webkit-gradient(linear,left top, left bottom,from(#704d30),to(#4e391c));
     background: linear-gradient(to bottom,#704d30,#4e391c);
 }
