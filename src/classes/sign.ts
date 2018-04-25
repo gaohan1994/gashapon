@@ -35,6 +35,17 @@ export interface DoChangePhoneParam {
     code : string;
 }
 
+export interface DoChangeUserdata {
+    success ?: boolean;
+    type    ?: string;
+    message ?: string;
+}
+
+export interface DoChangeUserdataParam {
+    name        ?: string;
+    headimgurl  ?: string;
+}
+
 interface Login {
     phone: string;
     password: string;
@@ -246,6 +257,52 @@ class Sign {
             return {
                 type: 'ERROR_CHANGE_PHONE',
                 message: err.message
+            };
+        }
+    }
+
+    public doChangeUserdata = async ({name, headimgurl}: DoChangeUserdataParam): Promise<DoChangeUserdata> => {
+        try {
+            if (!this.user) {
+                throw new Error('用户数据错误');
+            } else if (!this.user._id) {
+                throw new Error('用户数据错误');
+            }
+        } catch (err) {
+            return {
+                type: 'ERROR_PARAM',
+                message: '数据错误'
+            };
+        }
+        
+        try {
+            let body: {name?: string; headimgurl?: string} = {};
+
+            if (!!name) {
+                body.name = name;
+            }
+
+            if (!!headimgurl) {
+                body.headimgurl = headimgurl;
+            }
+
+            const result = await fetch(`/change/user_info/${this.user._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body)
+            }).then(res => res.json());
+
+            if (result.success === true) {
+                return { success: true };
+            } else {
+                throw new Error(result.message ? result.message : '更改用户数据错误');
+            }
+        } catch (err) {
+            return {
+                type: 'ERROR_CHANGE_USERDATA',
+                message: err.message ? err.message : '更改用户数据错误'
             };
         }
     }

@@ -30,6 +30,10 @@ class Account extends React.Component<Props, {}> {
                     subValue="123123"
                 />
                 <Line 
+                    value="修改昵称"
+                    param="changeusername"
+                />
+                <Line 
                     value="手机号"
                     subValue={getUserdata.phone || '未绑定手机号'}
                     param="userphone"

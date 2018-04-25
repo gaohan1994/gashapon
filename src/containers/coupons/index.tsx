@@ -7,13 +7,17 @@ import Coupon from '../../components/coupon';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
-import { loadCoupons, CouponsActions } from '../../actions/coupons';
+import { 
+    CouponsActions,
+    loadCoupons, 
+    LoadCouponsParams,
+} from '../../actions/coupons';
 import { getCoupons } from '../../reducers/coupons';
 import User from '../../classes/user';
 
 interface Props {
     getCoupons  : object[];
-    loadCoupons : (userId: string) => void;
+    loadCoupons : ({}: LoadCouponsParams) => void;
 }
 
 interface State {}
@@ -29,19 +33,20 @@ class Coupons extends React.Component<Props, State> {
         const u = new User({});
         const user = u.getUser();
 
-        loadCoupons(user.userId);
+        loadCoupons({_id: user.userId});
     }
 
     render () {
         const { getCoupons } = this.props;
+        console.log('getCoupons', getCoupons);
         return (
             <div styleName="container">
                 <Header/>
-                {getCoupons.map((item, i) => (
+                {/* {getCoupons.map((item, i) => (
                     <div styleName="item" key={i}>
                         <Coupon/>
                     </div>
-                ))}
+                ))} */}
             </div>
         );
     }

@@ -23,6 +23,8 @@ import Achievements from './containers/achievements';
 import Coupons from './containers/coupons';
 import UserPhone from './containers/set/phone';
 import Check from './containers/check';
+import ChangeUserName from './containers/set/name';
+import MakeOriders from './containers/inventory/makeorders';
 
 const routes = (
     <Switch>
@@ -49,6 +51,8 @@ const routes = (
         <Route path="/coupons"          component={Coupons}/>
         <Route path="/userphone"        component={UserPhone}/>
         <Route path="/check"            component={Check}/>
+        <Route path="/changeusername"   component={ChangeUserName}/>
+        <Route path="/makeorders"       component={MakeOriders}/>
 
         <Route component={NoMatch}/>
     </Switch>

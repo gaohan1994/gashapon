@@ -41,10 +41,10 @@ interface Props {
             word: string;
         };
     };
-    getUserdata     : Userdata;
-    getInventory    : Gashapon[];
-    loadInventory   : ({}: LoadInventoryParam) => void;
-    loadInventoryByWord: ({}: LoadInventoryParam) => void;
+    getUserdata         : Userdata;
+    getInventory        : Gashapon[];
+    loadInventory       : ({}: LoadInventoryParam) => void;
+    loadInventoryByWord : ({}: LoadInventoryParam) => void;
 }
 
 interface State {
@@ -107,9 +107,9 @@ class Inventory extends React.Component<Props, State> {
                 if (!!match.params.word) {
 
                     loadInventoryByWord({
-                        userId: user.userId, 
-                        word: match.params.word,
-                        page: this.state.page + 1,
+                        userId  : user.userId, 
+                        word    : match.params.word,
+                        page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
                     });
                 } else {
@@ -135,11 +135,7 @@ class Inventory extends React.Component<Props, State> {
     }
 
     public onMenuClickHandle = (type: string): void => {
-        if (type === 'sale') {
-            alert('working');
-        } else {
-            console.log('hello');
-        }
+        history.push(`/${type}`);
     }
 
     public doOrderHandle = async (): Promise<void> => {
@@ -198,7 +194,7 @@ class Inventory extends React.Component<Props, State> {
                 img: 'http://net.huanmusic.com/gasha/txt-box-btn.png',
                 size: '63px auto',
                 position: '50% 0',
-                propsClickHandle: this.doOrderHandle.bind(this)
+                propsClickHandle: this.onMenuClickHandle.bind(this, 'makeorders')
             }
         ];
         return (

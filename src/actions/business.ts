@@ -10,6 +10,14 @@ export interface LoadOrders {
     orders: object[];
 }
 
+export interface LoadWaitConfirmOrders {
+    
+}
+
+export interface LoadWaitOrders {
+    
+}
+
 export type BusinessActions = LoadOrders;
 
 export const loadOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
@@ -29,5 +37,45 @@ export const loadOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>)
         });
     } catch (err) {
         console.log('loadOrders err', err);
+    }
+};
+
+export const loadWaitConfirmOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
+    if (!_id) {
+        throw new Error('PARAM ERROR');
+    }
+    try {
+        fetch(`/product/orders/wait_confirm/${_id}`)
+        .then(res => res.json())
+        .then(res => {
+            console.log('res', res);
+            if (res.success === true) {
+                console.log('res');
+            } else {
+                throw new Error('fetch callback error');
+            }
+        });
+    } catch (err) {
+        console.log('loadWaitConfirmOrders err');
+    }
+};
+
+export const loadWaitOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
+    if (!_id) {
+        throw new Error('PARAM ERROR');
+    }
+    try {
+        fetch(`/product/orders/wait/${_id}`)
+        .then(res => res.json())
+        .then(res => {
+            console.log('res', res);
+            if (res.success === true) {
+                console.log('res');
+            } else {
+                throw new Error('fetch callback error');
+            }
+        });
+    } catch (err) {
+        console.log('loadWaitConfirmOrders err');
     }
 };

@@ -7,6 +7,7 @@ import history from '../../history';
 
 interface Props {
     item: Gashapon;
+    propsClickHandle?: () => void;
 }
 
 // const bges = [
@@ -34,10 +35,10 @@ const onClickHandle = (_id: string): void => {
  * 
  * @param param0 
  */
-const Gashapon = ({item}: Props) => (
+const Gashapon = ({item, propsClickHandle}: Props) => (
     <div 
         styleName="container"
-        onClick={() => onClickHandle(item._id)}
+        onClick={propsClickHandle ? propsClickHandle : () => onClickHandle(item._id)}
     >
         <i 
             styleName="cover"

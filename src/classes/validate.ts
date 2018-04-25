@@ -1,5 +1,12 @@
 
 const strategies = {
+    /*非空校验*/
+    isNonEmpty(value: any, errorMsg: any, elementName: any) {
+        return value === '' ? {
+            name    : elementName,
+            errMsg  : errorMsg,
+        } : void 0;
+    },
 
     /*手机格式校验*/
     isNumberVali(value: any, errorMsg: any, elementName: any) {

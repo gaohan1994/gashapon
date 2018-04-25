@@ -97,8 +97,7 @@ class Gashapon {
                     from_user_name      : this.user.name,
                     from_user_headimgurl: this.user.headimg
                 })
-            })
-            .then(res => res.json());
+            }).then(res => res.json());
             
             if (result.success) {
                 return { 
