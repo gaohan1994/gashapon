@@ -16,6 +16,7 @@ import {
     RECEIVE_BANNERS_BY_GENRE,
     RECEIVE_BANNERS_BY_TOPIC,
     RECEIVE_HOT_SEARCH_WORDS,
+    RECEIVE_MAIN_DATA,
 
 } from '../../constants/main';
 import initState from './state';
@@ -95,6 +96,11 @@ export default function main (state: Main = initState, action: MainActions): Mai
             state.searchWords = searchWords;
             return merge({}, state, {});
 
+        case RECEIVE_MAIN_DATA:
+            const { data } = action;
+            state.data = data;
+            return merge({}, state, {});
+
         default: return state;
     }
 }
@@ -114,3 +120,5 @@ export const getTopics      = (state: Stores) => state.main.topics;
 export const getGashaponBanner = (state: Stores) => state.main.gashaponBanner;
 
 export const getHotSearchWords = (state: Stores) => state.main.searchWords;
+
+export const getData = (state: Stores) => state.main.data;

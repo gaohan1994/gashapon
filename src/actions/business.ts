@@ -50,7 +50,8 @@ export const loadWaitConfirmOrders = (_id: string) => (dispatch: Dispatch<Busine
         .then(res => {
             console.log('res', res);
             if (res.success === true) {
-                console.log('res');
+                console.log('res', res);
+                dispatch({type: constants.RECEIVE_ORDERS, orders: res.result});
             } else {
                 throw new Error('fetch callback error');
             }
@@ -70,7 +71,8 @@ export const loadWaitOrders = (_id: string) => (dispatch: Dispatch<BusinessActio
         .then(res => {
             console.log('res', res);
             if (res.success === true) {
-                console.log('res');
+                console.log('res', res);
+                dispatch({type: constants.RECEIVE_ORDERS, orders: res.result});
             } else {
                 throw new Error('fetch callback error');
             }

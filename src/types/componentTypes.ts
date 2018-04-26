@@ -61,3 +61,22 @@ export type Ticket = {
     value: string;
     end_time: Date;
 };
+
+export type MainData = {
+    content: [{
+        _id: string;
+        name: string;
+        content: [{
+            type    : number;
+            pic     : string;
+            name    : string;
+            param   : string;
+        }];
+        banner: BannerType
+    }];
+    advice: [{
+        type    : number;
+        param   : string;
+        pic     : string;
+    }]
+};

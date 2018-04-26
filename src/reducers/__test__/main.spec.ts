@@ -6,7 +6,8 @@ import
         getGenres,
         getLastGenre,
         getLoading,
-        getTopics
+        getTopics,
+        getData,
     } from '../main';
 import { 
     RECEIVE_BANNERS_BY_GENRE,
@@ -134,6 +135,7 @@ describe('main test begin', () => {
                 topics: [{}],
                 gashaponBanner: banners,
                 searchWords: [{}],
+                data: {test: '123'},
             }
         };
 
@@ -163,6 +165,10 @@ describe('main test begin', () => {
 
         it('should get gashapon banners', () => {
             expect(getGashaponBanner(Store)).toEqual(banners);
+        });
+
+        it('should get data', () => {
+            expect(getData(Store)).toEqual({test: '123'});
         });
     });
 });

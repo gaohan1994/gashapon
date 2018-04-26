@@ -9,4 +9,5 @@ export type Main = {
     topics      : object[];
     gashaponBanner: object[];
     searchWords : object[];
+    data        : object;
 };

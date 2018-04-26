@@ -4,6 +4,7 @@ import * as constants from '../constants/main';
 import { 
     Gashapons,
     BannerType,
+    MainData,
 } from '../types/componentTypes';
 import {
     HotSearchWord
@@ -45,6 +46,11 @@ export interface LoadLastTopic {
 export interface LoadLastWord {
     type        : constants.LAST_LOAD_GASHAPONS_WORD;
     lastWord    : string;
+}
+
+export interface LoadMainData {
+    type: constants.RECEIVE_MAIN_DATA;
+    data: MainData;
 }
 
 export interface LoadGashaponsParam {
@@ -89,7 +95,8 @@ export type MainActions =
     | LoadHotSearchWords
     | LoadLastGenre
     | LoadLastTopic
-    | LoadLastWord;
+    | LoadLastWord
+    | LoadMainData;
 
 /**
  * @param {Dispatch<MainActions>} dispatch 
@@ -439,5 +446,17 @@ export const loadHotSearchWords = () => (dispatch: Dispatch<MainActions>) => {
         });
     } catch (err) {
         console.log('loadHotSearchWords', err);
+    }
+};
+
+export const loadMainData = () => (dispatch: Dispatch<MainActions>) => {
+    try {
+        fetch('/machine/home')
+        .then(res => res.json())
+        .then(res => {
+            console.log('loadMainData', res);
+        });
+    } catch (err) {
+        console.log('loadMainData', err);
     }
 };

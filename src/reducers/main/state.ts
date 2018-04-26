@@ -11,4 +11,5 @@ export default {
     topics      : [],
     gashaponBanner: [],
     searchWords : [],
+    data        : {},
 };

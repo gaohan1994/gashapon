@@ -13,21 +13,24 @@ import Search from '../../components/search';
 import News from '../../components/news';
 import { Stores } from '../../reducers/type';
 import { 
-    
+    MainData
 } from '../../types/componentTypes';
 import { 
     loadBanners,
     loadGenres,
     loadTopics,
+    loadMainData,
 } from '../../actions/main';
 import {
-
+    getData,
 } from '../../reducers/main';
 
 interface Props {
     loadBanners : () => void;
     loadGenres  : () => void;
     loadTopics  : () => void;
+    loadMainData: () => void;
+    getData     : MainData;
 }
 
 interface State {
@@ -48,10 +51,12 @@ class Main extends React.Component<Props, State> {
             loadBanners,
             loadGenres,
             loadTopics,
+            loadMainData,
         } = this.props;
         loadBanners();
         loadGenres();
         loadTopics();
+        loadMainData();
     }
 
     render() {
@@ -88,15 +93,14 @@ class Main extends React.Component<Props, State> {
                 name: '4',
             }
         ];
+        
         return (
             <div styleName="hotItems">
                 {items.map((item: {_id: number, name: string}) => (
                     <div 
                         key={item._id}
                         styleName="hotItem"
-                        style={{
-                            backgroundImage: `url(${config.empty_pic.url})`
-                        }}
+                        style={{backgroundImage: `url(${config.empty_pic.url})`}}
                     >
                         {item.name}
                     </div>
@@ -109,13 +113,14 @@ class Main extends React.Component<Props, State> {
 const MainHoc = CSSModules(Main, styles);
 
 const mapStateToProps = (state: Stores) => ({
-    
+    getData: getData(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
     loadBanners : bindActionCreators(loadBanners, dispatch),
     loadGenres  : bindActionCreators(loadGenres, dispatch),
     loadTopics  : bindActionCreators(loadTopics, dispatch),
+    loadMainData: bindActionCreators(loadMainData, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
