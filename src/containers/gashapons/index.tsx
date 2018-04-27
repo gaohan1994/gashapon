@@ -6,6 +6,9 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 import GashaItem from '../../components/gashapon_item';
+import Header from '../../components/header_gashapons';
+import Search from '../../components/search';
+import News from '../../components/news';
 import { arriveFooter } from '../../config/util';
 import { Stores } from '../../reducers/type';
 import config from '../../config/index';
@@ -290,19 +293,20 @@ class Gashapon extends React.Component<Props, State> {
 
     render(): JSX.Element {
         const { 
-            match,
             getGashapons, 
             getGashaponBanner,
             getBanners,
         } = this.props;
         return (
             <div styleName="container">
+                <Header/>
+                <Search/>
+                <News/>
                 {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
                 ? this.renderBanners()
                 : ''}
-                {match.params && match.params.genre
-                ? this.renderClass()
-                : ''}
+                
+                {this.renderClass()}
 
                 {getGashapons.map((item, i) => (
                     <div 

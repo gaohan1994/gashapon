@@ -5,3 +5,7 @@ export const trig: string;
 export const on: string;
 export const wrapItem: string;
 export const imageItem: string;
+export const type: string;
+export const typeBox: string;
+export const typeIcon: string;
+export const typeDetail: string;
