@@ -177,7 +177,7 @@ class Check extends React.Component <Props, State> {
 
     private renderAccumulateReward = (): JSX.Element => {
 
-        const { getChecks } = this.props;
+        const { } = this.props;
 
         return (
             <div styleName="rewardBox">

@@ -1,9 +1,6 @@
 .container {
     width: 750px;
-    height: 560px;
     position: relative;
-    border-bottom: 2px solid #281300;
-    background: #be8e4e;
 }
 
 .container {
@@ -22,56 +19,47 @@
     clear: both;
 }
 
-.clock, .item1, .item2, .item3 {
+.clock, .item1, .item2, .item3, .header, .search {
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
 
 .clock {
-    position: absolute;
-    z-index: 10;
-    width: 80px;
-    height: 200px;
-    left: 16px;
-    top: 0;
-    background-image: url('http://net.huanmusic.com/gasha/gif-sign.gif');
+    width: 130px;
+    height: 60px;
+    background-image: url('http://net.huanmusic.com/gasha/%E7%AD%BE%E5%88%B0.png');
 }
 
 .search {
-    width: 370px;
-    height: 60px;
-    float: left;
-    background: #fff6e8;
-    margin: 20px 0 0 100px;
+    margin-left: 30px;
+    width: 350px;
+    height: 50px;
+    background-image: url('http://net.huanmusic.com/gasha/%E6%9F%A5%E8%AF%A21.png');
 }
 
 .item1, .item2, .item3 {
-    float: left;
-    width: 60px;
-    height: 80px;
-    margin: 10px 0 0 26px;
+    width: 36px;
+    height: 51px;
+    margin-left: 32px;
 }
 
 .item1 {
-    background-image: url('http://net.huanmusic.com/gasha/icon-home-sort.png');
+    background-image: url('http://net.huanmusic.com/gasha/%E5%88%86%E7%B1%BB1.png');
 }
 
 .item2 {
-    background-image: url('http://net.huanmusic.com/gasha/icon-home-zt.png');
+    background-image: url('http://net.huanmusic.com/gasha/%E4%B8%93%E9%A2%981.png');
 }
 
 .item3 {
-    background-image: url('http://net.huanmusic.com/gasha/icon-home-message.png');
+    background-image: url('http://net.huanmusic.com/gasha/%E6%B6%88%E6%81%AF1.png');
 }
 
 .swiper {
     float: left;
-    width: 714px;
-    margin: 10px 0 0 18px;
-    height: 444px;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    border: 2px solid #271400;
+    width: 690px;
+    margin: 20px 0 20px 30px;
+    height: 300px;
 }
 
 .show {
@@ -149,4 +137,20 @@
 
 .smallButton {
     width: 250px;
+}
+
+.header {
+    width: 750px;
+    height: 80px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    background-image: url('http://net.huanmusic.com/gasha/%E5%AF%BC%E8%88%AA%E6%9D%A1.png')
 }

@@ -2,14 +2,13 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import config from '../../config';
+import { 
+    BannerType as Bntype,
+} from '../../types/componentTypes';
 
 interface Props {
-    banner?: Banner;
+    banner?: Bntype;
     BannerType?: BannerType;
-}
-
-interface Banner {
-    img: string;
 }
 
 interface BannerType {
@@ -21,8 +20,6 @@ const onClickHandle = (): void => {
 };
 
 /**
- * 
- * 
  * @param {Props} {banner, BannerType} 
  */
 const Banner = ({banner, BannerType}: Props) => (
@@ -30,14 +27,9 @@ const Banner = ({banner, BannerType}: Props) => (
         <i 
             styleName="banner"
             style={{
-                backgroundImage: `url(${config.empty_pic.url})`
-            }}
-            onClick={onClickHandle}
-        />
-        <i 
-            styleName="bannerType"
-            style={{
-                backgroundImage: `url(${config.empty_pic.url})`
+                backgroundImage: banner && banner.pic
+                                ? `url(http://${config.host.pic}/${banner.pic})`
+                                : `url(${config.empty_pic.url})`
             }}
             onClick={onClickHandle}
         />

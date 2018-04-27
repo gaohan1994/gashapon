@@ -1,6 +1,6 @@
 .container {
-    width: 345px;
-    height: 436px;
+    width: 330px;
+    height: 360px;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     border: 2px solid #281300;
@@ -35,11 +35,11 @@
     left: 0;
     right: 0;
     width: 100%;
-    height: 68px;
-    line-height: 68px;
+    height: 60px;
+    line-height: 60px;
     padding: 0 10px;
-    font-size: 24px;
-    background: rgba(255, 255, 255, .8);
+    font-size: 26px;
+    background: rgba(255, 255, 255, .7);
 }
 
 .bges {

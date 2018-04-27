@@ -1,24 +1,29 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
-
 import { 
     hideNews,
     StatusActions,
 } from '../../actions/status';
 import { 
-    getNewsStatus
+    getNewsStatus,
+    getNotifies,
 } from '../../reducers/status';
 // import config from '../../config/index';
 // import history from '../../history';
 
+export type Notifies = [{
+    _id     : string;
+    content : string;
+}];
+
 interface Props {
-    display ?: boolean;
-    hideNews?: () => void;
+    display     ?: boolean;
+    hideNews    ?: () => void;
+    getNotifies ?: Notifies;
 }
 
 interface State {
@@ -28,7 +33,11 @@ interface State {
 class News extends React.Component<Props, State> {
     render (): JSX.Element {
 
-        const { display, hideNews } = this.props;
+        const { 
+            display, 
+            hideNews,
+            getNotifies
+        } = this.props;
 
         return (
             <section
@@ -41,7 +50,13 @@ class News extends React.Component<Props, State> {
                     style={{bottom: display === true ? '10vh' : '-100vh'}}
                 >
                     <div styleName="header">系统通知</div>
-                    <div styleName="newsBody" flex-center="all-center">暂时没有收到消息</div>
+                    {getNotifies && getNotifies.length > 0
+                    ? <div styleName="newsBodyWithNotifies" >
+                        {getNotifies.map((item) => (
+                            <div key={item._id}>{item.content}</div>
+                        ))}
+                    </div>
+                    : <div styleName="newsBody" flex-center="all-center">暂时没有收到消息</div>}
                 </div>
             </section>
         );
@@ -51,7 +66,8 @@ class News extends React.Component<Props, State> {
 const NewsHoc = CSSModules(News, styles);
 
 const mapStateToProps = (state: Stores) => ({
-    display: getNewsStatus(state),
+    display     : getNewsStatus(state),
+    getNotifies : getNotifies(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<StatusActions>) => ({

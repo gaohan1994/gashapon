@@ -4,6 +4,7 @@ export const search: string;
 export const item1: string;
 export const item2: string;
 export const item3: string;
+export const header: string;
 export const swiper: string;
 export const show: string;
 export const hide: string;

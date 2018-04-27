@@ -3,4 +3,5 @@ export type Status = {
     searchHistory   : string[];
     newsStatus      : boolean;
     phoneStatus     : boolean;
+    notifies        : object[];
 };

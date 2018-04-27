@@ -3,4 +3,5 @@ export default {
     searchHistory   : [],
     newsStatus      : false,
     phoneStatus     : false,
+    notifies        : [],
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-import Menu from '../menu';
+import Menu from '../menu_v1';
 
 /**
  * footer 组件
@@ -16,48 +16,42 @@ class Footer extends React.Component<{}, {}> {
             {
                 _id: 1,
                 param: '/',
-                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
-                size: '172px auto',
-                position: window.location.pathname === '/' 
-                            ? '-.5px -.5px'
-                            : '-86.5px -.5px'
+                value: '推荐',
+                img: window.location.pathname === '/'
+                    ? 'http://net.huanmusic.com/gasha/%E6%8E%A8%E8%8D%90-%E7%82%B9%E5%87%BB%E5%90%8E.png'
+                    : 'http://net.huanmusic.com/gasha/%E6%8E%A8%E8%8D%90-%E7%82%B9%E5%87%BB%E5%90%8E.png'
             },
             {
                 _id: 2,
                 param: '/gashapons',
-                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
-                size: '172px auto',
-                position: window.location.pathname.indexOf('gashapons') !== -1
-                            ? '-.5px -71.5px'
-                            : '-86.5px -71.5px'
+                value: '扭蛋',
+                img: window.location.pathname.indexOf('gashapons') !== -1 
+                    ? 'http://net.huanmusic.com/gasha/%E6%89%AD%E8%9B%8B-%E6%9C%AA%E7%82%B9%E5%87%BB.png'
+                    : 'http://net.huanmusic.com/gasha/%E6%89%AD%E8%9B%8B-%E6%9C%AA%E7%82%B9%E5%87%BB.png'
             },
             {
                 _id: 3,
                 param: '/inventory',
-                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
-                size: '172px auto',
-                position: window.location.pathname.indexOf('inventory') !== -1 
-                            ? '-.5px -142.5px'
-                            : '-86.5px -142.5px'
+                value: '蛋柜',
+                img: window.location.pathname.indexOf('inventory') !== -1  
+                    ? 'http://net.huanmusic.com/gasha/%E8%9B%8B%E6%9F%9C-%E7%82%B9%E5%87%BB%E5%89%8D.png'
+                    : 'http://net.huanmusic.com/gasha/%E8%9B%8B%E6%9F%9C-%E7%82%B9%E5%87%BB%E5%89%8D.png'
             },
             {
                 _id: 4,
                 param: '/my',
-                img: 'http://net.huanmusic.com/gasha/gacha-menu.png',
-                size: '172px auto',
-                position: window.location.pathname === '/my' 
-                            ? '-.5px -213.5px'
-                            : '-86.5px -213.5px'
+                value: '我的',
+                img: window.location.pathname === '/my'
+                    ? 'http://net.huanmusic.com/gasha/%E6%88%91%E7%9A%84-%E7%82%B9%E5%87%BB%E5%89%8D.png'
+                    : 'http://net.huanmusic.com/gasha/%E6%88%91%E7%9A%84-%E7%82%B9%E5%87%BB%E5%89%8D.png',
             },
         ];
         return (
             <footer styleName="container">
                 <Menu 
                     menus={navs}
-                    height={160} 
-                    iconWidth="85px"
-                    iconHeight="70px"
-                    iconSize="big"
+                    iconWidth="6.66vw"
+                    iconHeight="6.66vw"
                 />
             </footer>
         );

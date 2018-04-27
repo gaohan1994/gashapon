@@ -1,0 +1,33 @@
+.hotItem {
+    position: relative;
+    float: left;
+    margin: 0 0 30px 30px;
+    width: 330px;
+    height: 250px;
+    border-radius: 6px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.hotItem::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.name {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 330px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 26px;
+    text-align: center;
+    background: rgba(255, 255, 255, .7)
+}

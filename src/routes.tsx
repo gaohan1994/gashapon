@@ -25,6 +25,8 @@ import UserPhone from './containers/set/phone';
 import Check from './containers/check';
 import ChangeUserName from './containers/set/name';
 import MakeOriders from './containers/inventory/makeorders';
+import Login from './containers/sign/login';
+import Registe from './containers/sign/registe';
 
 const routes = (
     <Switch>
@@ -53,6 +55,8 @@ const routes = (
         <Route path="/check"            component={Check}/>
         <Route path="/changeusername"   component={ChangeUserName}/>
         <Route path="/makeorders"       component={MakeOriders}/>
+        <Route path="/login"            component={Login}/>
+        <Route path="/registe"          component={Registe}/>
 
         <Route component={NoMatch}/>
     </Switch>

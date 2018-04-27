@@ -1,8 +1,7 @@
 .container {
     width: 750px;
     min-height: 100vh;
-    padding-bottom: 14vh;
-    background: #dbc5a8;
+    padding-bottom: 120px;
 }
 
 .container::after {
@@ -15,7 +14,7 @@
 
 .item {
     float: left;
-    margin: 20px 0 0 20px;
+    margin: 30px 0 0 30px;
 }
 
 .banner {
@@ -24,7 +23,7 @@
     width: 710px;
     height: 200px;
     background: #ffffff;
-    margin: 20px 0 0 20px;
+    margin: 20px 0 0 30px;
 }
 
 
@@ -79,4 +78,41 @@
 
 .imageItem {
     aspect-ratio: '710:200';
+}
+
+.type {
+    float: left;
+    margin: 20px 0;
+    width: 750px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.typeBox {
+    position: relative;
+    margin-left: 30px;
+}
+
+.typeIcon {
+    display: block;
+    width: 330px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 26px;
+    color: #ffffff;
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url('http://net.huanmusic.com/gasha/gashapon/%E5%85%A8%E9%83%A8%E5%88%86%E7%B1%BB.png');
+}
+
+.typeDetail {
+    position: absolute;
+    left: 0;
+    top: 50px;
 }

@@ -1,4 +1,4 @@
 export const container: string;
 export const item: string;
-export const menu: string;
-export const option: string;
+export const icon: string;
+export const text: string;

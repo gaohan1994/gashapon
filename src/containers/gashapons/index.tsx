@@ -67,8 +67,10 @@ interface Props {
 }
 
 interface State {
-    page: number;
-    current: number;
+    page        : number;
+    current     : number;
+    showGenre   : boolean;
+    showPrice   : boolean;
 }
 
 /**
@@ -82,9 +84,12 @@ class Gashapon extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            page    : 0,
-            current : 0,
+            page        : 0,
+            current     : 0,
+            showGenre   : false,
+            showPrice   : false,
         };
+        this.clickListenHandle = this.clickListenHandle.bind(this);
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -177,6 +182,8 @@ class Gashapon extends React.Component<Props, State> {
             
             loadGashapons();
         }
+
+        window.addEventListener('click', this.clickListenHandle);
         
         arriveFooter.add('gashapons', (): void => {
             
@@ -221,6 +228,17 @@ class Gashapon extends React.Component<Props, State> {
 
     componentWillUnmount(): void {
         arriveFooter.remove('gashapons');
+
+        const clickEnd = window.removeEventListener('click', this.clickListenHandle);
+        console.log(clickEnd);
+    }
+
+    public clickListenHandle = (event: any) => {
+        console.log(event.target.getAttribute('id'));
+        if (event.target.getAttribute('id') !== 'showGenre' 
+            && event.target.getAttribute('id') !== 'showPrice') {
+            this.doHideAllHandle();
+        }
     }
 
     public loadGashaponCallback = (page: number): void => {
@@ -251,6 +269,25 @@ class Gashapon extends React.Component<Props, State> {
         history.push(`/gashapons/${match.params.genre}/${JSON.stringify(price)}`);
     }
 
+    public doToogleGenreHandle = (): void => {
+        this.setState({
+            showGenre: !this.state.showGenre
+        });
+    }
+
+    public doTooglePriceHandle = (): void => {
+        this.setState({
+            showPrice: !this.state.showPrice
+        });
+    }
+
+    public doHideAllHandle = (): void => {
+        this.setState({
+            showGenre: false,
+            showPrice: false,
+        });
+    }
+
     render(): JSX.Element {
         const { 
             match,
@@ -261,14 +298,10 @@ class Gashapon extends React.Component<Props, State> {
         return (
             <div styleName="container">
                 {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
-                    ? this.renderBanners()
-                    : ''}
-                
-                {match.params && match.params.genre
-                ? this.renderClass()
+                ? this.renderBanners()
                 : ''}
                 {match.params && match.params.genre
-                ? this.renderPrice()
+                ? this.renderClass()
                 : ''}
 
                 {getGashapons.map((item, i) => (
@@ -285,36 +318,86 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     private renderClass = (): JSX.Element => {
-        const { getGenres, getTopics } = this.props;
-        return (
-            <div>
-                {getGenres.map((item: Genre, i: number) => (
-                    <span 
-                        key={i}
-                        onClick={() => this.doChangeGenreHandle(item._id)}
-                    >
-                        {item.name}
-                    </span>
-                ))}
-                {getTopics.map((item: Genre, i: number) => (
-                    <span 
-                        key={i}
-                        onClick={() => this.doChangeTopicHandle(item._id)}
-                    >
-                        {item.name}
-                    </span>
-                ))}
-            </div>
-        );
-    }
+        const { showGenre, showPrice } = this.state;
+        const { getGenres } = this.props;
+        const prices = [
+            {
+                value: '0-8',
+                min: 0,
+                max: 8
+            },
+            {
+                value: '9-16',
+                min: 9,
+                max: 16
+            },
+            {
+                value: '17-24',
+                min: 17,
+                max: 24
+            },
+            {
+                value: '24',
+                min: 24,
+            },
+        ];
 
-    private renderPrice = (): JSX.Element => {
         return (
-            <div>
-                <div onClick={() => this.doChangePriceHandle({min: 0, max: 8})}>0-8</div>
-                <div onClick={() => this.doChangePriceHandle({min: 9, max: 16})}>9-16</div>
-                <div onClick={() => this.doChangePriceHandle({min: 17, max: 24})}>17-24</div>
-                <div onClick={() => this.doChangePriceHandle({min: 24, max: 999})}>>24</div>
+            <div 
+                styleName="type"
+            >
+                <div styleName="typeBox">
+                    <span 
+                        id="showGenre"
+                        styleName="typeIcon"
+                        onClick={() => this.doToogleGenreHandle()}
+                    >
+                        全部分类
+                    </span>
+                    <div 
+                        styleName="typeDetail"
+                        style={{
+                            visibility  : showGenre === true ? 'visible' : 'hidden',
+                            opacity     : showGenre === true ? 1 : 0
+                        }}
+                    >
+                        {getGenres.map((item: Genre, i: number) => (
+                            <span 
+                                key={i}
+                                onClick={() => this.doChangeGenreHandle(item._id)}
+                            >
+                                {item.name}
+                            </span>
+                        ))}
+                    </div>
+                    
+                </div>
+                
+                <div styleName="typeBox">
+                    <span 
+                        id="showPrice"
+                        styleName="typeIcon"
+                        onClick={() => this.doTooglePriceHandle()}
+                    >
+                        全部价格
+                    </span>
+                    <div 
+                        styleName="typeDetail"
+                        style={{
+                            visibility  : showPrice === true ? 'visible' : 'hidden',
+                            opacity     : showPrice === true ? 1 : 0
+                        }}
+                    >
+                        {prices.map((item: any, i: number) => (
+                            <div 
+                                key={i}
+                                onClick={() => this.doChangePriceHandle({min: item.min, max: item.max})}
+                            >
+                                {item.value}
+                            </div>
+                        ))}    
+                    </div> 
+                </div>
             </div>
         );
     }
@@ -325,7 +408,7 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashaponBanner, getBanners } = this.props;
 
         const style = {
-            width: '95.2vw',
+            width: '92vw',
             height: '100%'
         };
 

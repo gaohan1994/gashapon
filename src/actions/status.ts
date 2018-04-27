@@ -3,6 +3,7 @@ require('es6-promise').polyfill();
 import * as constants from '../constants/status';
 import { Dispatch } from 'redux';
 // import config from '../config/index';
+import { Notifies } from '../components/news/index';
 
 export interface ShowSearch {
     type: constants.SHOW_SEARCH_MODAL;
@@ -37,6 +38,11 @@ export interface HidePhone {
     type: constants.HIDE_CHANGE_PHONE;
 }
 
+export interface LoadNotifies {
+    type: constants.RECEIVE_NOTIFIES;
+    notifies: Notifies[];
+}
+
 export type StatusActions = 
     ShowSearch 
     | HideSearch 
@@ -45,7 +51,8 @@ export type StatusActions =
     | ShowNews 
     | HideNews
     | ShowPhone
-    | HidePhone;
+    | HidePhone
+    | LoadNotifies;
 
 export const showSearchModal = () => (dispatch: Dispatch<StatusActions>): void => {
     try {
@@ -112,5 +119,17 @@ export const hidePhone = () => (dispatch: Dispatch<StatusActions>): void => {
         dispatch({type: constants.HIDE_CHANGE_PHONE});
     } catch (err) {
         console.log('hidePhone err', err);
+    }
+};
+
+export const loadNotifies = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        fetch(`/notifies`)
+        .then(res => res.json())
+        .then(res => {
+            dispatch({type: constants.RECEIVE_NOTIFIES, notifies: res.result});
+        });
+    } catch (err) {
+        console.log('loadNotifies err', err);
     }
 };

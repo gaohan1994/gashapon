@@ -74,22 +74,31 @@ class Header extends React.Component<Props, State> {
     }
 
     render() {
-        const { getBanners, showSearchModal, showNews } = this.props;
+        const { getBanners } = this.props;
         return (
             <header styleName="container">
                 {this.renderGenres()}
                 {this.renderTopics()}
-                <i styleName="clock" onClick={this.goCheckHandle}/>
-                <i styleName="search" onClick={showSearchModal}/>
-                <div styleName="item1" onClick={this.toggleGenres}/>
-                <div styleName="item2" onClick={this.toggleTopics}/>
-                <div styleName="item3" onClick={showNews}/>
+                {this.renderHeader()}
                 <div styleName="swiper">
                     {getBanners && getBanners.contents
                     ? <Swiper images={getBanners.contents}/>
                     : ''}
                 </div>
             </header>
+        );
+    }
+
+    private renderHeader = (): JSX.Element => {
+        const { showSearchModal, showNews } = this.props;
+        return (
+            <div styleName="header">
+                <i styleName="clock" onClick={this.goCheckHandle}/>
+                <i styleName="search" onClick={showSearchModal}/>
+                <div styleName="item1" onClick={this.toggleGenres}/>
+                <div styleName="item2" onClick={this.toggleTopics}/>
+                <div styleName="item3" onClick={showNews}/>
+            </div>
         );
     }
 

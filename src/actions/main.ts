@@ -455,6 +455,7 @@ export const loadMainData = () => (dispatch: Dispatch<MainActions>) => {
         .then(res => res.json())
         .then(res => {
             console.log('loadMainData', res);
+            dispatch({type: constants.RECEIVE_MAIN_DATA, data: res.result});
         });
     } catch (err) {
         console.log('loadMainData', err);

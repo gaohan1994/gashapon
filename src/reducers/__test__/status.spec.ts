@@ -1,4 +1,10 @@
-import status, { getSearchHisotry, getSearchStatus, getNewsStatus } from '../status';
+import status, 
+{ 
+    getSearchHisotry, 
+    getSearchStatus, 
+    getNewsStatus,
+    getNotifies,
+} from '../status';
 import { 
    SHOW_SEARCH_MODAL,
    HIDE_SEARCH_MODAL,
@@ -72,6 +78,7 @@ describe('status test begin', () => {
                 searchHistory: ['123'],
                 newsStatus: true,
                 phoneStatus: true,
+                notifies: [{_id: '123'}],
             }
         };
 
@@ -85,6 +92,10 @@ describe('status test begin', () => {
 
         it('should get searchHistory', () => {
             expect(getNewsStatus(Store)).toEqual(true);
+        });
+
+        it('should get searchHistory', () => {
+            expect(getNotifies(Store)).toEqual([{_id: '123'}]);
         });
     });
 });

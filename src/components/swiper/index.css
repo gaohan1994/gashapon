@@ -1,14 +1,14 @@
 .container {
     position: relative;
-    width: 710px;
-    height: 440px;
+    width: 690px;
+    height: 300px;
     float: left;    
     overflow: hidden;
     background: #dddddd;
 }
 
 .container {
-    aspect-ratio: '710:440';
+    aspect-ratio: '690:300';
 }
 
 .itemlabel {

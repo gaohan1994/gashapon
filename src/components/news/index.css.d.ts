@@ -4,3 +4,4 @@ export const hide: string;
 export const content: string;
 export const header: string;
 export const newsBody: string;
+export const newsBodyWithNotifies: string;

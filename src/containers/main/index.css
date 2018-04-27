@@ -1,8 +1,7 @@
 .container {
     width: 750px;
     min-height: 100vh;
-    padding-bottom: 12vh;
-    background-color: #f7f7f7;
+    padding-bottom: 100px;
 }
 
 [container-with-header="true"] {
@@ -14,8 +13,16 @@
 
 [container-with-header="true"]::after, 
 [container-with-header="false"]::after, 
-.container::after, 
-.hotItems::after {
+.container::after
+{
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+[content-clear="clear"]::after {
     content: '';
     display: block;
     height: 0;
@@ -60,20 +67,42 @@
 
 .hotItems {
     width: 750px;
-    border-bottom: 2px solid #281300;
-    background: #dec7a8;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    padding-top: 20px;
 }
 
-.hotItem {
-    position: relative;
-    float: left;
-    margin: 0 0 20px 20px;
-    width: 345px;
-    height: 240px;
+.menus {
+    margin: 0 0 20px;
+}
+
+.timeLimit {
+    width: 750px;
+}
+
+.timeIcon {
+    width: 190px;
+    height: 160px;
+    background-image: url('http://net.huanmusic.com/gasha/%E9%99%90%E6%97%B6%E6%8A%A2%E8%B4%AD1.png');
+}
+
+.timeIcon, .mainDataHeader {
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+    background-size: 100% 100%;
+}
+
+.timeIcon {
+    display: block;
+
+}
+
+.bannerBox {
+    margin: 0 0 0 30px;
+}
+
+.mainData {
+    margin-top: 20px;
+}
+
+.mainDataHeader {
+    width: 750px;
+    height: 75px;
+    margin-bottom: 10px;
 }

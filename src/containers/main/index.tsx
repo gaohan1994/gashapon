@@ -7,11 +7,14 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Header from '../../components/header_home';
 import Footer from '../../components/footer';
-import config from '../../config';
+// import config from '../../config';
 import Banner from '../../components/banner';
 import Search from '../../components/search';
 import News from '../../components/news';
+import Menu from '../../components/menu_v1';
+import DataItem from '../../components/content_item';
 import { Stores } from '../../reducers/type';
+// import history from '../../history';
 import { 
     MainData
 } from '../../types/componentTypes';
@@ -21,6 +24,9 @@ import {
     loadTopics,
     loadMainData,
 } from '../../actions/main';
+import { 
+    loadNotifies,
+} from '../../actions/status';
 import {
     getData,
 } from '../../reducers/main';
@@ -30,6 +36,7 @@ interface Props {
     loadGenres  : () => void;
     loadTopics  : () => void;
     loadMainData: () => void;
+    loadNotifies: () => void;
     getData     : MainData;
 }
 
@@ -52,11 +59,15 @@ class Main extends React.Component<Props, State> {
             loadGenres,
             loadTopics,
             loadMainData,
+            loadNotifies,
         } = this.props;
         loadBanners();
         loadGenres();
         loadTopics();
         loadMainData();
+        loadNotifies();
+
+        // history.push('/login');
     }
 
     render() {
@@ -65,46 +76,105 @@ class Main extends React.Component<Props, State> {
                 <Header/>
                 <Search/>
                 <News/>
-                {this.renderHotItems()}
-                <Banner/>
-                {this.renderHotItems()}
-                {this.renderHotItems()} 
+                {this.renderMenu()}
+                {this.renderTimeLimit()}
+                {this.renderMainData()}
+                {/* 
+                    <Banner/>
+                    {this.renderHotItems()}
+                    {this.renderHotItems()}  
+                */}
                 <Footer/>
             </div>
         );
     }
 
-    private renderHotItems = () => {
-        const items = [
+    private renderTimeLimit = (): JSX.Element => {
+        return (
+            <div styleName="timeLimit">
+                <i styleName="timeIcon"/>
+            </div>
+        );
+    }
+
+    private renderMenu = (): JSX.Element => {
+        const menu = [
             {
                 _id: 1,
-                name: '热卖',
+                img: 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
+                value: '热卖排行'
             },
             {
                 _id: 2,
-                name: '限时',
+                img: 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
+                value: '超值特价'
             },
             {
                 _id: 3,
-                name: '3',
+                img: 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
+                value: '抢先预订'
             },
             {
                 _id: 4,
-                name: '4',
-            }
+                img: 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
+                value: '新品上架'
+            },
         ];
-        
         return (
-            <div styleName="hotItems">
-                {items.map((item: {_id: number, name: string}) => (
+            <div styleName="menus">
+                <Menu menus={menu}/>
+            </div>
+        );
+    }
+
+    private renderMainDataHeaderImg = (type: string): string => {
+        switch (type) {
+            case '热门推荐':
+                return 'http://net.huanmusic.com/gasha/%E7%83%AD%E9%97%A8%E4%B8%BB%E9%A2%981.png';
+
+            default: return '';
+        }
+    }
+
+    private renderMainData = (): JSX.Element => {
+        const { getData } = this.props;
+
+        return (
+            <div styleName="mainData" content-clear="clear">
+                {getData.content && getData.content.length > 0
+                ? getData.content.map((item, i) => (
                     <div 
-                        key={item._id}
-                        styleName="hotItem"
-                        style={{backgroundImage: `url(${config.empty_pic.url})`}}
+                        key={i}
+                        content-clear="clear"
                     >
-                        {item.name}
+                        {item.name 
+                        ? <div 
+                            styleName="mainDataHeader"
+                            style={{
+                                backgroundImage: this.renderMainDataHeaderImg(item.name)
+                            }}
+                        />
+                        : ''}
+
+                        {item.banner
+                        ? <div styleName="bannerBox">
+                            <Banner banner={item.banner}/>
+                        </div>
+                        : ''}
+
+                        {item.content && item.content.length > 0
+                        ? <div styleName="hotItems">
+                            {item.content.map((content, j) => (
+                                <DataItem 
+                                    key={i + j} 
+                                    content={content}
+                                />
+                            ))}
+                        </div>
+                        : ''}
                     </div>
-                ))}
+                ))
+                : ''}
             </div>
         );
     }
@@ -121,6 +191,7 @@ const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
     loadGenres  : bindActionCreators(loadGenres, dispatch),
     loadTopics  : bindActionCreators(loadTopics, dispatch),
     loadMainData: bindActionCreators(loadMainData, dispatch),
+    loadNotifies: bindActionCreators(loadNotifies, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
