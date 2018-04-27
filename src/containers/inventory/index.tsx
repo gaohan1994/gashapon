@@ -4,8 +4,8 @@ import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
-import GashaItem from '../../components/gashapon_item';
-import Menu from '../../components/menu';
+import GashaItem from '../../components/gashapon_inventory';
+import Menu from '../../components/menu_v1';
 import Hoc from '../hoc';
 import { Userdata } from '../../types/user';
 import history from '../../history';
@@ -184,28 +184,21 @@ class Inventory extends React.Component<Props, State> {
         const menus = [
             {
                 _id: 1,
-                img: 'http://net.huanmusic.com/gasha/txt-box-btn.png',
-                size: '63px auto',
-                position: '25% 39%',
+                img: 'http://net.huanmusic.com/gasha/inventory/%E5%8F%98%E5%8D%96.png',
                 propsClickHandle: this.onMenuClickHandle.bind(this, 'sale')
             },
             {
                 _id: 2,
-                img: 'http://net.huanmusic.com/gasha/txt-box-btn.png',
-                size: '63px auto',
-                position: '50% 0',
+                img: 'http://net.huanmusic.com/gasha/inventory/%E4%B8%8B%E5%8D%95.png',
                 propsClickHandle: this.onMenuClickHandle.bind(this, 'makeorders')
             }
         ];
         return (
             <div styleName="menu">
                 <Menu
-                    menus={menus} 
-                    height={80}
-                    iconWidth="63px"
-                    iconHeight="21px"
-                    menuColor="#787672"
-                    menuImage="http://gacha.52toys.com/image/alert-header-bg.png"
+                    menus={menus}
+                    iconWidth="33.33vw"
+                    iconHeight="8.26vw"
                 />
             </div>  
         );

@@ -38,25 +38,26 @@ const routes = (
         <Route path="/gashapons/:genre"         component={Gashapons}/>
         <Route path="/gashapons"                component={Gashapons}/>
         <Route path="/inventory/word/:word"     component={Inventory}/>
-        <Route path="/inventory"        component={Inventory}/>
-        <Route path="/my"               component={My}/>
-        <Route path="/set"              component={Setting}/>
-        <Route path="/account"          component={Account}/>
-        <Route path="/about"            component={About}/>
-        <Route path="/about"            component={About}/>
-        <Route path="/help"             component={Help}/>
-        <Route path="/pay"              component={Pay}/>
-        <Route path="/order"            component={Order}/>
-        <Route path="/success"          component={Success}/>
-        <Route path="/collect"          component={Collect}/>
-        <Route path="/achievements"     component={Achievements}/>
-        <Route path="/coupons"          component={Coupons}/>
-        <Route path="/userphone"        component={UserPhone}/>
-        <Route path="/check"            component={Check}/>
-        <Route path="/changeusername"   component={ChangeUserName}/>
-        <Route path="/makeorders"       component={MakeOriders}/>
-        <Route path="/login"            component={Login}/>
-        <Route path="/registe"          component={Registe}/>
+        <Route path="/inventory"                component={Inventory}/>
+        <Route path="/my"                       component={My}/>
+        <Route path="/set"                      component={Setting}/>
+        <Route path="/account"                  component={Account}/>
+        <Route path="/about"                    component={About}/>
+        <Route path="/about"                    component={About}/>
+        <Route path="/help"                     component={Help}/>
+        <Route path="/pay"                      component={Pay}/>
+        <Route path="/order/:type"              component={Order}/>
+        <Route path="/order"                    component={Order}/>
+        <Route path="/success"                  component={Success}/>
+        <Route path="/collect"                  component={Collect}/>
+        <Route path="/achievements"             component={Achievements}/>
+        <Route path="/coupons"                  component={Coupons}/>
+        <Route path="/userphone"                component={UserPhone}/>
+        <Route path="/check"                    component={Check}/>
+        <Route path="/changeusername"           component={ChangeUserName}/>
+        <Route path="/makeorders"               component={MakeOriders}/>
+        <Route path="/login"                    component={Login}/>
+        <Route path="/registe"                  component={Registe}/>
 
         <Route component={NoMatch}/>
     </Switch>

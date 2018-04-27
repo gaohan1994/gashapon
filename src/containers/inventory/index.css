@@ -3,7 +3,7 @@
     width: 750px;
     min-height: 100vh;
     padding-top: 6vh;
-    background: #dbc5a8;
+    background: #ffffff;
 }
 
 .container::after {
@@ -16,7 +16,7 @@
 
 .item {
     float: left;
-    margin: 20px 0 0 20px;
+    margin: 20px 0 0 30px;
 }
 
 .menu {

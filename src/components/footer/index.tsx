@@ -26,7 +26,7 @@ class Footer extends React.Component<{}, {}> {
                 param: '/gashapons',
                 value: '扭蛋',
                 img: window.location.pathname.indexOf('gashapons') !== -1 
-                    ? 'http://net.huanmusic.com/gasha/%E6%89%AD%E8%9B%8B-%E6%9C%AA%E7%82%B9%E5%87%BB.png'
+                    ? 'http://net.huanmusic.com/gasha/gashapon/%E6%89%AD%E8%9B%8B-%E7%82%B9%E5%87%BB%E5%90%8E.png'
                     : 'http://net.huanmusic.com/gasha/%E6%89%AD%E8%9B%8B-%E6%9C%AA%E7%82%B9%E5%87%BB.png'
             },
             {
@@ -34,7 +34,7 @@ class Footer extends React.Component<{}, {}> {
                 param: '/inventory',
                 value: '蛋柜',
                 img: window.location.pathname.indexOf('inventory') !== -1  
-                    ? 'http://net.huanmusic.com/gasha/%E8%9B%8B%E6%9F%9C-%E7%82%B9%E5%87%BB%E5%89%8D.png'
+                    ? 'http://net.huanmusic.com/gasha/inventory/%E8%9B%8B%E6%9F%9C%E7%82%B9%E5%87%BB%E5%90%8E.png'
                     : 'http://net.huanmusic.com/gasha/%E8%9B%8B%E6%9F%9C-%E7%82%B9%E5%87%BB%E5%89%8D.png'
             },
             {
@@ -42,7 +42,7 @@ class Footer extends React.Component<{}, {}> {
                 param: '/my',
                 value: '我的',
                 img: window.location.pathname === '/my'
-                    ? 'http://net.huanmusic.com/gasha/%E6%88%91%E7%9A%84-%E7%82%B9%E5%87%BB%E5%89%8D.png'
+                    ? 'http://net.huanmusic.com/gasha/my/%E6%88%91%E7%9A%84-%E7%82%B9%E5%87%BB%E5%90%8E.png'
                     : 'http://net.huanmusic.com/gasha/%E6%88%91%E7%9A%84-%E7%82%B9%E5%87%BB%E5%89%8D.png',
             },
         ];

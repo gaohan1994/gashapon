@@ -22,6 +22,11 @@ import {
 } from '../../reducers/business';
 
 interface Props {
+    match: {
+        params: {
+            type: string;
+        }
+    };
     getOrders               : Gashapon[];
     loadOrders              : (userId: string) => void;
     loadWaitOrders          : (userId: string) => void;
@@ -42,9 +47,33 @@ class Order extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const { loadOrders } = this.props;
-        const userId = '5ac1f31087e83ef4915abc02';
-        loadOrders(userId);
+        const { loadOrders, match } = this.props;
+
+        const u = new User({});
+        const user = u.getUser();
+
+        if (!!match.params && !!match.params.type) {
+            
+            const type = match.params.type;
+            switch (type) {
+                case 'waitconfirm':
+                    this.onChangeTypeStateHandle(type);
+                    loadWaitConfirmOrders(user.userId);
+                    return;
+                case 'wait':
+                    this.onChangeTypeStateHandle(type);
+                    loadWaitOrders(user.userId);
+                    return;
+                case 'already':
+                    this.onChangeTypeStateHandle(type);
+                    loadOrders(user.userId);
+                    return;
+                default: return;
+            }
+        } else {
+
+            loadOrders(user.userId);
+        }
     }
 
     public onChangeTypeHandle = (type: string): void => {

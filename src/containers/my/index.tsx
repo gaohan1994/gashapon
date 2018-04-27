@@ -5,8 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
-import Header from '../../components/header_my';
-import Menu from '../../components/menu';
+import Menu from '../../components/menu_v1';
 import history from '../../history';
 import Hoc from '../hoc';
 import config from '../../config';
@@ -31,7 +30,7 @@ interface Props {
 }
 
 interface State {
-    
+    current: number;
 }
 
 /**
@@ -45,6 +44,9 @@ class My extends React.Component<Props, State> {
 
     constructor (props: Props) {
         super(props);
+        this.state = {
+            current: 0,
+        };
     }
 
     componentDidMount(): void {
@@ -61,10 +63,11 @@ class My extends React.Component<Props, State> {
         const { } = this.props;
         return (
             <div styleName="container">
-                <Header/>
                 {this.renderProfile()}
-                {this.renderMenu()}
+                {this.renderMoney()}
                 {this.renderUtils()}
+                {this.renderMenu()}
+                {this.renderSet()}
                 {this.renderMyData()}
                 <Footer/>
             </div>
@@ -72,14 +75,18 @@ class My extends React.Component<Props, State> {
     }
 
     private renderProfile = (): JSX.Element => {
+        const { current } = this.state;
         const { getUserdata } = this.props;
-        console.log('getUserdata', getUserdata);
         return (
             <div styleName="user">
-                <i 
-                    styleName="set"
-                    onClick={() => this.onNavHandle('set')}
-                />
+                <div styleName="gift">
+                    <i 
+                        styleName="giftIcon"
+                        onClick={() => this.onNavHandle('set')}
+                    />
+                    <span>礼包兑换</span>
+                </div>
+                <i styleName="recharge" onClick={() => this.onNavHandle('pay')}/>
                 <div 
                     bgimg-center="bgimg-center"
                     styleName="cover"
@@ -93,15 +100,35 @@ class My extends React.Component<Props, State> {
                         ? getUserdata.name
                         : '未登录'}
                     </span>
-                    <i 
-                        bgimg-center="bgimg-center"
-                        styleName="sex"
-                        style={{
-                            backgroundImage: `url(http://net.huanmusic.com/www/img/rs/%E7%94%B7%E6%A0%87%E8%AF%86.png)`
-                        }}
-                    />
                 </div>
-                {/* <i styleName="money"/> */}
+
+                <div styleName="vip">
+                    <i 
+                        styleName="vipIcon"
+                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/vip/v0.png)`}}
+                    />
+                    <span styleName="progress">
+                        {current} / 10
+                    </span>
+                </div>
+            </div>
+        );
+    }
+
+    private renderMoney = (): JSX.Element => {
+        const { getUserdata } = this.props;
+        return (
+            <div styleName="money">
+                <span styleName="moneyText">
+                    可提现余额：
+                    <span>
+                        {typeof getUserdata.remain === 'number'
+                        ? (getUserdata.remain / 100)
+                        : 0}
+                    </span>
+                    元
+                </span>
+                <span styleName="moneyText">提现 ></span>
             </div>
         );
     }
@@ -111,49 +138,33 @@ class My extends React.Component<Props, State> {
             {
                 _id: 1,
                 value: '收藏',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
+                img: 'http://net.huanmusic.com/gasha/my/%E6%94%B6%E8%97%8F.png',
                 param: 'collect',
-                size: '127px auto',
-                position: '-38px 0',
             },
             {
                 _id: 2,
                 value: '砍价',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '-96px -114px',
-            },
-            {
-                _id: 3,
-                value: '地址',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '-62.5px -56px',
+                img: 'http://net.huanmusic.com/gasha/my/%E7%A0%8D%E4%BB%B7.png',
             },
             {
                 _id: 4,
                 param: 'achievements',
                 value: '成就',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '-97px 0',
+                img: 'http://net.huanmusic.com/gasha/my/%E6%88%90%E5%B0%B1.png',
             },
             {
                 _id: 5,
                 value: '优惠券',
                 param: 'coupons',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '0 -25px',
+                img: 'http://net.huanmusic.com/gasha/my/%E4%BC%98%E6%83%A0%E5%88%B8.png',
             },
         ];
         return (
             <div styleName="menu">
                 <Menu 
                     menus={menus}
-                    height={170}
-                    iconWidth="33px"
-                    iconHeight="29.5px"
+                    iconWidth="8vw"
+                    iconHeight="6.66vw"
                 />
             </div>
         );
@@ -164,33 +175,25 @@ class My extends React.Component<Props, State> {
             {
                 _id: 1,
                 value: '我的订单',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '-71px -2px',
-                param: 'order',
+                img: 'http://net.huanmusic.com/gasha/my/%E6%88%91%E7%9A%84%E8%AE%A2%E5%8D%95.png',
+                param: 'order/wait',
             },
             {
                 _id: 2,
-                value: '待确认',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '-72.5px -30px',
-                param: '123',
+                value: '待付款',
+                img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E4%BB%98%E6%AC%BE.png',
+                param: 'order/waitconfirm',
             },
             {
                 _id: 3,
                 value: '待发货',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '-32.5px -30.5px',
-                param: '12312',
+                img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E5%8F%91%E8%B4%A7.png',
+                param: 'order/already',
             },
             {
                 _id: 4,
-                value: '已发货',
-                img: 'http://net.huanmusic.com/gasha/gacha-center.png',
-                size: '127px auto',
-                position: '-30.5px -56.5px',
+                value: '待收货',
+                img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E6%94%B6%E8%B4%A7.png',
                 param: '123',
             },
         ];
@@ -199,9 +202,37 @@ class My extends React.Component<Props, State> {
                 <Menu 
                     menus={menus}
                     height={160} 
-                    iconWidth="29px"
-                    iconHeight="25px"
+                    iconWidth="6.66vw"
+                    iconHeight="5.33vw"
                 />
+            </div>
+        );
+    }
+
+    private renderSet = (): JSX.Element => {
+        return (
+            <div styleName="set">
+                <div styleName="setItem">
+                    <i
+                        styleName="setIcon"
+                        style={{
+                            backgroundImage: 'url(http://net.huanmusic.com/gasha/my/%E5%9C%B0%E5%9D%80.png)'
+                        }}
+                    />
+                    <span styleName="setText">我的收货地址</span>
+                </div>
+                <div 
+                    styleName="setItem"
+                    onClick={() => this.onNavHandle('set')}
+                >
+                    <i
+                        styleName="setIcon"
+                        style={{
+                            backgroundImage: 'url(http://net.huanmusic.com/gasha/my/%E8%B4%A6%E6%88%B7%E8%AE%BE%E7%BD%AE.png)'
+                        }}
+                    />
+                    <span styleName="setText">账户设置</span>
+                </div>
             </div>
         );
     }
@@ -242,8 +273,7 @@ class My extends React.Component<Props, State> {
         return (
             <Hoc>
                 <div styleName="data">
-                    <div styleName="dataBanner">我的数据</div>
-                    <Menu 
+                    <Menu
                         menus={menus}
                         height={190}
                     />

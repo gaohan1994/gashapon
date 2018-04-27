@@ -4,6 +4,8 @@ interface Register {
     name    : string;
     password: string;
     phone   : string;
+    /* 推荐人 */
+    referee ?: string;
 }
 
 export interface DoRegisterMethodReturnObject {
@@ -63,7 +65,7 @@ class Sign {
         };
     }
 
-    public doRegisterMethod = async ({name, password, phone}: Register): Promise<DoRegisterMethodReturnObject> => {
+    public doRegisterMethod = async ({name, password, phone, referee}: Register): Promise<DoRegisterMethodReturnObject> => {
         try {
             if (!name) {
                 throw new Error('姓名错误');
@@ -81,16 +83,25 @@ class Sign {
         }
         
         try {
+            /* 如果有推荐人 提交推荐人的id */
+            const body = !!referee
+                        ? {
+                            name    : name,
+                            password: password,
+                            phone   : phone,
+                            referee : referee
+                        }
+                        : {
+                            name    : name,
+                            password: password,
+                            phone   : phone,
+                        };
             const result = await fetch(`/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    name    : name,
-                    password: password,
-                    phone   : phone
-                })
+                body: JSON.stringify(body)
             })
             .then(res => res.json());
             if (result.success === true) {
