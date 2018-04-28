@@ -4,6 +4,7 @@ import { Gashapon } from './type';
 import { 
     RECEIVE_GASHAPON,
     CHANGE_LOADING_STATUS,
+    RECEIVE_GAHSAPON_COMMENTS,
 } from '../../constants/gashapon';
 import initState from './state';
 import { merge } from 'lodash';
@@ -20,6 +21,11 @@ export default function gashapon (state: Gashapon = initState, action: GashaponA
             const { status } = action;
             state.loading = status;
             return merge({}, state, {});
+
+        case RECEIVE_GAHSAPON_COMMENTS:
+            const { comments } = action;
+            state.comments = comments;
+            return merge({}, state, {});
             
         default :
             return state;
@@ -29,3 +35,5 @@ export default function gashapon (state: Gashapon = initState, action: GashaponA
 export const getGashapon = (state: Stores) => state.gashapon.gashapon;
 
 export const getLoadingStatus = (state: Stores) => state.gashapon.loading;
+
+export const getComments = (state: Stores) => state.gashapon.comments;

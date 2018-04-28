@@ -52,6 +52,7 @@ class Login extends React.Component<Props, State> {
             username,
             password,
         } = this.state;
+
         let helper = new Validator();
 
         helper.add(username, [{
@@ -78,8 +79,8 @@ class Login extends React.Component<Props, State> {
                 console.log(res);
                 history.goBack();
             } else {
-                alert(res.message ? res.message : '登录出错了！');
                 /* do error stuff */
+                alert(res.message ? res.message : '登录出错了！');
             }
         }
     }

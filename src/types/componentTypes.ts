@@ -11,10 +11,18 @@ export type Gashapon = {
     _id             : string;
     name            : string;
     desc            : string;
+    music_url       : string;
     start_time      : Date;
     end_time        : Date;
     open_time       : Date;
     price           : number;
+    is_discount     : 1 | 2;
+    collect_count   : number;
+    discount_plan   : {
+        max_discount: number;
+        create_date : Date;
+        update_date : Date;  
+    };
     pics            : string[];
     product_list    : GashaponProductItem[];
     residue_quantity: number;

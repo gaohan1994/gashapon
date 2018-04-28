@@ -1,0 +1,37 @@
+.container {
+    position: relative;
+    width: 750px;
+    min-height: 100vh;
+    padding-top: 6vh;
+    background: #dbc5a8;
+}
+
+.container::after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: both;
+}
+
+.item {
+    position: relative;
+    float: left;
+    margin: 20px 0 0 20px;
+}
+
+.menu {
+    position: fixed;
+    bottom: 150px;
+    z-index: 10;
+}
+
+.option {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 40;
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+}

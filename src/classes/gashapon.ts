@@ -1,6 +1,7 @@
 import { UserType } from './user';
 import { GashaponProductItem, Gashapon as GashaponType } from '../types/componentTypes';
 import * as Numeral from 'numeral';
+import { NormalReturnObject } from './base';
 
 interface Param {
     user        : UserType;
@@ -29,10 +30,18 @@ export interface DoGashaponMethodReturnObject {
     };
 }
 
-export interface DoCollectMethodReturnObject {
-    success ?: boolean;
-    type    ?: string;
-    message ?: string;
+/**
+ * uid: 用户id
+ * content: 弹幕内容
+ * machine: 扭蛋机id
+ * 
+ * @export
+ * @interface DoAddCommentMethodParam
+ */
+export interface DoAddCommentMethodParam {
+    uid     : string;
+    content : string;
+    machine : string;
 }
 
 class Gashapon {
@@ -119,7 +128,7 @@ class Gashapon {
         }
     }
 
-    public doCollectGashaponMethod = async (): Promise<DoCollectMethodReturnObject> => {
+    public doCollectGashaponMethod = async (): Promise<NormalReturnObject> => {
 
         try {
             if (!this.user) {
@@ -170,7 +179,7 @@ class Gashapon {
         }
     }
 
-    public doCancelCollectGashaponMethod = async (): Promise<DoCollectMethodReturnObject> => {
+    public doCancelCollectGashaponMethod = async (): Promise<NormalReturnObject> => {
 
         try {
             if (!this.user) {
@@ -217,6 +226,48 @@ class Gashapon {
             return {
                 type: 'ERROR_CANCEL_COLLECT_GASHAPON',
                 message: '取消收藏失败'
+            };
+        }
+    }
+
+    /**
+     * 添加弹幕
+     * 
+     * @memberof Gashapon
+     */
+    public doAddCommentMethod = async ({uid, content, machine}: DoAddCommentMethodParam): Promise<NormalReturnObject> => {
+        try {
+            if (!uid) {
+                throw new Error('uid');
+            } else if (!content) {
+                throw new Error('content');
+            } else if (!machine) {
+                throw new Error('machine');
+            }
+        } catch (err) {
+            return {
+                type    : 'PARAM_ERROR',
+                message : err.message ? err.message : '数据错误'
+            };
+        }
+
+        const result = await fetch(`/add/comment/${uid}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: content,
+                machine: machine,
+            })
+        }).then(res => res.json());
+        
+        if (result.success === true) {
+            return { success: true };
+        } else {
+            return {
+                type    : 'ADD_COMMENT_ERROR',
+                message : result.message ? result.message : '添加弹幕失败'
             };
         }
     }

@@ -1,5 +1,6 @@
 
 export type Gashapon = {
     gashapon: object;
-    loading: boolean;
+    loading : boolean;
+    comments: object[];
 };

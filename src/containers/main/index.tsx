@@ -111,11 +111,6 @@ class Main extends React.Component<Props, State> {
                 {this.renderMenu()}
                 {this.renderTimeLimit()}
                 {this.renderMainData()}
-                {/* 
-                    <Banner/>
-                    {this.renderHotItems()}
-                    {this.renderHotItems()}  
-                */}
                 <Footer/>
             </div>
         );
@@ -196,7 +191,7 @@ class Main extends React.Component<Props, State> {
 
                         {item.content && item.content.length > 0
                         ? <div styleName="hotItems">
-                            {item.content.map((content, j) => (
+                            {item.content.map((content, j: number) => (
                                 <DataItem 
                                     key={i + j} 
                                     content={content}

@@ -179,8 +179,10 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon } = this.props;
         const u = new User({});
         const user = u.getUser();
+        
         if (!user.userId) {
             /* do no sign stuff */
+            history.push('/login');
         } else {
 
             const result: CreateDiscountPlayReturn = await DiscountClass.createDiscoutPlay({
@@ -451,15 +453,20 @@ class Gashapon extends React.Component<Props, State> {
     /**
      * 渲染生成砍价链接按钮
      */
-    private renderDiscountButton = (): JSX.Element => {
-        return (
-            <div 
-                styleName="discount"
-                onClick={() => this.doDiscoutHandle()}
-            >
-                renderDiscountButton
-            </div>
-        );
+    private renderDiscountButton = (): JSX.Element | string => {
+        const { getGashapon } = this.props;
+        if (getGashapon.is_discount === 1) {
+            return (
+                <div 
+                    styleName="discount"
+                    onClick={() => this.doDiscoutHandle()}
+                >
+                    renderDiscountButton
+                </div>
+            );
+        } else {
+            return '';
+        }        
     }
 }
 

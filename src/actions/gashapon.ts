@@ -17,7 +17,12 @@ export interface ChangeLoading {
     status: boolean;
 }
 
-export type GashaponActions = LoadGashapon | ChangeLoading;
+export interface LoadGashaponComments {
+    type: constants.RECEIVE_GAHSAPON_COMMENTS;
+    comments: object[];
+}
+
+export type GashaponActions = LoadGashapon | ChangeLoading | LoadGashaponComments;
 
 export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions>): void => {
     if (!_id) {
@@ -43,5 +48,29 @@ export const changeGashaponLoading = (status: boolean) => (dispatch: Dispatch<Ga
         dispatch({type: constants.CHANGE_LOADING_STATUS, status: status});
     } catch (err) {
         console.log('err', err);
+    }
+};
+
+export const loadGashaponComments = (id: string) => (dispatch: Dispatch<GashaponActions>): void => {
+    try {
+        if (!id) {
+            throw new Error('id');
+        }
+    } catch (err) {
+        console.log('PARAM_ERROR');
+    }
+
+    try {
+        fetch(`/machine/comment/${id}`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_GAHSAPON_COMMENTS, comments: res.result});
+            } else {
+                throw new Error(res.message ? res.message : 'fetch loadGashaponComments error');
+            }
+        });
+    } catch (err) {
+        console.log('loadGashaponComments err', err);
     }
 };

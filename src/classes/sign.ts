@@ -75,25 +75,26 @@ class Sign {
         try {
             /* 如果有推荐人 提交推荐人的id */
             const body = !!referee
-                        ? {
-                            name    : name,
-                            password: password,
-                            phone   : phone,
-                            referee : referee
-                        }
-                        : {
-                            name    : name,
-                            password: password,
-                            phone   : phone,
-                        };
+            ? {
+                name    : name,
+                password: password,
+                phone   : phone,
+                referee : referee
+            }
+            : {
+                name    : name,
+                password: password,
+                phone   : phone,
+            };
+
             const result = await fetch(`/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(body)
-            })
-            .then(res => res.json());
+            }).then(res => res.json());
+
             if (result.success === true) {
                 return { success: true };
             } else {

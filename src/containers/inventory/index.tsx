@@ -152,10 +152,13 @@ class Inventory extends React.Component<Props, State> {
         });
         const user = u.getUser();  
         const result = await Business.doOrderMethod(user, getInventory); 
+
         if (result.success === true) {
+
             console.log('ok');
             history.push('/success');
         } else {
+
             console.log(`${result.type}--${result.message}`);
             alert(result.message);
         }
@@ -215,8 +218,8 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
-    loadInventory: bindActionCreators(loadInventory, dispatch),
-    loadInventoryByWord: bindActionCreators(loadInventoryByWord, dispatch),
+    loadInventory       : bindActionCreators(loadInventory, dispatch),
+    loadInventoryByWord : bindActionCreators(loadInventoryByWord, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
