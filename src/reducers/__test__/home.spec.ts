@@ -1,4 +1,4 @@
-import home, { getCollectGashapons, getUserdata } from '../home';
+import home, { getCollectGashapons, getUserdata, getCode } from '../home';
 import { RECEIVE_HOME_COLLECT, RECEIVE_HOME_USERDATA } from '../../constants/home';
 import initState from '../home/state';
 import store from '../initState';
@@ -7,6 +7,9 @@ describe('home 测试开始', () => {
 
     const userdata = {};
     const gashapons = [{}];
+    const code = {
+        id: 'test'
+    };
 
     it('should receive userdata', () => {
         expect(home(initState, {type: RECEIVE_HOME_USERDATA, userdata: userdata}))
@@ -29,7 +32,8 @@ describe('home 测试开始', () => {
             ...store,
             home: {
                 userdata    : userdata,
-                gashapons   : gashapons
+                gashapons   : gashapons,
+                code        : code,
             }
         };
 
@@ -39,6 +43,10 @@ describe('home 测试开始', () => {
 
         it('should get gashapon', () => {
             expect(getCollectGashapons(Store)).toEqual(gashapons);
+        });
+
+        it('should get code', () => {
+            expect(getCode(Store)).toEqual(code);
         });
     });
 });

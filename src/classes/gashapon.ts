@@ -169,7 +169,6 @@ class Gashapon {
                     message: result.message
                 };
             }
-
         } catch (err) {
             console.log('收藏失败', err);
             return {
@@ -235,14 +234,14 @@ class Gashapon {
      * 
      * @memberof Gashapon
      */
-    public doAddCommentMethod = async ({uid, content, machine}: DoAddCommentMethodParam): Promise<NormalReturnObject> => {
+    public doAddCommentMethod = async ({uid, content}: DoAddCommentMethodParam): Promise<NormalReturnObject> => {
         try {
             if (!uid) {
                 throw new Error('uid');
             } else if (!content) {
                 throw new Error('content');
-            } else if (!machine) {
-                throw new Error('machine');
+            } else if (!this.machine._id) {
+                throw new Error('扭蛋数据错误');
             }
         } catch (err) {
             return {
@@ -258,7 +257,7 @@ class Gashapon {
             },
             body: JSON.stringify({
                 content: content,
-                machine: machine,
+                machine: this.machine._id,
             })
         }).then(res => res.json());
         

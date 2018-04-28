@@ -1,4 +1,4 @@
-import gashapon, { getGashapon, getLoadingStatus  } from '../gashapon';
+import gashapon, { getGashapon, getLoadingStatus, getComments  } from '../gashapon';
 import { RECEIVE_GASHAPON, CHANGE_LOADING_STATUS } from '../../constants/gashapon';
 import initState from '../gashapon/state';
 import store from '../initState';
@@ -23,6 +23,14 @@ describe('gashapon test', () => {
         }],
         residue_quantity: 1,
         status: 0,
+        music_url: 'test',
+        is_discount: 2,
+        collect_count: 20,
+        discount_plan: {
+            max_discount: 1,
+            create_date : new Date(),
+            update_date : new Date(),
+        }
     };
 
     it('test gashapon', () => {
@@ -48,40 +56,28 @@ describe('gashapon test', () => {
             )
         ).toEqual({gashapon: testData, loading: true});
     });
+    
+    describe('get method test', () => {
 
-    it('should receive gashapon', () => {
         const Store = {
             ...store,
             gashapon: {
                 gashapon: testData,
                 loading : false,
+                comments: [{test: 1}]
             }
         };
 
-        expect(getGashapon(Store)).toEqual(testData);
-    });
-
-    it('should receive loading status false', () => {
-        const Store = {
-            ...store,
-            gashapon: {
-                gashapon: testData,
-                loading : false,
-            }
-        };
-
-        expect(getLoadingStatus(Store)).toEqual(false);
-    });
-
-    it('should receive loading status true', () => {
-        const Store = {
-            ...store,
-            gashapon: {
-                gashapon: testData,
-                loading : true,
-            }
-        };
-
-        expect(getLoadingStatus(Store)).toEqual(true);
+        it('should receive gashapon', () => {
+            expect(getGashapon(Store)).toEqual(testData);
+        });
+    
+        it('should receive loading status false', () => {
+            expect(getLoadingStatus(Store)).toEqual(false);
+        });
+        
+        it('should receive comments', () => {
+            expect(getComments(Store)).toEqual([{test: 1}]);
+        });
     });
 });

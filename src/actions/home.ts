@@ -15,7 +15,12 @@ export interface LoadCollectGashapons {
     gashapons: Array<any>;
 }
 
-export type HomeActions = LoadUserData | LoadCollectGashapons;
+export interface LoadCode {
+    type: constants.RECEIVE_CODE;
+    code: object[];
+}
+
+export type HomeActions = LoadUserData | LoadCollectGashapons | LoadCode;
 
 export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>): void => {
     if (!userId) {
@@ -63,5 +68,36 @@ export const loadCollectGashapons = (machineIds: string[]) => (dispatch: Dispatc
 
     } catch (err) {
         console.log('loadCollectGashapons err', err);
+    }
+};
+
+export const loadCode = (phone: string) => (dispatch: Dispatch<HomeActions>): void => {
+    try {
+        if (!phone) {
+            throw new Error('phone');
+        }
+    } catch (err) {
+        console.log(err.message ? err.message : '数据错误');
+    }
+    try {
+        fetch(`/code`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                phone: phone
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_CODE, code: res.result});
+            } else {
+                throw new Error('FETCH_CODE_ERROR');
+            }
+        });
+    } catch (err) {
+        console.log('loadCode err', err);
     }
 };
