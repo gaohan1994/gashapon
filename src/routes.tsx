@@ -27,6 +27,7 @@ import ChangeUserName from './containers/set/name';
 import MakeOriders from './containers/inventory/makeorders';
 import Login from './containers/sign/login';
 import Registe from './containers/sign/registe';
+import Discount from './containers/discount';
 
 const routes = (
     <Switch>
@@ -57,7 +58,9 @@ const routes = (
         <Route path="/changeusername"           component={ChangeUserName}/>
         <Route path="/makeorders"               component={MakeOriders}/>
         <Route path="/login"                    component={Login}/>
+        <Route path="/registe/:refereeid"       component={Registe}/>
         <Route path="/registe"                  component={Registe}/>
+        <Route path="/discount/:id"             component={Discount}/>
 
         <Route component={NoMatch}/>
     </Switch>

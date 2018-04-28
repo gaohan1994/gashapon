@@ -7,6 +7,7 @@ import home from './home/index';
 import status from './status/index';
 import coupons from './coupons/index';
 import check from './check/index';
+import discount from './discount/index';
 
 export default combineReducers({
     main        : main,
@@ -17,4 +18,5 @@ export default combineReducers({
     status      : status,
     coupons     : coupons,
     check       : check,
+    discount    : discount,
 });

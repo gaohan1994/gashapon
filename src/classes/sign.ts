@@ -1,6 +1,6 @@
 import { getAccessToken } from '../config/util';
 
-interface Register {
+export interface Register {
     name    : string;
     password: string;
     phone   : string;
@@ -8,25 +8,7 @@ interface Register {
     referee ?: string;
 }
 
-export interface DoRegisterMethodReturnObject {
-    success ?: boolean;
-    type    ?: string;
-    message ?: string;
-}
-
-export interface CheckAuthReturnObject {
-    success ?: boolean;
-    type    ?: string;
-    message ?: string;
-}
-
-export interface GetVercodeReturnObject {
-    success ?: boolean;
-    type    ?: string;
-    message ?: string;
-}
-
-export interface DoChangePhoneMethodReturnObject {
+export interface NormalReturnObject {
     success ?: boolean;
     type    ?: string;
     message ?: string;
@@ -48,8 +30,8 @@ export interface DoChangeUserdataParam {
     headimgurl  ?: string;
 }
 
-interface Login {
-    phone: string;
+export interface Login {
+    phone   : string;
     password: string;
 }
 
@@ -63,9 +45,15 @@ class Sign {
         this.user = {
             _id: getAccessToken() ? getAccessToken() : ''
         };
+        this.doRegisterMethod       = this.doRegisterMethod.bind(this);
+        this.doLoginMethod          = this.doLoginMethod.bind(this);
+        this.doCheckAuth            = this.doCheckAuth.bind(this);
+        this.getVercode             = this.getVercode.bind(this);
+        this.doChangePhoneMethod    = this.doChangePhoneMethod.bind(this);
+        this.doChangeUserdata       = this.doChangeUserdata.bind(this);
     }
 
-    public doRegisterMethod = async ({name, password, phone, referee}: Register): Promise<DoRegisterMethodReturnObject> => {
+    public doRegisterMethod = async ({name, password, phone, referee}: Register): Promise<NormalReturnObject> => {
         try {
             if (!name) {
                 throw new Error('姓名错误');
@@ -121,7 +109,7 @@ class Sign {
         }
     }
 
-    public doLoginMethod = async ({phone, password}: Login): Promise<object> => {
+    public doLoginMethod = async ({phone, password}: Login): Promise<NormalReturnObject> => {
         try {
             if (!phone) {
                 throw new Error('手机号码错误');
@@ -143,8 +131,8 @@ class Sign {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    phone: phone,
-                    password: password,
+                    phone       : phone,
+                    password    : password,
                 })
             })
             .then(res => res.json());
@@ -167,7 +155,7 @@ class Sign {
         }
     }
 
-    public doCheckAuth = (): CheckAuthReturnObject => {
+    public doCheckAuth = (): NormalReturnObject => {
         try {
             console.log(this.user);
             if (!this.user) {
@@ -188,7 +176,7 @@ class Sign {
         }
     }
 
-    public getVercode = async (phone: string): Promise<GetVercodeReturnObject> => {
+    public getVercode = async (phone: string): Promise<NormalReturnObject> => {
         try {
             if (!this.user) {
                 throw new Error('用户数据错误');
@@ -229,7 +217,7 @@ class Sign {
         }
     }
 
-    public doChangePhoneMethod = async ({phone, code}: DoChangePhoneParam): Promise<DoChangePhoneMethodReturnObject> => {
+    public doChangePhoneMethod = async ({phone, code}: DoChangePhoneParam): Promise<NormalReturnObject> => {
         try {
             if (!this.user) {
                 throw new Error('用户数据错误');

@@ -6,6 +6,7 @@ import { Home } from './home/type';
 import { Status } from './status/type';
 import { Coupons } from './coupons/type';
 import { Check } from './check/type';
+import { Discount } from './discount/type';
 
 export interface Stores {
     main        : Main;
@@ -16,4 +17,5 @@ export interface Stores {
     status      : Status;
     coupons     : Coupons;
     check       : Check;
+    discount    : Discount;
 }

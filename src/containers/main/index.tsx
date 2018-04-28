@@ -14,7 +14,7 @@ import News from '../../components/news';
 import Menu from '../../components/menu_v1';
 import DataItem from '../../components/content_item';
 import { Stores } from '../../reducers/type';
-// import history from '../../history';
+import history from '../../history';
 import { 
     MainData
 } from '../../types/componentTypes';
@@ -66,13 +66,35 @@ class Main extends React.Component<Props, State> {
         loadTopics();
         loadMainData();
         loadNotifies();
+    }
 
-        // history.push('/login');
+    public onNavHandle = (type: string): void => {
+        history.push(`/${type}`);
     }
 
     render() {
         return (
             <div styleName="container">
+                {/* <div 
+                    style={{
+                        width: '100%',
+                        height: '100px',
+                        background: '#f27a7a'
+                    }}
+                    onClick={() => this.onNavHandle('login')}
+                >
+                    LOGIN
+                </div>
+                <div 
+                    style={{
+                        width: '100%',
+                        height: '100px',
+                        background: '#000000'
+                    }}
+                    onClick={() => this.onNavHandle('registe')}
+                >
+                    register
+                </div> */}
                 <Header/>
                 <Search/>
                 <News/>

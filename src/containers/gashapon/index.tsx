@@ -4,6 +4,7 @@ import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
+import history from '../../history';
 import Header from '../../components/header_gashapon';
 import Hoc from '../hoc';
 import Modal from './modal';
@@ -15,6 +16,10 @@ import { randomNum } from '../../config/util';
 import Sign from '../../classes/sign';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
+import DiscountClass,
+{
+    CreateDiscountPlayReturn,
+} from '../../classes/discount';
 import { Stores } from '../../reducers/type';
 
 import { 
@@ -164,6 +169,52 @@ class Gashapon extends React.Component<Props, State> {
         }
     }
 
+    /**
+     * 点击砍价按钮行为
+     * 
+     * @memberof Gashapon
+     */
+    public doDiscoutHandle = async (): Promise<void> => {
+        //
+        const { getGashapon } = this.props;
+        const u = new User({});
+        const user = u.getUser();
+        if (!user.userId) {
+            /* do no sign stuff */
+        } else {
+
+            const result: CreateDiscountPlayReturn = await DiscountClass.createDiscoutPlay({
+                userId      : user.userId,
+                machine     : getGashapon._id,
+                max_discount: getGashapon.price,
+                title       : getGashapon.name,
+                image       : getGashapon.pics && getGashapon.pics[0]
+            });
+
+            if (result.success === true) {
+                //
+                console.log(result);
+                history.push(`/discount/${result.discountId}`);
+            } else {
+                if (result.type === 'PARAM_ERROR') {
+                    switch (result.message) {
+                        case 'userId':
+                            return;
+                        case 'machine':
+                            return;
+                        case 'max_discount':
+                            return;
+                        case 'title':
+                            return;
+                        case 'image':
+                            return;
+                        default: return;
+                    }
+                }
+            }
+        }
+    }
+
     public timeoutHandle = (result: any) => {
         changeGashaponLoading(false);
         this.setState({
@@ -248,6 +299,7 @@ class Gashapon extends React.Component<Props, State> {
                         {this.renderCollect()}
                         {this.renderMusicIcon()}
                         {this.renderStore()}
+                        {this.renderDiscountButton()}
                         <i styleName="show"/>
                         <i styleName="barrage"/>
                         <i styleName="chat"/>
@@ -394,6 +446,20 @@ class Gashapon extends React.Component<Props, State> {
                 ${getGashapon.price 
                     ? Numeral(getGashapon.price / 100).value() 
                     : 0}元/个`}
+            </div>
+        );
+    }
+
+    /**
+     * 渲染生成砍价链接按钮
+     */
+    private renderDiscountButton = (): JSX.Element => {
+        return (
+            <div 
+                styleName="discount"
+                onClick={() => this.doDiscoutHandle()}
+            >
+                renderDiscountButton
             </div>
         );
     }

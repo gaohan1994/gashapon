@@ -80,3 +80,16 @@ export type MainData = {
         pic     : string;
     }]
 };
+
+export type DiscountDataType = {
+    create_date : Date;
+    detail      : object[];
+    image       : string;
+    machine     : string;
+    max_discount: number;
+    statu       : number;
+    sum         : number;
+    title       : string;
+    user        : string;
+    _id         : string;
+};

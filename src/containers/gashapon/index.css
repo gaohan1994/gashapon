@@ -23,7 +23,7 @@
     background-size: 100% 100%;
 }
 
-.name, .collect, .music, .store, .show, .barrage, .chat, .gashaponImg, .time {
+.name, .collect, .music, .store, .show, .barrage, .chat, .gashaponImg, .time, .discount {
     position: absolute;
 }
 
@@ -65,7 +65,16 @@
     width: 80px;
     height: 80px;
     background: #f27a7a;
-    z-index: 50;
+    z-index: 20;
+}
+
+.discount {
+    right: 20px;
+    top: 200px;
+    height: 60px;
+    width: 60px;
+    background: #f27a7a;
+    z-index: 20;
 }
 
 .store {

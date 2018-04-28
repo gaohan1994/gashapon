@@ -3,8 +3,10 @@ import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
 // import { bindActionCreators } from 'redux';
 import { MainActions } from '../../../actions/main';
+import Validator from '../../../classes/validate';
+import Sign from '../../../classes/sign';
 import * as styles from './index.css';
-
+import history from '../../../history';
 import { Stores } from '../../../reducers/type';
 import { 
 
@@ -44,8 +46,41 @@ class Login extends React.Component<Props, State> {
         });
     }
 
-    public doLoginHandle = (): void => {
-        console.log('1');
+    public doLoginHandle = async (): Promise<void> => {
+        const {
+            username,
+            password,
+        } = this.state;
+        let helper = new Validator();
+
+        helper.add(username, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入用户名~',
+            elementName: 'username'
+        }]);
+
+        helper.add(password, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入密码~',
+            elementName: 'password'
+        }]);
+
+        let result = helper.start();
+
+        if (result) {
+            alert(result.errMsg);
+        } else {
+            /* do stuff */
+            const res = await Sign.doLoginMethod({phone: username, password: password});
+            if (res.success === true) {
+                /* do success stuff */
+                console.log(history);
+                history.goBack();
+            } else {
+                alert(res.message ? res.message : '登录出错了！');
+                /* do error stuff */
+            }
+        }
     }
 
     render() {
