@@ -194,6 +194,7 @@ class Gashapon extends React.Component<Props, State> {
             if (result.success === true) {
                 //
                 console.log(result);
+                console.log('test commit ');
                 history.push(`/discount/${result.discountId}`);
             } else {
                 if (result.type === 'PARAM_ERROR') {
