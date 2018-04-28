@@ -16,6 +16,11 @@ export const getAccessToken = (): string => {
     return userId;
 };
 
+export const accessToken = () => {
+  const cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)huanyin\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+  return cookieValue ? cookieValue.slice(4, 28) : void 0;
+};
+
 // 到达页尾事件
 export const arriveFooter = (function() {
 

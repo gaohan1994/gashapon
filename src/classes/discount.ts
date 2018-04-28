@@ -57,6 +57,7 @@ class Discount {
 
     public createDiscoutPlay = async ({userId, machine, max_discount, title, image}: CreateDiscountPlayParam): Promise<CreateDiscountPlayReturn> => {
         try {
+            
             if (!machine) {
                 throw new Error('machine');
             } else if (!userId) {
@@ -69,6 +70,7 @@ class Discount {
                 throw new Error('image');
             } 
         } catch (err) {
+
             return {
                 type    : 'PARAM_ERROR',
                 message : err.message ? err.message : '数据错误'
@@ -108,13 +110,13 @@ class Discount {
     public helpDiscountMethod = async ({userId, discountId, nick, image}: HelpDiscountMethodParam): Promise<HelpDiscountMethodReturn> => {
         try {
             if (!userId) {
-                throw new Error('userId错误');
+                throw new Error('userId');
             } else if (!discountId) {
-                throw new Error('discountId错误');
+                throw new Error('discountId');
             } else if (!nick) {
-                throw new Error('nick错误');
+                throw new Error('nick');
             } else if (!image) {
-                throw new Error('image错误');
+                throw new Error('image');
             }
         } catch (err) {
             return {
@@ -141,7 +143,7 @@ class Discount {
                     result  : result.result
                 };
             } else {
-                throw new Error('HELP_DISCOUNT_ERROR');
+                throw new Error(result.message ? result.message : 'HELP_DISCOUNT_ERROR');
             }
         } catch (err) {
             return {
@@ -150,7 +152,6 @@ class Discount {
             };
         }
     }
-
 }
 
 export default new Discount();

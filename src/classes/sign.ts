@@ -1,4 +1,5 @@
 import { getAccessToken } from '../config/util';
+import { NormalReturnObject } from './base';
 
 export interface Register {
     name    : string;
@@ -8,10 +9,11 @@ export interface Register {
     referee ?: string;
 }
 
-export interface NormalReturnObject {
+export interface DoLoginMethodReturn {
     success ?: boolean;
     type    ?: string;
     message ?: string;
+    uuid    ?: string;
 }
 
 export interface DoChangePhoneParam {
@@ -109,7 +111,7 @@ class Sign {
         }
     }
 
-    public doLoginMethod = async ({phone, password}: Login): Promise<NormalReturnObject> => {
+    public doLoginMethod = async ({phone, password}: Login): Promise<DoLoginMethodReturn> => {
         try {
             if (!phone) {
                 throw new Error('手机号码错误');
@@ -138,7 +140,10 @@ class Sign {
             .then(res => res.json());
 
             if (result.success === true) {
-                return { success: true };
+                return { 
+                    success : true,
+                    uuid    : result.result
+                };
             } else {
                 return {
                     type: 'ERROR_LOGIN',
@@ -151,6 +156,22 @@ class Sign {
             return {
                 type: 'ERROR_LOGIN',
                 message: '登录失败'
+            };
+        }
+    }
+
+    public doLogoutMethod = async (): Promise<NormalReturnObject> => {
+
+        const result = await fetch(`/logout`).then(res => res.json());
+
+        if (result.success === true) {
+            return {
+                success: true
+            };
+        } else {
+            return {
+                type: 'ERROR_LOGOUT',
+                message: result.message ? result.message : '登出失败'
             };
         }
     }

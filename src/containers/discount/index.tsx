@@ -60,16 +60,55 @@ class Discount extends React.Component<Props, State> {
 
     public doHelpDiscoutHandle = async (): Promise<void> => {
         /* userId, discountId, nick, image */
-        const { getDiscountData } = this.props;
+        const { getDiscountData, match } = this.props;
         const u = new User({});
         const user = u.getUser();
-        const result: HelpDiscountMethodReturn = await DiscountClass.helpDiscountMethod({
 
-        });
+        if (!user.userId) {
+            /* do no sign stuff */
+        } else {
+
+            const result: HelpDiscountMethodReturn = await DiscountClass.helpDiscountMethod({
+                userId      : user.userId,
+                discountId  : match.params.id,
+                nick        : '123',
+                image       : getDiscountData.image
+            });
+
+            if (result.success === true) {
+                
+                /* do ok stuff */
+                if (result.result) {
+                    alert(`成功帮忙砍价${result.result / 100}元 `);
+                } else {
+                    alert(`成功砍价`);
+                }
+            } else {
+                
+                if (result.type === 'PARAM_ERROR') {
+
+                    switch (result.message) {
+                        case 'userId':
+                            return;
+                        case 'discountId':
+                            return;
+                        case 'nick':
+                            return;
+                        case 'image':
+                            return;
+                        default: return;
+                    }
+                } else {
+                    alert(result.message ? result.message : '砍价失败~');
+                }
+            }
+        }
     }
 
-    render () {
+    render (): JSX.Element {
+
         const { getDiscountData } = this.props;
+
         return (
             <div styleName="container">
                 <div 
@@ -79,7 +118,9 @@ class Discount extends React.Component<Props, State> {
                         backgroundImage: `url(http://${config.host.pic}/${getDiscountData.image})`
                     }}
                 />
-                <div onClick={() => this.doHelpDiscoutHandle()}>click me discount</div>
+                <div onClick={() => this.doHelpDiscoutHandle()}>
+                    click me discount
+                </div>
             </div>
         );
     }
@@ -88,7 +129,7 @@ class Discount extends React.Component<Props, State> {
 const DiscountHoc = CSSModules(Discount, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    getDiscountData: getDiscountData(state),
+    getDiscountData : getDiscountData(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<DiscountActions>) => ({

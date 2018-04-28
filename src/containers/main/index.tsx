@@ -13,6 +13,7 @@ import Search from '../../components/search';
 import News from '../../components/news';
 import Menu from '../../components/menu_v1';
 import DataItem from '../../components/content_item';
+import Sign from '../../classes/sign';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
 import { 
@@ -72,20 +73,29 @@ class Main extends React.Component<Props, State> {
         history.push(`/${type}`);
     }
 
+    public doLogoutHandle = async (): Promise<void> => {
+        const result = await Sign.doLogoutMethod();
+        if (result.success === true) {
+            history.push('/');
+        } else {
+            alert(result.message ? result.message : '登出失败');
+        }
+    }
+
     render() {
         return (
             <div styleName="container">
-                {/* <div 
+                <div 
                     style={{
                         width: '100%',
                         height: '100px',
                         background: '#f27a7a'
                     }}
-                    onClick={() => this.onNavHandle('login')}
+                    onClick={() => this.doLogoutHandle()}
                 >
-                    LOGIN
+                    LOGINOUT
                 </div>
-                <div 
+                {/* <div 
                     style={{
                         width: '100%',
                         height: '100px',

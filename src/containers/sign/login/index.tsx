@@ -4,7 +4,7 @@ import * as CSSModules from 'react-css-modules';
 // import { bindActionCreators } from 'redux';
 import { MainActions } from '../../../actions/main';
 import Validator from '../../../classes/validate';
-import Sign from '../../../classes/sign';
+import Sign, { DoLoginMethodReturn } from '../../../classes/sign';
 import * as styles from './index.css';
 import history from '../../../history';
 import { Stores } from '../../../reducers/type';
@@ -47,6 +47,7 @@ class Login extends React.Component<Props, State> {
     }
 
     public doLoginHandle = async (): Promise<void> => {
+        
         const {
             username,
             password,
@@ -71,10 +72,10 @@ class Login extends React.Component<Props, State> {
             alert(result.errMsg);
         } else {
             /* do stuff */
-            const res = await Sign.doLoginMethod({phone: username, password: password});
+            const res: DoLoginMethodReturn = await Sign.doLoginMethod({phone: username, password: password});
             if (res.success === true) {
                 /* do success stuff */
-                console.log(history);
+                console.log(res);
                 history.goBack();
             } else {
                 alert(res.message ? res.message : '登录出错了！');
