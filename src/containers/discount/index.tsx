@@ -61,8 +61,7 @@ class Discount extends React.Component<Props, State> {
     public doHelpDiscoutHandle = async (): Promise<void> => {
         /* userId, discountId, nick, image */
         const { getDiscountData, match } = this.props;
-        const u = new User({});
-        const user = u.getUser();
+        const user = User.getUser();
 
         if (!user.userId) {
             /* do no sign stuff */

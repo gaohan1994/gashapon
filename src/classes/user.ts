@@ -1,7 +1,6 @@
 import { getAccessToken } from '../config/util';
 
 export interface UserType {
-    _id     : string;
     userId  : string;
     address : string;
     receiver: string;
@@ -12,7 +11,7 @@ export interface UserType {
 }
 
 interface Params {
-    _id     ?: string;
+    userId  ?: string;
     address ?: string;
     receiver?: string;
     phone   ?: string;
@@ -22,8 +21,6 @@ interface Params {
 }
 
 class User {
-    /* id */
-    private _id     : string;
     /* id cookie拿 */
     private userId  : string;
     /* 地址 */
@@ -39,22 +36,15 @@ class User {
     /* 余额 */
     private remain  : number;
 
-    constructor ({_id, address, receiver, phone, name, headimg, remain}: Params) {
-        this._id        = _id ? _id : '';
-        this.userId     = getAccessToken() ? getAccessToken() : '',
-        this.address    = address   ? address : '';
-        this.receiver   = receiver  ? receiver : '';
-        this.phone      = phone     ? phone : '';
-        this.name       = name      ? name : '';
-        this.headimg    = headimg   ? headimg : '';
-        this.remain     = remain    ? remain : 0;
+    constructor () {
+        this.userId = getAccessToken() ? getAccessToken() : '';
 
         this.getUser = this.getUser.bind(this);
+        this.setUser = this.setUser.bind(this);
     }
     
     public getUser = (): UserType => {
         return {
-            _id     : this._id,
             userId  : this.userId,
             address : this.address,
             receiver: this.receiver,
@@ -64,6 +54,16 @@ class User {
             remain  : this.remain,
         };
     }
+
+    public setUser = ({userId, address, receiver, phone, name, headimg, remain}: Params): void => {
+        this.userId     = userId    ? userId : '',
+        this.address    = address   ? address : '';
+        this.receiver   = receiver  ? receiver : '';
+        this.phone      = phone     ? phone : '';
+        this.name       = name      ? name : '';
+        this.headimg    = headimg   ? headimg : '';
+        this.remain     = remain    ? remain : 0;
+    }
 }
 
-export default User;
+export default new User();

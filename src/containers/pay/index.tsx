@@ -53,8 +53,14 @@ class Pay extends React.Component<Props, State> {
             if (result) {
                 alert(result.errMsg);
             } else {
-                const u = new User({_id: getUserdata._id, name: getUserdata.name, headimg: config.empty_pic.url});
-                const user = u.getUser();
+
+                User.setUser({
+                    userId  : getUserdata._id, 
+                    name    : getUserdata.name, 
+                    headimg : config.empty_pic.url
+                });
+                const user = User.getUser();
+                
                 const recharge = await Business.doRechargeMethod(user, value);
                 if (recharge.success === true) {
                     history.push('/');

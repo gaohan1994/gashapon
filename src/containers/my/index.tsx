@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
@@ -17,7 +17,7 @@ import {
 } from '../../types/componentTypes';
 
 import { 
-
+    loadCode,
 } from '../../actions/home';
 
 import { 
@@ -25,8 +25,9 @@ import {
 } from '../../reducers/home';
 
 interface Props {
-    getUserdata: Userdata;
+    getUserdata : Userdata;
     loadUserData: (userId: string) => void;
+    loadCode    : () => void;
 }
 
 interface State {
@@ -51,7 +52,7 @@ class My extends React.Component<Props, State> {
 
     componentDidMount(): void {
         const { 
-
+            
         } = this.props;
     }
 
@@ -290,7 +291,7 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-
+    loadCode: bindActionCreators(loadCode, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

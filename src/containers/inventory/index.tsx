@@ -68,8 +68,7 @@ class Inventory extends React.Component<Props, State> {
 
     componentWillReceiveProps(nextProps: any) {
         const { loadInventory, loadInventoryByWord } = this.props;
-        const u = new User({});
-        const user = u.getUser();
+        const user = User.getUser();
         if (nextProps.location.pathname !== this.props.location.pathname) {
             
             if (!!nextProps.match.params.word) {
@@ -88,8 +87,7 @@ class Inventory extends React.Component<Props, State> {
             loadInventory,
         } = this.props;
 
-        const u = new User({});
-        const user = u.getUser();
+        const user = User.getUser();
 
         history.push('login');
 
@@ -141,16 +139,18 @@ class Inventory extends React.Component<Props, State> {
     }
 
     public doOrderHandle = async (): Promise<void> => {
+
         const { getInventory, getUserdata } = this.props;
-        const u = new User({
-            _id     : getUserdata._id,
+        
+        User.setUser({
+            userId  : getUserdata._id,
             address : getUserdata.address && getUserdata.address.detail_home && getUserdata.address.detail_area
                         ? `${getUserdata.address.detail_area} ${getUserdata.address.detail_home}`
                         : '',
             receiver: getUserdata.name,
             phone   : getUserdata.phone,
         });
-        const user = u.getUser();  
+        const user = User.getUser();  
         const result = await Business.doOrderMethod(user, getInventory); 
 
         if (result.success === true) {

@@ -52,8 +52,7 @@ class GashaponRow extends React.Component<Props, State> {
 
     public doCancelCollectGashaponHandle = async (): Promise<void> => {
         const { modalGahshapon } = this.state;
-        const u = new User({});
-        const user = u.getUser();
+        const user = User.getUser();
         if (!user.userId) {
             /* do no sign stuff */
         } else {

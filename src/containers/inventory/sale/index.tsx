@@ -111,15 +111,16 @@ class MakeOriders extends React.Component<Props, State> {
             return;
         } else {
             const { getUserdata } = this.props;
-            const u = new User({
-                _id     : getUserdata._id,
+
+            User.setUser({
+                userId  : getUserdata._id,
                 address : getUserdata.address && getUserdata.address.detail_home && getUserdata.address.detail_area
                             ? `${getUserdata.address.detail_area} ${getUserdata.address.detail_home}`
                             : '',
                 receiver: getUserdata.name,
                 phone   : getUserdata.phone,
             });
-            const user = u.getUser();  
+            const user = User.getUser();  
             const result = await Business.doOrderMethod(user, gashapons); 
             if (result.success === true) {
                 console.log('ok');

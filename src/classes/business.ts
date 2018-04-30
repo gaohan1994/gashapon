@@ -25,7 +25,7 @@ class Business {
         try {
             if (!user) {
                 throw new Error('用户数据错误');
-            } else if (!user._id) {
+            } else if (!user.userId) {
                 throw new Error('用户_id错误');
             } else if (!user.address) {
                 throw new Error('用户address错误');
@@ -45,7 +45,7 @@ class Business {
         }
         
         try {
-            const result = await fetch(`/product/order/${user._id}`, {
+            const result = await fetch(`/product/order/${user.userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ class Business {
         try {
             if (!user) {
                 throw new Error('用户数据错误');
-            } else if (!user._id) {
+            } else if (!user.userId) {
                 throw new Error('用户_id错误');
             } else if (!user.name) {
                 throw new Error('用户name错误');
@@ -153,7 +153,7 @@ class Business {
         try {
             const money = numeral(value).value();
             console.log('money', money);
-            const result = await fetch(`/pay/recharge/${user._id}`, {
+            const result = await fetch(`/pay/recharge/${user.userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

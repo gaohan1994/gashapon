@@ -49,8 +49,7 @@ class Order extends React.Component<Props, State> {
     componentDidMount() {
         const { loadOrders, match } = this.props;
 
-        const u = new User({});
-        const user = u.getUser();
+        const user = User.getUser();
 
         if (!!match.params && !!match.params.type) {
             
@@ -82,8 +81,8 @@ class Order extends React.Component<Props, State> {
             loadWaitConfirmOrders,
             loadWaitOrders,
         } = this.props;
-        const u = new User({});
-        const user = u.getUser();
+
+        const user = User.getUser();
         switch (type) {
             case 'waitconfirm':
                 this.onChangeTypeStateHandle(type);

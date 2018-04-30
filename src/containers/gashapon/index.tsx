@@ -101,13 +101,13 @@ class Gashapon extends React.Component<Props, State> {
     public doGashaponHandle = async (count: number): Promise<void> => {
         const { getUserdata, getGashapon, changeGashaponLoading } = this.props;
 
-        const u = new User({
-            _id     : getUserdata._id, 
+        User.setUser({
+            userId  : getUserdata._id,
             name    : getUserdata.name, 
             headimg : config.empty_pic.url, 
             remain  : getUserdata.remain
         });
-        const user = u.getUser();
+        const user = User.getUser();
         
         const g = new GashaponClass({user: user, count: count, machine: getGashapon});
         const result = await g.doGashaponMethod();
@@ -125,10 +125,10 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon, getUserdata } = this.props;
         const access = Sign.doCheckAuth();
         if (access.success === true) {
-            const u = new User({
-                _id: getUserdata._id
+            User.setUser({
+                userId: getUserdata._id
             });
-            const user = u.getUser();
+            const user = User.getUser();
             const g = new GashaponClass({user: user, machine: getGashapon});
             const result = await g.doCollectGashaponMethod();
             
@@ -149,10 +149,10 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon, getUserdata } = this.props;
         const access = Sign.doCheckAuth();
         if (access.success === true) {
-            const u = new User({
-                _id: getUserdata._id
+            User.setUser({
+                userId: getUserdata._id
             });
-            const user = u.getUser();
+            const user = User.getUser();
             const g = new GashaponClass({user: user, machine: getGashapon});
             const result = await g.doCancelCollectGashaponMethod();
             
@@ -177,8 +177,7 @@ class Gashapon extends React.Component<Props, State> {
     public doDiscoutHandle = async (): Promise<void> => {
         //
         const { getGashapon } = this.props;
-        const u = new User({});
-        const user = u.getUser();
+        const user = User.getUser();
         
         if (!user.userId) {
             /* do no sign stuff */

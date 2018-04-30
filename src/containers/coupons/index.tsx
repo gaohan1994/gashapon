@@ -30,8 +30,7 @@ class Coupons extends React.Component<Props, State> {
 
     componentDidMount() {
         const { loadCoupons } = this.props;
-        const u = new User({});
-        const user = u.getUser();
+        const user = User.getUser();
 
         loadCoupons({_id: user.userId});
     }

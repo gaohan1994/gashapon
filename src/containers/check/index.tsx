@@ -47,8 +47,7 @@ class Check extends React.Component <Props, State> {
             loadMonthCheckById,
         } = this.props;
 
-        const u     = new User({});
-        const user  = u.getUser();
+        const user  = User.getUser();
 
         if (!user.userId) {
             /* do no sign stuff */
@@ -61,8 +60,8 @@ class Check extends React.Component <Props, State> {
     }
 
     public doCheckHandle = async (): Promise<void> => {
-        const u     = new User({});
-        const user  = u.getUser();
+
+        const user  = User.getUser();
 
         if (!user.userId) {
             this.setState({
