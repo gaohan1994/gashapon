@@ -107,6 +107,7 @@ class Login extends React.Component<Props, State> {
                 style={{
                     opacity     : getLoginStatus === true ? 1 : 0,
                     visibility  : getLoginStatus === true ? 'visible' : 'hidden',
+                    bottom      : getLoginStatus === true ? '0' : '-100vh'
                 }}
             >
                 <div>

@@ -101,6 +101,7 @@ class Registe extends React.Component<Props, State> {
                 style={{
                     opacity     : getRegisterStatus === true ? 1 : 0,
                     visibility  : getRegisterStatus === true ? 'visible' : 'hidden',
+                    bottom      : getRegisterStatus === true ? '0' : '-100vh'
                 }}    
             >
                 <div>

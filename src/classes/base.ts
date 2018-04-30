@@ -5,7 +5,7 @@ export interface NormalReturnObject {
 }
 
 class Base {
-        
+
 }
 
 export default new Base();
