@@ -12,7 +12,7 @@ export interface DoCheckHandleReturn {
 class Check {
 
     constructor () {
-        //
+        this.doCheckHandle = this.doCheckHandle.bind(this);
     }
     
     public readonly doCheckHandle = async ({_id}: DoCheckHandleParam): Promise<DoCheckHandleReturn> => {

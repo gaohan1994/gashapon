@@ -43,6 +43,22 @@ export interface LoadNotifies {
     notifies: Notifies[];
 }
 
+export interface ShowLogin {
+    type: constants.SHOW_LOGIN;
+}
+
+export interface HideLogin {
+    type: constants.HIDE_LOGIN;
+}
+
+export interface ShowRegister {
+    type: constants.SHOW_REGISTER;
+}
+
+export interface HideRegister {
+    type: constants.HIDE_REGISTER;
+}
+
 export type StatusActions = 
     ShowSearch 
     | HideSearch 
@@ -52,7 +68,11 @@ export type StatusActions =
     | HideNews
     | ShowPhone
     | HidePhone
-    | LoadNotifies;
+    | LoadNotifies
+    | ShowLogin
+    | HideLogin
+    | ShowRegister
+    | HideRegister;
 
 export const showSearchModal = () => (dispatch: Dispatch<StatusActions>): void => {
     try {
@@ -131,5 +151,37 @@ export const loadNotifies = () => (dispatch: Dispatch<StatusActions>): void => {
         });
     } catch (err) {
         console.log('loadNotifies err', err);
+    }
+};
+
+export const showLogin = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.SHOW_LOGIN});
+    } catch (err) {
+        console.log('showLogin', err);
+    }
+};
+
+export const hideLogin = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.HIDE_LOGIN});
+    } catch (err) {
+        console.log('hideLogin', err);
+    }
+};
+
+export const showRegister = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.SHOW_REGISTER});
+    } catch (err) {
+        console.log('showRegister', err);
+    }
+};
+
+export const hideRegister = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.HIDE_REGISTER});
+    } catch (err) {
+        console.log('hideRegister', err);
     }
 };

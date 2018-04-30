@@ -1,20 +1,23 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { MainActions } from '../../../actions/main';
 import * as styles from './index.css';
 import { Stores } from '../../../reducers/type';
 import Sign, { Register as RegisterType } from '../../../classes/sign';
 import history from '../../../history';
+import { 
+    hideRegister,
+} from '../../../actions/status';
+import { 
+    getRegisterStatus
+} from '../../../reducers/status';
 
 export interface Props {
-    match: {
-        params: {
-            /* 推荐人 ID */
-            refereeid?: string;
-        }
-    };
+    refereeid           ?: string;
+    hideRegister        ?: () => void;
+    getRegisterStatus   ?: boolean;
 }
 
 export interface State {
@@ -54,7 +57,7 @@ class Registe extends React.Component<Props, State> {
 
     public doRegisterHandle = async (): Promise<void> => {
 
-        const { match } = this.props;
+        const { refereeid } = this.props;
         const { name, username, password } = this.state;
 
         let params: RegisterType = {
@@ -62,13 +65,13 @@ class Registe extends React.Component<Props, State> {
             phone   : '',
             password: '',
         };
-        if (match.params && match.params.refereeid) {
+        if (!!refereeid) {
             /* do referee stuff */
             params = {
                 name    : name,
                 phone   : username,
                 password: password,
-                referee : match.params.refereeid
+                referee : refereeid
             };
         } else {
             /* do no referee stuff */
@@ -91,9 +94,15 @@ class Registe extends React.Component<Props, State> {
 
     render() {
         const { name, username, password } = this.state;
-        const { } = this.props;
+        const { getRegisterStatus } = this.props;
         return (
-            <div styleName="container">
+            <div 
+                styleName="container"
+                style={{
+                    opacity     : getRegisterStatus === true ? 1 : 0,
+                    visibility  : getRegisterStatus === true ? 'visible' : 'hidden',
+                }}    
+            >
                 <div>
                     <input 
                         value={name}
@@ -124,11 +133,11 @@ class Registe extends React.Component<Props, State> {
 const RegisteHoc = CSSModules(Registe, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-
+    getRegisterStatus: getRegisterStatus(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-
+    hideRegister: bindActionCreators(hideRegister, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

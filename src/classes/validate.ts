@@ -23,10 +23,12 @@ class Validator {
     
     constructor () {
         /*缓存校验规则*/
-        this.cache = [];
+        this.cache  = [];
+        this.add    = this.add.bind(this);
+        this.start  = this.start.bind(this);
     }
 
-    add(value: any, rules: any) {
+    public add = (value: any, rules: any) => {
         rules.map((rule: any) => {
             let strategyAry = rule.strategy.split(':');
             let errorMsg = rule.errorMsg;
@@ -50,7 +52,7 @@ class Validator {
         });
     }
 
-    start() {
+    public start = () => {
         for (let validatorFunc of this.cache) {
             /* 开始校验并取得校验后的信息 */
             let errorMsg = validatorFunc(); 

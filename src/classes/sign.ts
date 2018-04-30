@@ -49,6 +49,7 @@ class Sign {
         };
         this.doRegisterMethod       = this.doRegisterMethod.bind(this);
         this.doLoginMethod          = this.doLoginMethod.bind(this);
+        this.doLogoutMethod         = this.doLogoutMethod.bind(this);
         this.doCheckAuth            = this.doCheckAuth.bind(this);
         this.getVercode             = this.getVercode.bind(this);
         this.doChangePhoneMethod    = this.doChangePhoneMethod.bind(this);

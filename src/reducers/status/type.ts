@@ -4,4 +4,6 @@ export type Status = {
     newsStatus      : boolean;
     phoneStatus     : boolean;
     notifies        : object[];
+    showLogin       : boolean;
+    showRegister    : boolean;
 };

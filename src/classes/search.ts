@@ -22,6 +22,7 @@ class Search {
 
     constructor ({ word }: Param) {
        this.word = word ? word : '';
+       this.doSearchMethod = this.doSearchMethod.bind(this);
     }
 
     public doSearchMethod = (): DoSearchMethodReturn | void => {

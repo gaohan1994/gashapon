@@ -24,3 +24,15 @@ export type HIDE_CHANGE_PHONE = typeof HIDE_CHANGE_PHONE;
 
 export const RECEIVE_NOTIFIES = 'RECEIVE_NOTIFIES';
 export type RECEIVE_NOTIFIES = typeof RECEIVE_NOTIFIES;
+
+export const SHOW_LOGIN = 'SHOW_LOGIN';
+export type SHOW_LOGIN = typeof SHOW_LOGIN;
+
+export const HIDE_LOGIN = 'HIDE_LOGIN';
+export type HIDE_LOGIN = typeof HIDE_LOGIN;
+
+export const SHOW_REGISTER = 'SHOW_REGISTER';
+export type SHOW_REGISTER = typeof SHOW_REGISTER;
+
+export const HIDE_REGISTER = 'HIDE_REGISTER';
+export type HIDE_REGISTER = typeof HIDE_REGISTER;

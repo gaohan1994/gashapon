@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { MainActions } from '../../../actions/main';
 import Validator from '../../../classes/validate';
 import Sign, { DoLoginMethodReturn } from '../../../classes/sign';
 import * as styles from './index.css';
-import history from '../../../history';
 import { Stores } from '../../../reducers/type';
 import { 
-
-} from '../../../actions/main';
+    hideLogin,
+} from '../../../actions/status';
 import { 
-
-} from '../../../reducers/main';
+    getLoginStatus
+} from '../../../reducers/status';
 
 export interface Props {
-
+    getLoginStatus  ?: boolean;
+    hideLogin       ?: () => void;
 }
 
 export interface State {
@@ -27,7 +27,9 @@ export interface State {
 class Login extends React.Component<Props, State> {
 
     constructor (props: Props) {
+        
         super(props);
+
         this.state = {
             username: '',
             password: '',
@@ -72,12 +74,15 @@ class Login extends React.Component<Props, State> {
         if (result) {
             alert(result.errMsg);
         } else {
+            const { hideLogin } = this.props;
             /* do stuff */
             const res: DoLoginMethodReturn = await Sign.doLoginMethod({phone: username, password: password});
             if (res.success === true) {
                 /* do success stuff */
                 console.log(res);
-                history.goBack();
+                if (hideLogin) {
+                    hideLogin();
+                }
             } else {
                 /* do error stuff */
                 alert(res.message ? res.message : '登录出错了！');
@@ -86,14 +91,24 @@ class Login extends React.Component<Props, State> {
     }
 
     render() {
+
         const {
             username,
             password,
         } = this.state;
-        const { } = this.props;
+
+        const {
+            getLoginStatus 
+        } = this.props;
+
         return (
-            <div styleName="container">
-                
+            <div 
+                styleName="container"
+                style={{
+                    opacity     : getLoginStatus === true ? 1 : 0,
+                    visibility  : getLoginStatus === true ? 'visible' : 'hidden',
+                }}
+            >
                 <div>
                     <input 
                         value={username}
@@ -117,11 +132,11 @@ class Login extends React.Component<Props, State> {
 const LoginHoc = CSSModules(Login, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-
+    getLoginStatus: getLoginStatus(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-
+    hideLogin: bindActionCreators(hideLogin, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

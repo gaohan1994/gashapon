@@ -4,6 +4,8 @@ import status,
     getSearchStatus, 
     getNewsStatus,
     getNotifies,
+    getLoginStatus,
+    getRegisterStatus,
 } from '../status';
 import { 
    SHOW_SEARCH_MODAL,
@@ -12,6 +14,10 @@ import {
    EMPTY_SEARCH_ITEMS, 
    SHOW_NEWS,
    HIDE_NEWS,
+   SHOW_LOGIN,
+   HIDE_LOGIN,
+   SHOW_REGISTER,
+   HIDE_REGISTER,
 } from '../../constants/status';
 import initState from '../status/state';
 import store from '../initState';
@@ -69,6 +75,34 @@ describe('status test begin', () => {
         });
     });
 
+    it('should set login status to true', () => {
+        expect(status(initState, {type: SHOW_LOGIN})).toEqual({
+            ...initState,
+            showLogin: true,
+        });
+    });
+
+    it('should set login status to false', () => {
+        expect(status(initState, {type: HIDE_LOGIN})).toEqual({
+            ...initState,
+            showLogin: false,
+        });
+    });
+
+    it('should set register status to true', () => {
+        expect(status(initState, {type: SHOW_REGISTER})).toEqual({
+            ...initState,
+            showRegister: true,
+        });
+    });
+
+    it('should set register status to true', () => {
+        expect(status(initState, {type: HIDE_REGISTER})).toEqual({
+            ...initState,
+            showRegister: false,
+        });
+    });
+
     describe('get method tests', () => {
 
         const Store = {
@@ -79,6 +113,8 @@ describe('status test begin', () => {
                 newsStatus: true,
                 phoneStatus: true,
                 notifies: [{_id: '123'}],
+                showLogin: true,
+                showRegister: true,
             }
         };
 
@@ -96,6 +132,14 @@ describe('status test begin', () => {
 
         it('should get searchHistory', () => {
             expect(getNotifies(Store)).toEqual([{_id: '123'}]);
+        });
+
+        it('should get login status', () => {
+            expect(getLoginStatus(Store)).toEqual(true);
+        });
+
+        it('should get register status', () => {
+            expect(getRegisterStatus(Store)).toEqual(true);
         });
     });
 });

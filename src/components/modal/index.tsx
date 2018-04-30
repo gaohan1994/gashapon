@@ -19,7 +19,9 @@ interface State {
  * 
  */
 class Modal extends React.Component <Props, State> {
+    
     render () {
+
         const { 
             display,
             value,
@@ -27,6 +29,7 @@ class Modal extends React.Component <Props, State> {
             onCancelClickHandle,
             onConfirmClickHandle,
         } = this.props;
+
         return (
             <section 
                 flex-center="all-center"
@@ -38,7 +41,7 @@ class Modal extends React.Component <Props, State> {
             >
                 <div styleName="box">
                     <span styleName="haeder">{headerValue ? headerValue : '提示'}</span>
-                    <div 
+                    <div
                         styleName="content"
                         flex-center="all-center"
                     >

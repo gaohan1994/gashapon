@@ -57,6 +57,11 @@ class Gashapon {
         this.user       = user;
         this.count      = count || 0;
         this.machine    = machine;
+
+        this.doGashaponMethod               = this.doGashaponMethod.bind(this);
+        this.doCollectGashaponMethod        = this.doCollectGashaponMethod.bind(this);
+        this.doCancelCollectGashaponMethod  = this.doCancelCollectGashaponMethod.bind(this);
+        this.doAddCommentMethod             = this.doAddCommentMethod.bind(this);
     }
     
     /**

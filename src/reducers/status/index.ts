@@ -12,6 +12,10 @@ import {
     SHOW_CHANGE_PHONE,
     HIDE_CHANGE_PHONE,
     RECEIVE_NOTIFIES,
+    SHOW_LOGIN,
+    HIDE_LOGIN,
+    SHOW_REGISTER,
+    HIDE_REGISTER,
 } from '../../constants/status';
 import initState from './state';
 import { merge } from 'lodash';
@@ -57,6 +61,22 @@ export default function status (state: Status = initState, action: StatusActions
             state.notifies = notifies;
             return merge({}, state, {});
 
+        case SHOW_LOGIN:
+            state.showLogin = true;
+            return merge({}, state, {});
+
+        case HIDE_LOGIN:
+            state.showLogin = false;
+            return merge({}, state, {});
+            
+        case SHOW_REGISTER:
+            state.showRegister = true;
+            return merge({}, state, {});
+            
+        case HIDE_REGISTER:
+            state.showRegister = false;
+            return merge({}, state, {});
+
         default: return state;
     }
 }
@@ -70,3 +90,7 @@ export const getNewsStatus = (state: Stores) => state.status.newsStatus;
 export const getPhoneStatus = (state: Stores) => state.status.phoneStatus;
 
 export const getNotifies = (state: Stores) => state.status.notifies;
+
+export const getLoginStatus = (state: Stores) => state.status.showLogin;
+
+export const getRegisterStatus = (state: Stores) => state.status.showRegister;

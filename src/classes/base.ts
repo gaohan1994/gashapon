@@ -3,3 +3,9 @@ export interface NormalReturnObject {
     type    ?: string;
     message ?: string;
 }
+
+class Base {
+        
+}
+
+export default new Base();

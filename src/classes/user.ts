@@ -48,6 +48,8 @@ class User {
         this.name       = name      ? name : '';
         this.headimg    = headimg   ? headimg : '';
         this.remain     = remain    ? remain : 0;
+
+        this.getUser = this.getUser.bind(this);
     }
     
     public getUser = (): UserType => {

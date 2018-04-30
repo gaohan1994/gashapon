@@ -11,6 +11,12 @@ export interface DoRecycleMethodParam {
 
 class Business {
 
+    constructor () {
+        this.doOrderMethod      = this.doOrderMethod.bind(this);
+        this.doRecycleMethod    = this.doRecycleMethod.bind(this);
+        this.doRechargeMethod   = this.doRechargeMethod.bind(this);
+    }
+
     /**
      * doOrderMethod 下单
      * 

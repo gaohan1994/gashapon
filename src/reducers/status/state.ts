@@ -4,4 +4,6 @@ export default {
     newsStatus      : false,
     phoneStatus     : false,
     notifies        : [],
+    showLogin       : false,
+    showRegister    : false,
 };
