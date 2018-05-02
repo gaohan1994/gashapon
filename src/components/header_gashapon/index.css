@@ -4,8 +4,8 @@
     left: 0;
     right: 0;
     width: 750px;
-    height: 6vh;
-    background: #be8e4e;
+    height: 80px;
+    background-image: url('http://net.huanmusic.com/gasha/%E5%AF%BC%E8%88%AA%E6%9D%A1.png');
 }
 
 .container::after {
@@ -16,22 +16,28 @@
     clear: both;
 }
 
-.back, .home {
+.back, .home, .container {
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
 
 .back {
-    float: left;
-    margin: 20px 0 0 20px;
+    display: block;
+    position: absolute;
+    left: 40px;
+    top: 22px;
+    width: 41px;
+    height: 33px;
+    background-image: url('http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
 }
 
 .home {
-    float: left;
-    margin: 10px 0 0 20px;
-    width: 60px;
-    height: 50px;
-    background-image: url('http://gacha.52toys.com/image/icon-go-index.png');
+    position: absolute;
+    left: 110px;
+    top: 20px;
+    width: 45px;
+    height: 40px;
+    background-image: url('http://net.huanmusic.com/gasha/%E9%A6%96%E9%A1%B5.png');
 }
 
 .money {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 
+import * as numeral from 'numeral';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { BusinessActions } from '../../actions/business';
@@ -27,10 +28,14 @@ class Recharge extends React.Component<Props, State> {
                 styleName="money"
                 onClick={() => this.onNavHandle('pay')}
             >
-                <span styleName="moneyIcon">￥</span>
-                {getUserdata && getUserdata.remain
-                ? (getUserdata.remain / 100)
-                : 0}
+                <div styleName="left">
+                    <span>￥</span>
+                    <span>
+                        {getUserdata && getUserdata.remain
+                        ? numeral(getUserdata.remain / 100).format('0.00')
+                        : 0}
+                    </span>
+                </div>
                 <i styleName="pay"/>
             </div>
         );

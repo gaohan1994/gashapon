@@ -2,24 +2,35 @@
 .money {
     position: absolute;
     float: left;
-    top: 10px;
+    top: 14px;
     right: 20px;
-    width: 360px;
-    height: 60px;
-    line-height: 60px;
-    background: #ffeacb;
-    font-size: 30px;
-    padding-left: 50px;
-    padding-right: 100px;
-    text-align: center;
 }
 
+.left {
+    float: left;
+    width: 260px;
+    height: 50px;
+    padding: 0 20px;
+    border-radius: 20px;
+    background: #ffffff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.left > span {
+    color: #fe9a74;
+    font-size: 30px;
+}
 
 .moneyIcon {
     display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
     width: 50px;
     height: 60px;
     font-size: 30px;
@@ -28,12 +39,12 @@
 }
 
 .pay {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100px;
-    height: 60px;
+    float: left;
+    margin-left: 20px;
+    display: block;
+    width: 110px;
+    height: 52px;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-image: url('http://net.huanmusic.com/gasha/icon-recharge.png');
+    background-image: url('http://net.huanmusic.com/gasha/%E5%85%85%E5%80%BC.png');
 }
