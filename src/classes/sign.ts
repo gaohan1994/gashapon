@@ -21,12 +21,6 @@ export interface DoChangePhoneParam {
     code : string;
 }
 
-export interface DoChangeUserdata {
-    success ?: boolean;
-    type    ?: string;
-    message ?: string;
-}
-
 export interface DoChangeUserdataParam {
     name        ?: string;
     headimgurl  ?: string;
@@ -56,6 +50,11 @@ class Sign {
         this.doChangeUserdata       = this.doChangeUserdata.bind(this);
     }
 
+    /**
+     * 注册
+     * 
+     * @memberof Sign
+     */
     public doRegisterMethod = async ({name, password, phone, referee}: Register): Promise<NormalReturnObject> => {
         try {
             if (!name) {
@@ -113,6 +112,11 @@ class Sign {
         }
     }
 
+    /**
+     * 登录
+     * 
+     * @memberof Sign
+     */
     public doLoginMethod = async ({phone, password}: Login): Promise<DoLoginMethodReturn> => {
         try {
             if (!phone) {
@@ -162,6 +166,11 @@ class Sign {
         }
     }
 
+    /**
+     * 登出
+     * 
+     * @memberof Sign
+     */
     public doLogoutMethod = async (): Promise<NormalReturnObject> => {
 
         const result = await fetch(`/logout`).then(res => res.json());
@@ -178,6 +187,11 @@ class Sign {
         }
     }
 
+    /**
+     * 是否登录 
+     * 
+     * @memberof Sign
+     */
     public doCheckAuth = (): NormalReturnObject => {
         try {
             console.log(this.user);
@@ -199,6 +213,11 @@ class Sign {
         }
     }
 
+    /**
+     * 获取验证码
+     * 
+     * @memberof Sign
+     */
     public getVercode = async (phone: string): Promise<NormalReturnObject> => {
         try {
             if (!this.user) {
@@ -240,6 +259,11 @@ class Sign {
         }
     }
 
+    /**
+     * 修改手机号码
+     * 
+     * @memberof Sign
+     */
     public doChangePhoneMethod = async ({phone, code}: DoChangePhoneParam): Promise<NormalReturnObject> => {
         try {
             if (!this.user) {
@@ -283,7 +307,12 @@ class Sign {
         }
     }
 
-    public doChangeUserdata = async ({name, headimgurl}: DoChangeUserdataParam): Promise<DoChangeUserdata> => {
+    /**
+     * 修改用户数据
+     * 
+     * @memberof Sign
+     */
+    public doChangeUserdata = async ({name, headimgurl}: DoChangeUserdataParam): Promise<NormalReturnObject> => {
         try {
             if (!this.user) {
                 throw new Error('用户数据错误');

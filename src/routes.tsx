@@ -1,8 +1,8 @@
 import * as React from 'react';
+
 import {
     Route,
     Switch,
-    
 } from 'react-router-dom';
 
 import Main from './containers/main';
@@ -29,6 +29,7 @@ import MakeOriders from './containers/inventory/makeorders';
 // import Registe from './containers/sign/registe';
 import Forget from './containers/sign/forget';
 import Discount from './containers/discount';
+import Record from './containers/pay/record';
 
 const routes = (
     <Switch>
@@ -65,6 +66,7 @@ const routes = (
         */}
         <Route path="/discount/:id"             component={Discount}/>
         <Route path="/forget"                   component={Forget}/>
+        <Route path="/record"                   component={Record}/>
 
         <Route component={NoMatch}/>
     </Switch>

@@ -72,12 +72,28 @@ class Pay extends React.Component<Props, State> {
         }
     }
 
+    public doNavHandle = (index: string) => {
+        history.push(`/${index}`);
+    }
+
+    public onChangeHandle = (e: any): void => {
+        this.setState({
+            value: e.target.value
+        });
+    }
+
     render() {
+        
         const { getUserdata } = this.props;
+        
         return (
             <div styleName="container">
 
-                <Header title="充值"/>
+                <Header 
+                    title="充值"
+                    subTitle="消费记录"
+                    subPropsClick={() => this.doNavHandle('record')}
+                />
                 
                 <div styleName="detail">
                     <div styleName="line">
@@ -118,7 +134,9 @@ class Pay extends React.Component<Props, State> {
     }
 
     private renderInput = (): JSX.Element => {
+        
         const { value } = this.state;
+        
         return (
             <input
                 styleName="moneyInput"
@@ -127,12 +145,6 @@ class Pay extends React.Component<Props, State> {
                 onChange={this.onChangeHandle}
             />
         );
-    }
-
-    private onChangeHandle = (e: any): void => {
-        this.setState({
-            value: e.target.value
-        });
     }
 }
 
