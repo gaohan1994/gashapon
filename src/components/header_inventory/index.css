@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     width: 750px;
-    height: 6vh;
+    height: 80px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -13,23 +13,37 @@
             align-items: center;
     -ms-flex-pack: distribute;
         justify-content: space-around;
-    background: #be8e4e;
+    background-image: url('http://net.huanmusic.com/gasha/%E5%AF%BC%E8%88%AA%E6%9D%A1.png');
 }
 
 .icons {
-    background: #f27a7a;
+    width: 46px;
+    height: 44px;
 }
 
 .search {
-    width: 550px;
-    height: 4vh;
-    line-height: 4vh;
-    font-size: 2vh;
+    position: relative;
+    width: 480px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 26px;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
-    padding-left: 20px;
-    border: 4px solid #000000;
+    padding-left: 60px;
     background: #fff6e9;
+    border-radius: 20px;
+    color: #efb876;
+    border: 0px;
+}
+
+.searchIcon {
+    display: block;
+    position: absolute;
+    left: 20px;
+    top: 12px;
+    width: 30px;
+    height: 30px;
+    background-image: url('http://net.huanmusic.com/gasha/%E6%9F%A5%E8%AF%A2.png');
 }
 
 .show {

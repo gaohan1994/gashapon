@@ -17,8 +17,8 @@ class Header extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = { 
-            value: '',
-            showSearch: false
+            value       : '',
+            showSearch  : false
         };
     }
 
@@ -65,6 +65,7 @@ class Header extends React.Component<Props, State> {
         return (
             <header 
                 styleName="container"
+                bgimg-center="100"
             >
                 <i 
                     styleName="icons"
@@ -77,14 +78,16 @@ class Header extends React.Component<Props, State> {
                     styleName="search"
                     onClick={this.doShowSearchHandle}
                 >
+                    <i 
+                        styleName="searchIcon"
+                        bgimg-center="100"
+                    />
                     {title ? title : '输入关键字搜索扭蛋'}
                 </div>
                 <i 
                     styleName="icons"
-                    style={{
-                        width   : '30px',
-                        height  : '30px'
-                    }}
+                    bgimg-center="100"
+                    style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E6%B6%88%E6%81%AF.png)`}}
                 />
                 {this.renderSearch()}
             </header>
@@ -100,6 +103,7 @@ class Header extends React.Component<Props, State> {
             >
                 <div 
                     styleName="container"
+                    bgimg-center="100"
                 >
                     <i 
                         styleName="icons"
