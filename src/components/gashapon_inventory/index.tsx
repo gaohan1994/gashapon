@@ -6,7 +6,7 @@ import config from '../../config';
 import history from '../../history';
 
 interface Props {
-    item: Gashapon;
+    item            : Gashapon;
     propsClickHandle?: () => void;
 }
 
@@ -32,7 +32,8 @@ const Gashapon = ({item, propsClickHandle}: Props) => (
                     : `url(${config.empty_pic.url}?imageView/2/w/170/h/220)`
             }}
         />
-        <span styleName="name">￥{item.price}</span>
+        {/* <span styleName="name">￥{item.price}</span> */}
+        <span styleName="name">{item.name}</span>
     </div>
 );
 

@@ -11,7 +11,8 @@ import {
     Userdata
 } from '../../../types/user';
 import history from '../../../history';
-import GashaItem from '../../../components/gashapon_item';
+import GashaItem from '../../../components/gashapon_inventory';
+import Header from '../../../components/header_inventory';
 import User from '../../../classes/user';
 import Business from '../../../classes/business';
 import { InventoryActions } from '../../../actions/inventory';
@@ -136,10 +137,23 @@ class MakeOriders extends React.Component<Props, State> {
     }
 
     render() {
+        const { gashapons } = this.state;
         const { getInventory } = this.props;
         return (
             <div styleName="container">
-                <div onClick={() => this.onNavHandle('inventory')}>back</div>
+                <Header title=""/>
+                <div styleName="back">
+                    <i 
+                        styleName="backIcon" 
+                        bgimg-center="100"
+                        onClick={() => this.onNavHandle('inventory')}
+                    />
+                    <span>
+                        已选择的扭蛋
+                        <span styleName="colorText">{gashapons ? gashapons.length : 0}</span>
+                        件
+                    </span>
+                </div>
                 {getInventory.map((item: Gashapon, i: number) => (
                     <div 
                         key={i}
@@ -148,6 +162,7 @@ class MakeOriders extends React.Component<Props, State> {
                     >
                         <div 
                             styleName="option"
+                            bgimg-center="100"
                             style={{
                                 background: this.renderIcon(item)
                             }}
@@ -158,8 +173,7 @@ class MakeOriders extends React.Component<Props, State> {
                         />
                     </div>
                 ))}
-                <div style={{marginTop: '20px'}} onClick={() => this.doAllChoiceHandle()}>全选</div>
-                <div style={{marginTop: '20px'}} onClick={() => this.doOrderHandle()}>下单</div>
+                {this.renderFooter()}
             </div>
         );
     }
@@ -174,7 +188,28 @@ class MakeOriders extends React.Component<Props, State> {
         } else {
             token = false;
         }
-        return token === true ? '#f27a7a' : '#ffffff';
+        return token === true ? 'url(http://net.huanmusic.com/gasha/%E5%B0%8F%E7%A1%AE%E8%AE%A4.png)' : 'url()';
+    }
+
+    private renderFooter = (): JSX.Element => {
+        return (
+            <div styleName="footer">
+                <div 
+                    styleName="choice"
+                    flex-center="all-center"
+                    onClick={() => this.doAllChoiceHandle()}
+                >
+                    <span onClick={() => this.doAllChoiceHandle()}>全选</span>
+                    <span>合计：</span>
+                </div>
+                <div 
+                    styleName="button"
+                    bgimg-center="100"
+                    style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E4%B8%8B%E5%8D%95-%E7%A1%AE%E8%AE%A4%E8%AE%A2%E5%8D%95.png)`}}
+                    
+                />
+            </div>
+        );
     }
 }
 

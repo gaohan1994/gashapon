@@ -11,9 +11,11 @@ import {
     Userdata
 } from '../../../types/user';
 import history from '../../../history';
-import GashaItem from '../../../components/gashapon_item';
+import GashaItem from '../../../components/gashapon_inventory';
+import Header from '../../../components/header_inventory';
 import User from '../../../classes/user';
 import Business from '../../../classes/business';
+import { NormalReturnObject } from '../../../classes/base';
 import { InventoryActions } from '../../../actions/inventory';
 import {
     
@@ -35,12 +37,12 @@ interface State {
 }
 
 /**
- * @returns 
- * @memberof MakeOriders
- * 蛋柜：抽到扭蛋之后的下单界面
- * render:
+ * 变卖页面
+ * 
+ * @class Sale
+ * @extends {React.Component<Props, State>}
  */
-class MakeOriders extends React.Component<Props, State> {
+class Sale extends React.Component<Props, State> {
 
     constructor (props: Props) {
         super(props);
@@ -103,40 +105,52 @@ class MakeOriders extends React.Component<Props, State> {
             });
         }
     }
-
-    public doOrderHandle = async (): Promise<void> => {
+    
+    public doRecycleHandle = async (): Promise<void> => {
         const { gashapons } = this.state;
         if (gashapons.length === 0) {
-            alert('请选择要下单的扭蛋~');
+            alert('请选择要回收的扭蛋~');
             return;
         } else {
-            const { getUserdata } = this.props;
-
-            User.setUser({
-                userId  : getUserdata._id,
-                address : getUserdata.address && getUserdata.address.detail_home && getUserdata.address.detail_area
-                            ? `${getUserdata.address.detail_area} ${getUserdata.address.detail_home}`
-                            : '',
-                receiver: getUserdata.name,
-                phone   : getUserdata.phone,
-            });
             const user = User.getUser();  
-            const result = await Business.doOrderMethod(user, gashapons); 
-            if (result.success === true) {
-                console.log('ok');
-                history.push('/success');
+            
+            if (!user.userId) {
+
+                /* do no sign handle */
             } else {
-                console.log(`${result.type}--${result.message}`);
-                alert(result.message);
+
+                const result: NormalReturnObject = await Business.doRecycleMethod({userId: user.userId, products: gashapons}); 
+
+                if (result.success === true) {
+                    console.log('ok');
+                    history.push('/success');
+                } else {
+                    console.log(`${result.type}--${result.message}`);
+                    alert(result.message);
+                }
             }
         }
     }
 
     render() {
+        const { gashapons } = this.state;
         const { getInventory } = this.props;
         return (
             <div styleName="container">
-                <div onClick={() => this.onNavHandle('inventory')}>back</div>
+                <Header title=""/>
+                <div styleName="back">
+                    
+                    <i 
+                        styleName="backIcon" 
+                        bgimg-center="100"
+                        onClick={() => this.onNavHandle('inventory')}
+                    />
+                    <span>
+                        已选择的扭蛋
+                        <span styleName="colorText">{gashapons ? gashapons.length : 0}</span>
+                        件
+                    </span>
+                </div>
                 {getInventory.map((item: Gashapon, i: number) => (
                     <div 
                         key={i}
@@ -145,8 +159,9 @@ class MakeOriders extends React.Component<Props, State> {
                     >
                         <div 
                             styleName="option"
+                            bgimg-center="100"
                             style={{
-                                background: this.renderIcon(item)
+                                backgroundImage: this.renderIcon(item)
                             }}
                         />
                         <GashaItem 
@@ -155,27 +170,46 @@ class MakeOriders extends React.Component<Props, State> {
                         />
                     </div>
                 ))}
-                <div style={{marginTop: '20px'}} onClick={() => this.doAllChoiceHandle()}>全选</div>
-                <div style={{marginTop: '20px'}} onClick={() => this.doOrderHandle()}>下单</div>
+                {this.renderFooter()}
             </div>
         );
     }
 
-    private renderIcon = (item: Gashapon) => {
+    private renderIcon = (item: Gashapon): string => {
         const { gashapons } = this.state;
         let token = false;
-        console.log(gashapons);
         const result = gashapons.findIndex(gashapon => gashapon._id === item._id);
         if (result !== -1) {
             token = true;
         } else {
             token = false;
         }
-        return token === true ? '#f27a7a' : '#ffffff';
+        return token === true ? 'url(http://net.huanmusic.com/gasha/%E5%B0%8F%E7%A1%AE%E8%AE%A4.png)' : 'url()';
+    }
+
+    private renderFooter = (): JSX.Element => {
+        return (
+            <div styleName="footer">
+                <div 
+                    styleName="choice"
+                    flex-center="all-center"
+                    onClick={() => this.doAllChoiceHandle()}
+                >
+                    <span onClick={() => this.doAllChoiceHandle()}>全选</span>
+                    <span>合计：</span>
+                </div>
+                <div 
+                    styleName="button"
+                    bgimg-center="100"
+                    style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E5%8F%98%E5%8D%96-%E7%A1%AE%E8%AE%A4%E8%AE%A2%E5%8D%95.png)`}}
+                    onClick={() => this.doRecycleHandle()}
+                />
+            </div>
+        );
     }
 }
 
-const MakeOridersHoc = CSSModules(MakeOriders, styles);
+const SaleHoc = CSSModules(Sale, styles);
 
 export const mapStateToProps = (state: Stores) => ({
     getInventory: getInventory(state),
@@ -189,4 +223,4 @@ export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
     Object.assign({}, ownProps, stateProps, dispatchProps);
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(MakeOridersHoc);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(SaleHoc);
