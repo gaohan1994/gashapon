@@ -48,6 +48,13 @@ class Login extends React.Component<Props, State> {
         });
     }
 
+    public doHideHandle = (): void => {
+        const { hideLogin } = this.props;
+        if (hideLogin) {
+            hideLogin();
+        }
+    }
+
     public doLoginHandle = async (): Promise<void> => {
         
         const {
@@ -125,6 +132,7 @@ class Login extends React.Component<Props, State> {
                 </div>
 
                 <div onClick={() => this.doLoginHandle()}>button</div>
+                <div onClick={() => this.doHideHandle()}>button</div>
             </div>
         );
     }

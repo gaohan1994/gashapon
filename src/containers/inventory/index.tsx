@@ -12,6 +12,8 @@ import history from '../../history';
 import User from '../../classes/user';
 import Business from '../../classes/business';
 import Header from '../../components/header_inventory';
+import Login from '../sign/login';
+import Modal from '../../components/modal';
 import { Stores } from '../../reducers/type';
 import { 
     Gashapon
@@ -22,6 +24,7 @@ import {
     loadInventoryByWord,
     LoadInventoryParam,
 } from '../../actions/inventory';
+import { showLogin } from '../../actions/status';
 
 import { 
     getInventory
@@ -45,10 +48,12 @@ interface Props {
     getInventory        : Gashapon[];
     loadInventory       : ({}: LoadInventoryParam) => void;
     loadInventoryByWord : ({}: LoadInventoryParam) => void;
+    showLogin           : () => void;
 }
 
 interface State {
     page: number;
+    showModal: boolean;
 }
 
 /**
@@ -63,6 +68,7 @@ class Inventory extends React.Component<Props, State> {
         super(props);
         this.state = {
             page: 0,
+            showModal: false,
         };
     }
 
@@ -79,20 +85,20 @@ class Inventory extends React.Component<Props, State> {
                 loadInventory({userId: user.userId});
             }
         }
-     }
+    }
 
     componentDidMount() {
         const { 
             match,
             loadInventory,
+            showLogin,
         } = this.props;
 
         const user = User.getUser();
 
-        history.push('login');
-
-        if (!user.userId) {
+        if (!!user.userId) {
             /* do no id stuff */
+            showLogin();
         } else {
             if (!!match.params.word) {
 
@@ -165,9 +171,15 @@ class Inventory extends React.Component<Props, State> {
     }
 
     render() {
+        const { showModal } = this.state;
         const { getInventory, match } = this.props;
         return (
             <Hoc>
+                <Login/>
+                <Modal 
+                    display={showModal}
+                    value="请登录~"
+                />
                 <div styleName="container">
                     <Header title={match.params.word ? match.params.word : ''}/>
                     {getInventory.map((item, i) => (
@@ -220,6 +232,7 @@ export const mapStateToProps = (state: Stores) => ({
 export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
     loadInventory       : bindActionCreators(loadInventory, dispatch),
     loadInventoryByWord : bindActionCreators(loadInventoryByWord, dispatch),
+    showLogin           : bindActionCreators(showLogin, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
