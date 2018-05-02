@@ -85,7 +85,7 @@ class Main extends React.Component<Props, State> {
     render() {
         return (
             <div styleName="container">
-                <div 
+                {/* <div 
                     style={{
                         width: '100%',
                         height: '100px',
@@ -94,17 +94,17 @@ class Main extends React.Component<Props, State> {
                     onClick={() => this.doLogoutHandle()}
                 >
                     LOGINOUT
-                </div>
-                {/* <div 
+                </div> */}
+                <div 
                     style={{
                         width: '100%',
                         height: '100px',
                         background: '#000000'
                     }}
-                    onClick={() => this.onNavHandle('registe')}
+                    onClick={() => this.onNavHandle('forget')}
                 >
                     register
-                </div> */}
+                </div>
                 <Header/>
                 <Search/>
                 <News/>

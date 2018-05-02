@@ -1,45 +1,67 @@
 .container {
     position: relative;
-    width: 710px;
-    height: 150px;
-    background: beige;   
+    width: 610px;
+    height: 168px;
+    border: 2px solid #dddddd;
+    border-radius: 10px;
+    background: #ffffff; 
+    display: -webkit-box; 
+    display: -ms-flexbox; 
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+}
+
+.box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 110px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    
+    -webkit-box-align: start;
+    
+        -ms-flex-align: start;
+    
+            align-items: flex-start;
+
+    -webkit-box-pack: center;
+
+        -ms-flex-pack: center;
+
+            justify-content: center;
 }
 
 .bge {
     position: absolute;
     right: 0;
     top: 0;
-    width: 50px;
-    height: 50px;
-}
-
-.price, .fullcut, .name, .time {
-    position: absolute;
+    width: 87px;
+    height: 68px;
 }
 
 .price {
-    left: 100px;
-    top: 20px;
-    color: #dcc6a6;
+    color: #fea270;
+    font-size: 72px;
+    line-height: 72px;
 }
 
-.price > span {
-    font-size: 50px;
-}
-
-.fullcut {
-    left: 100px;
-    top: 85px;
-    font-size: 16px;
+.fullcut, .time {
+    color: #999999;
+    font-size: 24px;
 }
 
 .name {
-    left: 350px;
-    top: 25px;
-}
-
-.time {
-    left: 350px;
-    top: 85px;
-    font-size: 16px;
+    font-size: 48px;
+    color: #444444;
 }

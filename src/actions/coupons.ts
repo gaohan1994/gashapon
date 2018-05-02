@@ -33,25 +33,30 @@ export const loadCoupons =
     
     try {
         let data = state().coupons.coupons;
-        fetch(`/discount/expire/${_id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                page    : page,
-                count   : count
+
+        if (page === 0 && data.length > 0) {
+            return;
+        } else {
+            fetch(`/discount/expire/${_id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    page    : page,
+                    count   : count
+                })
             })
-        })
-        .then(res => res.json())
-        .then(res => {
-            if (res.success === true) {
-                data = data.concat(res.result);
-                dispatch({type: constants.RECEIVE_COUPONS, coupons: data});
-            } else {
-                throw new Error('loadCouponserr');
-            }
-        });
+            .then(res => res.json())
+            .then(res => {
+                if (res.success === true) {
+                    data = data.concat(res.result);
+                    dispatch({type: constants.RECEIVE_COUPONS, coupons: data});
+                } else {
+                    throw new Error('loadCouponserr');
+                }
+            });
+        }
     } catch (err) {
         console.log('loadCoupons err');
     }

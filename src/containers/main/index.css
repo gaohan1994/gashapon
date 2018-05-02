@@ -7,7 +7,8 @@
 [container-with-header="true"] {
     width: 750px;
     min-height: 100vh;
-    padding-top: 6vh;
+    /* padding-top: 6vh; */
+    padding-top: 80px;
     background-color: #f7f7f7;
 }
 

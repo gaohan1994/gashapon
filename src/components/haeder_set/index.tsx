@@ -6,34 +6,20 @@ import history from '../../history';
 // import Meta from 'react-document-meta';
 
 interface Props {
-    title       : string;
-    metaTitle   ?: string;
-    propsClick  ?: () => void;
+    title           : string;
+    subTitle        ?: string;
+    propsClick      ?: () => void;
+    subPropsClick   ?: () => void;
 }
 
 const onNavHandle = (): void => {
     history.goBack();
 };  
 
-// const renderMeta = (metaTitle: string): object => {
-//     const meta = {title: metaTitle};
-//     return meta;
-// };
-
-const Header = ({title, metaTitle, propsClick}: Props) => (
+const Header = ({title, subTitle, propsClick, subPropsClick}: Props) => (
     <header styleName="container">
-        {/* {metaTitle
-        ? <Meta {...renderMeta(metaTitle)}/> 
-        : ''} */}
         <i 
             styleName="icon"
-            style={{
-                backgroundImage: 'url(http://net.huanmusic.com/gasha/gacha-icon.png)',
-                backgroundPosition: '-119px -28px',
-                backgroundSize: '146.5px auto',
-                width: '21px',
-                height: '21px',
-            }}
             onClick={propsClick ? propsClick : () => onNavHandle()}
         />
         <span 
@@ -42,6 +28,11 @@ const Header = ({title, metaTitle, propsClick}: Props) => (
         >
             {title}
         </span>
+        {subTitle
+        ? <span styleName="subtitle" onClick={subPropsClick ? subPropsClick : () => onNavHandle()}>
+            {subTitle}
+        </span>
+        : ''}
     </header>
 );
 

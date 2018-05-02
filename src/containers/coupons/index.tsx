@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-import Header from '../../components/header_achievement';
-// import Coupon from '../../components/coupon';
+import Header from '../../components/header_coupons';
+import Coupon from '../../components/coupon';
 
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -40,12 +40,14 @@ class Coupons extends React.Component<Props, State> {
         console.log('getCoupons', getCoupons);
         return (
             <div styleName="container">
-                <Header/>
-                {/* {getCoupons.map((item, i) => (
+
+                <Header title="我的优惠券"/>
+                
+                {getCoupons.map((item, i) => (
                     <div styleName="item" key={i}>
                         <Coupon/>
                     </div>
-                ))} */}
+                ))}
             </div>
         );
     }

@@ -1,8 +1,9 @@
 .container {
     width: 750px;
     min-height: 100vh;
-    padding: 90px 0 0 0;
-    background: #dcc6a6;
+    padding: 80px 0 20px 0;
+    overflow: hidden;
+    background: #ffffff;
 }
 
 .container::after {
@@ -15,5 +16,5 @@
 
 .item {
     float: left;
-    margin: 20px 0 0 20px;
+    margin: 20px 0 0 70px;
 }

@@ -23,7 +23,6 @@ class Account extends React.Component<Props, {}> {
             <div styleName="container">
                 <Header 
                     title="设置"
-                    metaTitle="账号"
                 />
                 <Line 
                     value="完蛋趣号"

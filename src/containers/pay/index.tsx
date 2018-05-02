@@ -76,34 +76,42 @@ class Pay extends React.Component<Props, State> {
         const { getUserdata } = this.props;
         return (
             <div styleName="container">
+
                 <Header title="充值"/>
-                <div styleName="content">
-                    <span styleName="record">消费记录 ></span>
-                    <i 
-                        bgimg-center="bgimg-center"
-                        styleName="icon"
-                        style={{
-                            backgroundImage: `url(${config.empty_pic.url})`
-                        }}
-                    />
-                    <span styleName="moneySpan">剩余金额</span>
-                    <span styleName="money">
-                        ￥{getUserdata && getUserdata.remain
+                
+                <div styleName="detail">
+                    <div styleName="line">
+                        <i styleName="lineIcon"/>
+                        <span styleName="lineText">充值至嘀哩扭蛋余额</span>
+                    </div>
+                </div>
+                
+                <div 
+                    styleName="content"
+                >
+                    <div styleName="contentItem">
+                        <span styleName="rechargeTitle">充值金额</span>
+                    </div>
+                    <div styleName="contentItem">{this.renderInput()}</div>
+                    <div styleName="contentItem">
+                        <span styleName="remain">
+                        当前剩余余额{getUserdata && getUserdata.remain
                             ? Numeral(getUserdata.remain / 100).format('0.00')
-                            : '0.00'}
-                    </span>
-                    <div styleName="topup">
-                        <span>充值金额￥</span>
-                        {this.renderInput()}
+                            : '0.00'}元
+                        </span>
                     </div>
-                    <div styleName="buttonBox">
-                        <Button 
-                            btnText="充值"
-                            btnSize="big"
-                            clickHandle={() => this.onClickHandle()}
-                        />
-                    </div>
-                    <span styleName="tips">*账户余额不能提现</span>
+                </div>
+
+                <div 
+                    styleName="buttonBox"
+                    flex-center="all-center"
+                >
+                    <Button 
+                        btnText="充值"
+                        btnSize="normal"
+                        btnRadius={true}
+                        clickHandle={() => this.onClickHandle()}
+                    />
                 </div>
             </div>
         );
@@ -114,7 +122,7 @@ class Pay extends React.Component<Props, State> {
         return (
             <input
                 styleName="moneyInput"
-                placeholder="请您输入充值金额"
+                placeholder="￥"
                 value={value ? value : ''}
                 onChange={this.onChangeHandle}
             />

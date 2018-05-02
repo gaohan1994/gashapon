@@ -1,0 +1,57 @@
+.container {
+    background: #ffffff;
+}
+
+.box {
+    width: 750px;
+}
+
+.border {
+    border-bottom: 2px solid #dddddd;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+
+    -webkit-box-pack: justify;
+
+        -ms-flex-pack: justify;
+
+            justify-content: space-between;
+    outline: 0px;
+    width: 660px;
+    height: 80px;
+    margin-left: 45px;
+}
+
+.border > span {
+    font-size: 30px;
+    color: #444444;
+}
+
+.border > input {
+    border: 0px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 30px;
+    margin-left: 20px;
+}
+
+.phone {
+    width: 510px;
+}
+
+.vercode {
+    width: 300px;
+}
+
+.btnBox {
+    width: 750px;
+    height: 240px;
+}

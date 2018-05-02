@@ -51,7 +51,6 @@ class Setting extends React.Component<Props, State> {
             <div styleName="container">
                 <Header 
                     title="设置"
-                    metaTitle="设置"
                 />
                 <Line 
                     value="账号"

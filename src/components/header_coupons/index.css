@@ -1,5 +1,5 @@
 .container {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -30,13 +30,4 @@
     position: absolute;
     left: 110px;
     color: #ffffff;
-}
-
-.subtitle {
-    display: block;
-    position: absolute;
-    right: 30px;
-    font-size: 30px;
-    color: #ffffff;
-    right: 30px;
 }

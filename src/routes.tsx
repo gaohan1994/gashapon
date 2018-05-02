@@ -27,6 +27,7 @@ import ChangeUserName from './containers/set/name';
 import MakeOriders from './containers/inventory/makeorders';
 // import Login from './containers/sign/login';
 // import Registe from './containers/sign/registe';
+import Forget from './containers/sign/forget';
 import Discount from './containers/discount';
 
 const routes = (
@@ -63,6 +64,7 @@ const routes = (
         <Route path="/registe"                  component={Registe}/>
         */}
         <Route path="/discount/:id"             component={Discount}/>
+        <Route path="/forget"                   component={Forget}/>
 
         <Route component={NoMatch}/>
     </Switch>

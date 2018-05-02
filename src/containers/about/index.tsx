@@ -8,7 +8,6 @@ const About = ({}): JSX.Element => (
     <div styleName="container">
         <Header 
             title="关于完蛋趣"
-            metaTitle="关于完蛋趣"
         />
         <Line 
             value="帮助与反馈"

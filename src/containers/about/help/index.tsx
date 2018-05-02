@@ -8,7 +8,6 @@ const Help = ({}): JSX.Element => (
     <div styleName="container">
         <Header 
             title="帮助与反馈"
-            metaTitle="帮助与反馈"
         />
         <Line value="如何在完蛋趣中购买扭蛋"/>
     </div>
