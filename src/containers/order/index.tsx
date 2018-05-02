@@ -133,11 +133,36 @@ class Order extends React.Component<Props, State> {
     private renderNav = (): JSX.Element => {
         const { type } = this.state;
         return (
-            <div>
-                <div onClick={() => this.onChangeTypeHandle('waitconfirm')} style={{color: type === 'waitconfirm' ? '#f27a7a' : '#000000'}}>待确认</div>
-                <div onClick={() => this.onChangeTypeHandle('wait')} style={{color: type === 'wait' ? '#f27a7a' : '#000000'}}>待发货</div>
-                <div onClick={() => this.onChangeTypeHandle('already')} style={{color: type === 'already' ? '#f27a7a' : '#000000'}}>已发货</div>
-                <div onClick={() => this.onChangeTypeHandle('other')} style={{color: type === 'other' ? '#f27a7a' : '#000000'}}>缺货</div>
+            <div styleName="navbar">
+                <div 
+                    styleName="white"
+                    flex-center="all-center"
+                >
+                    <div 
+                        styleName={type === 'waitconfirm' ? 'navItemActive' : 'navItem'}
+                        onClick={() => this.onChangeTypeHandle('waitconfirm')} 
+                    >
+                        待确认
+                    </div>
+                    <div 
+                        styleName={type === 'wait' ? 'navItemActive' : 'navItem'}
+                        onClick={() => this.onChangeTypeHandle('wait')} 
+                    >
+                        待发货
+                    </div>
+                    <div    
+                        styleName={type === 'already' ? 'navItemActive' : 'navItem'}
+                        onClick={() => this.onChangeTypeHandle('already')} 
+                    >
+                        已发货
+                    </div>
+                    <div 
+                        styleName={type === 'other' ? 'navItemActive' : 'navItem'}
+                        onClick={() => this.onChangeTypeHandle('other')} 
+                    >
+                        缺货
+                    </div>
+                </div>
             </div>
         );
     }

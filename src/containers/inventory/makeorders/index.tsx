@@ -181,7 +181,6 @@ class MakeOriders extends React.Component<Props, State> {
     private renderIcon = (item: Gashapon) => {
         const { gashapons } = this.state;
         let token = false;
-        console.log(gashapons);
         const result = gashapons.findIndex(gashapon => gashapon._id === item._id);
         if (result !== -1) {
             token = true;
