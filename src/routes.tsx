@@ -25,6 +25,7 @@ import UserPhone from './containers/set/phone';
 import Check from './containers/check';
 import ChangeUserName from './containers/set/name';
 import MakeOriders from './containers/inventory/makeorders';
+import Sale from './containers/inventory/sale';
 // import Login from './containers/sign/login';
 // import Registe from './containers/sign/registe';
 import Forget from './containers/sign/forget';
@@ -59,6 +60,7 @@ const routes = (
         <Route path="/check"                    component={Check}/>
         <Route path="/changeusername"           component={ChangeUserName}/>
         <Route path="/makeorders"               component={MakeOriders}/>
+        <Route path="/sale"                     component={Sale}/>
         {/*
         <Route path="/login"                    component={Login}/>
         <Route path="/registe/:refereeid"       component={Registe}/>

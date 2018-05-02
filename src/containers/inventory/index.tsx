@@ -96,7 +96,7 @@ class Inventory extends React.Component<Props, State> {
 
         const user = User.getUser();
 
-        if (!!user.userId) {
+        if (!user.userId) {
             /* do no id stuff */
             showLogin();
         } else {

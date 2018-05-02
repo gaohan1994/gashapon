@@ -297,9 +297,7 @@ class Gashapon extends React.Component<Props, State> {
                         {this.renderTime()}
                         {this.renderCollect()}
                         {this.renderMusicIcon()}
-                        {this.renderStore()}
                         {this.renderDiscountButton()}
-                        <i styleName="show"/>
                         <i styleName="barrage"/>
                         <i styleName="chat"/>
 
@@ -319,6 +317,8 @@ class Gashapon extends React.Component<Props, State> {
                                         ? `url(http://${config.host.pic}/${getGashapon.pics[0]})`
                                         : `url(${config.empty_pic.url})`}}
                             />
+                            <i styleName="show" bgimg-center="100"/>
+                            {this.renderStore()}
                             <i styleName="button1" button-attr="button-attr" onClick={() => this.doGashaponHandle(3)}/>
                             <i styleName="button2" button-attr="button-attr" onClick={() => this.doGashaponHandle(10)}/>
                             <i styleName="button3" button-attr="button-attr" onClick={() => this.onTestOneTime()}/>
@@ -404,12 +404,13 @@ class Gashapon extends React.Component<Props, State> {
                     onClick={result === -1 
                             ? this.doCollectGashaponHandle
                             : this.doCancelCollectGashaponHandle}
-                    styleName="collect" 
+                    bgimg-center="100"
+                    styleName="collect"
                     style={{
-                        width: '27.5px', 
-                        height: '43.5px',
-                        backgroundPosition: '-58px -45px',
-                        backgroundSize: '146.5px auto',
+                        backgroundImage: result === -1
+                                        ? `url(http://net.huanmusic.com/gasha/gashapon/%E6%94%B6%E8%97%8F%E5%90%8E.png)`
+                                        : `url(http://net.huanmusic.com/gasha/gashapon/%E6%94%B6%E8%97%8F%E5%89%8D.png)`,
+                        width: result === -1 ? '9vw' : '5.3vw'
                     }}
                 />
             );
@@ -422,13 +423,10 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋音乐播放开关
      */
     private renderMusicIcon = (): JSX.Element => {
-        const { audioPlaying } = this.state;
         return (
             <i 
                 styleName="music"
-                style={{
-                    background: audioPlaying === true ? '#ffffff' : '#000000'
-                }}
+                bgimg-center="100"
                 onClick={() => this.onChangeMusicHandle()}
             />
         );
@@ -441,10 +439,12 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon } = this.props;
         return (
             <div styleName="store">
-                {`库存${getGashapon.residue_quantity || 0}  
-                ${getGashapon.price 
-                    ? Numeral(getGashapon.price / 100).value() 
-                    : 0}元/个`}
+                <span>库存：{getGashapon.residue_quantity || 0}</span>
+                <span>
+                    售价：{getGashapon.price 
+                        ? Numeral(getGashapon.price / 100).value() 
+                        : 0}元/个
+                </span>
             </div>
         );
     }
@@ -458,6 +458,7 @@ class Gashapon extends React.Component<Props, State> {
             return (
                 <div 
                     styleName="discount"
+                    bgimg-center="100"
                     onClick={() => this.doDiscoutHandle()}
                 >
                     renderDiscountButton
