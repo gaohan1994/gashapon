@@ -6,4 +6,5 @@ export default {
     notifies        : [],
     showLogin       : false,
     showRegister    : false,
+    showLoginModal  : false,
 };

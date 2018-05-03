@@ -11,9 +11,9 @@ import { Userdata } from '../../types/user';
 import history from '../../history';
 import User from '../../classes/user';
 import Business from '../../classes/business';
+import Sign from '../../classes/sign';
 import Header from '../../components/header_inventory';
-import Login from '../sign/login';
-import Modal from '../../components/modal';
+import LoginModal from '../../components/modal_login';
 import { Stores } from '../../reducers/type';
 import { 
     Gashapon
@@ -24,7 +24,7 @@ import {
     loadInventoryByWord,
     LoadInventoryParam,
 } from '../../actions/inventory';
-import { showLogin } from '../../actions/status';
+import { showLoginModal } from '../../actions/status';
 
 import { 
     getInventory
@@ -48,12 +48,11 @@ interface Props {
     getInventory        : Gashapon[];
     loadInventory       : ({}: LoadInventoryParam) => void;
     loadInventoryByWord : ({}: LoadInventoryParam) => void;
-    showLogin           : () => void;
+    showLoginModal      : () => void;
 }
 
 interface State {
     page: number;
-    showModal: boolean;
 }
 
 /**
@@ -68,7 +67,6 @@ class Inventory extends React.Component<Props, State> {
         super(props);
         this.state = {
             page: 0,
-            showModal: false,
         };
     }
 
@@ -91,14 +89,14 @@ class Inventory extends React.Component<Props, State> {
         const { 
             match,
             loadInventory,
-            showLogin,
+            showLoginModal,
         } = this.props;
 
         const user = User.getUser();
 
         if (!user.userId) {
             /* do no id stuff */
-            showLogin();
+            showLoginModal();
         } else {
             if (!!match.params.word) {
 
@@ -140,8 +138,16 @@ class Inventory extends React.Component<Props, State> {
         });
     }
 
-    public onMenuClickHandle = (type: string): void => {
-        history.push(`/${type}`);
+    public onMenuClickHandle = async (type: string): Promise<void> => {
+
+        const { showLoginModal } = this.props;
+        const result = await Sign.doCheckAuth();
+
+        if (result.success === true) {
+            history.push(`/${type}`);
+        } else {
+            showLoginModal();
+        }
     }
 
     public doOrderHandle = async (): Promise<void> => {
@@ -171,15 +177,10 @@ class Inventory extends React.Component<Props, State> {
     }
 
     render() {
-        const { showModal } = this.state;
         const { getInventory, match } = this.props;
         return (
             <Hoc>
-                <Login/>
-                <Modal 
-                    display={showModal}
-                    value="请登录~"
-                />
+                <LoginModal/>
                 <div styleName="container">
                     <Header title={match.params.word ? match.params.word : ''}/>
                     {getInventory.map((item, i) => (
@@ -232,7 +233,7 @@ export const mapStateToProps = (state: Stores) => ({
 export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
     loadInventory       : bindActionCreators(loadInventory, dispatch),
     loadInventoryByWord : bindActionCreators(loadInventoryByWord, dispatch),
-    showLogin           : bindActionCreators(showLogin, dispatch),
+    showLoginModal      : bindActionCreators(showLoginModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

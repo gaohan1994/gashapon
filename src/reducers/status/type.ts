@@ -6,4 +6,5 @@ export type Status = {
     notifies        : object[];
     showLogin       : boolean;
     showRegister    : boolean;
+    showLoginModal  : boolean;
 };

@@ -4,17 +4,21 @@ import * as styles from './index.css';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
-
 import { 
     StatusActions,
     showLogin,
+    hideLoginModal,
 } from '../../actions/status';
+import { 
+    getLoginModalStatus,
+} from '../../reducers/status';
+import Login from '../../containers/sign/login';
 
 interface Props {
-    display     : boolean;
-    value       ?: string;
-    showLogin   ?: () => void;
-    hideModal   ?: () => void;
+    display         ?: boolean;
+    value           ?: string;
+    showLogin       ?: () => void;
+    hideLoginModal  ?: () => void;
 }
 
 interface State {
@@ -27,13 +31,19 @@ interface State {
  */
 class Modal extends React.Component <Props, State> {
     
+    public onConfirmClickHandle = (): void => {
+        const { showLogin } = this.props;
+        if (showLogin) {
+            showLogin();
+        }
+    }
+    
     render () {
 
-        const { 
+        const {
             display,
             value,
-            showLogin,
-            hideModal,
+            hideLoginModal,
         } = this.props;
 
         return (
@@ -45,6 +55,7 @@ class Modal extends React.Component <Props, State> {
                     opacity     : display === true ? 1 : 0
                 }}
             >
+                <Login/>
                 <div styleName="box">
                     <span styleName="haeder">{'提示'}</span>
                     <div
@@ -53,11 +64,9 @@ class Modal extends React.Component <Props, State> {
                     >
                         {value}
                     </div>
-                    <div 
-                        styleName="buttons"
-                    >
-                        <button styleName="button" onClick={hideModal}>取消</button>
-                        <button styleName="button" onClick={showLogin}>登录</button>
+                    <div styleName="buttons">
+                        <button styleName="button" onClick={hideLoginModal}>取消</button>
+                        <button styleName="button" onClick={() => this.onConfirmClickHandle()}>登录</button>
                     </div>
                 </div>
             </section>
@@ -68,11 +77,12 @@ class Modal extends React.Component <Props, State> {
 const ModalHoc = CSSModules(Modal, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    
+    display: getLoginModalStatus(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({
-    showLogin: bindActionCreators(showLogin, dispatch),
+    showLogin       : bindActionCreators(showLogin, dispatch),
+    hideLoginModal  : bindActionCreators(hideLoginModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

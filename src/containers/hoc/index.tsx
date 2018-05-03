@@ -7,6 +7,7 @@ import { Stores } from '../../reducers/type';
 import { HomeActions , loadUserData } from '../../actions/home';
 import { getUserdata } from '../../reducers/home';
 import { Userdata } from '../../types/user';
+import User from '../../classes/user';
 
 interface Props {
     children    ?: JSX.Element | JSX.Element[];
@@ -49,9 +50,14 @@ class Hoc extends React.Component<Props, State> {
 
     componentDidMount() {
         const { loadUserData } = this.props;
-        const userId = '5ac1f31087e83ef4915abc02';
-        if (loadUserData) {
-            loadUserData(userId);
+        // const userId = '5ac1f31087e83ef4915abc02';
+        const user = User.getUser();
+        if (!user.userId) {
+            /* do no sign handle */
+        } else {
+            if (loadUserData) {
+                loadUserData(user.userId);
+            }
         }
     }
 

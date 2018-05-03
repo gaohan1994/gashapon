@@ -1,28 +1,32 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-
 import { Dispatch, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
+import config from '../../config/index';
 import { 
     DiscountActions,
     loadDiscountData,
     LoadDiscountDataParam,
 } from '../../actions/discount';
 import { 
+    StatusActions,
+    showLogin,
+} from '../../actions/status';
+import { 
     getDiscountData,
 } from '../../reducers/discount';
 import {
     DiscountDataType,
 } from '../../types/componentTypes';
-import config from '../../config/index';
-
 import DiscountClass,
 {
     HelpDiscountMethodReturn
 } from '../../classes/discount';
 import User from '../../classes/user';
+import Registe from '../sign/registe';
+import Login from '../sign/login';
 
 interface Props {
     match: {
@@ -32,6 +36,7 @@ interface Props {
     };
     loadDiscountData: ({}: LoadDiscountDataParam) => void;
     getDiscountData : DiscountDataType;
+    showLogin       : () => void;
 }
 
 interface State {}
@@ -59,12 +64,15 @@ class Discount extends React.Component<Props, State> {
     }
 
     public doHelpDiscoutHandle = async (): Promise<void> => {
+        
         /* userId, discountId, nick, image */
-        const { getDiscountData, match } = this.props;
+        const { getDiscountData, match, showLogin } = this.props;
         const user = User.getUser();
 
         if (!user.userId) {
+
             /* do no sign stuff */
+            showLogin();
         } else {
 
             const result: HelpDiscountMethodReturn = await DiscountClass.helpDiscountMethod({
@@ -88,6 +96,7 @@ class Discount extends React.Component<Props, State> {
 
                     switch (result.message) {
                         case 'userId':
+                            showLogin();
                             return;
                         case 'discountId':
                             return;
@@ -110,6 +119,8 @@ class Discount extends React.Component<Props, State> {
 
         return (
             <div styleName="container">
+                <Login/>
+                <Registe/>
                 <div 
                     style={{
                         width: '200px',
@@ -131,8 +142,9 @@ export const mapStateToProps = (state: Stores) => ({
     getDiscountData : getDiscountData(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<DiscountActions>) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<DiscountActions | StatusActions>) => ({
     loadDiscountData: bindActionCreators(loadDiscountData, dispatch),
+    showLogin       : bindActionCreators(showLogin, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

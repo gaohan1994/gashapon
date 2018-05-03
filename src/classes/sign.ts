@@ -171,19 +171,12 @@ class Sign {
      * 
      * @memberof Sign
      */
-    public doLogoutMethod = async (): Promise<NormalReturnObject> => {
+    public doLogoutMethod = async (): Promise<void> => {
 
-        const result = await fetch(`/logout`).then(res => res.json());
-
-        if (result.success === true) {
-            return {
-                success: true
-            };
-        } else {
-            return {
-                type: 'ERROR_LOGOUT',
-                message: result.message ? result.message : '登出失败'
-            };
+        try {
+            await fetch(`/logout`).then(res => res.json());
+        } catch (err) {
+            console.log('doLogoutMethod', err);
         }
     }
 
@@ -193,23 +186,10 @@ class Sign {
      * @memberof Sign
      */
     public doCheckAuth = (): NormalReturnObject => {
-        try {
-            console.log(this.user);
-            if (!this.user) {
-                throw new Error('用户数据错误');
-            } else if (!this.user._id) {
-                throw new Error('用户数据错误');
-            } else {
-                return {
-                    success: true
-                };
-            }
-        } catch (err) {
-            console.log('未登录');
-            return {
-                type: 'FAIL_LOGIN',
-                message: '未登录'
-            };
+        if (!getAccessToken()) {
+            return { type: 'NOT_SIGN' };
+        } else {
+            return { success : true };
         }
     }
 

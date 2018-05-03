@@ -1,4 +1,3 @@
-
 import { StatusActions } from '../../actions/status';
 import { Stores } from '../type';
 import { Status } from './type';
@@ -16,6 +15,8 @@ import {
     HIDE_LOGIN,
     SHOW_REGISTER,
     HIDE_REGISTER,
+    SHOW_LOGIN_MODAL,
+    HIDE_LOGIN_MODAL,
 } from '../../constants/status';
 import initState from './state';
 import { merge } from 'lodash';
@@ -77,6 +78,14 @@ export default function status (state: Status = initState, action: StatusActions
             state.showRegister = false;
             return merge({}, state, {});
 
+        case SHOW_LOGIN_MODAL:
+            state.showLoginModal = true;
+            return merge({}, state, {});
+            
+        case HIDE_LOGIN_MODAL:
+            state.showLoginModal = false;
+            return merge({}, state, {});
+
         default: return state;
     }
 }
@@ -94,3 +103,5 @@ export const getNotifies = (state: Stores) => state.status.notifies;
 export const getLoginStatus = (state: Stores) => state.status.showLogin;
 
 export const getRegisterStatus = (state: Stores) => state.status.showRegister;
+
+export const getLoginModalStatus = (state: Stores) => state.status.showLoginModal;

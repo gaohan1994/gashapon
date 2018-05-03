@@ -36,3 +36,9 @@ export type SHOW_REGISTER = typeof SHOW_REGISTER;
 
 export const HIDE_REGISTER = 'HIDE_REGISTER';
 export type HIDE_REGISTER = typeof HIDE_REGISTER;
+
+export const SHOW_LOGIN_MODAL = 'SHOW_LOGIN_MODAL';
+export type SHOW_LOGIN_MODAL = typeof SHOW_LOGIN_MODAL;
+
+export const HIDE_LOGIN_MODAL = 'HIDE_LOGIN_MODAL';
+export type HIDE_LOGIN_MODAL = typeof HIDE_LOGIN_MODAL;

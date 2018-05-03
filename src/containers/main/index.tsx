@@ -16,7 +16,7 @@ import DataItem from '../../components/content_item';
 import Sign from '../../classes/sign';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
-import { 
+import {
     MainData
 } from '../../types/componentTypes';
 import { 
@@ -74,18 +74,15 @@ class Main extends React.Component<Props, State> {
     }
 
     public doLogoutHandle = async (): Promise<void> => {
-        const result = await Sign.doLogoutMethod();
-        if (result.success === true) {
-            history.push('/');
-        } else {
-            alert(result.message ? result.message : '登出失败');
-        }
+        
+        await Sign.doLogoutMethod();
+        window.location.reload();
     }
 
     render() {
         return (
             <div styleName="container">
-                {/* <div 
+                <div 
                     style={{
                         width: '100%',
                         height: '100px',
@@ -94,7 +91,7 @@ class Main extends React.Component<Props, State> {
                     onClick={() => this.doLogoutHandle()}
                 >
                     LOGINOUT
-                </div> */}
+                </div>
                 <div 
                     style={{
                         width: '100%',
