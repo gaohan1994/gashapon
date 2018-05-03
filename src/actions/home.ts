@@ -20,7 +20,10 @@ export interface LoadCode {
     code: object[];
 }
 
-export type HomeActions = LoadUserData | LoadCollectGashapons | LoadCode;
+export type HomeActions = 
+    LoadUserData 
+    | LoadCollectGashapons 
+    | LoadCode;
 
 export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>): void => {
     if (!userId) {

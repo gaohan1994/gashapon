@@ -15,28 +15,34 @@ interface State {}
 class Product extends React.Component<Props, State> {
 
     render() {
+        
         const { data } = this.props;
+
         return (
-            <div styleName="container">
-                <div 
-                    bgimg-center="bgimg-center"
-                    styleName="cover"
-                    style={{
-                        backgroundImage: data.pics && data.pics[0]
-                        ? `url(http://${config.host.pic}/${data.pics[0]})`
-                        : `url(${config.empty_pic.url})`
-                    }}
-                />
-                <div styleName="detail">
-                    <Text 
-                        value={data.name} 
-                        subValue={`￥0`}
-                        size="bold"
+            <div 
+                styleName="container"
+                flex-center="all-center"
+            >
+                <div styleName="border">
+                    <div 
+                        bgimg-center="bgimg-center"
+                        styleName="cover"
+                        style={{
+                            backgroundImage: data.pics && data.pics[0]
+                            ? `url(http://${config.host.pic}/${data.pics[0]})`
+                            : `url(${config.empty_pic.url})`
+                        }}
                     />
-                    <Text 
-                        value="" 
-                        subValue={`X${data.quantity}`}
-                    />
+                    <div styleName="detail">
+                        <Text 
+                            value={data.name}
+                            size="bold"
+                        />
+                        <Text 
+                            value={`X${data.quantity}`} 
+                            subValue={`￥10`}
+                        />
+                    </div>
                 </div>
             </div>
         );

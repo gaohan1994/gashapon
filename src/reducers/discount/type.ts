@@ -1,4 +1,5 @@
 
 export type Discount = {
-    data: {};
+    data    : {};
+    discount: object[];
 };

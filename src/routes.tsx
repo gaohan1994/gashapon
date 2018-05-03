@@ -31,6 +31,7 @@ import Sale from './containers/inventory/sale';
 import Forget from './containers/sign/forget';
 import Discount from './containers/discount';
 import Record from './containers/pay/record';
+import DiscountHome from './containers/discount_home';
 
 const routes = (
     <Switch>
@@ -69,6 +70,7 @@ const routes = (
         <Route path="/discount/:id"             component={Discount}/>
         <Route path="/forget"                   component={Forget}/>
         <Route path="/record"                   component={Record}/>
+        <Route path="/discounthome"             component={DiscountHome}/>
 
         <Route component={NoMatch}/>
     </Switch>

@@ -9,11 +9,43 @@ export interface LoadDiscountData {
     data: object;
 }
 
+export interface LoadDiscount {
+    type: constants.RECEIVE_HOME_DISOUNT;
+    discount: [{_id: string}];
+}
+
 export type LoadDiscountDataParam = {
     id: string;
 };
 
-export type DiscountActions = LoadDiscountData;
+export type DiscountActions = 
+    LoadDiscountData 
+    | LoadDiscount;
+
+export const loadDiscount = (uid: string) => (dispatch: Dispatch<DiscountActions>): void => {
+    try {
+        if (!uid) {
+            throw new Error('uid');
+        }
+    } catch (err) {
+        console.log(err.message ? err.message : '数据错误');
+    }
+
+    try {
+        fetch(`/my/discount_plan/success/${uid}`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                console.log(res);
+                dispatch({type: constants.RECEIVE_HOME_DISOUNT, discount: res.result});
+            } else {
+                throw new Error('ERROR_FETCH_DISCOUNT');
+            }
+        });
+    } catch (err) {
+        console.log('loadDiscount err', err);
+    }
+};
 
 export const loadDiscountData = ({id}: LoadDiscountDataParam) => (dispatch: Dispatch<LoadDiscountData>): void => {
     try {

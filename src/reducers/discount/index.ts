@@ -2,7 +2,8 @@ import { DiscountActions } from '../../actions/discount';
 import { Stores } from '../type';
 import { Discount } from './type';
 import { 
-    RECEIVE_DISCOUNT
+    RECEIVE_DISCOUNT,
+    RECEIVE_HOME_DISOUNT,
 } from '../../constants/discount';
 import initState from './state';
 import { merge } from 'lodash';
@@ -14,6 +15,11 @@ export default function discount (state: Discount = initState, action: DiscountA
             const { data } = action;
             state.data = data;
             return merge({}, state, {});
+
+        case RECEIVE_HOME_DISOUNT:
+            const { discount } = action;
+            state.discount = discount;
+            return merge({}, state, {});
  
         default :
             return state;
@@ -21,3 +27,5 @@ export default function discount (state: Discount = initState, action: DiscountA
 }
 
 export const getDiscountData = (state: Stores) => state.discount.data;
+
+export const getHomeDiscount = (state: Stores) => state.discount.discount;

@@ -27,7 +27,7 @@ import {
 interface Props {
     getUserdata : Userdata;
     loadUserData: (userId: string) => void;
-    loadCode    : () => void;
+    loadCode    : (phone: string) => void;
 }
 
 interface State {
@@ -52,8 +52,9 @@ class My extends React.Component<Props, State> {
 
     componentDidMount(): void {
         const { 
-            
+            // loadCode,
         } = this.props;
+        // loadCode('15659995443');
     }
 
     public onNavHandle = (param: string): void => {
@@ -62,6 +63,7 @@ class My extends React.Component<Props, State> {
 
     render(): JSX.Element {
         const { } = this.props;
+        
         return (
             <div styleName="container">
                 {this.renderProfile()}
@@ -145,6 +147,7 @@ class My extends React.Component<Props, State> {
             {
                 _id: 2,
                 value: '砍价',
+                param: 'discounthome',
                 img: 'http://net.huanmusic.com/gasha/my/%E7%A0%8D%E4%BB%B7.png',
             },
             {
@@ -291,7 +294,7 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadCode: bindActionCreators(loadCode, dispatch),
+    loadCode    : bindActionCreators(loadCode, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
