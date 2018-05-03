@@ -10,14 +10,9 @@ import initState from '../discount/state';
 import store from '../initState';
 
 describe('discount test begin', () => {
-    const data = {
-        _id: 1,
-        value: 'test'
-    };
+    const data: any = {};
 
-    const discount = [{
-        _id: '123'
-    }];
+    const discountData: any = [];
 
     it('should receive discount data', () => {
         expect(discount(initState, {type: RECEIVE_DISCOUNT, data: data})).toEqual({
@@ -27,7 +22,7 @@ describe('discount test begin', () => {
     });
 
     it('should receive home discount', () => {
-        expect(discount(initState, {type: RECEIVE_HOME_DISOUNT, discount: discount})).toEqual({
+        expect(discount(initState, {type: RECEIVE_HOME_DISOUNT, discount: discountData})).toEqual({
             ...initState,
             discount
         });

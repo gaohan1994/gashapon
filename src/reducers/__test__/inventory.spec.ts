@@ -25,7 +25,7 @@ describe('inventory test begin', () => {
         residue_quantity: 1,
         status: 0,
         music_url: 'test',
-        is_discount: 2,
+        is_discount: true,
         collect_count: 20,
         discount_plan: {
             max_discount: 1,
