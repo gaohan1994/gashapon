@@ -16,7 +16,7 @@ export type Gashapon = {
     end_time        : Date;
     open_time       : Date;
     price           : number;
-    is_discount     : number;
+    is_discount     : boolean;
     collect_count   : number;
     discount_plan   : {
         max_discount: number;

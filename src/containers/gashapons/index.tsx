@@ -62,7 +62,6 @@ interface Props {
     getGashaponBanner   : BannerType[];
     loadGashaponsByWord : ({}: LoadGashaponsParam) => void;
     getBanners          : {contents: BannerType[]};
-
     loadGenres          : () => void;
     loadTopics          : () => void;
     getGenres           : Genres;

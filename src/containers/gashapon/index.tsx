@@ -16,6 +16,7 @@ import { randomNum } from '../../config/util';
 import Sign from '../../classes/sign';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
+import Share from '../../classes/share';
 import DiscountClass,
 {
     CreateDiscountPlayReturn,
@@ -148,6 +149,7 @@ class Gashapon extends React.Component<Props, State> {
     public doCancelCollectGashaponHandle = async (): Promise<void> => {
         const { getGashapon, getUserdata } = this.props;
         const access = Sign.doCheckAuth();
+        
         if (access.success === true) {
             User.setUser({
                 userId: getUserdata._id
@@ -193,7 +195,16 @@ class Gashapon extends React.Component<Props, State> {
             });
 
             if (result.success === true) {
-                history.push(`/discount/${result.discountId}`);
+
+                const shareConfig = {
+                    url     : `http://gacha-dev.hy233.tv/discount/${result.discountId}`,
+                    title   : getGashapon.name,
+                    pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`
+                };
+
+                const share = new Share(shareConfig, 'weibo', '123');
+                share.doShare();
+                // history.push(`/discount/${result.discountId}`);
             } else {
                 if (result.type === 'PARAM_ERROR') {
                     switch (result.message) {
@@ -254,7 +265,7 @@ class Gashapon extends React.Component<Props, State> {
         window.location.reload();
     }
 
-    public handleAudioCanplay = () => {
+    public handleAudioCanplay = (): void => {
         if (this.audio.paused === true) {
             this.audio.play();
         }
@@ -263,7 +274,7 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
-    public onChangeMusicHandle = () => {
+    public onChangeMusicHandle = (): void => {
         if (this.audio.paused === true) {
             this.audio.play();
         } else {
@@ -274,7 +285,7 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
-    render() {
+    render (): JSX.Element {
         const { getGashapon } = this.props;
         return (
             <Hoc>
@@ -454,15 +465,13 @@ class Gashapon extends React.Component<Props, State> {
      */
     private renderDiscountButton = (): JSX.Element | string => {
         const { getGashapon } = this.props;
-        if (getGashapon.is_discount === 1) {
+        if (getGashapon.is_discount === true) {
             return (
                 <div 
                     styleName="discount"
                     bgimg-center="100"
                     onClick={() => this.doDiscoutHandle()}
-                >
-                    renderDiscountButton
-                </div>
+                />
             );
         } else {
             return '';
