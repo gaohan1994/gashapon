@@ -57,6 +57,10 @@ class My extends React.Component<Props, State> {
         // loadCode('15659995443');
     }
 
+    public onNavHandle = (param: string): void => {
+        history.push(`/${param}`);
+    }
+
     public onClickHandle = async (param: string): Promise<void> => {
         const { showLoginModal } = this.props;
         const result = await Sign.doCheckAuth();
@@ -235,7 +239,8 @@ class My extends React.Component<Props, State> {
             <div styleName="set">
                 <div 
                     styleName="setItem"
-                    onClick={() => this.onClickHandle('address')}
+                    // onClick={() => this.onClickHandle('address')}
+                    onClick={() => this.onNavHandle('address')}
                 >
                     <i
                         styleName="setIcon"
