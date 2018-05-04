@@ -82,16 +82,16 @@ class Main extends React.Component<Props, State> {
     render() {
         return (
             <div styleName="container">
-                <div 
+                <a 
                     style={{
                         width: '100%',
                         height: '100px',
                         background: '#f27a7a'
                     }}
-                    onClick={() => this.doLogoutHandle()}
+                    href="/logout"
                 >
                     LOGINOUT
-                </div>
+                </a>
                 <div 
                     style={{
                         width: '100%',

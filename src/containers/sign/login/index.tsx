@@ -81,15 +81,21 @@ class Login extends React.Component<Props, State> {
         if (result) {
             alert(result.errMsg);
         } else {
-            const { hideLogin } = this.props;
+            // const { hideLogin } = this.props;
             /* do stuff */
-            const res: DoLoginMethodReturn = await Sign.doLoginMethod({phone: username, password: password});
+            
+            const res: DoLoginMethodReturn = await Sign.doLoginMethod({
+                phone   : username, 
+                password: password
+            });
+            
             if (res.success === true) {
                 /* do success stuff */
                 console.log(res);
-                if (hideLogin) {
-                    hideLogin();
-                }
+                // if (hideLogin) {
+                //     hideLogin();
+                // }
+                window.location.reload();
             } else {
                 /* do error stuff */
                 alert(res.message ? res.message : '登录出错了！');

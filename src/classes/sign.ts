@@ -138,6 +138,7 @@ class Sign {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     phone       : phone,
                     password    : password,

@@ -233,7 +233,10 @@ class My extends React.Component<Props, State> {
     private renderSet = (): JSX.Element => {
         return (
             <div styleName="set">
-                <div styleName="setItem">
+                <div 
+                    styleName="setItem"
+                    onClick={() => this.onClickHandle('address')}
+                >
                     <i
                         styleName="setIcon"
                         style={{

@@ -37,7 +37,7 @@ class User {
     private remain  : number;
 
     constructor () {
-        this.userId = getAccessToken() ? getAccessToken() : '';
+        this.userId = getAccessToken();
 
         this.getUser = this.getUser.bind(this);
         this.setUser = this.setUser.bind(this);
