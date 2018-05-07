@@ -1,4 +1,5 @@
 
 export type Business = {
-    orders: object[];
+    orders  : object[];
+    payinfo : object[];
 };

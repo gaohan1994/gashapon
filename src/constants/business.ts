@@ -1,2 +1,5 @@
 export const RECEIVE_ORDERS = 'RECEIVE_ORDERS';
 export type RECEIVE_ORDERS = typeof RECEIVE_ORDERS;
+
+export const RECEIVE_PAYINFO = 'RECEIVE_PAYINFO';
+export type RECEIVE_PAYINFO = typeof RECEIVE_PAYINFO;
