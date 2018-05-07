@@ -7,6 +7,7 @@ import status,
     getLoginStatus,
     getRegisterStatus,
     getLoginModalStatus,
+    getSignModalStatus,
 } from '../status';
 import { 
    SHOW_SEARCH_MODAL,
@@ -21,6 +22,8 @@ import {
    HIDE_REGISTER,
    SHOW_LOGIN_MODAL,
    HIDE_LOGIN_MODAL,
+   SHOW_SIGN_MODAL,
+   HIDE_SIGN_MODAL,
 } from '../../constants/status';
 import initState from '../status/state';
 import store from '../initState';
@@ -120,6 +123,20 @@ describe('status test begin', () => {
         });
     });
 
+    it('should set showsignmodal to true', () => {
+        expect(status(initState, { type: SHOW_SIGN_MODAL})).toEqual({
+            ...initState,
+            showSignModal: true
+        });
+    });
+
+    it('should set showsignmodal to false', () => {
+        expect(status(initState, { type: HIDE_SIGN_MODAL })).toEqual({
+            ...initState,
+            showSignModal: false
+        });
+    });
+
     describe('get method tests', () => {
 
         const Store = {
@@ -133,6 +150,7 @@ describe('status test begin', () => {
                 showLogin: true,
                 showRegister: true,
                 showLoginModal: true,
+                showSignModal: true
             }
         };
 
@@ -162,6 +180,10 @@ describe('status test begin', () => {
 
         it('should get login modal status', () => {
             expect(getLoginModalStatus(Store)).toEqual(true);
+        });
+
+        it('should get sign modal status', () => {
+            expect(getSignModalStatus(Store)).toEqual(true);
         });
     });
 });

@@ -1,11 +1,10 @@
 .container {
     width: 750px;
     height: 85px;
-    background: #f9f0e2;
+    background: #ffffff;
     line-height: 85px;
     padding: 0 20px;
-    font-size: 26px;
-    border-bottom: 2px solid #c6b6a7;
+    border-bottom: 2px solid #dddddd;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -15,6 +14,10 @@
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+}
+
+.container > span {
+    font-size: 30px;
 }
 
 .icon {

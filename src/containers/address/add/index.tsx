@@ -2,19 +2,22 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Header from '../../../components/haeder_set';
+import { merge } from 'lodash';
+import User from '../../../classes/user';
+import Validator from '../../../classes/validate';
+import history from '../../../history';
 
 export interface Props {
     
 }
 
 export interface State {
-    name        : string;
+    receiver    : string;
     phone       : string;
-    area        : string;
-    address     : string;
-    postcode    : string;
-
-    setDefault  : boolean;
+    detail_area : string;
+    detail_home : string;
+    postal_code : string;
+    is_default  : boolean;
 }
 
 export interface Item {
@@ -24,24 +27,37 @@ export interface Item {
     onChangeHandle  : (event: any) => void;
 }
 
+interface CheckInputReturn {
+    success ?: boolean;
+    data    ?: {
+        receiver    : string;
+        phone       : string;
+        detail_area : string;
+        detail_home : string;
+        postal_code : string;
+        is_default  ?: boolean;
+    };
+    message ?: string;
+}
+
 class AddAddress extends React.Component <Props, State> {
     
     constructor (props: Props) {
         super(props);
         this.state = {
-            name        : '',
+            receiver    : '',
             phone       : '',
-            area        : '',
-            address     : '',
-            postcode    : '',
-            
-            setDefault  : false,
+            detail_area : '',
+            detail_home : '',
+            postal_code : '',
+
+            is_default  : false
         };
     }
 
     public onNameChangeHandle = (event: any): void => {
         this.setState({
-            name: event.target.value
+            receiver: event.target.value
         });
     }
 
@@ -53,30 +69,104 @@ class AddAddress extends React.Component <Props, State> {
 
     public onAreaChangeHandle = (event: any): void => {
         this.setState({
-            area: event.target.value
+            detail_area: event.target.value
         });
     }
 
     public onAddressChangeHandle = (event: any): void => {
         this.setState({
-            address: event.target.value
+            detail_home: event.target.value
         });
     }
 
     public onPostcodeChangeHandle = (event: any): void => {
         this.setState({
-            postcode: event.target.value
+            postal_code: event.target.value
         });
     }
 
     public onChangeDefault = (): void => {
         this.setState({
-            setDefault: !this.state.setDefault
+            is_default: !this.state.is_default
         });
     }
 
+    public checkInput = (): CheckInputReturn => {
+        const { receiver, phone, detail_area, detail_home, postal_code  } = this.state;
+
+        const helper = new Validator();
+
+        helper.add(receiver, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入姓名~',
+            elementName: 'receiver'
+        }]);
+
+        helper.add(phone, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入电话~',
+            elementName: 'phone'
+        }]);
+
+        helper.add(phone, [{
+            strategy: 'isNumberVali',
+            errorMsg: '请输入正确的电话格式~',
+            elementName: 'phone'
+        }]);
+
+        helper.add(detail_area, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入地区~',
+            elementName: 'detail_area'
+        }]);
+
+        helper.add(detail_home, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入地址~',
+            elementName: 'detail_home'
+        }]);
+
+        helper.add(postal_code, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入邮编~',
+            elementName: 'postal_code'
+        }]);
+
+        const result = helper.start();
+
+        if (result) {
+            /* do error stuff */
+            alert(result.errMsg);
+            return { 
+                success: false,
+                message: result.name
+            };
+        } else {
+            return {
+                success : true,
+                data    : merge({}, this.state, {})
+            };
+        }
+    }
+
     public doSaveAddressHandle = async (): Promise<void> => {
-        //
+        
+        const data = this.checkInput();
+
+        if (data.success === true && data.data) {
+            /* loading 动画 */
+            const result = await User.doAddAddressMethod({data: data.data});
+            
+            if (result.success === true) {
+                history.goBack();
+            } else {
+                /* do error stuff */
+                history.push('/my');
+            }
+        } else {
+            /* do error stuff */
+            console.log(data.message);
+        }
     }
 
     render (): JSX.Element {
@@ -98,11 +188,11 @@ class AddAddress extends React.Component <Props, State> {
     }
 
     private renderDetail = (): JSX.Element => {
-        const { name, phone, area, address, postcode  } = this.state;
+        const { receiver, phone, detail_area, detail_home, postal_code  } = this.state;
         const data: Item[] = [
             {
                 title           : '姓名',
-                value           : name,
+                value           : receiver,
                 placeholder     : '最少2个，最多15个字',
                 onChangeHandle  : this.onNameChangeHandle
             },
@@ -114,19 +204,19 @@ class AddAddress extends React.Component <Props, State> {
             },
             {
                 title           : '地区',
-                value           : area,
+                value           : detail_area,
                 placeholder     : '省份 城市 县区',
                 onChangeHandle  : this.onAreaChangeHandle
             },
             {
                 title           : '地址',
-                value           : address,
+                value           : detail_home,
                 placeholder     : '请填写详细地址，5~60个字',
                 onChangeHandle  : this.onAddressChangeHandle
             },
             {
                 title           : '邮编',
-                value           : postcode,
+                value           : postal_code,
                 placeholder     : '6位邮政编码',
                 onChangeHandle  : this.onPostcodeChangeHandle
             },
@@ -161,7 +251,7 @@ class AddAddress extends React.Component <Props, State> {
     }
 
     private renderDefault = (): JSX.Element => {
-        const { setDefault } = this.state;
+        const { is_default } = this.state;
         return (
             <div 
                 styleName="default"
@@ -169,7 +259,7 @@ class AddAddress extends React.Component <Props, State> {
             >
                 <span 
                     styleName="icon"
-                    style={{background: setDefault === true ? '#f27a7a' : '#ffffff'}}
+                    style={{background: is_default === true ? '#f27a7a' : '#ffffff'}}
                 />
                 <span styleName="defaultText">设置成默认收货地址</span>
             </div>

@@ -42,3 +42,9 @@ export type SHOW_LOGIN_MODAL = typeof SHOW_LOGIN_MODAL;
 
 export const HIDE_LOGIN_MODAL = 'HIDE_LOGIN_MODAL';
 export type HIDE_LOGIN_MODAL = typeof HIDE_LOGIN_MODAL;
+
+export const SHOW_SIGN_MODAL = 'SHOW_SIGN_MODAL';
+export type SHOW_SIGN_MODAL = typeof SHOW_SIGN_MODAL;
+
+export const HIDE_SIGN_MODAL = 'HIDE_SIGN_MODAL';
+export type HIDE_SIGN_MODAL = typeof HIDE_SIGN_MODAL;

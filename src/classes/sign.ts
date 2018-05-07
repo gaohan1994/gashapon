@@ -31,6 +31,11 @@ export interface Login {
     password: string;
 }
 
+interface DoBindHandleParam {
+    user    : string;
+    spread  : string;
+}
+
 class Sign {
 
     private user: {
@@ -48,6 +53,49 @@ class Sign {
         this.getVercode             = this.getVercode.bind(this);
         this.doChangePhoneMethod    = this.doChangePhoneMethod.bind(this);
         this.doChangeUserdata       = this.doChangeUserdata.bind(this);
+        this.doBindHandle           = this.doBindHandle.bind(this);
+    }
+
+    public doBindHandle = async ({user, spread}: DoBindHandleParam): Promise <NormalReturnObject> => {
+        
+        try {
+            if (!user) {
+                throw new Error('user');
+            } else if (!spread) {
+                throw new Error('spread');
+            }
+        } catch (err) {
+            console.log('doBindHandle', err);
+            return {
+                type    : 'PARAM_ERROR',
+                message : err.message ? err.message : '绑定用户出错'
+            };
+        }
+
+        try {
+            const result = await fetch(`/bind/spread`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user    : user,
+                    spread  : spread
+                })
+            }).then(res => res.json());
+
+            if (result.success === true) {
+                return { success: true };
+            } else {
+                throw new Error('fetch /bind/spread err');
+            }
+        } catch (err) {
+            console.log('doBindHandle', err);
+            return {
+                type    : 'FETCH_BIND_ERROR',
+                message : err.message ? err.message : '绑定用户出错'
+            };
+        }
     }
 
     /**
@@ -73,15 +121,7 @@ class Sign {
         }
         
         try {
-            /* 如果有推荐人 提交推荐人的id */
-            const body = !!referee
-            ? {
-                name    : name,
-                password: password,
-                phone   : phone,
-                referee : referee
-            }
-            : {
+            const body = {
                 name    : name,
                 password: password,
                 phone   : phone,
@@ -96,7 +136,22 @@ class Sign {
             }).then(res => res.json());
 
             if (result.success === true) {
-                return { success: true };
+
+                /* 如果有推荐人 提交推荐人的id */
+                if (!referee) {
+                    return { success: true };
+                } else {
+                    const res = await this.doBindHandle({user: result.result, spread: referee});
+
+                    if (res.success === true) {
+                        return { success: true };
+                    } else {
+                        return {
+                            type    : 'BIND_ERROR',
+                            message : '注册成功绑定失败'
+                        };
+                    }
+                }
             } else {
                 return {
                     type: 'ERROR_REGISTER',

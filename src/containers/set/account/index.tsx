@@ -37,6 +37,10 @@ class Account extends React.Component<Props, {}> {
                     subValue={getUserdata.phone || '未绑定手机号'}
                     param="userphone"
                 />
+
+                <div styleName="logout">
+                    <a href="/logout">退出登录</a> 
+                </div>
             </div>
         );
     }

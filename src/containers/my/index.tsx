@@ -6,6 +6,7 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 import Menu from '../../components/menu_v1';
+import SignModal from '../sign';
 import history from '../../history';
 import Hoc from '../hoc';
 import LoginModal from '../../components/modal_login';
@@ -79,6 +80,7 @@ class My extends React.Component<Props, State> {
         
         return (
             <div styleName="container">
+                <SignModal/>
                 <LoginModal/>
                 {this.renderProfile()}
                 {this.renderMoney()}

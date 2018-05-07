@@ -7,4 +7,5 @@ export type Status = {
     showLogin       : boolean;
     showRegister    : boolean;
     showLoginModal  : boolean;
+    showSignModal   : boolean;
 };

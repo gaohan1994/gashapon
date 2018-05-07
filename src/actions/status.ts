@@ -67,6 +67,14 @@ export interface HideLoginModal {
     type: constants.HIDE_LOGIN_MODAL;
 }
 
+export interface ShowSignModal {
+    type: constants.SHOW_SIGN_MODAL;
+}
+
+export interface HideSignModal {
+    type: constants.HIDE_SIGN_MODAL;
+}
+
 export type StatusActions = 
     ShowSearch 
     | HideSearch 
@@ -82,7 +90,9 @@ export type StatusActions =
     | ShowRegister
     | HideRegister
     | ShowLoginModal
-    | HideLoginModal;
+    | HideLoginModal
+    | ShowSignModal
+    | HideSignModal;
 
 export const showSearchModal = () => (dispatch: Dispatch<StatusActions>): void => {
     try {
@@ -209,5 +219,21 @@ export const hideLoginModal = () => (dispatch: Dispatch<StatusActions>): void =>
         dispatch({type: constants.HIDE_LOGIN_MODAL});
     } catch (err) {
         console.log('hideLoginModal', err);
+    }
+};
+
+export const showSignModal = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.SHOW_SIGN_MODAL});
+    } catch (err) {
+        console.log('showSignModal', err);
+    }
+};
+
+export const hideSignModal = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.HIDE_SIGN_MODAL});
+    } catch (err) {
+        console.log('hideSignModal', err);
     }
 };

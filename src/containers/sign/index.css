@@ -1,0 +1,133 @@
+.container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background: #ffffff;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.back {
+    position: absolute;
+    width: 41px;
+    height: 33px;
+    left: 35px;
+    top: 30px;
+    background-image: url('http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
+}
+
+.content {
+    width: 520px;
+}
+
+.type {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-pack: distribute;
+        justify-content: space-around
+}
+
+.buttonActive, .buttonNormal {
+    display: block;
+    font-size: 36px;
+    width: 140px;
+    height: 70px;
+    background: #ffffff;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+
+    margin: 0px;
+    padding: 0px;
+}
+
+.buttonNormal:active {
+    border: 0px;
+}
+
+.buttonActive:active {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.buttonActive {
+    color: #fea270;
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 4px solid #fea270;
+}
+
+.buttonNormal {
+    color: #999999;
+    border: 0px;
+}
+
+.item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-top: 20px;
+    width: 520px;
+    height: 80px;
+    background: #ffffff;
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 2px solid #dddddd;
+}
+
+.input {
+    width: 100%;
+    height: 78px;
+    line-height: 78px;
+    border: 0 none;
+    font-size: 30px;
+    color: #999999;
+}
+
+.vercode {
+    width: 320px;
+    height: 78px;
+    line-height: 78px;
+    border: 0 none;
+    font-size: 30px;
+    color: #999999;
+}
+
+.send {
+    width: 180px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 24px;
+    color: #ffffff;
+    background: #f27a7a;
+}
+
+.box {
+    margin: 100px 0 0 25px;
+}
