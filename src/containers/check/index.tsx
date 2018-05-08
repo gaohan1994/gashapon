@@ -47,7 +47,7 @@ class Check extends React.Component <Props, State> {
             loadMonthCheckById,
         } = this.props;
 
-        const user  = User.getUser();
+        const user = User.getUser();
 
         if (!user.userId) {
             /* do no sign stuff */
@@ -64,19 +64,22 @@ class Check extends React.Component <Props, State> {
         const user  = User.getUser();
 
         if (!user.userId) {
+
+            /* do sign stuff here */
+
             this.setState({
                 showModal: true
             });
-            /* do sign stuff here */
         } else {
 
             const check = new CheckClass();
             const result = await check.doCheckHandle({_id: user.userId});
             
             if (result.success === true) {
+
                 /* do check ok */
-                
             } else {
+
                 /* do error stuff here */
             }
         }
@@ -126,15 +129,11 @@ class Check extends React.Component <Props, State> {
             weekDay 是周几         用来判断第一个日期起始位置 1-7
         */
         const today = new Date().getDate();
-
-        const date = new Date();
-        date.setDate(1);
-        const weekDay = date.getDay();
-        
         let style = '';
         
         const result = getChecks.reward 
         ? getChecks.reward.map((item: ChecksItem, i: number) => {
+            
             if (today < item.day) {
                 /* 过期 */
                 style = 'past';
@@ -150,11 +149,6 @@ class Check extends React.Component <Props, State> {
                 <div 
                     key={i}
                     styleName={style}
-                    style={{
-                        marginLeft: i === 0
-                                    ? `${weekDay * 12}vw`
-                                    : ''
-                    }}
                     check-item="check-item"
                     onClick={() => this.showReward()}
                 >

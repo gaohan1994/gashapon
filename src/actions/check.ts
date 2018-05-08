@@ -54,9 +54,14 @@ export const loadMonthCheck = () => (dispatch: Dispatch<CheckActions>): void => 
 };
 
 export const loadMonthCheckById = ({_id}: LoadMonthCheckByIdParam) => (dispatch: Dispatch<CheckActions>): void => {
-    if (!_id) {
-        throw new Error('ID错误');
+    try {
+        if (!_id) {
+            throw new Error('_id');
+        }
+    } catch (err) {
+        console.log('param err', err);
     }
+    
     try {
         fetch(`/month/checkin/${_id}`)
         .then(res => res.json())

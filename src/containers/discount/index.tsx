@@ -118,7 +118,10 @@ class Discount extends React.Component<Props, State> {
         const { getDiscountData } = this.props;
 
         return (
-            <div styleName="container">
+            <div 
+                styleName="container"
+                bgimg-center="100"
+            >
                 <Login/>
                 <Registe/>
                 <div 
