@@ -17,4 +17,11 @@ export interface Userdata {
         _id: string;
         machines: string[];
     };
+
+    comment_count: number;
+    discount_count: number;
+    discounts: object[];
+    experience: number;
+    play_count: number;
+    sell_count: number;
 }

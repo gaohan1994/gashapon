@@ -4,7 +4,7 @@ import * as constants from '../constants/home';
 import { Dispatch } from 'redux';
 import { Gashapon } from '../types/componentTypes';
 import { getAccessToken } from '../config/util';
-// import User from '../classes/user';
+import User from '../classes/user';
 // import config from '../config/index';
 
 export interface LoadUserData {
@@ -130,7 +130,7 @@ export const loadUserDataFromUuid = () => (dispatch: Dispatch<HomeActions>): voi
         .then(res => {
             if (res.success === true) {
 
-                // User.setUser({userId: res._id});
+                User.setUser({uid: res._id});
                 
                 dispatch({type: constants.RECEIVE_HOME_USERDATA, userdata: res.result});
             } else {

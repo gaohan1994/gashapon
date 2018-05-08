@@ -53,10 +53,11 @@ class Hoc extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
-        const { loadUserDataFromUuid, didmountSignStatus, showSignModal } = this.props;
+    componentWillMount() {
+        const { loadUserDataFromUuid, didmountSignStatus, showSignModal, getUserdata } = this.props;
         // const userId = '5ac1f31087e83ef4915abc02';
         const user = User.getUser();
+        console.log('123', user);
         if (!user.userId) {
             /* do no sign handle */
             if (didmountSignStatus === true) {
@@ -65,8 +66,12 @@ class Hoc extends React.Component<Props, State> {
                 }
             }
         } else {
-            if (loadUserDataFromUuid) {
-                loadUserDataFromUuid();
+            if (getUserdata && getUserdata._id) {
+                return;
+            } else {
+                if (loadUserDataFromUuid) {
+                    loadUserDataFromUuid();
+                }
             }
         }
     }

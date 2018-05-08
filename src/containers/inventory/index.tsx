@@ -13,7 +13,7 @@ import User from '../../classes/user';
 import Business from '../../classes/business';
 import Sign from '../../classes/sign';
 import Header from '../../components/header_inventory';
-import LoginModal from '../../components/modal_login';
+import SignModal from '../sign';
 import { Stores } from '../../reducers/type';
 import { 
     Gashapon
@@ -24,7 +24,7 @@ import {
     loadInventoryByWord,
     LoadInventoryParam,
 } from '../../actions/inventory';
-import { showLoginModal } from '../../actions/status';
+import { showSignModal } from '../../actions/status';
 
 import { 
     getInventory
@@ -48,7 +48,7 @@ interface Props {
     getInventory        : Gashapon[];
     loadInventory       : ({}: LoadInventoryParam) => void;
     loadInventoryByWord : ({}: LoadInventoryParam) => void;
-    showLoginModal      : () => void;
+    showSignModal       : () => void;
 }
 
 interface State {
@@ -89,21 +89,28 @@ class Inventory extends React.Component<Props, State> {
         const { 
             match,
             loadInventory,
-            showLoginModal,
+            showSignModal,
+            getUserdata,
         } = this.props;
 
-        const user = User.getUser();
+        // const user = User.getUser();
 
-        if (!user.userId) {
+        if (getUserdata._id) {
+            console.log('ok');
+        } else {
+            console.log('no ok');
+        }
+
+        if (!getUserdata._id) {
             /* do no id stuff */
-            showLoginModal();
+            showSignModal();
         } else {
             if (!!match.params.word) {
 
-                loadInventoryByWord({userId: user.userId, word: match.params.word});
+                loadInventoryByWord({userId: getUserdata._id, word: match.params.word});
             } else {
                 
-                loadInventory({userId: user.userId});
+                loadInventory({userId: getUserdata._id});
             }
     
             arriveFooter.add('inventory', () => {
@@ -111,7 +118,7 @@ class Inventory extends React.Component<Props, State> {
                 if (!!match.params.word) {
 
                     loadInventoryByWord({
-                        userId  : user.userId, 
+                        userId  : getUserdata._id,
                         word    : match.params.word,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
@@ -119,7 +126,7 @@ class Inventory extends React.Component<Props, State> {
                 } else {
                     
                     loadInventory({
-                        userId  : user.userId,
+                        userId  : getUserdata._id,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
                     });
@@ -140,13 +147,13 @@ class Inventory extends React.Component<Props, State> {
 
     public onMenuClickHandle = async (type: string): Promise<void> => {
 
-        const { showLoginModal } = this.props;
+        const { showSignModal } = this.props;
         const result = await Sign.doCheckAuth();
 
         if (result.success === true) {
             history.push(`/${type}`);
         } else {
-            showLoginModal();
+            showSignModal();
         }
     }
 
@@ -180,7 +187,7 @@ class Inventory extends React.Component<Props, State> {
         const { getInventory, match } = this.props;
         return (
             <Hoc>
-                <LoginModal/>
+                <SignModal/>
                 <div styleName="container">
                     <Header title={match.params.word ? match.params.word : ''}/>
                     {getInventory.map((item, i) => (
@@ -233,7 +240,7 @@ export const mapStateToProps = (state: Stores) => ({
 export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
     loadInventory       : bindActionCreators(loadInventory, dispatch),
     loadInventoryByWord : bindActionCreators(loadInventoryByWord, dispatch),
-    showLoginModal      : bindActionCreators(showLoginModal, dispatch),
+    showSignModal       : bindActionCreators(showSignModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

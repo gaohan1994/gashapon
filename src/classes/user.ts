@@ -130,14 +130,30 @@ class User {
     }
 
     public setUser = ({uid, userId, address, receiver, phone, name, headimg, remain}: Params): void => {
-        this.uid        = uid       ? uid : '',
-        this.userId     = userId    ? userId : '',
-        this.address    = address   ? address : '';
-        this.receiver   = receiver  ? receiver : '';
-        this.phone      = phone     ? phone : '';
-        this.name       = name      ? name : '';
-        this.headimg    = headimg   ? headimg : '';
-        this.remain     = remain    ? remain : 0;
+        this.uid        = uid       
+                            ? uid 
+                            : this.uid ? this.uid : '',
+        this.userId     = userId    
+                            ? userId 
+                            : this.userId ? this.userId : '',
+        this.address    = address   
+                            ? address 
+                            : this.address ? this.address : '';
+        this.receiver   = receiver  
+                            ? receiver 
+                            : this.receiver ? this.receiver : '';
+        this.phone      = phone     
+                            ? phone 
+                            : this.phone ? this.phone : '';
+        this.name       = name      
+                            ? name 
+                            : this.name ? this.name : '';
+        this.headimg    = headimg   
+                            ? headimg 
+                            : this.headimg ? this.headimg : '';
+        this.remain     = remain    
+                            ? remain 
+                            : this.remain ? this.remain : 0;
     }
 
     public getUserFromAccesstoken = async (uuid: string): Promise <GetUserFromAccesstokenRetrun> => {

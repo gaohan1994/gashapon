@@ -268,40 +268,48 @@ class My extends React.Component<Props, State> {
     }
 
     private renderMyData = (): JSX.Element => {
+        const { getUserdata } = this.props;
         const menus = [
             {
                 _id: 1,
                 value: '扭蛋',
-                img: '',
-                param: '123',
+                count: getUserdata.play_count
             },
             {
                 _id: 2,
                 value: '集齐',
-                img: '',
+                count: 0
             },
             {
                 _id: 3,
                 value: '弹幕',
-                img: '',
+                count: getUserdata.comment_count
             },
             {
                 _id: 4,
                 value: '砍价',
-                img: '',
+                count: getUserdata.discount_count
             },
             {
                 _id: 5,
                 value: '蛋卷折扣',
-                img: '',
-            },
+                count: getUserdata.experience
+            }
         ];
         return (
             <div styleName="data">
-                <Menu
-                    menus={menus}
-                    height={190}
-                />
+                {menus.map((item, i) => {
+                    return this.renderDataItem(item, i);
+                })}
+            </div>
+        );
+    }
+
+    private renderDataItem = (data: any, i: number): JSX.Element => {
+        return (
+            <div key={i} styleName="dataItem">
+                <span font-s="30">{data.count}</span>
+                <span font-s="18">{data.value}</span>
             </div>
         );
     }
