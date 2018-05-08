@@ -200,7 +200,7 @@ class Sign {
                 })
             })
             .then(res => res.json());
-
+            console.log(result);
             if (result.success === true) {
                 return { 
                     success : true,

@@ -5,6 +5,7 @@ import * as styles from './index.css';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
+import history from '../../history';
 
 import { 
     CheckActions,
@@ -16,20 +17,21 @@ import {
 import {
     getChecks,
 } from '../../reducers/check/index';
+import { Userdata } from '../../types/user';
+import { getUserdata } from '../../reducers/home';
 
-import Header from '../../components/haeder_set';
 import CheckClass from '../../classes/check';
 import User from '../../classes/user';
 import Button from '../../components/button';
-import Modal from '../../components/modal';
 
 interface Props {
     getChecks           : Checks;
     loadMonthCheckById  : ({}: LoadMonthCheckByIdParam) => void;
+    getUserdata         : Userdata;
 }
 
 interface State {
-    showModal: boolean;
+
 }
 
 class Check extends React.Component <Props, State> {
@@ -37,32 +39,32 @@ class Check extends React.Component <Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            showModal: false
+
         };
     }
 
     componentDidMount() {
         const {
-
+            getUserdata,
             loadMonthCheckById,
         } = this.props;
 
         const user = User.getUser();
+        console.log(user);
 
-        if (!user.userId) {
+        if (!getUserdata._id) {
             /* do no sign stuff */
             this.setState({
                 showModal: true
             });
         } else {
-            loadMonthCheckById({_id: user.userId});
+            loadMonthCheckById({_id: getUserdata._id});
         }
     }
 
     public doCheckHandle = async (): Promise<void> => {
 
         const user  = User.getUser();
-
         if (!user.userId) {
 
             /* do sign stuff here */
@@ -89,34 +91,44 @@ class Check extends React.Component <Props, State> {
         //
     }
 
-    public showModal = (): void => {
-        this.setState({
-            showModal: true
-        });
+    public onBackHandle = () => {
+        history.goBack();
     }
 
-    public hideModal = (): void => {
-        this.setState({
-            showModal: false
-        });
+    public renderItemImg = (i: number): string => {
+        // if (i < 6) {
+        //     return ''
+        // }
+        return 'http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851%E9%BB%91%E7%99%BD.png';
     }
 
     render () {
-        const { showModal } = this.state;
         return (
-            <section 
-                container-with-header="true"
-            >
-                <Modal
-                    display={showModal}
-                    value="请登录后操作"
-                    onCancelClickHandle={this.hideModal}
-                    onConfirmClickHandle={this.hideModal}
+            <section styleName="container">
+                <i 
+                    styleName="back" 
+                    bgimg-center="100"
+                    onClick={() => this.onBackHandle()}
                 />
-                <Header title="每日签到"/>
+                <div 
+                    styleName="header"
+                    bgimg-center="100"
+                    flex-center="all-center"
+                >
+                    <div
+                        styleName="button"
+                        bgimg-center="100"
+                    >
+                        <span styleName="big">签到</span>
+                        <span styleName="normal">签到</span>
+                    </div>
+                    <span styleName="normaltext">文字</span>
+                </div>
+
+                <i styleName="title" bgimg-center="100"/>
                 {this.renderMonthChecks()}
-                {this.renderAccumulateReward()}
-                {this.renderFooter()}
+                {/* {this.renderAccumulateReward()} */}
+                {/* {this.renderFooter()} */}
             </section>
         );
     }
@@ -150,12 +162,26 @@ class Check extends React.Component <Props, State> {
                     key={i}
                     styleName={style}
                     check-item="check-item"
+                    flex-center="all-center"
+                    check-border-top={i < 6 ? 'true' : ''}
                     onClick={() => this.showReward()}
                 >
-                    {item.day}
+                    <span 
+                        styleName="bge"
+                        bgimg-center="100"
+                    >
+                        {i + 1}
+                    </span>
+                    <i 
+                        styleName="checkimg"
+                        bgimg-center="100"
+                        style={{
+                            backgroundImage: `url(${this.renderItemImg(i)})`
+                        }}
+                    />
                     {item.user
-                    ? '已领'
-                    : '未领'}
+                    ? <span>已领</span>
+                    : <span>未领</span>}
                 </div>
             );
         }) 
@@ -180,6 +206,7 @@ class Check extends React.Component <Props, State> {
     }
 
     private renderFooter = (): JSX.Element => {
+
         return (
             <div 
                 styleName="footer"
@@ -198,7 +225,8 @@ class Check extends React.Component <Props, State> {
 const CheckHoc = CSSModules(Check, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    getChecks: getChecks(state),
+    getChecks   : getChecks(state),
+    getUserdata : getUserdata(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<CheckActions>, state: Stores) => ({

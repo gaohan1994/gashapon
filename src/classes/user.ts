@@ -52,7 +52,7 @@ class User {
     /* uuid cookie拿 */
     private userId  : string;
     /* 用户uid 通过uuid请求 */
-    private uid     : string;
+    private uid     ?: string;
     /* 地址 */
     private address : string;
     /* 收货人姓名 */
@@ -67,19 +67,18 @@ class User {
     private remain  : number;
 
     constructor () {
-        this.userId = getAccessToken();
-        this.uid    = '';
+        this.init();
 
+        this.userId = getAccessToken();
         this.getUser                = this.getUser.bind(this);
         this.setUser                = this.setUser.bind(this);
         this.doAddAddressMethod     = this.doAddAddressMethod.bind(this);
         this.doChangeAddressMethod  = this.doChangeAddressMethod.bind(this);
-        this.setUserId              = this.setUserId.bind(this);
     }
     
     public getUser = (): UserType => {
         return {
-            uid     : this.uid,
+            uid     : this.uid ? this.uid : '',
             userId  : this.userId,
             address : this.address,
             receiver: this.receiver,
@@ -90,7 +89,13 @@ class User {
         };
     }
 
-    public setUserId = async (): Promise <SetUserIdReturn> => {
+    /**
+     * 启动函数
+     * 
+     * @memberof User
+     */
+    public init = async (): Promise<void> => {
+        console.log('init');
 
         const uuid = getAccessToken();
 
@@ -100,32 +105,19 @@ class User {
             }
         } catch (err) {
             console.log('setUserId err', err);
-            return {
-                type    : 'UUID_ERROR',
-                message : err.message ? err.message : '数据错误'
-            };
         }
 
         try {
             const result = await fetch(`/accesstoken/${uuid}`).then(res => res.json());
-
+            console.log('result', result);
             if (result.success === true) {
                 
-                this.userId = result._id;
-
-                return {
-                    success : true,
-                    data    : result.result
-                };
+                this.uid = result.result._id;
             } else {
                 throw new Error('请求accesstoken接口出错');
             }
         } catch (err) {
-            console.log('setUserId err', err); 
-            return {
-                type    : 'ERROR_FETCH_UID',
-                message : err.message ? err.message : '请求uid出错'
-            };
+            console.log('setUserId err', err);
         }
     }
 

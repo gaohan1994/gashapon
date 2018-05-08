@@ -32,6 +32,7 @@ import Record from './containers/pay/record';
 import DiscountHome from './containers/discount_home';
 import Address from './containers/address';
 import AddAddress from './containers/address/add';
+import Show from './containers/show';
 
 const routes = (
     <Switch>
@@ -68,6 +69,7 @@ const routes = (
         <Route path="/discounthome"             component={DiscountHome}/>
         <Route path="/address"                  component={Address}/>
         <Route path="/addaddress"               component={AddAddress}/>
+        <Route path="/show/:id"                 component={Show}/>
 
         <Route component={NoMatch}/>
     </Switch>

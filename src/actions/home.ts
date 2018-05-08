@@ -129,9 +129,11 @@ export const loadUserDataFromUuid = () => (dispatch: Dispatch<HomeActions>): voi
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
+                const user = User.getUser();
 
-                User.setUser({uid: res._id});
-                
+                if (user.uid !== res.result._id) {
+                    User.setUser({uid: res.result._id});
+                }
                 dispatch({type: constants.RECEIVE_HOME_USERDATA, userdata: res.result});
             } else {
                 throw new Error('通过uuid请求uid出错');

@@ -18,6 +18,7 @@ export const setText: string;
 export const menu: string;
 export const utils: string;
 export const data: string;
+export const dataItem: string;
 export const dataBanner: string;
 export const money: string;
 export const moneyText: string;

@@ -14,6 +14,7 @@ import News from '../../components/news';
 import Menu from '../../components/menu_v1';
 import DataItem from '../../components/content_item';
 import Sign from '../../classes/sign';
+import Hoc from '../hoc';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
 import {
@@ -62,6 +63,7 @@ class Main extends React.Component<Props, State> {
             loadMainData,
             loadNotifies,
         } = this.props;
+
         loadBanners();
         loadGenres();
         loadTopics();
@@ -81,35 +83,37 @@ class Main extends React.Component<Props, State> {
 
     render() {
         return (
-            <div styleName="container">
-                <a 
-                    style={{
-                        width: '100%',
-                        height: '100px',
-                        background: '#f27a7a'
-                    }}
-                    href="/logout"
-                >
-                    LOGINOUT
-                </a>
-                <div 
-                    style={{
-                        width: '100%',
-                        height: '100px',
-                        background: '#000000'
-                    }}
-                    onClick={() => this.onNavHandle('forget')}
-                >
-                    register
+            <Hoc>
+                <div styleName="container">
+                    <a 
+                        style={{
+                            width: '100%',
+                            height: '100px',
+                            background: '#f27a7a'
+                        }}
+                        href="/logout"
+                    >
+                        LOGINOUT
+                    </a>
+                    <div 
+                        style={{
+                            width: '100%',
+                            height: '100px',
+                            background: '#000000'
+                        }}
+                        onClick={() => this.onNavHandle('forget')}
+                    >
+                        register
+                    </div>
+                    <Header/>
+                    <Search/>
+                    <News/>
+                    {this.renderMenu()}
+                    {this.renderTimeLimit()}
+                    {this.renderMainData()}
+                    <Footer/>
                 </div>
-                <Header/>
-                <Search/>
-                <News/>
-                {this.renderMenu()}
-                {this.renderTimeLimit()}
-                {this.renderMainData()}
-                <Footer/>
-            </div>
+            </Hoc>
         );
     }
 
