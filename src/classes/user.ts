@@ -39,6 +39,13 @@ export interface GetUserFromAccesstokenRetrun {
     uid     ?: string;
 }
 
+export interface SetUserIdReturn {
+    success ?: boolean;
+    data    ?: object;
+    type    ?: string;
+    message ?: string;
+}
+
 class User {
     /* id cookie拿 */
     private userId  : string;
@@ -62,6 +69,7 @@ class User {
         this.setUser                = this.setUser.bind(this);
         this.doAddAddressMethod     = this.doAddAddressMethod.bind(this);
         this.doChangeAddressMethod  = this.doChangeAddressMethod.bind(this);
+        this.setUserId              = this.setUserId.bind(this);
     }
     
     public getUser = (): UserType => {
@@ -74,6 +82,45 @@ class User {
             headimg : this.headimg,
             remain  : this.remain,
         };
+    }
+
+    public setUserId = async (): Promise <SetUserIdReturn> => {
+
+        const uuid = getAccessToken();
+
+        try {
+            if (!uuid) {
+                throw new Error('cookie中不存在uuid');
+            }
+        } catch (err) {
+            console.log('setUserId err', err);
+            return {
+                type    : 'UUID_ERROR',
+                message : err.message ? err.message : '数据错误'
+            };
+        }
+
+        try {
+            const result = await fetch(`/accesstoken/${uuid}`).then(res => res.json());
+
+            if (result.success === true) {
+                
+                this.userId = result._id;
+
+                return {
+                    success : true,
+                    data    : result.result
+                };
+            } else {
+                throw new Error('请求accesstoken接口出错');
+            }
+        } catch (err) {
+            console.log('setUserId err', err); 
+            return {
+                type    : 'ERROR_FETCH_UID',
+                message : err.message ? err.message : '请求uid出错'
+            };
+        }
     }
 
     public setUser = ({userId, address, receiver, phone, name, headimg, remain}: Params): void => {

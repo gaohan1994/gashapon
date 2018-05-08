@@ -35,6 +35,7 @@ export interface State {
 
 interface InputParam {
     value           : string;
+    type            ?: string;
     style           ?: string;
     placeholder     : string;
     onChangeHandle  : (event: any) => void;
@@ -45,7 +46,7 @@ class Registe extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            showType: 'register',
+            showType: 'login',
 
             logphone: '',
             logpwd  : '',
@@ -154,7 +155,7 @@ class Registe extends React.Component<Props, State> {
         if (result) {
             alert(result.errMsg);
         } else {
-            // const { hideLogin } = this.props;
+            // const { hideSignModal } = this.props;
             /* do stuff */
             
             const res: DoLoginMethodReturn = await Sign.doLoginMethod({
@@ -176,18 +177,23 @@ class Registe extends React.Component<Props, State> {
     }
 
     render() {
+
         const { 
             showType,
+            logphone,
+            logpwd,
             regphone,
             regpwd,
             regcode,
         } = this.state;
+
         const { 
             display,
             hideSignModal,
         } = this.props;
+
         return (
-            <section 
+            <section
                 styleName="container"
                 flex-center="all-center"
                 style={{
@@ -203,34 +209,35 @@ class Registe extends React.Component<Props, State> {
                 />
                 <div styleName="content">
                     <div styleName="type">
-                        <button
+                        <span
                             styleName={showType === 'login'     ? 'buttonActive' : 'buttonNormal'}
                             onClick={() => this.onButtonClickHandle('login')}
                         >
                             登录
-                        </button>
-                        <button
+                        </span>
+                        <span
                             styleName={showType === 'register'  ? 'buttonActive' : 'buttonNormal'}
                             onClick={() => this.onButtonClickHandle('register')}
                         >
                             注册
-                        </button>
+                        </span>
                     </div>
                     
                     {showType === 'login'
                     ?   <div>
                             <div styleName="item">
                                 {this.renderInput({
-                                    value           : regphone,
+                                    value           : logphone,
                                     placeholder     : '输入手机号',
-                                    onChangeHandle  : this.onChangeRegphone
+                                    onChangeHandle  : this.onChangeLogphone
                                 })}
                             </div>
                             <div styleName="item">
                                 {this.renderInput({
-                                    value           : regpwd,
+                                    value           : logpwd,
+                                    type            : 'password',
                                     placeholder     : '输入密码',
-                                    onChangeHandle  : this.onChangeRegpwd
+                                    onChangeHandle  : this.onChangeLogpwd
                                 })}
                             </div>
                             <div styleName="box">
@@ -256,6 +263,7 @@ class Registe extends React.Component<Props, State> {
                             <div styleName="item">
                                 {this.renderInput({
                                     value           : regpwd,
+                                    type            : 'password',
                                     placeholder     : '输入密码',
                                     onChangeHandle  : this.onChangeRegpwd
                                 })}
@@ -285,11 +293,12 @@ class Registe extends React.Component<Props, State> {
         );
     }
 
-    private renderInput = ({value, style, placeholder, onChangeHandle}: InputParam): JSX.Element => {
+    private renderInput = ({value, type, style, placeholder, onChangeHandle}: InputParam): JSX.Element => {
 
         return (
             <input
                 styleName={style ? style : 'input'}
+                type={type ? type : 'text'}
                 value={value}
                 placeholder={placeholder}
                 onChange={onChangeHandle}

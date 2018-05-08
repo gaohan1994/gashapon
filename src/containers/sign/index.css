@@ -8,10 +8,15 @@
     background: #ffffff;
     -webkit-transition: all .2s ease-out;
     transition: all .2s ease-out;
+    background-image: url('http://net.huanmusic.com/gasha/%E7%99%BB%E5%BD%95%E8%83%8C%E6%99%AF.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position-y: top;
 }
 
 .back {
     position: absolute;
+    z-index: 50;
     width: 41px;
     height: 33px;
     left: 35px;
@@ -21,6 +26,8 @@
 
 .content {
     width: 520px;
+    z-index: 60;
+    background: #ffffff;
 }
 
 .type {
@@ -36,7 +43,8 @@
         -ms-flex-align: center;
             align-items: center;
     -ms-flex-pack: distribute;
-        justify-content: space-around
+        justify-content: space-around;
+        text-align: center;
 }
 
 .buttonActive, .buttonNormal {
@@ -130,4 +138,4 @@
 
 .box {
     margin: 100px 0 0 25px;
-}
+}   

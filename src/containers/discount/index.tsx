@@ -5,6 +5,7 @@ import { Dispatch, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
 import config from '../../config/index';
+import * as numeral from 'numeral';
 import { 
     DiscountActions,
     loadDiscountData,
@@ -25,8 +26,7 @@ import DiscountClass,
     HelpDiscountMethodReturn
 } from '../../classes/discount';
 import User from '../../classes/user';
-import Registe from '../sign/registe';
-import Login from '../sign/login';
+import history from '../../history';
 
 interface Props {
     match: {
@@ -40,6 +40,13 @@ interface Props {
 }
 
 interface State {}
+
+interface DiscountItem {
+    customer_id : string;
+    discount    : number;
+    image       : string;
+    nick        : string;
+}
 
 /* 5ae3e0bfce432fc877c64b3d */
 class Discount extends React.Component<Props, State> {
@@ -113,6 +120,15 @@ class Discount extends React.Component<Props, State> {
         }
     }
 
+    public goGashaponHandle = (): void => {
+        const { getDiscountData } = this.props;
+        if (!!getDiscountData.machine) {
+            history.push(`/gashapon/${getDiscountData.machine}`);
+        } else {
+            alert(`没有该扭蛋机!`);
+        }
+    }
+
     render (): JSX.Element {
 
         const { getDiscountData } = this.props;
@@ -154,6 +170,7 @@ class Discount extends React.Component<Props, State> {
                             styleName="button"
                             bgimg-center="100"
                             style={{backgroundImage: `url(http://net.huanmusic.com/gasha/discount/%E6%88%91%E4%B9%9F%E6%83%B3%E8%A6%81.png)`}}
+                            onClick={() => this.goGashaponHandle()}
                         />
                     </div>
 
@@ -161,18 +178,11 @@ class Discount extends React.Component<Props, State> {
                         styleName="colorbox"
                     >
                         <span styleName="title">{`---- 砍价详情 ----`}</span>
-                        <div styleName="item">
-                            <span 
-                                styleName="avator"
-                                bgimg-center="bgimg-center"
-                                style={{
-                                    backgroundImage: `url(${config.empty_pic.url})`
-                                }}
-                            />
-                            <span styleName="username" word-overflow="word-overflow">姓名</span>
-                            <span styleName="userdiscount">砍掉2元</span>
-                            <i styleName="dicounticon" bgimg-center="100"/>
-                        </div>
+                        {getDiscountData.detail && getDiscountData.detail.length > 0
+                        ? getDiscountData.detail.map((item: DiscountItem, i) => {
+                            return this.renderDiscountItem(item, i);
+                        })
+                        : ''}
                     </div>
                     
                     <div styleName="colorbox">
@@ -184,6 +194,28 @@ class Discount extends React.Component<Props, State> {
                         <span>5.嘀哩扭蛋保留法律范围内允许的对活动的解释权。</span>
                     </div>
                 </div>
+            </div>
+        );
+    }
+
+    private renderDiscountItem = (item: DiscountItem, i: number): JSX.Element => {
+        return (
+            <div 
+                styleName="item"
+                key={i}
+            >
+                <span 
+                    styleName="avator"
+                    bgimg-center="bgimg-center"
+                    style={{
+                        backgroundImage: item.image 
+                                        ? `url(http://${config.host.pic}/${item.image})`
+                                        : `url(${config.empty_pic.url})`
+                    }}
+                />
+                <span styleName="username" word-overflow="word-overflow">{item.nick}</span>
+                <span styleName="userdiscount">砍掉{` ${numeral(item.discount / 100).format('0.00')} `}元</span>
+                <i styleName="dicounticon" bgimg-center="100"/>
             </div>
         );
     }
