@@ -9,7 +9,6 @@ import Menu from '../../components/menu_v1';
 import SignModal from '../sign';
 import history from '../../history';
 import Hoc from '../hoc';
-import LoginModal from '../../components/modal_login';
 import config from '../../config';
 import { Userdata } from '../../types/user';
 import { Stores } from '../../reducers/type';
@@ -26,7 +25,6 @@ import Sign from '../../classes/sign';
 
 interface Props {
     getUserdata     : Userdata;
-    loadUserData    : (userId: string) => void;
     loadCode        : (phone: string) => void;
     showLoginModal  : () => void;
 }
@@ -79,17 +77,18 @@ class My extends React.Component<Props, State> {
         const { } = this.props;
         
         return (
-            <div styleName="container">
-                <SignModal/>
-                <LoginModal/>
-                {this.renderProfile()}
-                {this.renderMoney()}
-                {this.renderUtils()}
-                {this.renderMenu()}
-                {this.renderSet()}
-                {this.renderMyData()}
-                <Footer/>
-            </div>
+            <Hoc didmountSignStatus={true}>
+                <div styleName="container">
+                    <SignModal/>
+                    {this.renderProfile()}
+                    {this.renderMoney()}
+                    {this.renderUtils()}
+                    {this.renderMenu()}
+                    {this.renderSet()}
+                    {this.renderMyData()}
+                    <Footer/>
+                </div>
+            </Hoc>
         );
     }
 
@@ -298,14 +297,12 @@ class My extends React.Component<Props, State> {
             },
         ];
         return (
-            <Hoc>
-                <div styleName="data">
-                    <Menu
-                        menus={menus}
-                        height={190}
-                    />
-                </div>
-            </Hoc>
+            <div styleName="data">
+                <Menu
+                    menus={menus}
+                    height={190}
+                />
+            </div>
         );
     }
 }

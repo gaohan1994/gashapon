@@ -3,6 +3,7 @@ import { NormalReturnObject } from './base';
 
 export interface UserType {
     userId  : string;
+    uid     : string;
     address : string;
     receiver: string;
     phone   : string;
@@ -13,6 +14,7 @@ export interface UserType {
 
 interface Params {
     userId  ?: string;
+    uid     ?: string;
     address ?: string;
     receiver?: string;
     phone   ?: string;
@@ -47,8 +49,10 @@ export interface SetUserIdReturn {
 }
 
 class User {
-    /* id cookie拿 */
+    /* uuid cookie拿 */
     private userId  : string;
+    /* 用户uid 通过uuid请求 */
+    private uid     : string;
     /* 地址 */
     private address : string;
     /* 收货人姓名 */
@@ -64,6 +68,7 @@ class User {
 
     constructor () {
         this.userId = getAccessToken();
+        this.uid    = '';
 
         this.getUser                = this.getUser.bind(this);
         this.setUser                = this.setUser.bind(this);
@@ -74,6 +79,7 @@ class User {
     
     public getUser = (): UserType => {
         return {
+            uid     : this.uid,
             userId  : this.userId,
             address : this.address,
             receiver: this.receiver,
@@ -123,7 +129,8 @@ class User {
         }
     }
 
-    public setUser = ({userId, address, receiver, phone, name, headimg, remain}: Params): void => {
+    public setUser = ({uid, userId, address, receiver, phone, name, headimg, remain}: Params): void => {
+        this.uid        = uid       ? uid : '',
         this.userId     = userId    ? userId : '',
         this.address    = address   ? address : '';
         this.receiver   = receiver  ? receiver : '';
@@ -172,6 +179,8 @@ class User {
         try {
             if (!this.userId) {
                 throw new Error('userId');
+            } else if (!this.uid) {
+                throw new Error('uid');
             } else if (!data.receiver) {
                 throw new Error('receiver');
             } else if (!data.phone) {
@@ -186,8 +195,8 @@ class User {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'ERROR_ADD_ADDRESS',
-                message: err.message ? err.message : '增加地址数据错误'
+                type: 'PARAM_ERROR',
+                message: err.message ? err.message : '数据错误'
             };
         }
 

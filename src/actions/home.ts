@@ -3,16 +3,18 @@ import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/home';
 import { Dispatch } from 'redux';
 import { Gashapon } from '../types/componentTypes';
+import { getAccessToken } from '../config/util';
+// import User from '../classes/user';
 // import config from '../config/index';
 
 export interface LoadUserData {
-    type: constants.RECEIVE_HOME_USERDATA;
+    type    : constants.RECEIVE_HOME_USERDATA;
     userdata: {};
 }
 
 export interface LoadCollectGashapons {
-    type: constants.RECEIVE_HOME_COLLECT;
-    gashapons: Array<any>;
+    type        : constants.RECEIVE_HOME_COLLECT;
+    gashapons   : Array<any>;
 }
 
 export interface LoadCode {
@@ -20,10 +22,16 @@ export interface LoadCode {
     code: object[];
 }
 
+export interface LoadUserDataFromUuid {
+    type    : constants.RECEIVE_HOME_USERDATA;
+    userdata: {};
+}
+
 export type HomeActions = 
     LoadUserData 
     | LoadCollectGashapons 
-    | LoadCode;
+    | LoadCode
+    | LoadUserDataFromUuid;
 
 export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>): void => {
     if (!userId) {
@@ -102,5 +110,35 @@ export const loadCode = (phone: string) => (dispatch: Dispatch<HomeActions>): vo
         });
     } catch (err) {
         console.log('loadCode err', err);
+    }
+};
+
+export const loadUserDataFromUuid = () => (dispatch: Dispatch<HomeActions>): void => {
+    try {
+        if (!getAccessToken()) {
+            throw new Error('uuid');
+        } 
+    } catch (err) {
+        console.log('receiveUserdata', err);
+    }
+
+    try {
+        const uuid = getAccessToken();
+
+        fetch(`/accesstoken/${uuid}`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+
+                // User.setUser({userId: res._id});
+                
+                dispatch({type: constants.RECEIVE_HOME_USERDATA, userdata: res.result});
+            } else {
+                throw new Error('通过uuid请求uid出错');
+            }
+        });
+        
+    } catch (err) {
+        console.log('dispatching userdata error', err);
     }
 };

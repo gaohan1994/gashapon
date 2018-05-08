@@ -7,5 +7,5 @@ export default {
     showLogin       : false,
     showRegister    : false,
     showLoginModal  : false,
-    showSignModal   : true,
+    showSignModal   : false,
 };

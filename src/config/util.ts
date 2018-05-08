@@ -15,7 +15,6 @@ export const getAccessToken = (): string => {
   // const userId = '5ac1f31087e83ef4915abc02';
   // return userId;
   const cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)huanyin\s*\=\s*([^;]*).*$)|^.*$/, '$1');
-  
   return cookieValue ? cookieValue : '';
   // return '5ac1f31087e83ef4915abc02';
 };
