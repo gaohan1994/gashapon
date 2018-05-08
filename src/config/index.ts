@@ -20,7 +20,7 @@ let config = {
         web_url_http: 'http://www-dev.huanmusic.com',
         empty_pic: {
             // url: 'http://o2xzfohec.qnssl.com/www/img/index/empty-pic.png'
-            url: 'https://qntest.huanmusic.com/www/empty.png'
+            url: 'http://qntest.huanmusic.com/www/empty.png'
         },
         qnssl_old: 'nzhye65lt.qnssl.com/dt_v1_',
         music_limit: 3,

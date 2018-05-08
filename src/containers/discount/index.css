@@ -1,5 +1,172 @@
 .container {
     width: 100vw;
+    min-height: 100vh;
+}
+
+.bgimg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
     height: 100vh;
-    background-image: url('');
+    z-index: 50;
+    background-image: url('http://net.huanmusic.com/gasha/discount/%E7%A0%8D%E4%BB%B7%E8%83%8C%E6%99%AF.png');
+}
+
+.content {
+    position: relative;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    overflow-y: auto;
+    padding: 30px 0;
+    width: 100vw;
+    max-height: 100vh;
+    z-index: 60;
+}
+
+.logo {
+    width: 534px;
+    margin: 0 0 0 108px;
+    height: 260px;
+}
+
+.coverbox {
+    margin: 10px 0 0 142px;
+    width: 466px;
+    position: relative;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background: #ffffff;
+    padding: 8px;
+}
+
+.cover {
+    display: block;
+    position: relative;
+    width: 450px;
+    height: 490px;
+}
+
+.name {
+    display: block;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px 20px;
+    position: absolute;
+    bottom: 8px;
+    width: 450px;
+    font-size: 30px;
+    line-height: 45px;
+    color: #ffffff;
+    font-weight: 400;
+    background: rgba(0, 0, 0, .7);
+    text-align: center;
+}
+
+.buttons {
+    width: 580px;
+    margin: 30px 0 0 85px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.button {
+    width: 260px;
+    height: 68px;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0px;
+}
+
+.colorbox {
+    margin: 30px 0 0 30px;
+    width: 690px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 30px 20px;
+    border-radius: 10px;
+    background: rgba(255, 97, 143, .7);
+}
+
+.colorbox > span {
+    display: block;
+    font-size: 30px;
+    color: #ffffff;
+    line-height: 45px;
+}
+
+.title {
+    text-align: center;
+}
+
+.item {
+    position: relative;
+    width: 610px;
+    height: 50px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.avator {
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+
+.username {
+    margin-left: 30px;
+    width: 300px;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.userdiscount {
+    font-size: 30px;
+    color: #fbda30;
+}
+
+.dicounticon {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    right: 0;
+    background-image: url('http://net.huanmusic.com/gasha/discount/%E7%A0%8D%E4%BB%B7%E5%9B%BE%E6%A0%87.png');
 }
