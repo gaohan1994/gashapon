@@ -22,6 +22,11 @@ export interface LoadGashaponComments {
     comments: object[];
 }
 
+export interface LoadGashaponShows {
+    type: constants.RECEIVE_GASHAPON_SHOWS;
+    shows: object[];
+}
+
 export type GashaponActions = LoadGashapon | ChangeLoading | LoadGashaponComments;
 
 export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions>): void => {
@@ -72,5 +77,22 @@ export const loadGashaponComments = (id: string) => (dispatch: Dispatch<Gashapon
         });
     } catch (err) {
         console.log('loadGashaponComments err', err);
+    }
+};
+
+export const loadGashaponShows = (id: string) => (dispatch: Dispatch<GashaponActions>): void => {
+    try {
+        if (!id) {
+            throw new  Error('ERROR_PARAM');
+        }
+    } catch (err) {
+        console.log('loadGashaponShows', err.message ? err.message : 'loadGashaponShows err');
+    }
+
+    try {
+        // fetch(``)
+        //
+    } catch (err) {
+        console.log('loadGashaponShows', err);
     }
 };
