@@ -18,7 +18,7 @@ interface Props {
     iconHeight  ?: string;
 }
 
-interface MenuItem {
+export interface MenuItem {
     _id             : number;
     img             : string;
     value           ?: string;

@@ -11,10 +11,11 @@ import Footer from '../../components/footer';
 import Banner from '../../components/banner';
 import Search from '../../components/search';
 import News from '../../components/news';
-import Menu from '../../components/menu_v1';
+import Menu, { MenuItem } from '../../components/menu_v1';
 import DataItem from '../../components/content_item';
 import Sign from '../../classes/sign';
 import Hoc from '../hoc';
+import config from '../../config/index';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
 import {
@@ -75,6 +76,10 @@ class Main extends React.Component<Props, State> {
         history.push(`/${type}`);
     }
 
+    public onMenuClickHandle = (type: string): void => {
+        history.push(`/gashapons/${type}`);
+    }
+
     public doLogoutHandle = async (): Promise<void> => {
         
         await Sign.doLogoutMethod();
@@ -126,26 +131,32 @@ class Main extends React.Component<Props, State> {
     }
 
     private renderMenu = (): JSX.Element => {
-        const menu = [
+        const { getData } = this.props;
+
+        const menu: MenuItem[] = [
             {
                 _id: 1,
                 img: 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
-                value: '热卖排行'
+                value: '热卖排行',
+                propsClickHandle: () => this.onMenuClickHandle('5aeab912ed009e3d8f4a9d0a')
             },
             {
                 _id: 2,
                 img: 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
-                value: '超值特价'
+                value: '超值特价',
+                propsClickHandle: () => this.onMenuClickHandle('5aeab916ed009e3d8f4a9d0b')
             },
             {
                 _id: 3,
                 img: 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
-                value: '抢先预订'
+                value: '抢先预订',
+                propsClickHandle: () => this.onMenuClickHandle('5aeab91bed009e3d8f4a9d0c')
             },
             {
                 _id: 4,
                 img: 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
-                value: '新品上架'
+                value: '新品上架',
+                propsClickHandle: () => this.onMenuClickHandle('5aeab91fed009e3d8f4a9d0d')
             },
         ];
         return (
@@ -178,17 +189,19 @@ class Main extends React.Component<Props, State> {
                         {item.name 
                         ? <div 
                             styleName="mainDataHeader"
+                            bgimg-center="bgimg-center"
                             style={{
-                                backgroundImage: this.renderMainDataHeaderImg(item.name)
+                                // backgroundImage: this.renderMainDataHeaderImg(item.name)
+                                backgroundImage: `url(http://${config.host.pic}/${item.head})`
                             }}
                         />
                         : ''}
 
                         {item.banner
-                        ? <div styleName="bannerBox">
-                            <Banner banner={item.banner}/>
-                        </div>
-                        : ''}
+                        ?   <div styleName="bannerBox">
+                                <Banner banner={item.banner}/>
+                            </div>
+                        :   ''}
 
                         {item.content && item.content.length > 0
                         ? <div styleName="hotItems">

@@ -74,6 +74,8 @@ export type MainData = {
     content: [{
         _id: string;
         name: string;
+        head: string;
+        status: number;
         content: [{
             type    : number;
             pic     : string;

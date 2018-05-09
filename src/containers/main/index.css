@@ -96,7 +96,7 @@
     background-image: url('http://net.huanmusic.com/gasha/%E9%99%90%E6%97%B6%E6%8A%A2%E8%B4%AD1.png');
 }
 
-.timeIcon, .mainDataHeader {
+.timeIcon,/*  .mainDataHeader*/ {
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
