@@ -99,12 +99,16 @@ class User {
 
         const uuid = getAccessToken();
 
-        try {
-            if (!uuid) {
-                throw new Error('cookie中不存在uuid');
-            }
-        } catch (err) {
-            console.log('setUserId err', err);
+        // try {
+        //     if (!uuid) {
+        //         throw new Error('cookie中不存在uuid');
+        //     }
+        // } catch (err) {
+        //     console.log('setUserId err', err);
+        // }
+
+        if (!uuid) {
+            return;
         }
 
         try {

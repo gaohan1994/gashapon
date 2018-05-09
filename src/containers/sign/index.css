@@ -125,7 +125,7 @@
     color: #999999;
 }
 
-.send {
+.wait, .send {
     width: 180px;
     height: 50px;
     line-height: 50px;
@@ -133,6 +133,13 @@
     text-align: center;
     font-size: 24px;
     color: #ffffff;
+}
+
+.wait {
+    background: #999999;
+}
+
+.send {
     background: #f27a7a;
 }
 

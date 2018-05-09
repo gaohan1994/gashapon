@@ -5,7 +5,7 @@ export interface Register {
     name    : string;
     password: string;
     phone   : string;
-
+    code    : string;
     /* 推荐人 */
     referee ?: string;
 }
@@ -105,15 +105,17 @@ class Sign {
      * 
      * @memberof Sign
      */
-    public doRegisterMethod = async ({name, password, phone, referee}: Register): Promise<NormalReturnObject> => {
+    public doRegisterMethod = async ({phone, name, password, code, referee}: Register): Promise<NormalReturnObject> => {
         try {
             if (!name) {
-                throw new Error('姓名错误');
+                throw new Error('name');
             } else if (!password) {
-                throw new Error('密码错误');
+                throw new Error('password');
             } else if (!phone) {
-                throw new Error('手机号码错误');
-            } 
+                throw new Error('phone');
+            } else if (!code) {
+                throw new Error('code');
+            }
         } catch (err) {
             console.log(err.message);
             return {
@@ -124,9 +126,10 @@ class Sign {
         
         try {
             const body = {
+                phone   : phone,
                 name    : name,
                 password: password,
-                phone   : phone,
+                code    : code
             };
 
             const result = await fetch(`/register`, {
@@ -143,17 +146,28 @@ class Sign {
                 if (!referee) {
                     return { success: true };
                 } else {
-                    const res = await this.doBindHandle({
-                        user: referee, 
-                        spread: result.result._id
-                    });
                     
-                    if (res.success === true) {
-                        return { success: true };
+                    const uid = await fetch(`/accesstoken/${result.result}`).then(res => res.json());
+
+                    if (uid.success === true) {
+                        
+                        const res = await this.doBindHandle({
+                            user    : referee, 
+                            spread  : uid.result._id
+                        });
+                        
+                        if (res.success === true) {
+                            return { success: true };
+                        } else {
+                            return {
+                                type    : 'BIND_ERROR',
+                                message : '注册成功绑定失败'
+                            };
+                        }
                     } else {
                         return {
-                            type    : 'BIND_ERROR',
-                            message : '注册成功绑定失败'
+                            type: 'ERROR_FETCH_UID',
+                            message: '获取用户UID失败'
                         };
                     }
                 }
@@ -259,17 +273,12 @@ class Sign {
      * 
      * @memberof Sign
      */
-    public getVercode = async (phone: string): Promise<NormalReturnObject> => {
-        try {
-            if (!this.user) {
-                throw new Error('用户数据错误');
-            } else if (!this.user._id) {
-                throw new Error('用户数据错误');
-            } 
-        } catch (err) {
+    public getVercode = async (phone: string): Promise <NormalReturnObject> => {
+
+        if (!phone) {
             return {
-                type: 'FAIL_LOGIN',
-                message: '未登录'
+                type: 'ERROR_PARAM',
+                message: 'phone'
             };
         }
 
@@ -285,7 +294,7 @@ class Sign {
             }).then(res => res.json());
 
             if (result.success === true) {
-                return {success: true};
+                return { success : true };
             } else {
                 return {
                     type: 'ERROR_GETVERCODE',
@@ -295,7 +304,7 @@ class Sign {
         } catch (err) {
             return {
                 type: 'ERROR_GETVERCODE',
-                message: err
+                message: err.message ? err.message : '获取验证吗失败'
             };
         }
     }

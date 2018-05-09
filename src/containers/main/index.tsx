@@ -85,7 +85,7 @@ class Main extends React.Component<Props, State> {
         return (
             <Hoc>
                 <div styleName="container">
-                    <a 
+                    {/* <a 
                         style={{
                             width: '100%',
                             height: '100px',
@@ -104,7 +104,7 @@ class Main extends React.Component<Props, State> {
                         onClick={() => this.onNavHandle('forget')}
                     >
                         register
-                    </div>
+                    </div> */}
                     <Header/>
                     <Search/>
                     <News/>
