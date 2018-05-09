@@ -178,16 +178,16 @@ class Gashapon extends React.Component<Props, State> {
      */
     public doDiscoutHandle = async (): Promise<void> => {
         //
-        const { getGashapon } = this.props;
-        const user = User.getUser();
+        const { getGashapon, getUserdata } = this.props;
+        // const user = User.getUser();
         
-        if (!user.userId) {
+        if (!getUserdata._id) {
             /* do no sign stuff */
-            history.push('/login');
+            console.log('login');
         } else {
 
             const result: CreateDiscountPlayReturn = await DiscountClass.createDiscoutPlay({
-                userId      : user.userId,
+                userId      : getUserdata._id,
                 machine     : getGashapon._id,
                 max_discount: getGashapon.price,
                 title       : getGashapon.name,
@@ -204,7 +204,6 @@ class Gashapon extends React.Component<Props, State> {
 
                 const share = new Share(shareConfig, 'weibo', '123');
                 share.doShare();
-                // history.push(`/discount/${result.discountId}`);
             } else {
                 if (result.type === 'PARAM_ERROR') {
                     switch (result.message) {

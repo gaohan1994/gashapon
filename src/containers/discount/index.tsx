@@ -13,11 +13,13 @@ import {
 } from '../../actions/discount';
 import { 
     StatusActions,
-    showLogin,
+    showSignModal,
 } from '../../actions/status';
 import { 
     getDiscountData,
 } from '../../reducers/discount';
+import { getUserdata } from '../../reducers/home';
+import { Userdata } from '../../types/user';
 import {
     DiscountDataType,
 } from '../../types/componentTypes';
@@ -25,7 +27,7 @@ import DiscountClass,
 {
     HelpDiscountMethodReturn
 } from '../../classes/discount';
-import User from '../../classes/user';
+import SignModal from '../sign';
 import history from '../../history';
 
 interface Props {
@@ -36,7 +38,8 @@ interface Props {
     };
     loadDiscountData: ({}: LoadDiscountDataParam) => void;
     getDiscountData : DiscountDataType;
-    showLogin       : () => void;
+    getUserdata     : Userdata;
+    showSignModal   : () => void;
 }
 
 interface State {}
@@ -73,17 +76,17 @@ class Discount extends React.Component<Props, State> {
     public doHelpDiscoutHandle = async (): Promise<void> => {
         
         /* userId, discountId, nick, image */
-        const { getDiscountData, match, showLogin } = this.props;
-        const user = User.getUser();
+        const { getDiscountData, match, showSignModal, getUserdata } = this.props;
+        // const user = User.getUser();
 
-        if (!user.userId) {
+        if (!getUserdata._id) {
 
             /* do no sign stuff */
-            showLogin();
+            showSignModal();
         } else {
 
             const result: HelpDiscountMethodReturn = await DiscountClass.helpDiscountMethod({
-                userId      : user.userId,
+                userId      : getUserdata._id,
                 discountId  : match.params.id,
                 nick        : '123',
                 image       : getDiscountData.image
@@ -103,7 +106,6 @@ class Discount extends React.Component<Props, State> {
 
                     switch (result.message) {
                         case 'userId':
-                            showLogin();
                             return;
                         case 'discountId':
                             return;
@@ -136,6 +138,7 @@ class Discount extends React.Component<Props, State> {
             <div 
                 styleName="container"
             >
+                <SignModal/>
                 <i 
                     styleName="bgimg"
                     bgimg-center="100"
@@ -224,12 +227,13 @@ class Discount extends React.Component<Props, State> {
 const DiscountHoc = CSSModules(Discount, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    getDiscountData: getDiscountData(state),
+    getDiscountData : getDiscountData(state),
+    getUserdata     : getUserdata(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<DiscountActions | StatusActions>) => ({
     loadDiscountData: bindActionCreators(loadDiscountData, dispatch),
-    showLogin       : bindActionCreators(showLogin, dispatch),
+    showSignModal   : bindActionCreators(showSignModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

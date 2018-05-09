@@ -96,20 +96,17 @@ class Registe extends React.Component<Props, State> {
     public doRegisterHandle = async (): Promise<void> => {
 
         const { refereeid } = this.props;
-        const { /* name, */ regphone, regpwd } = this.state;
+        const { /* name, */ regphone, regpwd, /* regcode */ } = this.state;
 
-        let params = {
-            name    : '',
-            phone   : '',
-            password: '',
-        };
+        let params: any = {};
+
         if (!!refereeid) {
             /* do referee stuff */
             params = {
                 name    : name,
                 phone   : regphone,
                 password: regpwd,
-                // referee : refereeid
+                referee : refereeid,
             };
         } else {
             /* do no referee stuff */

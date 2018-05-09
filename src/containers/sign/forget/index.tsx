@@ -57,7 +57,7 @@ class Forget extends React.Component<Props, State> {
                         />
                     </div>
                     <div styleName="border">
-                        <span>验证码 </span>
+                        <span>验证码</span>
                         <input 
                             styleName="vercode"
                             value={vercode}

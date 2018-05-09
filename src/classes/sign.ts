@@ -5,6 +5,7 @@ export interface Register {
     name    : string;
     password: string;
     phone   : string;
+
     /* 推荐人 */
     referee ?: string;
 }
@@ -22,6 +23,7 @@ export interface DoChangePhoneParam {
 }
 
 export interface DoChangeUserdataParam {
+    uid         : string;
     name        ?: string;
     headimgurl  ?: string;
 }
@@ -141,8 +143,11 @@ class Sign {
                 if (!referee) {
                     return { success: true };
                 } else {
-                    const res = await this.doBindHandle({user: result.result, spread: referee});
-
+                    const res = await this.doBindHandle({
+                        user: referee, 
+                        spread: result.result._id
+                    });
+                    
                     if (res.success === true) {
                         return { success: true };
                     } else {
@@ -348,7 +353,7 @@ class Sign {
      * 
      * @memberof Sign
      */
-    public doChangeUserdata = async ({name, headimgurl}: DoChangeUserdataParam): Promise<NormalReturnObject> => {
+    public doChangeUserdata = async ({uid, name, headimgurl}: DoChangeUserdataParam): Promise<NormalReturnObject> => {
         try {
             if (!this.user) {
                 throw new Error('用户数据错误');

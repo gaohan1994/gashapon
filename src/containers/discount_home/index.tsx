@@ -8,10 +8,15 @@ import {
     DiscountActions,
     loadDiscount,
 } from '../../actions/discount';
-import User from '../../classes/user';
+import { 
+    getUserdata,
+} from '../../reducers/home';
+import { Userdata } from '../../types/user';
+// import User from '../../classes/user';
 
 export interface Props {
     loadDiscount: (uid: string) => void;
+    getUserdata : Userdata;
 }
 
 export interface State {
@@ -21,14 +26,14 @@ export interface State {
 class DiscountHome extends React.Component <Props, State> {
 
     componentDidMount (): void {
-        const { loadDiscount } = this.props;
+        const { loadDiscount, getUserdata } = this.props;
 
-        const user = User.getUser();
+        // const user = User.getUser();
 
-        if (!user.userId) {
+        if (!getUserdata._id) {
             /* do no sign handle */
         } else {
-            loadDiscount(user.userId);
+            loadDiscount(getUserdata._id);
         }
     }
 
@@ -42,7 +47,7 @@ class DiscountHome extends React.Component <Props, State> {
 const DiscountHomeHoc = CSSModules(DiscountHome, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-
+    getUserdata: getUserdata(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<DiscountActions>) => ({
