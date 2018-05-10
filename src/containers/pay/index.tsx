@@ -15,20 +15,24 @@ import Validator from '../../classes/validate';
 import Business from '../../classes/business';
 import User from '../../classes/user';
 import config from '../../config';
+import Qart from 'react-qart';
 
 interface Props {
     getUserdata: Userdata;
 }
 
 interface State {
-    value?: number;
+    value       ?: number;
+    showQrcode  : boolean;
 }
 
 class Pay extends React.Component<Props, State> {
 
     constructor (props: Props) {
         super(props);
-        this.state = {};
+        this.state = {
+            showQrcode: false
+        };
     }
 
     public onClickHandle = async (): Promise<void> => {
@@ -80,13 +84,45 @@ class Pay extends React.Component<Props, State> {
         });
     }
 
+    public showQrcodeHandle = (): void => {
+        this.setState({
+            showQrcode: true
+        });
+    }
+
+    public hideQrcodeHandle = ():  void => {
+        this.setState({
+            showQrcode: false
+        });
+    }
+
     render() {
-        
+        const { showQrcode } = this.state;
         const { getUserdata } = this.props;
         
         return (
             <div styleName="container">
+                <div 
+                    styleName="qrcode"
+                    flex-center="all-center"
+                    style={{
+                        opacity     : showQrcode === true ? 1 : 0,
+                        visibility  : showQrcode === true ? 'visible' : 'hidden'
+                    }}
+                >
+                    <Qart
+                        value="hello"
+                        imagePath="http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851.png"
+                    />
 
+                    <Button
+                        btnText="返回主页"
+                        btnSize="big"
+                        btnRadius={true}
+                        clickHandle={() => this.hideQrcodeHandle()}
+                    />
+                </div>
+               
                 <Header 
                     title="充值"
                     subTitle="消费记录"
@@ -124,7 +160,8 @@ class Pay extends React.Component<Props, State> {
                         btnText="充值"
                         btnSize="normal"
                         btnRadius={true}
-                        clickHandle={() => this.onClickHandle()}
+                        // clickHandle={() => this.onClickHandle()}
+                        clickHandle={() => this.showQrcodeHandle()}
                     />
                 </div>
             </div>

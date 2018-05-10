@@ -39,8 +39,8 @@ class Business {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'GET_WRONG_PARAM',
-                message: err.message
+                type    : 'GET_WRONG_PARAM',
+                message : err.message ? err.message : '数据错误'
             };
         }
         

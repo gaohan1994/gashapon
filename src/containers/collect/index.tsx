@@ -21,7 +21,13 @@ class Collect extends React.Component<Props, {}> {
 
     componentDidMount() {
         const { getUserdata, loadCollectGashapons } = this.props;
-        loadCollectGashapons(getUserdata && getUserdata.collect_machines && getUserdata.collect_machines.machines);
+
+        if (getUserdata && getUserdata.collect_machines && getUserdata.collect_machines.machines) {
+
+            loadCollectGashapons(
+                getUserdata && getUserdata.collect_machines && getUserdata.collect_machines.machines
+            );
+        }
     }
 
     render () {
@@ -47,7 +53,7 @@ class Collect extends React.Component<Props, {}> {
             ));
             return data;
         } else {
-            return '';
+            return '暂无收藏';
         }
     }
 }

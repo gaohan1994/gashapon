@@ -3,9 +3,15 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import history from '../../history';
 import Header from '../../components/haeder_set';
+import { connect, Dispatch } from 'react-redux';
+// import { bindActionCreators } from 'redux';
+import { getUserdata } from '../../reducers/home';
+import { Userdata, Address as AddressType } from '../../types/user';
+import { Stores } from '../../reducers/type';
+// import User from '../../classes/user';
 
 export interface Props {
-    
+    getUserdata: Userdata;
 }
 
 export interface State {
@@ -19,6 +25,7 @@ class Address extends React.Component <Props, State> {
     }
     
     render (): JSX.Element {
+        const { getUserdata }  = this.props;
         return (
             <div 
                 styleName="container"
@@ -27,24 +34,36 @@ class Address extends React.Component <Props, State> {
                 <Header 
                     title="收货地址"
                 />
-                {this.renderAddressItem()}
+                {getUserdata.address && getUserdata.address.length > 0
+                ? getUserdata.address.map((item: AddressType, i: number) => {
+                    return this.renderAddressItem(item, i);
+                })
+                : ''}
                 {this.renderFooter()}
             </div>
         );
     }
 
-    private renderAddressItem = (): JSX.Element => {
+    private renderAddressItem = (data: AddressType, i: number): JSX.Element => {
         return (
-            <div styleName="item">
+            <div styleName="item" key={i}>
                 <div styleName="border">
                     <div styleName="box">
-                        <span styleName="big">姓名</span>
-                        <span styleName="big">180000123</span>
+                        <span styleName="big">{data.receiver}</span>
+                        <span styleName="big">{data.phone}</span>
                     </div>
-
+                    
                     <div styleName="box">
-                        <span style={{color: `#fea270`}} styleName="small">【默认】</span>
-                        <span style={{color: `#999999`}} styleName="small">福州市晋安区</span>
+                        {data.status === 1
+                        ?   <span style={{color: `#fea270`}} styleName="small">
+                            【默认】
+                            </span>
+                        :   ''}
+                        
+                        <span style={{color: `#999999`}} styleName="small">
+                            {data.detail_area}
+                            {data.detail_home}
+                        </span>
                     </div>
 
                     <span styleName="bge">{`>`}</span>
@@ -68,4 +87,15 @@ class Address extends React.Component <Props, State> {
 
 const AddressHoc = CSSModules(Address, styles);
 
-export default AddressHoc;
+export const mapStateToProps = (state: Stores) => ({
+    getUserdata: getUserdata(state),
+});
+
+export const mapDispatchToProps = (dispatch: Dispatch<{}>) => ({
+
+});
+
+export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+    Object.assign({}, ownProps, stateProps, dispatchProps);
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AddressHoc);

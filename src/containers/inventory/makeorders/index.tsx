@@ -6,7 +6,7 @@ import * as styles from './index.css';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../../reducers/type';
 import { Gashapon } from '../../../types/componentTypes';
-import { Userdata } from '../../../types/user';
+import { Userdata, Address } from '../../../types/user';
 import history from '../../../history';
 import GashaItem from '../../../components/gashapon_inventory';
 import Header from '../../../components/header_inventory';
@@ -85,6 +85,7 @@ class MakeOriders extends React.Component<Props, State> {
     public doAllChoiceHandle = (): void => {
         const { gashapons } = this.state;
         const { getInventory } = this.props;
+        
         /* 全选 如果 length 不等就全选，如果相等就全不选 */
         if (gashapons.length === getInventory.length) {
             /* 全部不选 */
@@ -107,29 +108,47 @@ class MakeOriders extends React.Component<Props, State> {
         } else {
             const { getUserdata } = this.props;
 
-            User.setUser({
-                address : getUserdata.address && getUserdata.address.detail_home && getUserdata.address.detail_area
-                            ? `${getUserdata.address.detail_area} ${getUserdata.address.detail_home}`
-                            : '',
-                receiver: getUserdata.name,
-                phone   : getUserdata.phone,
-            });
-            const user = User.getUser();  
+            let defaultAddress: Address;
 
-            if (!user.uid) {
+            if (getUserdata.address && getUserdata.address.length > 0) {
+                const index = getUserdata.address.findIndex(item => item.status === 1);
 
-                /* do sign handle */
-                showSignModal();
-            } else {
-
-                const result = await Business.doOrderMethod(user, gashapons); 
-                if (result.success === true) {
-                    console.log('ok');
-                    history.push('/success');
+                if (index !== -1) {
+                    defaultAddress = getUserdata.address[index];
                 } else {
-                    console.log(`${result.type}--${result.message}`);
-                    alert(result.message);
+                    defaultAddress = getUserdata.address[0];
                 }
+                User.setUser({
+                    address : `${defaultAddress.detail_area} ${defaultAddress.detail_home}`,
+                    receiver: getUserdata.name,
+                    phone   : getUserdata.phone,
+                });
+                const user = User.getUser();  
+
+                if (!user.uid) {
+
+                    /* do sign handle */
+                    showSignModal();
+                } else {
+
+                    const result = await Business.doOrderMethod(user, gashapons); 
+                    if (result.success === true) {
+
+                        history.push('/success');
+                    } else {
+                        
+                        console.log(`${result.type}--${result.message}`);
+                        switch (result.message) {
+                            case 'address':
+                                history.push('/address');
+                                return;
+                            default: 
+                                return;
+                        }
+                    }
+                }
+            } else {
+                history.push('/address');
             }
         }
     }
@@ -194,7 +213,6 @@ class MakeOriders extends React.Component<Props, State> {
             <div styleName="footer">
                 <div 
                     styleName="choice"
-                    flex-center="all-center"
                     onClick={() => this.doAllChoiceHandle()}
                 >
                     <span onClick={() => this.doAllChoiceHandle()}>全选</span>

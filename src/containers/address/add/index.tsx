@@ -158,14 +158,15 @@ class AddAddress extends React.Component <Props, State> {
             const result = await User.doAddAddressMethod({data: data.data});
             
             if (result.success === true) {
-                history.goBack();
+                history.push('/my');
             } else {
                 /* do error stuff */
+                alert(result.message ? result.message : '添加地址出错');
                 history.push('/my');
             }
         } else {
             /* do error stuff */
-            console.log(data.message);
+            alert(data.message ? data.message : '请检查输入正确性');
         }
     }
 

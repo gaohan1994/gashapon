@@ -1,10 +1,12 @@
 
 export interface Address {
+    receiver    : string;
+    phone       : string;
     detail_area : string;
     detail_home : string;
-    phone       : string;
     postal_code : string;
-    receiver    : string;
+    create_date : Date;
+    status      : 0 | 1;
 }
 
 export interface Userdata {
@@ -12,7 +14,7 @@ export interface Userdata {
     phone           : string;
     remain          : number;
     _id             : string;
-    address         : Address;
+    address         : Address[];
     collect_machines: {
         _id: string;
         machines: string[];

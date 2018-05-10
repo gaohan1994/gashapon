@@ -181,9 +181,7 @@ class User {
 
     public doAddAddressMethod = async ({data}: DoAddressMethodParam): Promise <NormalReturnObject> => {
         try {
-            if (!this.userId) {
-                throw new Error('userId');
-            } else if (!this.uid) {
+            if (!this.uid) {
                 throw new Error('uid');
             } else if (!data.receiver) {
                 throw new Error('receiver');
@@ -199,14 +197,13 @@ class User {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'PARAM_ERROR',
-                message: err.message ? err.message : '数据错误'
+                type    : 'PARAM_ERROR',
+                message : err.message ? err.message : '数据错误'
             };
         }
 
         try {
-
-            const result = await fetch(`/add/address/${this.userId}`, {
+            const result = await fetch(`/add/address/${this.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
