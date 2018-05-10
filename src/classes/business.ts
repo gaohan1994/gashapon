@@ -24,17 +24,17 @@ class Business {
     public doOrderMethod = async (user: UserType, products: Products): Promise<NormalReturnObject> => {
         try {
             if (!user) {
-                throw new Error('用户数据错误');
-            } else if (!user.userId) {
-                throw new Error('用户_id错误');
+                throw new Error('user');
+            } else if (!user.uid) {
+                throw new Error('uid');
             } else if (!user.address) {
-                throw new Error('用户address错误');
+                throw new Error('address');
             } else if (!user.receiver) {
-                throw new Error('用户receiver错误');
+                throw new Error('receiver');
             } else if (!user.phone) {
-                throw new Error('用户phone错误');
+                throw new Error('phone');
             } else if (!products) {
-                throw new Error('产品错误');
+                throw new Error('products');
             }
         } catch (err) {
             console.log(err.message);
@@ -45,7 +45,7 @@ class Business {
         }
         
         try {
-            const result = await fetch(`/product/order/${user.userId}`, {
+            const result = await fetch(`/product/order/${user.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

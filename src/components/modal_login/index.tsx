@@ -6,19 +6,19 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
 import { 
     StatusActions,
-    showLogin,
     hideLoginModal,
+    showSignModal,
 } from '../../actions/status';
 import { 
     getLoginModalStatus,
 } from '../../reducers/status';
-import Login from '../../containers/sign/login';
+import Sign from '../../containers/sign';
 
 interface Props {
     display         ?: boolean;
     value           ?: string;
-    showLogin       ?: () => void;
     hideLoginModal  ?: () => void;
+    showSignModal   ?: () => void;
 }
 
 interface State {
@@ -32,9 +32,9 @@ interface State {
 class Modal extends React.Component <Props, State> {
     
     public onConfirmClickHandle = (): void => {
-        const { showLogin } = this.props;
-        if (showLogin) {
-            showLogin();
+        const { showSignModal } = this.props;
+        if (showSignModal) {
+            showSignModal();
         }
     }
     
@@ -55,7 +55,7 @@ class Modal extends React.Component <Props, State> {
                     opacity     : display === true ? 1 : 0
                 }}
             >
-                <Login/>
+                <Sign/>
                 <div styleName="box">
                     <span styleName="haeder">{'提示'}</span>
                     <div
@@ -81,8 +81,8 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({
-    showLogin       : bindActionCreators(showLogin, dispatch),
     hideLoginModal  : bindActionCreators(hideLoginModal, dispatch),
+    showSignModal   : bindActionCreators(showSignModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

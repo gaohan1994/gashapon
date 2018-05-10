@@ -53,12 +53,11 @@ class GashaponRow extends React.Component<Props, State> {
     public doCancelCollectGashaponHandle = async (): Promise<void> => {
         const { modalGahshapon } = this.state;
         const user = User.getUser();
-        if (!user.userId) {
+        if (!user.uid) {
             /* do no sign stuff */
         } else {
             if (!!modalGahshapon) {
-                const g = new GashaponClass({user: user, machine: modalGahshapon});
-                const result = await g.doCancelCollectGashaponMethod();
+                const result = await GashaponClass.doCancelCollectGashaponMethod({user: user, machine: modalGahshapon});
                 
                 if (result.success === true) {
                     alert('取消收藏成功');

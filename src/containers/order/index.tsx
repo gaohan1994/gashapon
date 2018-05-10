@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import Header from '../../components/haeder_set';
 import ProductItem from '../../components/product_item';
-import User from '../../classes/user';
-// import history from '../../history';
 import { Stores } from '../../reducers/type';
 import { BusinessActions } from '../../actions/business';
 import { 
@@ -20,6 +18,8 @@ import {
 import { 
     getOrders,
 } from '../../reducers/business';
+import { getUserdata } from '../../reducers/home';
+import { Userdata } from '../../types/user';
 
 interface Props {
     match: {
@@ -31,6 +31,7 @@ interface Props {
     loadOrders              : (userId: string) => void;
     loadWaitOrders          : (userId: string) => void;
     loadWaitConfirmOrders   : (userId: string) => void;
+    getUserdata             : Userdata;
 }
 
 interface State {
@@ -47,9 +48,7 @@ class Order extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const { loadOrders, match } = this.props;
-
-        const user = User.getUser();
+        const { loadOrders, match, getUserdata } = this.props;
 
         if (!!match.params && !!match.params.type) {
             
@@ -57,21 +56,21 @@ class Order extends React.Component<Props, State> {
             switch (type) {
                 case 'waitconfirm':
                     this.onChangeTypeStateHandle(type);
-                    loadWaitConfirmOrders(user.userId);
+                    loadWaitConfirmOrders(getUserdata._id);
                     return;
                 case 'wait':
                     this.onChangeTypeStateHandle(type);
-                    loadWaitOrders(user.userId);
+                    loadWaitOrders(getUserdata._id);
                     return;
                 case 'already':
                     this.onChangeTypeStateHandle(type);
-                    loadOrders(user.userId);
+                    loadOrders(getUserdata._id);
                     return;
                 default: return;
             }
         } else {
 
-            loadOrders(user.userId);
+            loadOrders(getUserdata._id);
         }
     }
 
@@ -80,21 +79,21 @@ class Order extends React.Component<Props, State> {
             loadOrders,
             loadWaitConfirmOrders,
             loadWaitOrders,
+            getUserdata,
         } = this.props;
 
-        const user = User.getUser();
         switch (type) {
             case 'waitconfirm':
                 this.onChangeTypeStateHandle(type);
-                loadWaitConfirmOrders(user.userId);
+                loadWaitConfirmOrders(getUserdata._id);
                 return;
             case 'wait':
                 this.onChangeTypeStateHandle(type);
-                loadWaitOrders(user.userId);
+                loadWaitOrders(getUserdata._id);
                 return;
             case 'already':
                 this.onChangeTypeStateHandle(type);
-                loadOrders(user.userId);
+                loadOrders(getUserdata._id);
                 return;
             default: return;
         }
@@ -171,7 +170,8 @@ class Order extends React.Component<Props, State> {
 const OrderHoc = CSSModules(Order, styles);
 
 const mapStateToProps = (state: Stores) => ({
-    getOrders: getOrders(state),
+    getOrders   : getOrders(state),
+    getUserdata : getUserdata(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<BusinessActions>) => ({

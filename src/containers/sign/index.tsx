@@ -159,6 +159,7 @@ class SignContainer extends React.Component<Props, State> {
                 if (hideSignModal) {
                     hideSignModal();
                 }
+                // window.location.reload();
             } else {
                 /* do error stuff */
                 alert(result.message ? result.message : '注册有问题');

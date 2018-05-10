@@ -3,7 +3,13 @@ import { GashaponProductItem, Gashapon as GashaponType } from '../types/componen
 import * as Numeral from 'numeral';
 import { NormalReturnObject } from './base';
 
-interface Param {
+// interface Param {
+//     user        : UserType;
+//     count       ?: number;
+//     machine     : GashaponType;
+// }
+
+export interface DoGashaponMethodParam {
     user        : UserType;
     count       ?: number;
     machine     : GashaponType;
@@ -41,22 +47,22 @@ export interface DoGashaponMethodReturnObject {
 export interface DoAddCommentMethodParam {
     uid     : string;
     content : string;
-    machine : string;
+    machine : GashaponType;
 }
 
 class Gashapon {
 
     /* 进行扭蛋业务的用户 */
-    private user    : UserType;
+    // private user    : UserType;
     /* 进行扭蛋的次数 */
-    private count   : number;
+    // private count   : number;
     /* 扭蛋机 */
-    private machine : GashaponType;
+    // private machine : GashaponType;
     
-    constructor ({user, count, machine}: Param) {
-        this.user       = user;
-        this.count      = count || 0;
-        this.machine    = machine;
+    constructor (/* {user, count, machine}: Param */) {
+        // this.user       = user;
+        // this.count      = count || 0;
+        // this.machine    = machine;
 
         this.doGashaponMethod               = this.doGashaponMethod.bind(this);
         this.doCollectGashaponMethod        = this.doCollectGashaponMethod.bind(this);
@@ -67,49 +73,49 @@ class Gashapon {
     /**
      * 扭蛋 Method
      */
-    public doGashaponMethod = async (): Promise<DoGashaponMethodReturnObject> => {
+    public doGashaponMethod = async ({user, count = 1, machine}: DoGashaponMethodParam): Promise<DoGashaponMethodReturnObject> => {
 
         try {
-            if (!this.user) {
-                throw new Error('用户数据错误');
-            } else if (!this.user.userId) {
-                throw new Error('用户_id错误');
-            } else if (!this.user.name) {
-                throw new Error('用户name错误');
-            } else if (!this.user.headimg) {
-                throw new Error('用户headimg错误');
-            } else if (!this.user.remain) {
-                throw new Error('用户余额错误');
-            } else if (!this.machine._id) {
-                throw new Error('扭蛋数据错误');
+            if (!user) {
+                throw new Error('user');
+            } else if (!user.uid) {
+                throw new Error('uid');
+            } else if (!user.name) {
+                throw new Error('name');
+            } else if (!user.headimg) {
+                throw new Error('headimg');
+            } else if (!user.remain) {
+                throw new Error('remain');
+            } else if (!machine._id) {
+                throw new Error('_id');
             }
         } catch (err) {
             console.log(err.message);
             return {
                 type: 'GET_WRONG_USER_PARAM',
-                message: err.message
+                message: err.message ? err.message : '数据错误'
             };
         }
 
         try {
 
-            if (this.user.remain < (this.count * Numeral(this.machine.price / 100).value())) {
+            if (user.remain < (count * Numeral(machine.price / 100).value())) {
                 return {
                     type: 'ERROR_GASHAPON',
                     message: '余额不足'
                 };
             }
 
-            const result = await fetch(`/pay/product/${this.user.userId}`, {
+            const result = await fetch(`/pay/product/${user.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    count               : this.count,
-                    machine_id          : this.machine._id,
-                    from_user_name      : this.user.name,
-                    from_user_headimgurl: this.user.headimg
+                    count               : count,
+                    machine_id          : machine._id,
+                    from_user_name      : user.name,
+                    from_user_headimgurl: user.headimg
                 })
             }).then(res => res.json());
             
@@ -133,33 +139,33 @@ class Gashapon {
         }
     }
 
-    public doCollectGashaponMethod = async (): Promise<NormalReturnObject> => {
+    public doCollectGashaponMethod = async ({user, machine}: DoGashaponMethodParam): Promise<NormalReturnObject> => {
 
         try {
-            if (!this.user) {
-                throw new Error('用户数据错误');
-            } else if (!this.user.userId) {
-                throw new Error('用户_id错误');
-            } else if (!this.machine._id) {
-                throw new Error('扭蛋数据错误');
+            if (!user) {
+                throw new Error('user');
+            } else if (!user.uid) {
+                throw new Error('uid');
+            } else if (!machine._id) {
+                throw new Error('machine._id');
             }
         } catch (err) {
             console.log(err.message);
             return {
                 type: 'GET_WRONG_PARAM',
-                message: err.message
+                message: err.message ? err.message : '数据错误'
             };
         }
 
         try {
 
-            const result = await fetch(`/collect/machines/renew/${this.user.userId}`, {
+            const result = await fetch(`/collect/machines/renew/${user.userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    machines: [this.machine._id],
+                    machines: [machine._id],
                 })
             })
             .then(res => res.json());
@@ -183,33 +189,33 @@ class Gashapon {
         }
     }
 
-    public doCancelCollectGashaponMethod = async (): Promise<NormalReturnObject> => {
+    public doCancelCollectGashaponMethod = async ({user, machine}: DoGashaponMethodParam): Promise<NormalReturnObject> => {
 
         try {
-            if (!this.user) {
-                throw new Error('用户数据错误');
-            } else if (!this.user.userId) {
-                throw new Error('用户_id错误');
-            } else if (!this.machine._id) {
-                throw new Error('扭蛋数据错误');
+            if (!user) {
+                throw new Error('user');
+            } else if (!user.uid) {
+                throw new Error('uid');
+            } else if (!machine._id) {
+                throw new Error('machine._id');
             }
         } catch (err) {
             console.log(err.message);
             return {
                 type: 'GET_WRONG_PARAM',
-                message: err.message
+                message: err.message ? err.message : '数据错误'
             };
         }
 
         try {
 
-            const result = await fetch(`/collect/machines/delete/${this.user.userId}`, {
+            const result = await fetch(`/collect/machines/delete/${user.userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    machines: [this.machine._id],
+                    machines: [machine._id],
                 })
             })
             .then(res => res.json());
@@ -239,14 +245,14 @@ class Gashapon {
      * 
      * @memberof Gashapon
      */
-    public doAddCommentMethod = async ({uid, content}: DoAddCommentMethodParam): Promise<NormalReturnObject> => {
+    public doAddCommentMethod = async ({uid, content, machine}: DoAddCommentMethodParam): Promise<NormalReturnObject> => {
         try {
             if (!uid) {
                 throw new Error('uid');
             } else if (!content) {
                 throw new Error('content');
-            } else if (!this.machine._id) {
-                throw new Error('扭蛋数据错误');
+            } else if (!machine._id) {
+                throw new Error('_id');
             }
         } catch (err) {
             return {
@@ -262,7 +268,7 @@ class Gashapon {
             },
             body: JSON.stringify({
                 content: content,
-                machine: this.machine._id,
+                machine: machine._id,
             })
         }).then(res => res.json());
         
@@ -277,4 +283,4 @@ class Gashapon {
     }
 }
 
-export default Gashapon;
+export default new Gashapon();

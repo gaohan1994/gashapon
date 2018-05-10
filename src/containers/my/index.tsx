@@ -113,7 +113,7 @@ class My extends React.Component<Props, State> {
                     }}
                 />
                 <div styleName="module">
-                    <span styleName="status">
+                    <span word-overflow="word-overflow" styleName="status">
                         {getUserdata._id && getUserdata.name
                         ? getUserdata.name
                         : '未登录'}

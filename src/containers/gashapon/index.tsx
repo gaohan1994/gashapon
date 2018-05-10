@@ -4,7 +4,7 @@ import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
-import history from '../../history';
+// import history from '../../history';
 import Header from '../../components/header_gashapon';
 import Hoc from '../hoc';
 import Modal from './modal';
@@ -110,8 +110,7 @@ class Gashapon extends React.Component<Props, State> {
         });
         const user = User.getUser();
         
-        const g = new GashaponClass({user: user, count: count, machine: getGashapon});
-        const result = await g.doGashaponMethod();
+        const result = await GashaponClass.doGashaponMethod({user: user, count: count, machine: getGashapon});
         
         if (result.success === true) {
             changeGashaponLoading(true);
@@ -130,8 +129,7 @@ class Gashapon extends React.Component<Props, State> {
                 userId: getUserdata._id
             });
             const user = User.getUser();
-            const g = new GashaponClass({user: user, machine: getGashapon});
-            const result = await g.doCollectGashaponMethod();
+            const result = await GashaponClass.doCollectGashaponMethod({user: user, machine: getGashapon});
             
             if (result.success === true) {
                 alert('收藏成功');
@@ -155,8 +153,7 @@ class Gashapon extends React.Component<Props, State> {
                 userId: getUserdata._id
             });
             const user = User.getUser();
-            const g = new GashaponClass({user: user, machine: getGashapon});
-            const result = await g.doCancelCollectGashaponMethod();
+            const result = await GashaponClass.doCancelCollectGashaponMethod({user: user, machine: getGashapon});
             
             if (result.success === true) {
                 alert('取消收藏成功');

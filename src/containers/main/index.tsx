@@ -131,7 +131,7 @@ class Main extends React.Component<Props, State> {
     }
 
     private renderMenu = (): JSX.Element => {
-        const { getData } = this.props;
+        // const { getData } = this.props;
 
         const menu: MenuItem[] = [
             {
@@ -164,15 +164,6 @@ class Main extends React.Component<Props, State> {
                 <Menu menus={menu}/>
             </div>
         );
-    }
-
-    private renderMainDataHeaderImg = (type: string): string => {
-        switch (type) {
-            case '热门推荐':
-                return 'http://net.huanmusic.com/gasha/%E7%83%AD%E9%97%A8%E4%B8%BB%E9%A2%981.png';
-
-            default: return '';
-        }
     }
 
     private renderMainData = (): JSX.Element => {

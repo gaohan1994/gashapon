@@ -137,6 +137,7 @@ class Sign {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(body)
             }).then(res => res.json());
 
@@ -364,15 +365,13 @@ class Sign {
      */
     public doChangeUserdata = async ({uid, name, headimgurl}: DoChangeUserdataParam): Promise<NormalReturnObject> => {
         try {
-            if (!this.user) {
-                throw new Error('用户数据错误');
-            } else if (!this.user._id) {
+            if (!uid) {
                 throw new Error('用户数据错误');
             }
         } catch (err) {
             return {
                 type: 'ERROR_PARAM',
-                message: '数据错误'
+                message: err.message ? err.message : '数据错误'
             };
         }
         

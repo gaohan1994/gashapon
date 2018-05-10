@@ -15,7 +15,7 @@ import Sign from '../../classes/sign';
 import Header from '../../components/header_inventory';
 import SignModal from '../sign';
 import { Stores } from '../../reducers/type';
-import { 
+import {
     Gashapon
 } from '../../types/componentTypes';
 import { InventoryActions } from '../../actions/inventory';
@@ -71,35 +71,31 @@ class Inventory extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: any) {
-        const { loadInventory, loadInventoryByWord } = this.props;
-        const user = User.getUser();
+        const { loadInventory, loadInventoryByWord, getUserdata } = this.props;
+        // const user = User.getUser();
         if (nextProps.location.pathname !== this.props.location.pathname) {
             
             if (!!nextProps.match.params.word) {
 
-                loadInventoryByWord({userId: user.userId, word: nextProps.match.params.word});
+                loadInventoryByWord({
+                    userId: getUserdata._id, 
+                    word: nextProps.match.params.word
+                });
             } else {
                 
-                loadInventory({userId: user.userId});
+                loadInventory({userId: getUserdata._id});
             }
         }
     }
 
     componentDidMount() {
-        const { 
+        
+        const {
             match,
             loadInventory,
             showSignModal,
             getUserdata,
         } = this.props;
-
-        // const user = User.getUser();
-
-        if (getUserdata._id) {
-            console.log('ok');
-        } else {
-            console.log('no ok');
-        }
 
         if (!getUserdata._id) {
             /* do no id stuff */
@@ -162,7 +158,6 @@ class Inventory extends React.Component<Props, State> {
         const { getInventory, getUserdata } = this.props;
         
         User.setUser({
-            userId  : getUserdata._id,
             address : getUserdata.address && getUserdata.address.detail_home && getUserdata.address.detail_area
                         ? `${getUserdata.address.detail_area} ${getUserdata.address.detail_home}`
                         : '',
@@ -174,7 +169,6 @@ class Inventory extends React.Component<Props, State> {
 
         if (result.success === true) {
 
-            console.log('ok');
             history.push('/success');
         } else {
 

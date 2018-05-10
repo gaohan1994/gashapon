@@ -1,4 +1,10 @@
-import gashapon, { getGashapon, getLoadingStatus, getComments  } from '../gashapon';
+import gashapon, 
+{ 
+    getGashapon, 
+    getLoadingStatus, 
+    getComments,
+    
+} from '../gashapon';
 import { RECEIVE_GASHAPON, CHANGE_LOADING_STATUS } from '../../constants/gashapon';
 import initState from '../gashapon/state';
 import store from '../initState';
@@ -64,7 +70,8 @@ describe('gashapon test', () => {
             gashapon: {
                 gashapon: testData,
                 loading : false,
-                comments: [{test: 1}]
+                comments: [{test: 1}],
+                shows   : []
             }
         };
 

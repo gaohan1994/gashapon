@@ -1,12 +1,11 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
-
+import SignModal from '../sign';
 import { 
     CheckActions,
     loadMonthCheckById,
@@ -17,17 +16,16 @@ import {
 import {
     getChecks,
 } from '../../reducers/check/index';
+import { showSignModal } from '../../actions/status';
 import { Userdata } from '../../types/user';
 import { getUserdata } from '../../reducers/home';
-
 import CheckClass from '../../classes/check';
-import User from '../../classes/user';
-import Button from '../../components/button';
 
 interface Props {
     getChecks           : Checks;
     loadMonthCheckById  : ({}: LoadMonthCheckByIdParam) => void;
     getUserdata         : Userdata;
+    showSignModal       : () => void;
 }
 
 interface State {
@@ -47,42 +45,34 @@ class Check extends React.Component <Props, State> {
         const {
             getUserdata,
             loadMonthCheckById,
+            showSignModal,
         } = this.props;
-
-        const user = User.getUser();
-        console.log(user);
 
         if (!getUserdata._id) {
             /* do no sign stuff */
-            this.setState({
-                showModal: true
-            });
+            showSignModal();
         } else {
             loadMonthCheckById({_id: getUserdata._id});
         }
     }
 
     public doCheckHandle = async (): Promise<void> => {
-
-        const user  = User.getUser();
-        if (!user.userId) {
+        const { getUserdata, showSignModal } = this.props;
+        if (!getUserdata._id) {
 
             /* do sign stuff here */
-
-            this.setState({
-                showModal: true
-            });
+            showSignModal();
         } else {
 
             const check = new CheckClass();
-            const result = await check.doCheckHandle({_id: user.userId});
+            const result = await check.doCheckHandle({_id: getUserdata._id});
             
             if (result.success === true) {
-
                 /* do check ok */
+                // history.push('/');
             } else {
-
                 /* do error stuff here */
+                alert(result.message ? result.message : '签到出错了');
             }
         }
     }
@@ -96,15 +86,13 @@ class Check extends React.Component <Props, State> {
     }
 
     public renderItemImg = (i: number): string => {
-        // if (i < 6) {
-        //     return ''
-        // }
         return 'http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851%E9%BB%91%E7%99%BD.png';
     }
 
     render () {
         return (
             <section styleName="container">
+                <SignModal/>
                 <i 
                     styleName="back" 
                     bgimg-center="100"
@@ -118,6 +106,7 @@ class Check extends React.Component <Props, State> {
                     <div
                         styleName="button"
                         bgimg-center="100"
+                        onClick={() => this.doCheckHandle()}
                     >
                         <span styleName="big">签到</span>
                         <span styleName="normal">签到</span>
@@ -127,8 +116,6 @@ class Check extends React.Component <Props, State> {
 
                 <i styleName="title" bgimg-center="100"/>
                 {this.renderMonthChecks()}
-                {/* {this.renderAccumulateReward()} */}
-                {/* {this.renderFooter()} */}
             </section>
         );
     }
@@ -193,33 +180,6 @@ class Check extends React.Component <Props, State> {
             </div>
         );
     }
-
-    private renderAccumulateReward = (): JSX.Element => {
-
-        const { } = this.props;
-
-        return (
-            <div styleName="rewardBox">
-                renderAccumulateReward
-            </div>
-        );
-    }
-
-    private renderFooter = (): JSX.Element => {
-
-        return (
-            <div 
-                styleName="footer"
-                flex-center="all-center"
-            >
-                <Button 
-                    btnText="签到"
-                    btnSize="small"
-                    clickHandle={this.doCheckHandle}
-                />
-            </div>
-        );
-    }
 }
 
 const CheckHoc = CSSModules(Check, styles);
@@ -231,6 +191,7 @@ export const mapStateToProps = (state: Stores) => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch<CheckActions>, state: Stores) => ({
     loadMonthCheckById  : bindActionCreators(loadMonthCheckById, dispatch),
+    showSignModal       : bindActionCreators(showSignModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

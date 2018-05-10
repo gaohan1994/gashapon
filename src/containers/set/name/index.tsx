@@ -6,6 +6,7 @@ import Modal from '../../../components/modal';
 import Sign from '../../../classes/sign';
 import Validator from '../../../classes/validate';
 import history from '../../../history';
+import User from '../../../classes/user';
 
 interface Props {
 
@@ -46,14 +47,25 @@ class ChangeName extends React.Component<Props, State> {
         if (errorMsg) {
             alert(errorMsg.errMsg);
         } else {
-            const result = await Sign.doChangeUserdata({name: this.state.value});
-            if (result.success === true) {
-                console.log('修改成功');
-                this.setState({
-                    showModal: true
-                });
+            const user = User.getUser();
+            if (!user.uid) {
+                //
+                alert('请先登录~');
+                history.push('/my');
             } else {
-                /* do error stuff */
+                const result = await Sign.doChangeUserdata({
+                    uid: user.uid, 
+                    name: this.state.value
+                });
+
+                if (result.success === true) {
+                    console.log('修改成功');
+                    this.setState({
+                        showModal: true
+                    });
+                } else {
+                    /* do error stuff */
+                }
             }
         }
     }
