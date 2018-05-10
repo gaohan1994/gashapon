@@ -12,21 +12,15 @@ import Hoc from '../hoc';
 import config from '../../config';
 import { Userdata } from '../../types/user';
 import { Stores } from '../../reducers/type';
-import { 
-    loadCode,
-} from '../../actions/home';
-import {
-    showLoginModal
-} from '../../actions/status';
-import { 
-    getUserdata
-} from '../../reducers/home';
+import { loadCode, } from '../../actions/home';
+import { showSignModal } from '../../actions/status';
+import { getUserdata } from '../../reducers/home';
 import Sign from '../../classes/sign';
 
 interface Props {
     getUserdata     : Userdata;
     loadCode        : (phone: string) => void;
-    showLoginModal  : () => void;
+    showSignModal   : () => void;
 }
 
 interface State {
@@ -61,21 +55,19 @@ class My extends React.Component<Props, State> {
     }
 
     public onClickHandle = async (param: string): Promise<void> => {
-        const { showLoginModal } = this.props;
+        const { showSignModal } = this.props;
         const result = await Sign.doCheckAuth();
 
         if (result.success === true) {
 
             history.push(`/${param}`);
         } else {
-            showLoginModal();
+            showSignModal();
         }
     }
 
     render(): JSX.Element {
-        
         const { } = this.props;
-        
         return (
             <Hoc didmountSignStatus={true}>
                 <div styleName="container">
@@ -138,7 +130,7 @@ class My extends React.Component<Props, State> {
         return (
             <div styleName="money">
                 <span styleName="moneyText">
-                    可提现余额：
+                    余额：
                     <span>
                         {typeof getUserdata.remain === 'number'
                         ? (getUserdata.remain / 100)
@@ -146,7 +138,7 @@ class My extends React.Component<Props, State> {
                     </span>
                     元
                 </span>
-                <span styleName="moneyText">提现 ></span>
+                {/* <span styleName="moneyText">提现 ></span> */}
             </div>
         );
     }
@@ -241,7 +233,7 @@ class My extends React.Component<Props, State> {
                 <div 
                     styleName="setItem"
                     // onClick={() => this.onClickHandle('address')}
-                    onClick={() => this.onNavHandle('address')}
+                    onClick={() => this.onClickHandle('address')}
                 >
                     <i
                         styleName="setIcon"
@@ -273,7 +265,7 @@ class My extends React.Component<Props, State> {
             {
                 _id: 1,
                 value: '扭蛋',
-                count: getUserdata.play_count
+                count: getUserdata.play_count ? getUserdata.play_count : 0
             },
             {
                 _id: 2,
@@ -283,17 +275,17 @@ class My extends React.Component<Props, State> {
             {
                 _id: 3,
                 value: '弹幕',
-                count: getUserdata.comment_count
+                count: getUserdata.comment_count ? getUserdata.comment_count : 0
             },
             {
                 _id: 4,
                 value: '砍价',
-                count: getUserdata.discount_count
+                count: getUserdata.discount_count ? getUserdata.discount_count : 0
             },
             {
                 _id: 5,
                 value: '蛋卷折扣',
-                count: getUserdata.experience
+                count: getUserdata.experience ? getUserdata.experience : 0
             }
         ];
         return (
@@ -323,7 +315,7 @@ export const mapStateToProps = (state: Stores) => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
     loadCode        : bindActionCreators(loadCode, dispatch),
-    showLoginModal  : bindActionCreators(showLoginModal, dispatch),
+    showSignModal   : bindActionCreators(showSignModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

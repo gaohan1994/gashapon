@@ -11,7 +11,6 @@ import { Userdata } from '../../types/user';
 import history from '../../history';
 import User from '../../classes/user';
 import Business from '../../classes/business';
-import Sign from '../../classes/sign';
 import Header from '../../components/header_inventory';
 import SignModal from '../sign';
 import { Stores } from '../../reducers/type';
@@ -144,13 +143,12 @@ class Inventory extends React.Component<Props, State> {
 
     public onMenuClickHandle = async (type: string): Promise<void> => {
 
-        const { showSignModal } = this.props;
-        const result = await Sign.doCheckAuth();
+        const { showSignModal, getUserdata } = this.props;
 
-        if (result.success === true) {
-            history.push(`/${type}`);
-        } else {
+        if (!getUserdata._id) {
             showSignModal();
+        } else {
+            history.push(`/${type}`);
         }
     }
 

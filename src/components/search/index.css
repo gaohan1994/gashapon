@@ -30,19 +30,28 @@
     left: 0;
     right: 0;
     width: 750px;
-    height: 6vh;
-    background: #bd8d53;
+    height: 80px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    background-image: url('http://net.huanmusic.com/gasha/%E5%AF%BC%E8%88%AA%E6%9D%A1.png');
 }
 
 .searchHeader > i, .searchHeader > span {
     display: block;
 }
 
+.icon {
+    display: block;
+    width: 41px;
+    height: 33px;
+    background-image: url('http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
+}
+
 .doSearch {
-    font-size: 2.6vh;
-    color: #000000;
-    text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff;
-    
+    font-size: 30px;
+    color: #ffffff;
 }
 
 .searchInput {
@@ -50,11 +59,12 @@
     margin: 0 20px;
     height: 4vh;
     line-height: 4vh;
-    border: 2px solid #000000;
+    border-radius: 30px;
+    border: 0px;
     background: #fff6e9;
-    color: #000000;
+    color: #efb876;
     padding-left: 20px;
-    font-size: 2.6vh;
+    font-size: 26px;
 }
 
 .hot, .history {
@@ -77,7 +87,6 @@
 }
 
 .typeIcon {
-
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
@@ -91,19 +100,20 @@
 
 .hotItem, .historyitem {
     display: block;
-    border: 2px solid #000000;
     height: 60px;
     line-height: 60px;
     font-size: 30px;
-    color: #000000;
     border-radius: 10px;
     padding: 0 20px;
     margin: 20px 0 0 20px;
 }
 
 .hotItem {
-    background: #f9ba5e;
+    background: #fba175;
+    color: #ffffff;
 }
 .historyitem {
-    background: #fff;
+    background: #ffffff;
+    border: 2px solid #999999;
+    color: #999999;
 }

@@ -155,12 +155,6 @@ class Order extends React.Component<Props, State> {
                     >
                         已发货
                     </div>
-                    <div 
-                        styleName={type === 'other' ? 'navItemActive' : 'navItem'}
-                        onClick={() => this.onChangeTypeHandle('other')} 
-                    >
-                        缺货
-                    </div>
                 </div>
             </div>
         );

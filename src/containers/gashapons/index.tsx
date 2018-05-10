@@ -9,6 +9,7 @@ import GashaItem from '../../components/gashapon_item';
 import Header from '../../components/header_gashapons';
 import Search from '../../components/search';
 import News from '../../components/news';
+import Hoc from '../hoc';
 import { arriveFooter } from '../../config/util';
 import { Stores } from '../../reducers/type';
 import config from '../../config/index';
@@ -296,26 +297,28 @@ class Gashapon extends React.Component<Props, State> {
             getBanners,
         } = this.props;
         return (
-            <div styleName="container">
-                <Header/>
-                <Search/>
-                <News/>
-                {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
-                ? this.renderBanners()
-                : ''}
-                
-                {this.renderClass()}
+            <Hoc>
+                <div styleName="container">
+                    <Header/>
+                    <Search/>
+                    <News/>
+                    {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
+                    ? this.renderBanners()
+                    : ''}
+                    
+                    {this.renderClass()}
 
-                {getGashapons.map((item, i) => (
-                    <div 
-                        key={i}
-                        styleName="item"
-                    >
-                        <GashaItem item={item}/>
-                    </div>
-                ))}
-                <Footer/>
-            </div>
+                    {getGashapons.map((item, i) => (
+                        <div 
+                            key={i}
+                            styleName="item"
+                        >
+                            <GashaItem item={item}/>
+                        </div>
+                    ))}
+                    <Footer/>
+                </div>
+            </Hoc>
         );
     }
 

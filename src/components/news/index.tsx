@@ -31,8 +31,8 @@ interface State {
 }
 
 class News extends React.Component<Props, State> {
-    render (): JSX.Element {
 
+    render (): JSX.Element {
         const { 
             display, 
             hideNews,

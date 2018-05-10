@@ -3,34 +3,25 @@ import { merge } from 'lodash';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
+import { bindActionCreators } from 'redux';
 import { Stores } from '../../../reducers/type';
-import { 
-    Gashapon
-} from '../../../types/componentTypes';
-import { 
-    Userdata
-} from '../../../types/user';
+import { Gashapon } from '../../../types/componentTypes';
+import { Userdata } from '../../../types/user';
 import history from '../../../history';
 import GashaItem from '../../../components/gashapon_inventory';
 import Header from '../../../components/header_inventory';
 import User from '../../../classes/user';
 import Business from '../../../classes/business';
+import SignModal from '../../sign';
 import { InventoryActions } from '../../../actions/inventory';
-import {
-    
-} from '../../../actions/inventory';
-
-import { 
-    getInventory
-} from '../../../reducers/inventory';
-
-import { 
-    getUserdata
-} from '../../../reducers/home';
+import { getInventory } from '../../../reducers/inventory';
+import { getUserdata } from '../../../reducers/home';
+import { showSignModal } from '../../../actions/status';
 
 interface Props {
-    getInventory: Gashapon[];
-    getUserdata : Userdata;
+    getInventory    : Gashapon[];
+    getUserdata     : Userdata;
+    showSignModal   : () => void;
 }
 
 interface State {
@@ -109,6 +100,7 @@ class MakeOriders extends React.Component<Props, State> {
 
     public doOrderHandle = async (): Promise<void> => {
         const { gashapons } = this.state;
+        const { showSignModal } = this.props;
         if (gashapons.length === 0) {
             alert('请选择要下单的扭蛋~');
             return;
@@ -116,7 +108,6 @@ class MakeOriders extends React.Component<Props, State> {
             const { getUserdata } = this.props;
 
             User.setUser({
-                userId  : getUserdata._id,
                 address : getUserdata.address && getUserdata.address.detail_home && getUserdata.address.detail_area
                             ? `${getUserdata.address.detail_area} ${getUserdata.address.detail_home}`
                             : '',
@@ -124,14 +115,21 @@ class MakeOriders extends React.Component<Props, State> {
                 phone   : getUserdata.phone,
             });
             const user = User.getUser();  
-            
-            const result = await Business.doOrderMethod(user, gashapons); 
-            if (result.success === true) {
-                console.log('ok');
-                history.push('/success');
+
+            if (!user.uid) {
+
+                /* do sign handle */
+                showSignModal();
             } else {
-                console.log(`${result.type}--${result.message}`);
-                alert(result.message);
+
+                const result = await Business.doOrderMethod(user, gashapons); 
+                if (result.success === true) {
+                    console.log('ok');
+                    history.push('/success');
+                } else {
+                    console.log(`${result.type}--${result.message}`);
+                    alert(result.message);
+                }
             }
         }
     }
@@ -141,6 +139,7 @@ class MakeOriders extends React.Component<Props, State> {
         const { getInventory } = this.props;
         return (
             <div styleName="container">
+                <SignModal/>
                 <Header title=""/>
                 <div styleName="back">
                     <i 
@@ -164,7 +163,7 @@ class MakeOriders extends React.Component<Props, State> {
                             styleName="option"
                             bgimg-center="100"
                             style={{
-                                background: this.renderIcon(item)
+                                backgroundImage: this.renderIcon(item)
                             }}
                         />
                         <GashaItem 
@@ -220,7 +219,7 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
-
+    showSignModal: bindActionCreators(showSignModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

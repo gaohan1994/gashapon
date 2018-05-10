@@ -3,6 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Header from '../../../components/haeder_set';
 import Modal from '../../../components/modal';
+import Button from '../../../components/button';
 import Sign from '../../../classes/sign';
 import Validator from '../../../classes/validate';
 import history from '../../../history';
@@ -13,7 +14,7 @@ interface Props {
 }
 
 interface State {
-    value       : string;
+    nick        : string;
     showModal   : boolean;
 }
 
@@ -22,24 +23,24 @@ class ChangeName extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            value       : '',
+            nick        : '',
             showModal   : false,
         };
     }
 
-    public onChangeHandle = (e: any) => {
+    public onChangeNickHandle = (e: any) => {
         this.setState({
-            value: e.target.value
+            nick: e.target.value
         });
     }
 
     public doChangeNameHandle = async (): Promise<void> => {
         const helper = new Validator();
 
-        helper.add(this.state.value, [{
+        helper.add(this.state.nick, [{
             strategy: 'isNonEmpty',
             errorMsg: '昵称不能为空~',
-            elementName: 'name',
+            elementName: 'nick',
         }]);
 
         let errorMsg = helper.start();
@@ -49,13 +50,12 @@ class ChangeName extends React.Component<Props, State> {
         } else {
             const user = User.getUser();
             if (!user.uid) {
-                //
                 alert('请先登录~');
                 history.push('/my');
             } else {
                 const result = await Sign.doChangeUserdata({
-                    uid: user.uid, 
-                    name: this.state.value
+                    uid : user.uid, 
+                    name: this.state.nick
                 });
 
                 if (result.success === true) {
@@ -64,7 +64,8 @@ class ChangeName extends React.Component<Props, State> {
                         showModal: true
                     });
                 } else {
-                    /* do error stuff */
+                    alert(result.message ? result.message : '修改失败');
+                    history.push('/my');
                 }
             }
         }
@@ -85,28 +86,56 @@ class ChangeName extends React.Component<Props, State> {
     }
 
     render () {
-        const { value, showModal } = this.state;
+        const { nick, showModal } = this.state;
         return (
-            <div
+            <div 
                 styleName="container"
                 container-with-header="true"
             >
+                <Header title="修改昵称"/>
                 <Modal 
                     display={showModal}
                     value="修改成功"
                     onCancelClickHandle={this.onCancelClickHandle}
                     onConfirmClickHandle={this.onConfirmClickHandle}
                 />
-                <Header 
-                    title="修改昵称"
-                />
+                <div styleName="box">
+                    <div styleName="border">
+                        <span>昵称</span>
+                        <input 
+                            styleName="phone"
+                            value={nick}
+                            onChange={this.onChangeNickHandle}
+                            placeholder="请输入昵称~"
+                        />
+                    </div>
+                    {/* <div styleName="border">
+                        <span>验证码</span>
+                        <input 
+                            styleName="vercode"
+                            value={vercode}
+                            onChange={this.onChangeVercodeHandle}
+                            placeholder="请输入验证码"
+                        />
+                        <Button 
+                            btnText="发送验证码"
+                            btnSize="small"
+                            btnRadius={true}
+                        />
+                    </div> */}
+                </div>
 
-                <input
-                    value={value}
-                    onChange={this.onChangeHandle}
-                />
-
-                <button onClick={() => this.doChangeNameHandle()}>保存</button>
+                <div 
+                    styleName="btnBox"
+                    flex-center="all-center"
+                >
+                    <Button 
+                        btnText="确认"
+                        btnSize="big"
+                        btnRadius={true}
+                        clickHandle={() => this.doChangeNameHandle()}
+                    />
+                </div>
             </div>
         );
     }

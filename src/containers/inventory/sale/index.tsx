@@ -4,32 +4,25 @@ import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import { Stores } from '../../../reducers/type';
-import { 
-    Gashapon
-} from '../../../types/componentTypes';
-import { 
-    Userdata
-} from '../../../types/user';
+import { bindActionCreators } from 'redux';
+import { Gashapon } from '../../../types/componentTypes';
+import { Userdata } from '../../../types/user';
 import history from '../../../history';
 import GashaItem from '../../../components/gashapon_inventory';
 import Header from '../../../components/header_inventory';
 import User from '../../../classes/user';
 import Business from '../../../classes/business';
+import SignModal from '../../sign';
 import { NormalReturnObject } from '../../../classes/base';
 import { InventoryActions } from '../../../actions/inventory';
-import {
-    
-} from '../../../actions/inventory';
-import { 
-    getInventory
-} from '../../../reducers/inventory';
-import { 
-    getUserdata
-} from '../../../reducers/home';
+import { showSignModal } from '../../../actions/status';
+import { getInventory } from '../../../reducers/inventory';
+import { getUserdata } from '../../../reducers/home';
 
 interface Props {
-    getInventory: Gashapon[];
-    getUserdata : Userdata;
+    getInventory    : Gashapon[];
+    getUserdata     : Userdata;
+    showSignModal   : () => void;
 }
 
 interface State {
@@ -107,19 +100,24 @@ class Sale extends React.Component<Props, State> {
     }
     
     public doRecycleHandle = async (): Promise<void> => {
-        const { gashapons } = this.state;
+        const { gashapons, } = this.state;
+        const { showSignModal } = this.props;
         if (gashapons.length === 0) {
             alert('请选择要回收的扭蛋~');
             return;
         } else {
             const user = User.getUser();  
             
-            if (!user.userId) {
+            if (!user.uid) {
 
                 /* do no sign handle */
+                showSignModal();
             } else {
 
-                const result: NormalReturnObject = await Business.doRecycleMethod({userId: user.userId, products: gashapons}); 
+                const result: NormalReturnObject = await Business.doRecycleMethod({
+                    uid     : user.uid, 
+                    products: gashapons
+                }); 
 
                 if (result.success === true) {
                     console.log('ok');
@@ -137,6 +135,7 @@ class Sale extends React.Component<Props, State> {
         const { getInventory } = this.props;
         return (
             <div styleName="container">
+                <SignModal/>
                 <Header title=""/>
                 <div styleName="back">
                     
@@ -217,7 +216,7 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
-
+    showSignModal: bindActionCreators(showSignModal, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

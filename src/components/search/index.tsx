@@ -134,19 +134,17 @@ class Search extends React.Component<Props, State> {
     private renderHeader = (): JSX.Element => {
         const { value } = this.state;
         const { hideSearchModal } = this.props;
-        const iconStyle = {
-            backgroundImage: 'url(http://net.huanmusic.com/gasha/gacha-icon.png)',
-            backgroundPosition: '-119px -28px',
-            backgroundSize: '146.5px auto',
-            width: '21px',
-            height: '21px',
-        };
         return (
             <div 
                 flex-center="all-center"
                 styleName="searchHeader"
+                bgimg-center="100"
             >
-                <i style={iconStyle} onClick={hideSearchModal}/>
+                <i 
+                    styleName="icon" 
+                    onClick={hideSearchModal}
+                    bgimg-center="100"
+                />
                 <input 
                     styleName="searchInput"
                     value={value}
