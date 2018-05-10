@@ -4,16 +4,17 @@ import * as CSSModules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
 import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
-// import history from '../../history';
+import history from '../../history';
 import Header from '../../components/header_gashapon';
 import Hoc from '../hoc';
 import Modal from './modal';
+import SignModal from '../sign';
 import SelectModal from './selectmodal';
 import * as Numeral from 'numeral';
 import * as moment from 'moment';
 import config from '../../config';
 import { randomNum } from '../../config/util';
-import Sign from '../../classes/sign';
+// import Sign from '../../classes/sign';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
 import Share from '../../classes/share';
@@ -36,7 +37,7 @@ import {
     loadGashapon,
     changeGashaponLoading,
 } from '../../actions/gashapon';
-
+import { showSignModal } from '../../actions/status';
 import { 
     getGashapon,
     getLoadingStatus,
@@ -57,6 +58,7 @@ interface Props {
     getLoadingStatus        : boolean;
     loadGashapon            : (_id: string) => void;
     changeGashaponLoading   : (status: boolean) => void;
+    showSignModal           : () => void;
 }
 
 interface State {
@@ -100,35 +102,55 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public doGashaponHandle = async (count: number): Promise<void> => {
-        const { getUserdata, getGashapon, changeGashaponLoading } = this.props;
+        const { getUserdata, getGashapon, changeGashaponLoading, showSignModal } = this.props;
 
         User.setUser({
-            userId  : getUserdata._id,
             name    : getUserdata.name, 
             headimg : config.empty_pic.url, 
             remain  : getUserdata.remain
         });
+
         const user = User.getUser();
-        
-        const result = await GashaponClass.doGashaponMethod({user: user, count: count, machine: getGashapon});
-        
-        if (result.success === true) {
-            changeGashaponLoading(true);
-            this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
+
+        if (!user.uid) {
+            showSignModal();
         } else {
-            console.log(`${result.type}--${result.message}`);
-            alert(result.message);
+            
+            const result = await GashaponClass.doGashaponMethod({user: user, count: count, machine: getGashapon});
+            
+            if (result.success === true) {
+                changeGashaponLoading(true);
+                this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
+            } else {
+                console.log(`${result.type}--${result.message}`);
+
+                switch (result.message) {
+                    case 'user':
+                        showSignModal();
+                        return;
+                    case 'uid':
+                        showSignModal();
+                        return;
+                    case 'remain':
+                        history.push('/pay');
+                        return;
+                    default:
+                        alert('扭蛋失败了~');
+                        return;
+                }
+            }
         }
     }
 
     public doCollectGashaponHandle = async (): Promise<void> => {
-        const { getGashapon, getUserdata } = this.props;
-        const access = Sign.doCheckAuth();
-        if (access.success === true) {
-            User.setUser({
-                userId: getUserdata._id
-            });
-            const user = User.getUser();
+        const { getGashapon, showSignModal } = this.props;
+        const user = User.getUser();
+        if (!user.uid) {
+            
+            /* do login stuff */
+            showSignModal();
+        } else {
+
             const result = await GashaponClass.doCollectGashaponMethod({user: user, machine: getGashapon});
             
             if (result.success === true) {
@@ -138,21 +160,20 @@ class Gashapon extends React.Component<Props, State> {
                 console.log(`${result.type}--${result.message}`);
                 alert(result.message);
             }
-        } else {
-            console.log('未登录');
-            /* do login stuff */
         }
     }
 
     public doCancelCollectGashaponHandle = async (): Promise<void> => {
-        const { getGashapon, getUserdata } = this.props;
-        const access = Sign.doCheckAuth();
-        
-        if (access.success === true) {
-            User.setUser({
-                userId: getUserdata._id
-            });
-            const user = User.getUser();
+        const { getGashapon, showSignModal } = this.props;
+
+        const user = User.getUser();
+        if (!user.uid) {
+
+            console.log('未登录');
+            /* do login stuff */
+            showSignModal();
+        } else {
+
             const result = await GashaponClass.doCancelCollectGashaponMethod({user: user, machine: getGashapon});
             
             if (result.success === true) {
@@ -162,9 +183,6 @@ class Gashapon extends React.Component<Props, State> {
                 console.log(`${result.type}--${result.message}`);
                 alert(result.message);
             }
-        } else {
-            console.log('未登录');
-            /* do login stuff */
         }
     }
 
@@ -286,6 +304,7 @@ class Gashapon extends React.Component<Props, State> {
         return (
             <Hoc>
                 <div styleName="container">
+                    <SignModal/>
                     <audio
                         src="http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d"
                         preload="metadata"
@@ -404,17 +423,20 @@ class Gashapon extends React.Component<Props, State> {
         const { getUserdata, match } = this.props;
         
         if (getUserdata.collect_machines) {
-            const result = getUserdata.collect_machines.machines.findIndex(item => item === match.params.id);
+            const result = getUserdata.collect_machines 
+                        && getUserdata.collect_machines.machines
+                        && getUserdata.collect_machines.machines.findIndex(item => item === match.params.id);
            
+            console.log('result', typeof(result) === 'number' && result !== -1);
             return (
                 <i 
-                    onClick={result === -1 
-                            ? this.doCollectGashaponHandle
-                            : this.doCancelCollectGashaponHandle}
+                    onClick={typeof(result) === 'number' && result !== -1 
+                            ? this.doCancelCollectGashaponHandle
+                            : this.doCollectGashaponHandle}
                     bgimg-center="100"
                     styleName="collect"
                     style={{
-                        backgroundImage: result === -1
+                        backgroundImage: typeof(result) === 'number' && result !== -1 
                                         ? `url(http://net.huanmusic.com/gasha/gashapon/%E6%94%B6%E8%97%8F%E5%90%8E.png)`
                                         : `url(http://net.huanmusic.com/gasha/gashapon/%E6%94%B6%E8%97%8F%E5%89%8D.png)`,
                         width: result === -1 ? '9vw' : '5.3vw'
@@ -486,6 +508,7 @@ const mapStateToProps = (state: Stores) => ({
 const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
     loadGashapon            : bindActionCreators(loadGashapon, dispatch),
     changeGashaponLoading   : bindActionCreators(changeGashaponLoading, dispatch),
+    showSignModal           : bindActionCreators(showSignModal, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

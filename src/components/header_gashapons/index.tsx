@@ -63,7 +63,18 @@ class Header extends React.Component<Props, State> {
         const { showSearchModal, showNews } = this.props;
         return (
             <div styleName="header">
-                <i styleName="search" onClick={showSearchModal}/>
+                <div styleName="search" onClick={showSearchModal}>
+                    <i 
+                        styleName="searchIcon"
+                        bgimg-center="100"
+                    />
+                    <span 
+                        styleName="searchText"
+                        word-overflow="word-overflow"
+                    >
+                        输入关键字搜索扭蛋机
+                    </span>
+                </div>
                 <div styleName="item2" onClick={this.toggleTopics}/>
                 <div styleName="item3" onClick={showNews}/>
             </div>

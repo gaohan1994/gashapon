@@ -18,6 +18,7 @@ import Hoc from '../hoc';
 import config from '../../config/index';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
+import * as moment from 'moment';
 import {
     MainData
 } from '../../types/componentTypes';
@@ -86,6 +87,10 @@ class Main extends React.Component<Props, State> {
         window.location.reload();
     }
 
+    public goGashaponHandle = (param: string): void => {
+        history.push(`/gashapon/${param}`);
+    }
+
     render() {
         return (
             <Hoc>
@@ -123,9 +128,33 @@ class Main extends React.Component<Props, State> {
     }
 
     private renderTimeLimit = (): JSX.Element => {
+        const { getData } = this.props;
         return (
             <div styleName="timeLimit">
-                <i styleName="timeIcon"/>
+                <i 
+                    styleName="timeIcon"
+                    bgimg-center="100"
+                />
+                <div 
+                    styleName="flash"
+                    bgimg-center="bgimg-center"
+                    style={{
+                        backgroundImage: getData.flash_sale && getData.flash_sale.pics
+                                        ? `url(//${config.host.pic}/${getData.flash_sale.pics[0]})`
+                                        : `url(${config.empty_pic.url})`
+                    }}
+                    onClick={() => this.goGashaponHandle(getData.flash_sale._id)}
+                >
+                    {getData.flash_sale && getData.flash_sale.start_time
+                    ? <span 
+                        styleName="flashName"
+                        font-s="24"
+                    >
+                        距离开始{moment(getData.flash_sale.start_time).format('DD:HH:mm')}
+                    </span>
+                    : ''}
+                    
+                </div>
             </div>
         );
     }

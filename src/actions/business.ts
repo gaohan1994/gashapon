@@ -2,6 +2,7 @@ require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/business';
 import { Dispatch } from 'redux';
+import { Stores } from '../reducers/type';
 
 export interface LoadOrders {
     type: constants.RECEIVE_ORDERS;
@@ -17,6 +18,7 @@ export interface LoadPayinfoParams {
     uid     : string;
     page    ?: number;
     count   ?: number;
+    callback?: (page: number) => void;
 }
 
 export type BusinessActions = LoadOrders | LoadPayinfo;
@@ -83,7 +85,9 @@ export const loadWaitOrders = (_id: string) => (dispatch: Dispatch<BusinessActio
     }
 };
 
-export const loadPayinfo = ({uid, page = 0, count = 20}: LoadPayinfoParams) => (dispatch: Dispatch<BusinessActions>): void => {
+export const loadPayinfo = 
+    ({uid, page = 0, count = 20, callback = (page: number) => {/**/}}: LoadPayinfoParams) => 
+    (dispatch: Dispatch<BusinessActions>, state: () => Stores): void => {
     try {
         if (!uid) {
             throw new Error('uid');
@@ -93,25 +97,33 @@ export const loadPayinfo = ({uid, page = 0, count = 20}: LoadPayinfoParams) => (
     }
 
     try {
-        fetch(`/user/pay_info/${uid}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                page    : page,
-                count   : count
+        let data = state().business.payinfo;
+
+        if (page === 0 && data.length > 0) {
+            return;
+        } else {
+            fetch(`/user/pay_info/${uid}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    page    : page,
+                    count   : count
+                })
             })
-        })
-        .then(res => res.json())
-        .then(res => {
-            if (res.success === true) {
-                console.log('res', res);
-                dispatch({type: constants.RECEIVE_PAYINFO, payinfo: res.result});
-            } else {
-                throw new Error('fetch callback error');
-            }
-        });
+            .then(res => res.json())
+            .then(res => {
+                if (res.success === true) {
+                    console.log('res', res);
+                    data = data.concat(res.result);
+                    dispatch({type: constants.RECEIVE_PAYINFO, payinfo: data});
+                    callback(page);
+                } else {
+                    throw new Error('fetch callback error');
+                }
+            });
+        }
     } catch (err) {
         console.log('loadPayinfo err');
     }

@@ -71,19 +71,19 @@ class Inventory extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: any) {
-        const { loadInventory, loadInventoryByWord, getUserdata } = this.props;
-        // const user = User.getUser();
+        const { loadInventory, loadInventoryByWord } = this.props;
+        const user = User.getUser();
         if (nextProps.location.pathname !== this.props.location.pathname) {
             
             if (!!nextProps.match.params.word) {
 
                 loadInventoryByWord({
-                    userId: getUserdata._id, 
+                    userId: user.uid, 
                     word: nextProps.match.params.word
                 });
             } else {
                 
-                loadInventory({userId: getUserdata._id});
+                loadInventory({userId: user.uid});
             }
         }
     }
@@ -94,19 +94,20 @@ class Inventory extends React.Component<Props, State> {
             match,
             loadInventory,
             showSignModal,
-            getUserdata,
         } = this.props;
 
-        if (!getUserdata._id) {
+        const user = User.getUser();
+
+        if (!user.uid) {
             /* do no id stuff */
             showSignModal();
         } else {
             if (!!match.params.word) {
 
-                loadInventoryByWord({userId: getUserdata._id, word: match.params.word});
+                loadInventoryByWord({userId: user.uid, word: match.params.word});
             } else {
                 
-                loadInventory({userId: getUserdata._id});
+                loadInventory({userId: user.uid});
             }
     
             arriveFooter.add('inventory', () => {
@@ -114,7 +115,7 @@ class Inventory extends React.Component<Props, State> {
                 if (!!match.params.word) {
 
                     loadInventoryByWord({
-                        userId  : getUserdata._id,
+                        userId  : user.uid,
                         word    : match.params.word,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
@@ -122,7 +123,7 @@ class Inventory extends React.Component<Props, State> {
                 } else {
                     
                     loadInventory({
-                        userId  : getUserdata._id,
+                        userId  : user.uid,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
                     });

@@ -12,8 +12,8 @@ export type Gashapon = {
     name            : string;
     desc            : string;
     music_url       : string;
-    start_time      : Date;
-    end_time        : Date;
+    start_time      ?: Date;
+    end_time        ?: Date;
     open_time       : Date;
     price           : number;
     is_discount     : boolean;
@@ -88,7 +88,8 @@ export type MainData = {
         type    : number;
         param   : string;
         pic     : string;
-    }]
+    }];
+    flash_sale: Gashapon;
 };
 
 export type DiscountDataType = {

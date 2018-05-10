@@ -5,6 +5,7 @@ import Swiper from '../swiper';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
+import User from '../../classes/user';
 import { 
     BannerType,
     Genre,
@@ -19,6 +20,7 @@ import {
     StatusActions,
     showSearchModal,
     showNews,
+    showSignModal,
 } from '../../actions/status';
 import history from '../../history';
 
@@ -28,6 +30,7 @@ interface Props {
     showSearchModal ?: () => void;
     getTopics       ?: Genres;
     showNews        ?: () => void;
+    showSignModal   ?: () => void;
 }
 
 interface State {
@@ -69,8 +72,25 @@ class Header extends React.Component<Props, State> {
         });
     }
 
-    public goCheckHandle = () => {
+    public goCheckHandle = (): void => {
         history.push('/check');
+    }
+
+    public doShowNewsHandle = (): void => {
+        const { showNews, showSignModal } = this.props;
+        const user = User.getUser();
+        if (!user.uid) {
+
+            /* do sign stuff */
+            if (showSignModal) {
+                showSignModal();
+            }
+        } else {
+            
+            if (showNews) {
+                showNews();
+            }
+        }
     }
 
     render() {
@@ -90,14 +110,14 @@ class Header extends React.Component<Props, State> {
     }
 
     private renderHeader = (): JSX.Element => {
-        const { showSearchModal, showNews } = this.props;
+        const { showSearchModal } = this.props;
         return (
             <div styleName="header">
-                <i styleName="clock" onClick={this.goCheckHandle}/>
+                <i styleName="clock" onClick={() => this.goCheckHandle()}/>
                 <i styleName="search" onClick={showSearchModal}/>
-                <div styleName="item1" onClick={this.toggleGenres}/>
-                <div styleName="item2" onClick={this.toggleTopics}/>
-                <div styleName="item3" onClick={showNews}/>
+                <div styleName="item1" onClick={() => this.toggleGenres()}/>
+                <div styleName="item2" onClick={() => this.toggleTopics()}/>
+                <div styleName="item3" onClick={() => this.doShowNewsHandle()}/>
             </div>
         );
     }
@@ -170,6 +190,7 @@ const mapStateToProps = (state: Stores) => ({
 const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({
     showSearchModal : bindActionCreators(showSearchModal, dispatch),
     showNews        : bindActionCreators(showNews, dispatch),
+    showSignModal   : bindActionCreators(showSignModal, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

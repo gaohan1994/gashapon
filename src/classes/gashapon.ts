@@ -159,7 +159,7 @@ class Gashapon {
 
         try {
 
-            const result = await fetch(`/collect/machines/renew/${user.userId}`, {
+            const result = await fetch(`/collect/machines/renew/${user.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

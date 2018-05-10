@@ -110,7 +110,6 @@ class Gashapon extends React.Component<Props, State> {
             if (!!nextProps.match.params.price) {
 
                 const price = JSON.parse(nextProps.match.params.price);
-                console.log('price', price);
                 loadGashaponsByGenre({
                     genre       : nextProps.match.params.genre, 
                     min_price   : price.min, 
