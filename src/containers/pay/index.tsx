@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import * as Numeral from 'numeral';
-
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { BusinessActions } from '../../actions/business';
@@ -10,7 +9,6 @@ import { Stores } from '../../reducers/type';
 import { getUserdata } from '../../reducers/home';
 import { Userdata } from '../../types/user';
 import history from '../../history';
-
 import Header from '../../components/haeder_set';
 import Button from '../../components/button';
 import Validator from '../../classes/validate';

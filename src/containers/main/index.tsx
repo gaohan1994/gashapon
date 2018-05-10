@@ -19,21 +19,15 @@ import config from '../../config/index';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
 import * as moment from 'moment';
-import {
-    MainData
-} from '../../types/componentTypes';
+import { MainData } from '../../types/componentTypes';
 import { 
     loadBanners,
     loadGenres,
     loadTopics,
     loadMainData,
 } from '../../actions/main';
-import { 
-    loadNotifies,
-} from '../../actions/status';
-import {
-    getData,
-} from '../../reducers/main';
+import { loadNotifies, } from '../../actions/status';
+import { getData } from '../../reducers/main';
 
 interface Props {
     loadBanners : () => void;

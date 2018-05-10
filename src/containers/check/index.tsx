@@ -13,9 +13,7 @@ import {
     Checks,
     ChecksItem,
 } from '../../actions/check';
-import {
-    getChecks,
-} from '../../reducers/check/index';
+import { getChecks } from '../../reducers/check/index';
 import { showSignModal } from '../../actions/status';
 import { Userdata } from '../../types/user';
 import { getUserdata } from '../../reducers/home';
@@ -85,8 +83,12 @@ class Check extends React.Component <Props, State> {
         history.goBack();
     }
 
-    public renderItemImg = (i: number): string => {
-        return 'http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851%E9%BB%91%E7%99%BD.png';
+    public renderItemImg = (i: number, token: boolean): string => {
+        if (token === true) {
+            return 'http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851.png';
+        } else {
+            return 'http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851%E9%BB%91%E7%99%BD.png';
+        }
     }
 
     render () {
@@ -163,7 +165,7 @@ class Check extends React.Component <Props, State> {
                         styleName="checkimg"
                         bgimg-center="100"
                         style={{
-                            backgroundImage: `url(${this.renderItemImg(i)})`
+                            backgroundImage: `url(${this.renderItemImg(i, item.user ? true : false)})`
                         }}
                     />
                     {item.user

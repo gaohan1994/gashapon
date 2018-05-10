@@ -15,14 +15,10 @@ import {
     StatusActions,
     showSignModal,
 } from '../../actions/status';
-import { 
-    getDiscountData,
-} from '../../reducers/discount';
+import { getDiscountData } from '../../reducers/discount';
 import { getUserdata } from '../../reducers/home';
 import { Userdata } from '../../types/user';
-import {
-    DiscountDataType,
-} from '../../types/componentTypes';
+import { DiscountDataType } from '../../types/componentTypes';
 import DiscountClass,
 {
     HelpDiscountMethodReturn

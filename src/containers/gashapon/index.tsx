@@ -23,16 +23,11 @@ import DiscountClass,
     CreateDiscountPlayReturn,
 } from '../../classes/discount';
 import { Stores } from '../../reducers/type';
-
 import { 
     Gashapon as GashaponType,
     GashaponProductItem as GashaponProductItemType,
 } from '../../types/componentTypes';
-
-import { 
-    Userdata
-} from '../../types/user';
-
+import { Userdata } from '../../types/user';
 import { 
     loadGashapon,
     changeGashaponLoading,
@@ -42,10 +37,7 @@ import {
     getGashapon,
     getLoadingStatus,
 } from '../../reducers/gashapon';
-
-import { 
-    getUserdata
-} from '../../reducers/home';
+import { getUserdata } from '../../reducers/home';
 
 interface Props {
     match: {

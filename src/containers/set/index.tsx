@@ -6,20 +6,8 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Header from '../../components/haeder_set';
 import Line from '../../components/lineItem';
-
 import { Stores } from '../../reducers/type';
-
-import { 
-    WrapImagesType,
-} from '../../types/componentTypes';
-
-import { 
-
-} from '../../actions/main';
-
-import { 
-
-} from '../../reducers/main';
+import { WrapImagesType } from '../../types/componentTypes';
 
 export interface Props {
     getWrapImages   : WrapImagesType;

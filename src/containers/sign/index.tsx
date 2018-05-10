@@ -13,12 +13,8 @@ import Sign,
 import { NormalReturnObject } from '../../classes/base';
 import Validator from '../../classes/validate';
 import { DoLoginMethodReturn } from '../../classes/sign';
-import { 
-    hideSignModal,
-} from '../../actions/status';
-import { 
-    getSignModalStatus
-} from '../../reducers/status';
+import { hideSignModal, } from '../../actions/status';
+import { getSignModalStatus } from '../../reducers/status';
 
 export interface Props {
     display         ?: boolean;

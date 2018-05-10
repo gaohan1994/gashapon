@@ -8,9 +8,7 @@ import {
     DiscountActions,
     loadDiscount,
 } from '../../actions/discount';
-import { 
-    getUserdata,
-} from '../../reducers/home';
+import { getUserdata, } from '../../reducers/home';
 import { Userdata } from '../../types/user';
 // import User from '../../classes/user';
 

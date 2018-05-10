@@ -3,7 +3,6 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Header from '../../components/header_coupons';
 import Coupon from '../../components/coupon';
-
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';

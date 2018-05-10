@@ -7,17 +7,13 @@ import Header from '../../components/haeder_set';
 import ProductItem from '../../components/product_item';
 import { Stores } from '../../reducers/type';
 import { BusinessActions } from '../../actions/business';
-import { 
-    Gashapon,
-} from '../../types/componentTypes';
+import { Gashapon } from '../../types/componentTypes';
 import { 
     loadOrders,
     loadWaitOrders,
     loadWaitConfirmOrders,
 } from '../../actions/business';
-import { 
-    getOrders,
-} from '../../reducers/business';
+import { getOrders } from '../../reducers/business';
 import { getUserdata } from '../../reducers/home';
 import { Userdata } from '../../types/user';
 

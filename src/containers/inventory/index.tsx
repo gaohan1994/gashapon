@@ -14,9 +14,7 @@ import Business from '../../classes/business';
 import Header from '../../components/header_inventory';
 import SignModal from '../sign';
 import { Stores } from '../../reducers/type';
-import {
-    Gashapon
-} from '../../types/componentTypes';
+import { Gashapon } from '../../types/componentTypes';
 import { InventoryActions } from '../../actions/inventory';
 import { 
     loadInventory,
@@ -24,14 +22,8 @@ import {
     LoadInventoryParam,
 } from '../../actions/inventory';
 import { showSignModal } from '../../actions/status';
-
-import { 
-    getInventory
-} from '../../reducers/inventory';
-
-import { 
-    getUserdata
-} from '../../reducers/home';
+import { getInventory } from '../../reducers/inventory';
+import { getUserdata } from '../../reducers/home';
 import { arriveFooter } from '../../config/util';
 
 interface Props {
