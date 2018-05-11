@@ -112,7 +112,10 @@ class My extends React.Component<Props, State> {
                     </span>
                 </div>
 
-                <div styleName="vip">
+                <div 
+                    styleName="vip"
+                    onClick={() => this.onClickHandle('vip')}
+                >
                     <i 
                         styleName="vipIcon"
                         style={{backgroundImage: `url(http://net.huanmusic.com/gasha/vip/v0.png)`}}
@@ -237,7 +240,6 @@ class My extends React.Component<Props, State> {
             <div styleName="set">
                 <div 
                     styleName="setItem"
-                    // onClick={() => this.onClickHandle('address')}
                     onClick={() => this.onClickHandle('address')}
                 >
                     <i

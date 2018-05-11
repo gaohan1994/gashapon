@@ -1,11 +1,13 @@
 import business, 
 { 
     getOrders, 
-    getPayinfo
+    getPayinfo,
+    getIncome,
 } from '../business';
 import { 
     RECEIVE_ORDERS, 
-    RECEIVE_PAYINFO 
+    RECEIVE_PAYINFO,
+    RECEIVE_INCOME_RECORD,
 } from '../../constants/business';
 import initState from '../business/state';
 import store from '../initState';
@@ -26,6 +28,10 @@ describe('business 测试开始', () => {
         }
     ];
 
+    const income = {
+        result: 200
+    };
+
     it('应该成功 orders', () => {
         expect(
             business(initState, {type: RECEIVE_ORDERS, orders: orders})
@@ -39,18 +45,28 @@ describe('business 测试开始', () => {
         });
     });
 
+    it('should receive income', () => {
+        expect(business(initState, { type: RECEIVE_INCOME_RECORD, income: income })).toEqual({
+            ...initState,
+            income: income
+        });
+    });
+
     it('应该成功 get Orders', () => {
         const Store = {
             ...store,
             business: {
                 orders  : orders,
-                payinfo : [{_id: 'test'}]
+                payinfo : [{_id: 'test'}],
+                income  : { _id: '123' },
             }
         };
 
         expect(getOrders(Store)).toEqual(orders);
 
         expect(getPayinfo(Store)).toEqual([{_id: 'test'}]);
+
+        expect(getIncome(Store)).toEqual({ _id: '123' });
     });
     
 });

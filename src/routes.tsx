@@ -34,6 +34,7 @@ import Address from './containers/address';
 import AddAddress from './containers/address/add';
 import Show from './containers/show';
 import Profit from './containers/profit';
+import Vip from './containers/vip';
 
 const routes = (
     <Switch>
@@ -72,6 +73,7 @@ const routes = (
         <Route path="/addaddress"               component={AddAddress}/>
         <Route path="/show/:id"                 component={Show}/>
         <Route path="/profit"                   component={Profit}/>
+        <Route path="/vip"                      component={Vip}/>
 
         <Route component={NoMatch}/>
     </Switch>

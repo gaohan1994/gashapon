@@ -3,12 +3,32 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import * as Numeral from 'numeral';
 import history from '../../history';
+import { connect, Dispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Stores } from '../../reducers/type';
+import { 
+    BusinessActions,
+    loadIncomeRecord,
+} from '../../actions/business';
+import { getIncome } from '../../reducers/business';
+import User from '../../classes/user';
 
 interface Props {
-    
+    loadIncomeRecord: (uid: string) => void;
+    getIncome       : {result?: number};
 }
 
 class Profit extends React.Component <Props, {}> {
+
+    componentDidMount() {
+        const { loadIncomeRecord } = this.props;
+        const user = User.getUser();
+        if (!user.uid) {
+            history.push('/my');
+        } else {
+            loadIncomeRecord(user.uid);
+        }
+    }
 
     public onBackHandle = (): void => {
         history.goBack();
@@ -19,6 +39,7 @@ class Profit extends React.Component <Props, {}> {
     }
 
     render (): JSX.Element {
+        const { getIncome } = this.props;
         return (
             <div styleName="container">
                 <div 
@@ -31,18 +52,22 @@ class Profit extends React.Component <Props, {}> {
                     />
                     <span styleName="backtext">我的收益</span>
                 </div>
+
                 <div 
                     styleName="money"
                     flex-center="all-center"
                     bgimg-center="100"
                 >   
                     <span font-s="24" styleName="moneytext">收益金额</span>
-                    <span styleName="value">￥{Numeral(300).format('0.00')}</span>
+                    {typeof getIncome.result === 'number'
+                    ? <span styleName="value">￥{Numeral(getIncome.result / 100).format('0.00')}</span>
+                    : <span styleName="value">暂无收益</span>}
                 </div>
+
                 <div styleName="set">
                     <div 
                         styleName="setItem"
-                        onClick={() => this.onNavHandle('payinfo')}
+                        onClick={() => this.onNavHandle('record')}
                     >
                         <i
                             styleName="setIcon"
@@ -51,7 +76,6 @@ class Profit extends React.Component <Props, {}> {
                         />
                         <span styleName="setText">收支明细</span>
                     </div>
-
                 </div>
             </div>
         );
@@ -60,4 +84,15 @@ class Profit extends React.Component <Props, {}> {
 
 const ProfitHoc = CSSModules(Profit, styles);
 
-export default ProfitHoc;
+const mapStateToProps = (state: Stores) => ({
+    getIncome: getIncome(state),
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<BusinessActions>) => ({
+    loadIncomeRecord: bindActionCreators(loadIncomeRecord, dispatch),
+});
+
+const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+    Object.assign({}, ownProps, stateProps, dispatchProps);
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(ProfitHoc);

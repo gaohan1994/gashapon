@@ -14,6 +14,11 @@ export interface LoadPayinfo {
     payinfo: object[];
 }
 
+export interface LoadIncomeRecord {
+    type: constants.RECEIVE_INCOME_RECORD;
+    income: object;
+}
+
 export interface LoadPayinfoParams {
     uid     : string;
     page    ?: number;
@@ -21,7 +26,7 @@ export interface LoadPayinfoParams {
     callback?: (page: number) => void;
 }
 
-export type BusinessActions = LoadOrders | LoadPayinfo;
+export type BusinessActions = LoadOrders | LoadPayinfo | LoadIncomeRecord;
 
 export const loadOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
     if (!_id) {
@@ -126,5 +131,30 @@ export const loadPayinfo =
         }
     } catch (err) {
         console.log('loadPayinfo err');
+    }
+};
+
+export const loadIncomeRecord = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
+    try {
+        if (!_id) {
+            throw new Error('_id');
+        }
+    } catch (err) {
+        console.log(err.message ? err.message : '数据错误');
+        return;
+    }
+
+    try {
+        fetch(`/user/income_record/${_id}`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_INCOME_RECORD, income: res});
+            } else {
+                throw new Error(res.message ? res.message : '请求收益错误');
+            }
+        });
+    } catch (err) {
+        console.log(err.message ? err.message : 'loadIncomeRecord错误');
     }
 };
