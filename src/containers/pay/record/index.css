@@ -26,7 +26,7 @@
             justify-content: space-between;
 }
 
-.box {
+.box, .boxRight {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -36,10 +36,20 @@
             flex-direction: column;
 }
 
-.box > span {
+.boxRight {
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end;
+}
+
+.box > span, .boxRight > span  {
     display: block;
     height: 50px;
     line-height: 50px;
+}
+
+.boxRight > span {
+    width: 210px;
 }
 
 .normal {
@@ -50,4 +60,9 @@
 .small {
     font-size: 24px;
     color: #999999;
+}
+
+.money {
+    font-size: 48px;
+    color: #fba175;
 }

@@ -116,7 +116,7 @@ export const loadPayinfo =
             .then(res => {
                 if (res.success === true) {
                     console.log('res', res);
-                    data = data.concat(res.result);
+                    data = data.concat(res.result.data);
                     dispatch({type: constants.RECEIVE_PAYINFO, payinfo: data});
                     callback(page);
                 } else {

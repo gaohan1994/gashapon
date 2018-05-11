@@ -11,10 +11,12 @@ import { loadPayinfo, BusinessActions, LoadPayinfoParams } from '../../../action
 import { getPayinfo } from '../../../reducers/business';
 import { showSignModal } from '../../../actions/status';
 import { arriveFooter } from '../../../config/util';
+import { Payinfos, Payinfo } from '../../../types/componentTypes';
+import * as Moment from 'moment';
 
 interface Props {
     loadPayinfo     : ({}: LoadPayinfoParams) => void;
-    getPayinfo      : object[];
+    getPayinfo      : Payinfos;
     showSignModal   : () => void;
 }
 
@@ -58,7 +60,7 @@ class Record extends React.Component<Props, State> {
 
     render () {
 
-        const { } = this.props;
+        const { getPayinfo } = this.props;
         
         return (
             <div 
@@ -66,27 +68,34 @@ class Record extends React.Component<Props, State> {
                 container-with-header="true"
             >
                 <Header title="收支明细"/> 
-                {this.renderItem()}
+                {getPayinfo.length > 0
+                ? getPayinfo.map((item: Payinfo, i: number) => {
+                    return this.renderItem(item, i);
+                })
+                : '暂无收支明细'}
             </div>
         );
     }
 
-    private renderItem = (): JSX.Element => {
+    private renderItem = (data: Payinfo, i: number): JSX.Element => {
         return (
             <div 
                 styleName="item"
                 flex-center="all-center"
+                key={i}
             >
                 <SignModal/>
                 <div styleName="border">
                     <div styleName="box">
-                        <span styleName="normal">收支明细收支</span>
-                        <span styleName="small">收支明细收支</span>
-                        <span styleName="small">收支明细收支</span>
+                        <span styleName="normal">{data.name}</span>
+                        <span styleName="small">{data.status}</span>
+                        <span styleName="small">
+                            {data.create_date ? Moment(data.create_date).format('MM月DD日 hh:mm') : ''}
+                        </span>
                     </div>
-                    <div styleName="box">
-                        <span>收支明细收支</span>
-                        <span>收支明细收支</span>
+                    <div styleName="boxRight">
+                        <span styleName="money">+￥{data.value}</span>
+                        <span word-overflow="word-overflow">{data._id}</span>
                     </div>
                 </div>
             </div>

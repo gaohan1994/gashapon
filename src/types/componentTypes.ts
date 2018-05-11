@@ -104,3 +104,30 @@ export type DiscountDataType = {
     user        : string;
     _id         : string;
 };
+
+export type PayinfoUser = {
+    name: string;
+    phone: string;
+    remain: number;
+    _id: string;
+};
+
+export type Payinfo = {
+    channel: number;
+    create_date: Date;
+    desc: string;
+    from_user: PayinfoUser;
+    machine: {
+        name: string;
+        _id: string;
+    };
+    name: string;
+    product_list: object[];
+    status: number;
+    type: number;
+    user: PayinfoUser;
+    value: number;
+    _id: string;
+};
+
+export type Payinfos = Payinfo[];
