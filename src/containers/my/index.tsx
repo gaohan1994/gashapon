@@ -138,7 +138,12 @@ class My extends React.Component<Props, State> {
                     </span>
                     元
                 </span>
-                {/* <span styleName="moneyText">提现 ></span> */}
+                <span 
+                    styleName="moneyText"
+                    onClick={() => this.onClickHandle('profit')}
+                >
+                    {`我的收益 >`}
+                </span>
             </div>
         );
     }

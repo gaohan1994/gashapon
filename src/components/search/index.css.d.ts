@@ -1,6 +1,7 @@
 export const show: string;
 export const hide: string;
 export const searchHeader: string;
+export const icon: string;
 export const doSearch: string;
 export const searchInput: string;
 export const hot: string;

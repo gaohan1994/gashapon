@@ -33,6 +33,7 @@ import DiscountHome from './containers/discount_home';
 import Address from './containers/address';
 import AddAddress from './containers/address/add';
 import Show from './containers/show';
+import Profit from './containers/profit';
 
 const routes = (
     <Switch>
@@ -70,6 +71,7 @@ const routes = (
         <Route path="/address"                  component={Address}/>
         <Route path="/addaddress"               component={AddAddress}/>
         <Route path="/show/:id"                 component={Show}/>
+        <Route path="/profit"                   component={Profit}/>
 
         <Route component={NoMatch}/>
     </Switch>

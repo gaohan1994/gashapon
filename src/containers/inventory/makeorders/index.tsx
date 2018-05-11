@@ -118,6 +118,7 @@ class MakeOriders extends React.Component<Props, State> {
                 } else {
                     defaultAddress = getUserdata.address[0];
                 }
+
                 User.setUser({
                     address : `${defaultAddress.detail_area} ${defaultAddress.detail_home}`,
                     receiver: getUserdata.name,
@@ -218,7 +219,7 @@ class MakeOriders extends React.Component<Props, State> {
                     <span onClick={() => this.doAllChoiceHandle()}>全选</span>
                     <span>合计：</span>
                 </div>
-                <div 
+                <div
                     styleName="button"
                     bgimg-center="100"
                     style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E4%B8%8B%E5%8D%95-%E7%A1%AE%E8%AE%A4%E8%AE%A2%E5%8D%95.png)`}}
