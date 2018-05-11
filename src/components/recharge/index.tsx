@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-
+import { bindActionCreators } from 'redux';
 import * as numeral from 'numeral';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -10,9 +10,11 @@ import { Stores } from '../../reducers/type';
 import { getUserdata } from '../../reducers/home';
 import { Userdata } from '../../types/user';
 import history from '../../history';
+import { showSignModal } from '../../actions/status';
 
 interface Props {
-    getUserdata?: Userdata;
+    getUserdata     ?: Userdata;
+    showSignModal   ?: () => void;
 }
 
 interface State {
@@ -42,7 +44,16 @@ class Recharge extends React.Component<Props, State> {
     }
 
     private onNavHandle = (param: string): void => {
-        history.push(`/${param}`);
+        const { showSignModal, getUserdata } = this.props;
+
+        if (getUserdata && getUserdata._id) {
+            history.push(`/${param}`);
+        } else {
+            if (showSignModal) {
+                showSignModal();
+            }
+        }
+        
     }
 }
 
@@ -53,7 +64,7 @@ const mapStateToProps = (state: Stores) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<BusinessActions>) => ({
-
+    showSignModal: bindActionCreators(showSignModal, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

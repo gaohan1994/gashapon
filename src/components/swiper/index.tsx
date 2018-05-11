@@ -6,6 +6,8 @@ import { BannerType } from '../../types/componentTypes';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import history from '../../history';
+import Base from '../../classes/base';
+
 const AutoSwipeableViews = autoPlay(SwipeableViews);
 
 interface Props {
@@ -25,76 +27,10 @@ class Swiper extends React.Component<Props, State> {
         };
     }
 
-    public linkTo = (type: number, param: string) => {
-        const navPath = config.debug ? `http://www-dev.huanmusic.com` : `http://www.huanmusic.com`;
-        switch (type) {
-        case 0:
-            return;
-        case 1:
-            /*打开单曲*/
-            window.location.href = `${navPath}/song/${param}`;
-            return;
-        case 2:
-            /*打开歌单*/
-            window.location.href = `${navPath}/playlist/${param}`;
-            break;
-        case 3:
-            /*打开用户主页*/
-            window.location.href = `${navPath}/home/${param}`;
-            break;
-        case 4:
-             /*打开视频*/
-            // browserHistory.push(`/video/${param}`);
-            break;
-        case 5:
-            /*进入歌手页面*/
-            window.location.href = `${navPath}/artist/${param}`;
-            break;
-        case 6:
-            /*进入登录页面*/
-            // browserHistory.push(`/login/${param}`);
-            break;
-        case 7:
-            /*应用内打开连接页面*/
-            break;
-        case 8:
-            /*进入分享页面*/
-            // browserHistory.push(`/share/${param}`);
-            break;
-        case 9:
-            /*应用外打开页面*/
-            break;
-        case 10:
-            /*进入圈子页面*/
-            window.location.href = `${navPath}/tribe/${param}`;
-            break;
-        case 11:
-            /*进入动态页面*/
-            window.open(`//${config.host.pic}/sns/${param}.html`, '_blank');
-            break;
-        case 12:
-            /*APP升级*/
-            // browserHistory.push(`/singer/${param}`);
-            break;
-        case 13:
-            /*进入黑市页面*/
-            // browserHistory.push(`/shop/${param}`);
-            break;
-        case 14:
-            /*跳转APP打分页面*/
-            // browserHistory.push(`/singer/${param}`);
-            break;
-        case 15:
-            /*进入设置页面*/
-            // browserHistory.push(`/setting/${param}`);
-            break;
-        default:
-            break;
-        }
-    }
-
-    public doNavHandle = (param: string): void => {
-        history.push(`/gashapon/${param}`);
+    public doNavHandle = (type: number, param: string): void => {
+        // history.push(`/gashapon/${param}`);
+        console.log(type, param);
+        Base.onNavHandle(type, param);
     }
 
     render() {
@@ -112,7 +48,7 @@ class Swiper extends React.Component<Props, State> {
                     styleName="wrapItem"
                 >
                     <i
-                        onClick={() => this.doNavHandle(item.param)}
+                        onClick={() => this.doNavHandle(item.type, item.param)}
                         styleName="imageItem"
                         style={{
                             backgroundImage: item.pic 

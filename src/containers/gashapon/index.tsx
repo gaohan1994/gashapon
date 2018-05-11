@@ -185,12 +185,12 @@ class Gashapon extends React.Component<Props, State> {
      */
     public doDiscoutHandle = async (): Promise<void> => {
         //
-        const { getGashapon, getUserdata } = this.props;
+        const { getGashapon, getUserdata, showSignModal } = this.props;
         // const user = User.getUser();
         
         if (!getUserdata._id) {
             /* do no sign stuff */
-            console.log('login');
+            showSignModal();
         } else {
 
             const result: CreateDiscountPlayReturn = await DiscountClass.createDiscoutPlay({
@@ -297,8 +297,11 @@ class Gashapon extends React.Component<Props, State> {
             <Hoc>
                 <div styleName="container">
                     <SignModal/>
+                    {/* http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d */}
                     <audio
-                        src="http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d"
+                        src={getGashapon.music_url
+                            ? `http://${config.host.pic}/${getGashapon.music_url}`
+                            : 'http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
                         preload="metadata"
                         autoPlay={true}
                         ref={(audio) => { this.audio = audio; }}

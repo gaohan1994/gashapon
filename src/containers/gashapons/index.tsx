@@ -10,6 +10,7 @@ import Header from '../../components/header_gashapons';
 import Search from '../../components/search';
 import News from '../../components/news';
 import Hoc from '../hoc';
+import Base from '../../classes/base';
 import { arriveFooter } from '../../config/util';
 import { Stores } from '../../reducers/type';
 import config from '../../config/index';
@@ -261,6 +262,10 @@ class Gashapon extends React.Component<Props, State> {
         history.push(`/gashapons/topic/${topic}`);
     }
 
+    public onBannerNavHandle = (type: number, param: string) => {
+        Base.onNavHandle(type, param);
+    }
+
     public doChangePriceHandle = ({min, max}: {min: number, max?: number}): void => {
         console.log(min, max);
         const { match } = this.props;
@@ -439,6 +444,7 @@ class Gashapon extends React.Component<Props, State> {
                 <div 
                     key={i}
                     styleName="wrapItem"
+                    onClick={() => this.onBannerNavHandle(item.type, item.param)}
                 >
                     <i
                         styleName="imageItem"

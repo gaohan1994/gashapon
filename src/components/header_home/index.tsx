@@ -50,6 +50,10 @@ class Header extends React.Component<Props, State> {
         };
     }
 
+    public onNavHandle = (): void => {
+        history.push('/gashapons');
+    }
+
     public doChangeGenreHandle = (genre: string): void => {
         this.toggleGenres();
         history.push(`/gashapons/${genre}`);
@@ -73,7 +77,15 @@ class Header extends React.Component<Props, State> {
     }
 
     public goCheckHandle = (): void => {
-        history.push('/check');
+        const { showSignModal } = this.props;
+        const user = User.getUser();
+        if (!user.uid) {
+            if (showSignModal) {
+                showSignModal();
+            }
+        } else {
+            history.push('/check');
+        }
     }
 
     public doShowNewsHandle = (): void => {
@@ -134,7 +146,7 @@ class Header extends React.Component<Props, State> {
                     styleName="wrapper"
                     style={{bottom: showGenres === true ? '0' : '-100vh'}}
                 >
-                    <button styleName="bigButton">全部关注</button>
+                    <button styleName="bigButton" onClick={() => this.onNavHandle()}>全部分类</button>
                     {getGenres && getGenres.map((item: Genre, i) => (
                         <button
                             key={i}
@@ -162,7 +174,7 @@ class Header extends React.Component<Props, State> {
                     styleName="wrapper"
                     style={{bottom: showTopics === true ? '0' : '-80vh'}}
                 >
-                    <button styleName="bigButton">全部关注</button>
+                    <button styleName="bigButton" onClick={() => this.onNavHandle()}>全部专题</button>
                     {getTopics && getTopics.map((item: Genre, i) => (
                         <button 
                             key={i}

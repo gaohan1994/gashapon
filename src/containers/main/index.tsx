@@ -14,6 +14,8 @@ import News from '../../components/news';
 import Menu, { MenuItem } from '../../components/menu_v1';
 import DataItem from '../../components/content_item';
 import Sign from '../../classes/sign';
+import Base from '../../classes/base';
+import SignModal from '../sign';
 import Hoc from '../hoc';
 import config from '../../config/index';
 import { Stores } from '../../reducers/type';
@@ -71,8 +73,10 @@ class Main extends React.Component<Props, State> {
         history.push(`/${type}`);
     }
 
-    public onMenuClickHandle = (type: string): void => {
-        history.push(`/gashapons/${type}`);
+    public onMenuClickHandle = (type: number, param: string): void => {
+        // history.push(`/gashapons/${type}`);
+
+        Base.onNavHandle(type, param);
     }
 
     public doLogoutHandle = async (): Promise<void> => {
@@ -89,26 +93,7 @@ class Main extends React.Component<Props, State> {
         return (
             <Hoc>
                 <div styleName="container">
-                    {/* <a 
-                        style={{
-                            width: '100%',
-                            height: '100px',
-                            background: '#f27a7a'
-                        }}
-                        href="/logout"
-                    >
-                        LOGINOUT
-                    </a>
-                    <div 
-                        style={{
-                            width: '100%',
-                            height: '100px',
-                            background: '#000000'
-                        }}
-                        onClick={() => this.onNavHandle('forget')}
-                    >
-                        register
-                    </div> */}
+                    <SignModal/>
                     <Header/>
                     <Search/>
                     <News/>
@@ -161,25 +146,25 @@ class Main extends React.Component<Props, State> {
                 _id: 1,
                 img: 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
                 value: '热卖排行',
-                propsClickHandle: () => this.onMenuClickHandle('5aeab912ed009e3d8f4a9d0a')
+                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab912ed009e3d8f4a9d0a')
             },
             {
                 _id: 2,
                 img: 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
                 value: '超值特价',
-                propsClickHandle: () => this.onMenuClickHandle('5aeab916ed009e3d8f4a9d0b')
+                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab916ed009e3d8f4a9d0b')
             },
             {
                 _id: 3,
                 img: 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
                 value: '抢先预订',
-                propsClickHandle: () => this.onMenuClickHandle('5aeab91bed009e3d8f4a9d0c')
+                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab91bed009e3d8f4a9d0c')
             },
             {
                 _id: 4,
                 img: 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
                 value: '新品上架',
-                propsClickHandle: () => this.onMenuClickHandle('5aeab91fed009e3d8f4a9d0d')
+                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab91fed009e3d8f4a9d0d')
             },
         ];
         return (

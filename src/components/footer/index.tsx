@@ -19,7 +19,7 @@ class Footer extends React.Component<{}, {}> {
                 value: '推荐',
                 img: window.location.pathname === '/'
                     ? 'http://net.huanmusic.com/gasha/%E6%8E%A8%E8%8D%90-%E7%82%B9%E5%87%BB%E5%90%8E.png'
-                    : 'http://net.huanmusic.com/gasha/%E6%8E%A8%E8%8D%90-%E7%82%B9%E5%87%BB%E5%90%8E.png'
+                    : 'http://net.huanmusic.com/gasha/%E5%BD%A2%E7%8A%B6702.png'
             },
             {
                 _id: 2,

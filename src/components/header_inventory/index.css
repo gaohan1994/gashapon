@@ -5,6 +5,7 @@
     right: 0;
     width: 750px;
     height: 80px;
+    z-index: 50;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
