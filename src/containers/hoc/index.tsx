@@ -54,10 +54,16 @@ class Hoc extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        const { loadUserDataFromUuid, didmountSignStatus, showSignModal, getUserdata } = this.props;
+        
+        const { 
+            loadUserDataFromUuid, 
+            didmountSignStatus, 
+            showSignModal, 
+            getUserdata 
+        } = this.props;
+
         // const userId = '5ac1f31087e83ef4915abc02';
         const user = User.getUser();
-        console.log('123', user);
         if (!user.userId) {
             /* do no sign handle */
             if (didmountSignStatus === true) {

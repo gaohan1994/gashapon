@@ -1,0 +1,96 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.header {
+    position: relative;
+    width: 750px;
+    height: 260px;
+    background-image: url('http://net.huanmusic.com/gasha/%E7%A1%AE%E8%AE%A4%E8%AE%A2%E5%8D%95%E8%83%8C%E6%99%AF.png');
+}
+
+.back {
+    position: absolute;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    top: 30px;
+    left: 30px;
+}
+
+.backicon {
+    display: block;
+    width: 45px;
+    height: 37px;
+    background-image: url('http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
+}
+
+.backtext {
+    margin-left: 30px;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.address {
+    position: absolute;
+    bottom: 20px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 750px;
+    padding: 0 70px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.box {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.box > span {
+    color: #ffffff;
+}
+
+.location, .more {
+    position: absolute;
+    display: block;
+}
+
+.location {
+    bottom: 25px;
+    left: 35px;
+}
+
+.more {
+    bottom: 25px;
+    right: 35px;
+}
+
+.content {
+    width: 750px;
+}

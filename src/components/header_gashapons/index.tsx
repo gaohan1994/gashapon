@@ -8,13 +8,11 @@ import {
     Genre,
     Genres,
 } from '../../types/componentTypes';
-import { 
-    getTopics,
-} from '../../reducers/main';
+import { getTopics } from '../../reducers/main';
 import { 
     StatusActions,
     showSearchModal,
-    showNews,
+    showNews
 } from '../../actions/status';
 import history from '../../history';
 

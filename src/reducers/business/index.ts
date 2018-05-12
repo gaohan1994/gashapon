@@ -5,6 +5,8 @@ import {
     RECEIVE_ORDERS,
     RECEIVE_PAYINFO,
     RECEIVE_INCOME_RECORD,
+    SET_SELECTED_ADDRESS,
+    SET_SELECTED_GASHAPONS,
 } from '../../constants/business';
 import initState from './state';
 import { merge } from 'lodash';
@@ -27,6 +29,16 @@ export default function business (state: Business = initState, action: BusinessA
             state.income = income;
             return merge({}, state, {});
 
+        case SET_SELECTED_ADDRESS:
+            const { address } = action;
+            state.address = address;
+            return merge({}, state, {});
+
+        case SET_SELECTED_GASHAPONS:
+            const { gashapons } = action;
+            state.gashapons = gashapons;
+            return merge({}, state, {});
+
         default :
             return state;
     }
@@ -37,3 +49,7 @@ export const getOrders = (state: Stores) => state.business.orders;
 export const getPayinfo = (state: Stores) => state.business.payinfo;
 
 export const getIncome = (state: Stores) => state.business.income;
+
+export const getSelectedAddress = (state: Stores) => state.business.address;
+
+export const getSelectedGashapons = (state: Stores) => state.business.gashapons;

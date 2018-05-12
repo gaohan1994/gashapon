@@ -5,3 +5,8 @@ export const backicon: string;
 export const backtext: string;
 export const levels: string;
 export const level: string;
+export const icon: string;
+export const reword: string;
+export const rules: string;
+export const ruleicon: string;
+export const ruletext: string;

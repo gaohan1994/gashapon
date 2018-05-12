@@ -146,16 +146,15 @@ class SignContainer extends React.Component<Props, State> {
                 code    : regcode,
                 password: regpwd,
             };
-
             console.log('params', params);
-            
             const result: NormalReturnObject = await Sign.doRegisterMethod(params);
             if (result.success === true) {
+
                 /* do ok stuff */
                 if (hideSignModal) {
-                    hideSignModal();
+                    // hideSignModal();
+                    window.location.reload();
                 }
-                // window.location.reload();
             } else {
                 /* do error stuff */
                 alert(result.message ? result.message : '注册有问题');
@@ -247,6 +246,8 @@ class SignContainer extends React.Component<Props, State> {
 
             if (result.success === true) {
                 this.setState({ waitCode: 60 }, () => { this.timer = setInterval(this.timerHandle, 1000); });
+            } else {
+                alert(result.message ? result.message : '获取验证码出错');
             }
         }
     }

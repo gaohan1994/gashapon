@@ -3,6 +3,8 @@ import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/business';
 import { Dispatch } from 'redux';
 import { Stores } from '../reducers/type';
+import { Address } from '../types/user';
+import { Gashapon } from '../types/componentTypes';
 
 export interface LoadOrders {
     type: constants.RECEIVE_ORDERS;
@@ -26,7 +28,22 @@ export interface LoadPayinfoParams {
     callback?: (page: number) => void;
 }
 
-export type BusinessActions = LoadOrders | LoadPayinfo | LoadIncomeRecord;
+export interface SetSelectedAddress {
+    type: constants.SET_SELECTED_ADDRESS;
+    address: Address | {};
+}
+
+export interface SetSelectedGashapons {
+    type: constants.SET_SELECTED_GASHAPONS;
+    gashapons: Gashapon[];
+}
+
+export type BusinessActions = 
+    LoadOrders 
+    | LoadPayinfo 
+    | LoadIncomeRecord 
+    | SetSelectedAddress
+    | SetSelectedGashapons;
 
 export const loadOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
     if (!_id) {
@@ -156,5 +173,41 @@ export const loadIncomeRecord = (_id: string) => (dispatch: Dispatch<BusinessAct
         });
     } catch (err) {
         console.log(err.message ? err.message : 'loadIncomeRecord错误');
+    }
+};
+
+export const setSelectedAddress = (address: Address | {}) => (dispatch: Dispatch<BusinessActions>): void => {
+    try {
+        if (!address) {
+            throw new Error('address');
+        }
+    } catch (err) {
+        console.log(err.message ? err.message : '数据错误');
+        return;
+    }
+
+    try {
+        dispatch({type: constants.SET_SELECTED_ADDRESS, address: address});
+    } catch (err) {
+        console.log(err.message ? err.message : 'setSelectedAddress error');
+    }
+};
+
+export const setSelectedGashapons = (gashapons: Gashapon[]) => (dispatch: Dispatch<BusinessActions>): void => {
+    try {
+        if (!gashapons) {
+            throw new Error('gashapons');
+        } else if (gashapons.length === 0) {
+            throw new Error('gashapons');
+        }
+    } catch (err) {
+        console.log(err.message ? err.message : '数据错误');
+        return;
+    }
+
+    try {
+        dispatch({type: constants.SET_SELECTED_GASHAPONS, gashapons: gashapons});
+    } catch (err) {
+        console.log(err.message ? err.message : 'setSelectedGashapons error');
     }
 };

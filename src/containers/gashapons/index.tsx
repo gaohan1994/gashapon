@@ -39,6 +39,7 @@ import {
     getGashaponBanner,
     getBanners,
 } from '../../reducers/main';
+
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 const AutoSwipeableViews = autoPlay(SwipeableViews);
@@ -263,11 +264,10 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public onBannerNavHandle = (type: number, param: string) => {
-        Base.onNavHandle(type, param);
+        Base.onBannerNavHandle(type, param);
     }
 
     public doChangePriceHandle = ({min, max}: {min: number, max?: number}): void => {
-        console.log(min, max);
         const { match } = this.props;
         const price = {
             min: min,
@@ -307,6 +307,7 @@ class Gashapon extends React.Component<Props, State> {
                     <Header/>
                     <Search/>
                     <News/>
+
                     {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
                     ? this.renderBanners()
                     : ''}
@@ -330,6 +331,7 @@ class Gashapon extends React.Component<Props, State> {
     private renderClass = (): JSX.Element => {
         const { showGenre, showPrice } = this.state;
         const { getGenres } = this.props;
+
         const prices = [
             {
                 value: '0-8',

@@ -61,7 +61,7 @@ class Main extends React.Component<Props, State> {
             loadMainData,
             loadNotifies,
         } = this.props;
-
+        // history.push('/payment');
         loadBanners();
         loadGenres();
         loadTopics();
@@ -146,25 +146,25 @@ class Main extends React.Component<Props, State> {
                 _id: 1,
                 img: 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
                 value: '热卖排行',
-                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab912ed009e3d8f4a9d0a')
+                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab912ed009e3d8f4a9d0a')
             },
             {
                 _id: 2,
                 img: 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
                 value: '超值特价',
-                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab916ed009e3d8f4a9d0b')
+                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab916ed009e3d8f4a9d0b')
             },
             {
                 _id: 3,
                 img: 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
                 value: '抢先预订',
-                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab91bed009e3d8f4a9d0c')
+                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab91bed009e3d8f4a9d0c')
             },
             {
                 _id: 4,
                 img: 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
                 value: '新品上架',
-                propsClickHandle: () => this.onMenuClickHandle(2, '5aeab91fed009e3d8f4a9d0d')
+                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab91fed009e3d8f4a9d0d')
             },
         ];
         return (

@@ -291,6 +291,10 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
+    public goGashaponShow = (_id: string): void => {
+        history.push(`/show/${_id}`);
+    }
+
     render (): JSX.Element {
         const { getGashapon } = this.props;
         return (
@@ -338,7 +342,7 @@ class Gashapon extends React.Component<Props, State> {
                                         ? `url(http://${config.host.pic}/${getGashapon.pics[0]})`
                                         : `url(${config.empty_pic.url})`}}
                             />
-                            <i styleName="show" bgimg-center="100"/>
+                            <i styleName="show" bgimg-center="100" onClick={() => this.goGashaponShow(getGashapon._id)}/>
                             {this.renderStore()}
                             <i styleName="button1" button-attr="button-attr" onClick={() => this.doGashaponHandle(3)}/>
                             <i styleName="button2" button-attr="button-attr" onClick={() => this.doGashaponHandle(10)}/>

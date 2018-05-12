@@ -5,7 +5,7 @@ import config from '../../config/index';
 import { BannerType } from '../../types/componentTypes';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import history from '../../history';
+// import history from '../../history';
 import Base from '../../classes/base';
 
 const AutoSwipeableViews = autoPlay(SwipeableViews);
@@ -30,7 +30,7 @@ class Swiper extends React.Component<Props, State> {
     public doNavHandle = (type: number, param: string): void => {
         // history.push(`/gashapon/${param}`);
         console.log(type, param);
-        Base.onNavHandle(type, param);
+        Base.onBannerNavHandle(type, param);
     }
 
     render() {

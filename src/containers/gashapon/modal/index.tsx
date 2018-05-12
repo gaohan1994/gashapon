@@ -6,7 +6,6 @@ import {
     Gashapon,
     GashaponProductItem
 } from '../../../types/componentTypes';
-
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 const AutoSwipeableViews = autoPlay(SwipeableViews);

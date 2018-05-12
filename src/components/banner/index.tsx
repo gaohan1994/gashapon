@@ -5,6 +5,7 @@ import config from '../../config';
 import { 
     BannerType as Bntype,
 } from '../../types/componentTypes';
+import Base from '../../classes/base';
 
 interface Props {
     banner?: Bntype;
@@ -15,8 +16,9 @@ interface BannerType {
     img: string;
 }
 
-const onClickHandle = (): void => {
-    alert('hello');
+const onClickHandle = (type: number, param: string): void => {
+    console.log('hello');
+    Base.onBannerNavHandle(type, param);
 };
 
 /**
@@ -24,15 +26,18 @@ const onClickHandle = (): void => {
  */
 const Banner = ({banner, BannerType}: Props) => (
     <div styleName="container">
-        <i 
+        {banner
+        ? <i 
             styleName="banner"
             style={{
                 backgroundImage: banner && banner.pic
                                 ? `url(http://${config.host.pic}/${banner.pic})`
                                 : `url(${config.empty_pic.url})`
             }}
-            onClick={onClickHandle}
+            onClick={() => onClickHandle(banner.type, banner.param)}
         />
+        : ''}
+        
     </div>
 );
 

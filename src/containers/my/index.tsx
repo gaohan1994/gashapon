@@ -6,21 +6,23 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Footer from '../../components/footer';
 import Menu from '../../components/menu_v1';
+import User from '../../classes/user';
 import SignModal from '../sign';
 import history from '../../history';
-import Hoc from '../hoc';
+// import Hoc from '../hoc';
 import config from '../../config';
 import { Userdata } from '../../types/user';
 import { Stores } from '../../reducers/type';
-import { loadCode, } from '../../actions/home';
+import { loadCode, loadUserDataFromUuid } from '../../actions/home';
 import { showSignModal } from '../../actions/status';
 import { getUserdata } from '../../reducers/home';
 import Sign from '../../classes/sign';
 
 interface Props {
-    getUserdata     : Userdata;
-    loadCode        : (phone: string) => void;
-    showSignModal   : () => void;
+    getUserdata         : Userdata;
+    loadCode            : (phone: string) => void;
+    showSignModal       : () => void;
+    loadUserDataFromUuid: () => void;
 }
 
 interface State {
@@ -33,7 +35,6 @@ interface State {
  * 我的页面
  * render:
  */
-
 class My extends React.Component<Props, State> {
 
     constructor (props: Props) {
@@ -43,11 +44,19 @@ class My extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount(): void {
+    componentWillMount(): void {
+
         const { 
-            // loadCode,
+            loadUserDataFromUuid,
+            showSignModal,
         } = this.props;
-        // loadCode('15659995443');
+        const user = User.getUser();
+        
+        if (!user.userId) {
+            showSignModal();
+        } else {
+            loadUserDataFromUuid();
+        }
     }
 
     public onNavHandle = (param: string): void => {
@@ -69,18 +78,16 @@ class My extends React.Component<Props, State> {
     render(): JSX.Element {
         const { } = this.props;
         return (
-            <Hoc didmountSignStatus={true}>
-                <div styleName="container">
-                    <SignModal/>
-                    {this.renderProfile()}
-                    {this.renderMoney()}
-                    {this.renderUtils()}
-                    {this.renderMenu()}
-                    {this.renderSet()}
-                    {this.renderMyData()}
-                    <Footer/>
-                </div>
-            </Hoc>
+            <div styleName="container">
+                <SignModal/>
+                {this.renderProfile()}
+                {this.renderMoney()}
+                {this.renderUtils()}
+                {this.renderMenu()}
+                {this.renderSet()}
+                {this.renderMyData()}
+                <Footer/>
+            </div>
         );
     }
 
@@ -321,8 +328,9 @@ export const mapStateToProps = (state: Stores) => ({
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
-    loadCode        : bindActionCreators(loadCode, dispatch),
-    showSignModal   : bindActionCreators(showSignModal, dispatch),
+    loadCode            : bindActionCreators(loadCode, dispatch),
+    showSignModal       : bindActionCreators(showSignModal, dispatch),
+    loadUserDataFromUuid: bindActionCreators(loadUserDataFromUuid, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
