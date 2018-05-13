@@ -2,9 +2,14 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import history from '../../history';
+import config from '../../config/index';
+import { connect, Dispatch } from 'react-redux';
+import { getUserdata } from '../../reducers/home';
+import { Stores } from '../../reducers/type';
+import { Userdata } from '../../types/user';
 
 interface Props {
-    
+    getUserdata: Userdata;
 }
 
 class Vip extends React.Component <Props, {}> {
@@ -14,6 +19,7 @@ class Vip extends React.Component <Props, {}> {
     }
 
     render (): JSX.Element {
+        const { getUserdata } = this.props;
         return (
             <div styleName="container">
                 <div 
@@ -32,7 +38,30 @@ class Vip extends React.Component <Props, {}> {
                     bgimg-center="100"
                     flex-center="all-center"
                 >
-                    1
+                    <div 
+                        styleName="cover"
+                        bgimg-center="bgimg-center"
+                        style={{backgroundImage: `url(${config.empty_pic.url})`}}
+                    />
+                    <span 
+                        styleName="name" 
+                        font-s="30"
+                        word-overflow="word-overflow"
+                    >
+                        {getUserdata.name}
+                    </span>
+                    
+                    <div 
+                        styleName="exp"
+                    >
+                        <i 
+                            styleName="vipIcon"
+                            style={{backgroundImage: `url(http://net.huanmusic.com/gasha/vip/v0.png)`}}
+                        />
+                        <span styleName="progress">
+                            0 / 10
+                        </span>
+                    </div>
                 </div>
 
                 {this.renderLevels()}
@@ -63,12 +92,12 @@ class Vip extends React.Component <Props, {}> {
         return (
             <div 
                 styleName="rules"
-                flex-cener="all-center"
+                flex-center="all-center"
             >
                 <i bgimg-center="100" styleName="ruleicon"/>
-                <span font-s="30" styleName="ruletext">renderRules</span>
-                <span font-s="30" styleName="ruletext">renderRules</span>
-                <span font-s="30" styleName="ruletext">renderRules</span>
+                <span font-s="30" styleName="ruletext">1.使用余额消费获得经验值；</span>
+                <span font-s="30" styleName="ruletext">2.消费1元获得1经验值；</span>
+                <span font-s="30" styleName="ruletext">3.余额抵扣运费不获得经验值。</span>
                 
             </div>
         );
@@ -77,4 +106,15 @@ class Vip extends React.Component <Props, {}> {
 
 const VipHoc = CSSModules(Vip, styles);
 
-export default VipHoc;
+export const mapStateToProps = (state: Stores) => ({
+    getUserdata: getUserdata(state),
+});
+
+export const mapDispatchToProps = (dispatch: Dispatch<{}>) => ({
+
+});
+
+export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+    Object.assign({}, ownProps, stateProps, dispatchProps);
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(VipHoc);

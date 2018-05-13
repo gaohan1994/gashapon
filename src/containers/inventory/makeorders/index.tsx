@@ -13,15 +13,22 @@ import Header from '../../../components/header_inventory';
 import User from '../../../classes/user';
 import Business from '../../../classes/business';
 import SignModal from '../../sign';
-import { InventoryActions } from '../../../actions/inventory';
+import { StatusActions } from '../../../actions/status';
 import { getInventory } from '../../../reducers/inventory';
 import { getUserdata } from '../../../reducers/home';
 import { showSignModal } from '../../../actions/status';
+import { 
+    setSelectedAddress, 
+    setSelectedGashapons,
+    BusinessActions,
+} from '../../../actions/business';
 
 interface Props {
-    getInventory    : Gashapon[];
-    getUserdata     : Userdata;
-    showSignModal   : () => void;
+    getInventory        : Gashapon[];
+    getUserdata         : Userdata;
+    showSignModal       : () => void;
+    setSelectedAddress  : (address: Address) => void;
+    setSelectedGashapons: (gashapons: Gashapon[]) => void;
 }
 
 interface State {
@@ -98,7 +105,13 @@ class MakeOriders extends React.Component<Props, State> {
             });
         }
     }
-
+    
+    /**
+     * 1.把address存到redux中
+     * 2.把gashapons存到redux中
+     * 3.跳转到payment
+     * @memberof MakeOriders
+     */
     public doOrderHandle = async (): Promise<void> => {
         const { gashapons } = this.state;
         const { showSignModal } = this.props;
@@ -117,14 +130,14 @@ class MakeOriders extends React.Component<Props, State> {
                     defaultAddress = getUserdata.address[index];
                 } else {
                     defaultAddress = getUserdata.address[0];
-                }
+                }                
 
                 User.setUser({
                     address : `${defaultAddress.detail_area} ${defaultAddress.detail_home}`,
                     receiver: getUserdata.name,
                     phone   : getUserdata.phone,
                 });
-                const user = User.getUser();  
+                const user = User.getUser();
 
                 if (!user.uid) {
 
@@ -237,8 +250,10 @@ export const mapStateToProps = (state: Stores) => ({
     getUserdata : getUserdata(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
-    showSignModal: bindActionCreators(showSignModal, dispatch),
+export const mapDispatchToProps = (dispatch: Dispatch<BusinessActions | StatusActions>, state: Stores) => ({
+    showSignModal       : bindActionCreators(showSignModal, dispatch),
+    setSelectedAddress  : bindActionCreators(setSelectedAddress, dispatch),
+    setSelectedGashapons: bindActionCreators(setSelectedGashapons, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
