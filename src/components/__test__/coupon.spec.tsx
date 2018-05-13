@@ -10,28 +10,34 @@ configure({adapter: new Adapter()});
 describe('Coupon Test begin', () => {
     
     const couponData = {
-        price: 1,
-        value: 'hello',
-        end_time: new Date()
+        create_date: new Date(),
+        user: '123',
+        _id: '123',
+        discount: {
+            condition: 10,
+            expire: new Date(),
+            pic: '123',
+            price: 123
+        }
     };
 
     describe('container test', () => {
         it('render Coupon container test', () => {
-            const coupon = shallow(<Coupon/>);
+            const coupon = shallow(<Coupon ticket={couponData}/>);
             expect(coupon.find('.container')).toHaveLength(1);
         });
     });
 
     describe('icon test ', () => {
         it('render bge test', () => {
-            const coupon = shallow(<Coupon/>);
+            const coupon = shallow(<Coupon ticket={couponData}/>);
             expect(coupon.find('.bge')).toHaveLength(1);
         });
     });
 
     describe('price test ', () => {
         it('render price test', () => {
-            const coupon = shallow(<Coupon/>);
+            const coupon = shallow(<Coupon ticket={couponData}/>);
             expect(coupon.find('.price')).toHaveLength(1);
         });
 
@@ -44,7 +50,7 @@ describe('Coupon Test begin', () => {
 
     describe('fullcut test ', () => {
         it('render fullcut test', () => {
-            const coupon = shallow(<Coupon/>);
+            const coupon = shallow(<Coupon ticket={couponData}/>);
             expect(coupon.find('.fullcut')).toHaveLength(1);
         });
 
@@ -57,7 +63,7 @@ describe('Coupon Test begin', () => {
 
     describe('name test ', () => {
         it('render name test', () => {
-            const coupon = shallow(<Coupon/>);
+            const coupon = shallow(<Coupon ticket={couponData}/>);
             expect(coupon.find('.name')).toHaveLength(1);
         });
 
@@ -70,14 +76,14 @@ describe('Coupon Test begin', () => {
 
     describe('endtime test ', () => {
         it('render endtime test', () => {
-            const coupon = shallow(<Coupon/>);
+            const coupon = shallow(<Coupon ticket={couponData}/>);
             expect(coupon.find('.time')).toHaveLength(1);
         });
 
         it('render endtime props test', () => {
             
             const coupon = shallow(<Coupon ticket={couponData}/>);
-            expect(coupon.find('.time').text()).toEqual(`有效期：${moment(couponData.end_time).format('YYYY-MM-DD')}`);
+            expect(coupon.find('.time').text()).toEqual(`有效期：${moment(couponData.create_date).format('YYYY-MM-DD')}`);
         });
     });
 });

@@ -1,8 +1,7 @@
 .container {
     width: 750px;
     min-height: 100vh;
-    padding: 90px 0 0 0;
-    background: #dcc6a6;
+    background: #ffffff;
 }
 
 .container::after {
@@ -15,5 +14,79 @@
 
 .item {
     float: left;
-    margin: 20px 0 0 20px;
+    margin: 40px 0 0 70px;
+}
+
+.header {
+    position: relative;
+    width: 750px;
+    height: 313px;
+    background-image: url('http://net.huanmusic.com/gasha/%E6%88%90%E5%B0%B1%E8%83%8C%E6%99%AF%E3%80%91.png');
+}
+
+.back {
+    position: absolute;
+    left: 35px;
+    top: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+.icon {
+    display: block;
+    width: 45px;
+    height: 37px;
+    background-image: url('http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
+}
+
+.text {
+    color: #ffffff;
+    font-size: 30px;
+    margin-left: 35px;
+}
+
+.bigIcon {
+    width: 210px;
+    height: 250px;
+    position: absolute;
+    top: 0;
+    right: 35px;
+    background-image: url('http://net.huanmusic.com/gasha/%E5%8B%8B%E7%AB%A0.png');
+}
+
+.medals {
+    position: absolute;
+    left: 50px;
+    top: 90px;
+}
+
+.medal {
+    margin-bottom: 10px;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding-left: 60px;
+    font-size: 24px;
+    color: #ffffff;
+    border-radius: 25px;
+    background: rgba(0, 0, 0, .3);
+}
+
+.medalIcon {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.number {
+    margin: 0 10px;
 }

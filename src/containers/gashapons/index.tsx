@@ -166,7 +166,9 @@ class Gashapon extends React.Component<Props, State> {
             const price = JSON.parse(match.params.price);
 
             loadGashaponsByGenre({
-                genre   : match.params.genre, min_price: price.min, max_price: price.max,
+                genre       : match.params.genre, 
+                min_price   : price.min, 
+                max_price   : price.max,
             });
             loadBannersByGenre(match.params.genre);
         }
@@ -232,13 +234,10 @@ class Gashapon extends React.Component<Props, State> {
 
     componentWillUnmount(): void {
         arriveFooter.remove('gashapons');
-
-        const clickEnd = window.removeEventListener('click', this.clickListenHandle);
-        console.log(clickEnd);
+        window.removeEventListener('click', this.clickListenHandle);
     }
 
     public clickListenHandle = (event: any) => {
-        console.log(event.target.getAttribute('id'));
         if (event.target.getAttribute('id') !== 'showGenre' 
             && event.target.getAttribute('id') !== 'showPrice') {
             this.doHideAllHandle();

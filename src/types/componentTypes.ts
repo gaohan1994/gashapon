@@ -72,7 +72,7 @@ export type Ticket = {
         condition: number;
         expire: Date;
         pic: string;
-        price: string;
+        price: number;
     }
 };
 

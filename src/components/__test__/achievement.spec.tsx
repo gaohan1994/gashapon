@@ -7,10 +7,18 @@ configure({adapter: new Adapter()});
 
 describe('Achievement test begin', () => {
     
+    const achievement = {
+        name: '我的处女蛋',
+        desc: '扭蛋1次',
+        img: 'http://net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
+        progress: 0,
+        totalProgress: 1,
+    };
+
     describe('container test', () => {
         it('should render container', () => {
             expect(
-                shallow(<Achievement/>).find('.container')
+                shallow(<Achievement achievement={achievement}/>).find('.container')
             ).toHaveLength(1);
         });
     });
@@ -18,29 +26,16 @@ describe('Achievement test begin', () => {
     describe('cover test', () => {
         it('should render cover', () => {
             expect(
-                shallow(<Achievement/>).find('.cover')
+                shallow(<Achievement achievement={achievement}/>).find('.cover')
             ).toHaveLength(1);
         });
     });
 
     describe('detail test', () => {
 
-        const achievement = {
-            name: '我的处女蛋',
-            desc: '扭蛋1次',
-            progress: 0,
-            totalProgress: 1,
-        };
-
-        it('should render detail', () => {
-            expect(
-                shallow(<Achievement/>).find('.detail')
-            ).toHaveLength(1);
-        });
-
         it('should render name', () => {
             expect(
-                shallow(<Achievement/>).find('.name')
+                shallow(<Achievement achievement={achievement}/>).find('.name')
             ).toHaveLength(1);
         });
 
@@ -52,26 +47,8 @@ describe('Achievement test begin', () => {
 
         it('should render desc', () => {
             expect(
-                shallow(<Achievement/>).find('.desc')
+                shallow(<Achievement achievement={achievement}/>).find('.desc')
             ).toHaveLength(1);
-        });
-
-        it('should render desc text', () => {
-            expect(
-                shallow(<Achievement achievement={achievement}/>).find('.desc').text()
-            ).toEqual('扭蛋1次');
-        });
-
-        it('should render progress', () => {
-            expect(
-                shallow(<Achievement/>).find('.bar')
-            ).toHaveLength(1);
-        });
-
-        it('should render progress value', () => {
-            expect(
-                shallow(<Achievement achievement={achievement}/>).find('.bar').text()
-            ).toEqual(`0/1`);
         });
 
     });
