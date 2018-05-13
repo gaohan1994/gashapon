@@ -203,6 +203,7 @@ export const loadInventoryByGenre =
                 .then(res => res.json())
                 .then(res => {
                     if (res.success === true) {
+                        
                         dispatch({type: constants.LOADING_INVENTORY_STATUS, loading: false});
                         dispatch({type: constants.RECEIVE_INVENTORY, invetory: res.result});
                     } else {

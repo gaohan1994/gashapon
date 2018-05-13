@@ -1,3 +1,5 @@
 export default {
-    coupons: []
+    coupons : [],
+    loading : false,
+    lastType: '',
 };

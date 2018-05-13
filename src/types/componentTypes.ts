@@ -65,9 +65,15 @@ export type Genre = {
 export type Genres = Genre[];
 
 export type Ticket = {
-    price: number;
-    value: string;
-    end_time: Date;
+    create_date: Date;
+    user: string;
+    _id: string;
+    discount: {
+        condition: number;
+        expire: Date;
+        pic: string;
+        price: string;
+    }
 };
 
 export type MainData = {

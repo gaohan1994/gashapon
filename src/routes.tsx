@@ -61,6 +61,7 @@ const routes = (
         <Route path="/success"                  component={Success}/>
         <Route path="/collect"                  component={Collect}/>
         <Route path="/achievements"             component={Achievements}/>
+        <Route path="/coupons/:type"            component={Coupons}/>
         <Route path="/coupons"                  component={Coupons}/>
         <Route path="/userphone"                component={UserPhone}/>
         <Route path="/check"                    component={Check}/>

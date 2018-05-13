@@ -135,7 +135,7 @@ class Gashapon extends React.Component<Props, State> {
                 loadGashapons();
             }
         }
-     }
+    }
 
     componentDidMount(): void {
         const { 

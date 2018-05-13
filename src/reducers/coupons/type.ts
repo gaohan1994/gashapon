@@ -1,4 +1,6 @@
 
 export type Coupons = {
-    coupons: object[];
+    coupons : object[];
+    loading : boolean;
+    lastType: string;
 };

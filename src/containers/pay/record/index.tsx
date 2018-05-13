@@ -54,6 +54,10 @@ class Record extends React.Component<Props, State> {
         });
     }
 
+    componentWillUnmount (): void {
+        arriveFooter.remove('payinfo');
+    }
+
     public loadPayinfoCallback = (page: number): void => {
         this.setState({page: page + 1});
     }
