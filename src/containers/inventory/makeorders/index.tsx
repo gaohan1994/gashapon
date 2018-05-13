@@ -11,7 +11,6 @@ import history from '../../../history';
 import GashaItem from '../../../components/gashapon_inventory';
 import Header from '../../../components/header_inventory';
 import User from '../../../classes/user';
-import Business from '../../../classes/business';
 import SignModal from '../../sign';
 import { StatusActions } from '../../../actions/status';
 import { getInventory } from '../../../reducers/inventory';
@@ -27,7 +26,7 @@ interface Props {
     getInventory        : Gashapon[];
     getUserdata         : Userdata;
     showSignModal       : () => void;
-    setSelectedAddress  : (address: Address) => void;
+    setSelectedAddress  : (address: Address | {}) => void;
     setSelectedGashapons: (gashapons: Gashapon[]) => void;
 }
 
@@ -114,14 +113,18 @@ class MakeOriders extends React.Component<Props, State> {
      */
     public doOrderHandle = async (): Promise<void> => {
         const { gashapons } = this.state;
-        const { showSignModal } = this.props;
+        const { 
+            showSignModal,
+            setSelectedAddress,
+            setSelectedGashapons,
+        } = this.props;
         if (gashapons.length === 0) {
             alert('请选择要下单的扭蛋~');
             return;
         } else {
             const { getUserdata } = this.props;
 
-            let defaultAddress: Address;
+            let defaultAddress: Address | {};
 
             if (getUserdata.address && getUserdata.address.length > 0) {
                 const index = getUserdata.address.findIndex(item => item.status === 1);
@@ -129,14 +132,9 @@ class MakeOriders extends React.Component<Props, State> {
                 if (index !== -1) {
                     defaultAddress = getUserdata.address[index];
                 } else {
-                    defaultAddress = getUserdata.address[0];
+                    defaultAddress = {};
                 }                
 
-                User.setUser({
-                    address : `${defaultAddress.detail_area} ${defaultAddress.detail_home}`,
-                    receiver: getUserdata.name,
-                    phone   : getUserdata.phone,
-                });
                 const user = User.getUser();
 
                 if (!user.uid) {
@@ -144,22 +142,10 @@ class MakeOriders extends React.Component<Props, State> {
                     /* do sign handle */
                     showSignModal();
                 } else {
+                    setSelectedAddress(defaultAddress);
+                    setSelectedGashapons(gashapons);
 
-                    const result = await Business.doOrderMethod(user, gashapons); 
-                    if (result.success === true) {
-
-                        history.push('/success');
-                    } else {
-                        
-                        console.log(`${result.type}--${result.message}`);
-                        switch (result.message) {
-                            case 'address':
-                                history.push('/address');
-                                return;
-                            default: 
-                                return;
-                        }
-                    }
+                    history.push('/payment');
                 }
             } else {
                 history.push('/address');

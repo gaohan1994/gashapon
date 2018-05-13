@@ -1,0 +1,26 @@
+.container {
+    width: 750px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 20px 0;
+    background: #ffffff;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    border-bottom: 2px solid #dddddd;
+}
+
+.cover {
+    width: 130px;
+    height: 130px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border: 4px solid #fba175;
+    border-radius: 20px;
+}
+
+.detail {
+    margin-left: 40px;
+    width: 500px;
+}

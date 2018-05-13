@@ -12,8 +12,9 @@ import { getUserdata } from '../../reducers/home';
 import { Userdata, Address } from '../../types/user';
 import { Gashapon } from '../../types/componentTypes';
 import { getSelectedAddress, getSelectedGashapons } from '../../reducers/business';
-import GashaponItem from '../../components/gashapon_row_item';
-// import User from '../../classes/user';
+import GashaponItem from '../../components/gashapon_row_item_v1';
+import User from '../../classes/user';
+import Business from '../../classes/business';
 
 interface Props {
     getUserdata         : Userdata;
@@ -23,14 +24,16 @@ interface Props {
 }
 
 interface State {
-    
+    payway: number;
 }
 
 class Profit extends React.Component <Props, State> {
 
     constructor (props: Props) {
         super(props);
-        this.state = {};
+        this.state = {
+            payway: 1
+        };
     }
 
     componentDidMount() {
@@ -40,6 +43,58 @@ class Profit extends React.Component <Props, State> {
 
     public onBackHandle = (): void => {
         history.goBack();
+    }
+
+    public onChangePayWayHandle = (param: number): void => {
+        console.log('param', param);
+        this.setState({
+            payway: param
+        });
+    }
+
+    public doOrderHandle = async (): Promise <void> => {
+        const { getSelectedAddress, getSelectedGashapons } = this.props;
+
+        if (!getSelectedGashapons || getSelectedGashapons.length <= 0) {
+            alert('请选择扭蛋');
+            return;
+        }
+
+        if (!getSelectedAddress) {
+            alert('请选择地址');
+            return;
+        }
+
+        User.setUser({
+            address : getSelectedAddress.detail_area 
+                    + ' ' 
+                    + getSelectedAddress.detail_home,
+            receiver: getSelectedAddress.receiver,
+            phone   : getSelectedAddress.phone
+        });
+
+        const user = User.getUser();
+
+        if (!user.uid) {
+            alert('请先登录');
+            history.goBack();
+        }
+
+        const result = await Business.doOrderMethod(user, getSelectedGashapons); 
+        if (result.success === true) {
+
+            history.push('/success');
+        } else {
+            
+            console.log(`${result.type}--${result.message}`);
+            switch (result.message) {
+                case 'address':
+                    history.push('/address');
+                    return;
+                default: 
+                    return;
+            }
+        }
     }
 
     render (): JSX.Element {
@@ -64,6 +119,8 @@ class Profit extends React.Component <Props, State> {
                 </div>
             
                 {this.renderContent()}
+                {this.renderPayway()}
+                {this.renderFooter()}
             </div>
         );
     }
@@ -104,11 +161,87 @@ class Profit extends React.Component <Props, State> {
         const { getSelectedGashapons} = this.props;
         return (
             <div styleName="content">
+                <span font-s="24" styleName="tips">温馨提示：单笔订单满9件玩具包邮哟~</span>
                 {getSelectedGashapons && getSelectedGashapons.length > 0
                 ? getSelectedGashapons.map((item: Gashapon, i: number) => (
                     <GashaponItem gashapon={item} key={i}/>
                 ))
                 : ''}
+            </div>
+        );
+    }
+
+    private renderPayway = (): JSX.Element => {
+
+        const { payway } = this.state;
+        return (
+            <div styleName="ways">
+                <span font-s="30" styleName="paytext">选择支付方式</span>
+               
+                <div 
+                    styleName="way"
+                    flex-center="all-center"
+                    onClick={() => this.onChangePayWayHandle(1)}
+                >
+                    <i 
+                        styleName="wayicon" 
+                        bgimg-center="100"
+                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E4%BD%99%E9%A2%9D.png)`}}
+                    />
+                    <div styleName="waycontent" >
+                        <span font-s="30" style={{color: payway === 1 ? '#fea270' : '#444444'}}>使用余额支付</span>
+                        <span font-s="24" style={{color: payway === 1 ? '#fea270' : '#444444'}}>使用余额</span>
+                    </div>
+                    <i 
+                        styleName="waystatus" 
+                        bgimg-center="100"
+                        style={{
+                            background: payway === 1 ? '#f27a7a' : '#ffffff'
+                        }}
+                    />
+                </div>
+                
+                <div 
+                    styleName="way"
+                    flex-center="all-center"
+                    onClick={() => this.onChangePayWayHandle(2)}
+                >
+                    <i 
+                        styleName="wayicon" 
+                        bgimg-center="100"
+                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E5%8C%85%E9%82%AE%E5%88%B8.png)`}}
+                    />
+                    <div styleName="waycontent" >
+                        <span font-s="30" style={{color: payway === 2 ? '#fea270' : '#444444'}}>使用包邮券</span>
+                        <span font-s="24" style={{color: payway === 2 ? '#fea270' : '#444444'}}>剩余0张</span>
+                    </div>
+                    <i 
+                        styleName="waystatus" 
+                        bgimg-center="100"
+                        style={{
+                            background: payway === 2 ? '#f27a7a' : '#ffffff'
+                        }}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    private renderFooter = (): JSX.Element => {
+        return (
+            <div styleName="footer">
+                <div styleName="detail">
+                    <span font-s="30" styleName="count">共1件</span>
+                    <span style={{marginLeft: '40px'}}>
+                        <span font-s="30" >运费：</span>
+                        <span font-s="30" styleName="money">￥30</span>
+                    </span>
+                </div>
+                <div 
+                    styleName="button"
+                    bgimg-center="100"
+                    onClick={() => this.doOrderHandle()}
+                />
             </div>
         );
     }
