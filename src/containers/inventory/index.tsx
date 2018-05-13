@@ -18,6 +18,7 @@ import { InventoryActions } from '../../actions/inventory';
 import { 
     loadInventory,
     loadInventoryByWord,
+    loadInventoryByGenre,
     LoadInventoryParam,
 } from '../../actions/inventory';
 import { showSignModal } from '../../actions/status';
@@ -31,14 +32,16 @@ interface Props {
     };
     match: {
         params: {
-            word: string;
+            word    : string;
+            genre   : string;
         };
     };
     getUserdata         : Userdata;
     getInventory        : Gashapon[];
+    showSignModal       : () => void;
     loadInventory       : ({}: LoadInventoryParam) => void;
     loadInventoryByWord : ({}: LoadInventoryParam) => void;
-    showSignModal       : () => void;
+    loadInventoryByGenre: ({}: LoadInventoryParam) => void;
 }
 
 interface State {
@@ -61,15 +64,26 @@ class Inventory extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: any) {
-        const { loadInventory, loadInventoryByWord } = this.props;
+        const { 
+            loadInventory, 
+            loadInventoryByWord, 
+            loadInventoryByGenre 
+        } = this.props;
         const user = User.getUser();
+        console.log(nextProps.match);
         if (nextProps.location.pathname !== this.props.location.pathname) {
             
             if (!!nextProps.match.params.word) {
 
                 loadInventoryByWord({
-                    userId: user.uid, 
-                    word: nextProps.match.params.word
+                    userId  : user.uid, 
+                    word    : nextProps.match.params.word
+                });
+            } else if (!!nextProps.match.params.genre) {
+                    
+                loadInventoryByGenre({
+                    userId  : user.uid, 
+                    genre   : nextProps.match.params.genre
                 });
             } else {
                 
@@ -84,10 +98,12 @@ class Inventory extends React.Component<Props, State> {
             match,
             loadInventory,
             showSignModal,
+            loadInventoryByWord,
+            loadInventoryByGenre,
         } = this.props;
 
         const user = User.getUser();
-
+        console.log(match);
         if (!user.uid) {
             /* do no id stuff */
             showSignModal();
@@ -95,6 +111,9 @@ class Inventory extends React.Component<Props, State> {
             if (!!match.params.word) {
 
                 loadInventoryByWord({userId: user.uid, word: match.params.word});
+            } else if (!!match.params.genre) {
+
+                loadInventoryByGenre({userId: user.uid, genre: match.params.genre});
             } else {
                 
                 loadInventory({userId: user.uid});
@@ -107,6 +126,14 @@ class Inventory extends React.Component<Props, State> {
                     loadInventoryByWord({
                         userId  : user.uid,
                         word    : match.params.word,
+                        page    : this.state.page + 1,
+                        callback: this.loadInventoryCallback
+                    });
+                } else if (!!match.params.genre) {
+                    
+                    loadInventoryByGenre({
+                        userId  : user.uid, 
+                        genre   : match.params.genre,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
                     });
@@ -150,14 +177,18 @@ class Inventory extends React.Component<Props, State> {
                 <SignModal/>
                 <div styleName="container">
                     <Header title={match.params.word ? match.params.word : ''}/>
-                    {getInventory.map((item, i) => (
+
+                    {getInventory && getInventory.length > 0
+                    ? getInventory.map((item, i) => (
                         <div 
                             key={i}
                             styleName="item"
                         >
                             <GashaItem item={item}/>
                         </div>
-                    ))}
+                    ))
+                    : ''}
+
                     {this.renderMenu()}
                     <Footer/>
                 </div>
@@ -201,6 +232,7 @@ export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: 
     loadInventory       : bindActionCreators(loadInventory, dispatch),
     loadInventoryByWord : bindActionCreators(loadInventoryByWord, dispatch),
     showSignModal       : bindActionCreators(showSignModal, dispatch),
+    loadInventoryByGenre: bindActionCreators(loadInventoryByGenre, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

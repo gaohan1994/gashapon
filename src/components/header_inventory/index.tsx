@@ -13,16 +13,20 @@ import {
     showNews,
 } from '../../actions/status';
 import { Stores } from '../../reducers/type';
+import { getGenres } from '../../reducers/main';
+import { Genres, Genre } from '../../types/componentTypes';
 
 interface Props {
     title           : string;
     showSignModal   ?: () => void;
     showNews        ?: () => void;
+    getGenres       ?: Genres;
 }
 
 interface State {
     value       : string;
     showSearch  : boolean;
+    showGenres  : boolean;
 }
 
 class Header extends React.Component<Props, State> {
@@ -31,7 +35,8 @@ class Header extends React.Component<Props, State> {
         super(props);
         this.state = { 
             value       : '',
-            showSearch  : false
+            showSearch  : false,
+            showGenres  : false,
         };
     }
 
@@ -99,6 +104,21 @@ class Header extends React.Component<Props, State> {
         });
     }
 
+    public toggleGenres = (): void => {
+        this.setState({
+            showGenres: !this.state.showGenres,
+        });
+    }
+
+    public doChangeGenreHandle = (genre: string): void => {
+        this.toggleGenres();
+        history.push(`/inventory/genre/${genre}`);
+    }
+
+    public onNavHandle = (): void => {
+        history.push('/inventory');
+    }
+
     render() {
         const { title } = this.props; 
         return (
@@ -114,6 +134,7 @@ class Header extends React.Component<Props, State> {
                         width   : '30px',
                         height  : '30px'
                     }}
+                    onClick={() => this.toggleGenres()}
                 />
                 <div 
                     styleName="search"
@@ -132,6 +153,7 @@ class Header extends React.Component<Props, State> {
                     onClick={() => this.doShowNewsHandle()}
                 />
                 {this.renderSearch()}
+                {this.renderGenre()}
             </header>
         );
     }
@@ -173,12 +195,40 @@ class Header extends React.Component<Props, State> {
             </div>
         );
     }
+
+    private renderGenre = (): JSX.Element => {
+        const { showGenres } = this.state;
+        const { getGenres } = this.props;
+        return (
+            <div 
+                styleName={showGenres === true ? 'show' : 'hide'}
+                onClick={this.toggleGenres}
+            >
+                <div 
+                    styleName="wrapper"
+                    style={{bottom: showGenres === true ? '0' : '-100vh'}}
+                >
+                    <button styleName="bigButton" onClick={() => this.onNavHandle()}>全部分类</button>
+                    {getGenres && getGenres.map((item: Genre, i) => (
+                        <button
+                            key={i}
+                            styleName="smallButton"
+                            onClick={() => this.doChangeGenreHandle(item._id)}
+                        >
+                            {item.name}
+                        </button>
+                    ))}
+                    <button styleName="bigButton">取消</button>
+                </div>
+            </div>
+        );
+    }
 }
 
 const HeaderHoc = CSSModules(Header, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-
+    getGenres: getGenres(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({

@@ -1,4 +1,6 @@
 
 export type Inventory = {
-    inventory: object[];
+    inventory   : object[];
+    loading     : boolean;
+    lastGenre   : string;
 };

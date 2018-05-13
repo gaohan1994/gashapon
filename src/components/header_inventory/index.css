@@ -72,3 +72,82 @@
     -webkit-transition: all .3s ease-out;
     transition: all .3s ease-out;
 }
+
+
+.show {
+    visibility: visible;
+    opacity: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 50;
+    background-color: rgba(0,0,0,.5);
+
+}
+
+.hide {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 50;
+    background-color: rgba(0,0,0,0);
+}
+
+.show, .hide {
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+
+.wrapper {
+    position: absolute;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-transition: all .4s ease-out;
+    transition: all .4s ease-out;
+}
+
+.bigButton, .smallButton {
+    display: block;
+    border-radius: 0;
+    border-color: #bba895;
+    background-color: #f9f0e2;
+    color: #351b00;
+    font-size: 26px;
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    border-width: 0 0 1px;
+}
+
+.bigButton:hover, .smallButton:hover {
+    background: #dddddd;
+    color: #3c7bd6;
+}
+
+.bigButton {
+    width: 750px;
+}
+
+.smallButton {
+    width: 250px;
+}
