@@ -16,6 +16,8 @@ import Business from '../../classes/business';
 import User from '../../classes/user';
 import config from '../../config';
 import Qart from 'react-qart';
+import { inApp } from '../../config/util';
+import Schema, { SchemaConfig } from '../../classes/schema';
 
 interface Props {
     getUserdata: Userdata;
@@ -24,6 +26,7 @@ interface Props {
 interface State {
     value       ?: number;
     showQrcode  : boolean;
+    qrcodeUrl   : string;
 }
 
 class Pay extends React.Component<Props, State> {
@@ -31,7 +34,8 @@ class Pay extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            showQrcode: false
+            showQrcode  : false,
+            qrcodeUrl   : ''
         };
     }
 
@@ -63,9 +67,24 @@ class Pay extends React.Component<Props, State> {
                 });
                 const user = User.getUser();
                 
-                const recharge = await Business.doRechargeMethod(user, value);
+                const recharge = await Business.doRechargeMethod(user, value, inApp);
                 if (recharge.success === true) {
-                    history.push('/');
+
+                    if (inApp === true) {
+                        const config: SchemaConfig = {
+                            protocal: 'dgacha',
+                            schema: `pay/${recharge.result},${value},${user.uid}`
+                        };
+
+                        const schema = new Schema(config);
+                        schema.loadSchema();
+                    } else {
+                        this.setState({
+                            qrcodeUrl: recharge.result
+                        });
+                        this.showQrcodeHandle();
+                    }
+
                 } else {
                     console.log(`${recharge.type}--${recharge.message}`);
                     alert(recharge.message);
@@ -97,7 +116,7 @@ class Pay extends React.Component<Props, State> {
     }
 
     render() {
-        const { showQrcode } = this.state;
+        const { showQrcode, qrcodeUrl } = this.state;
         const { getUserdata } = this.props;
         
         return (
@@ -111,7 +130,7 @@ class Pay extends React.Component<Props, State> {
                     }}
                 >
                     <Qart
-                        value="hello"
+                        value={qrcodeUrl}
                         imagePath="http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851.png"
                     />
 

@@ -27,6 +27,7 @@ import AddressItem from '../../components/address_row_item';
 import Header from '../../components/haeder_set';
 import User from '../../classes/user';
 import Business from '../../classes/business';
+// import Schema from '../../classes/schema';
 
 interface Props {
     getUserdata             : Userdata;
@@ -182,7 +183,9 @@ class Profit extends React.Component <Props, State> {
                 </div>
             
                 {this.renderContent()}
+
                 {this.renderPayway()}
+
                 {this.renderFooter()}
                 
                 {this.renderAddressModal()}
@@ -332,6 +335,7 @@ class Profit extends React.Component <Props, State> {
                     subTitle="新增地址"
                     subPropsClick={this.onOtherAddressHandle}
                 />
+
                 {getUserdata.address && getUserdata.address.map((item: Address, i: number) => (
                     <AddressItem 
                         data={item} 

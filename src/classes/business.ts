@@ -129,7 +129,7 @@ class Business {
      * 
      * @memberof Business
      */
-    public doRechargeMethod = async (user: UserType, value: number): Promise<NormalReturnObject> => {
+    public doRechargeMethod = async (user: UserType, value: number, app: boolean): Promise<NormalReturnObject> => {
         try {
             if (!user) {
                 throw new Error('用户数据错误');
@@ -160,7 +160,8 @@ class Business {
                 body: JSON.stringify({
                     value               : money,
                     from_user_name      : user.name,
-                    from_user_headimgurl: user.headimg
+                    from_user_headimgurl: user.headimg,
+                    app                 : app
                 })
             })
             .then(res => res.json());

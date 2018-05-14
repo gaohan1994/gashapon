@@ -4,6 +4,7 @@ export interface NormalReturnObject {
     success ?: boolean;
     type    ?: string;
     message ?: string;
+    result  ?: any;
 }
 
 class Base {

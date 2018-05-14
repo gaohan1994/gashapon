@@ -78,3 +78,20 @@ export const arriveFooter = (function() {
     };
 }());
   
+export const browser = {
+  isAndroid: function() {
+      return navigator.userAgent.match(/Android/i) ? true : false;
+  },
+  isMobileQQ : function() {
+      var ua = navigator.userAgent;
+      return /(iPad|iPhone|iPod).*? (IPad)?QQ\/([\d\.]+)/.test(ua) || /\bV1_AND_SQI?_([\d\.]+)(.*? QQ\/([\d\.]+))?/.test(ua);
+  },
+  isIOS: function() {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+  },
+  isWx : function() {
+      return navigator.userAgent.match(/micromessenger/i) ? true : false;
+  }
+};
+
+export const inApp = !!navigator.userAgent.toLowerCase().match('gacha'); 

@@ -130,10 +130,8 @@ class Header extends React.Component<Props, State> {
                 <News/>
                 <i 
                     styleName="icons"
-                    style={{
-                        width   : '30px',
-                        height  : '30px'
-                    }}
+                    bgimg-center="100"
+                    style={{backgroundImage: `url(http://net.huanmusic.com/gasha/inventory/%E5%88%86%E7%B1%BB.png)`}}
                     onClick={() => this.toggleGenres()}
                 />
                 <div 
@@ -171,10 +169,8 @@ class Header extends React.Component<Props, State> {
                 >
                     <i 
                         styleName="icons"
-                        style={{
-                            width   : '30px',
-                            height  : '30px'
-                        }}
+                        bgimg-center="100"
+                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png)`}}
                         onClick={this.doHideSearchHandle}
                     />
                     <input
@@ -185,10 +181,8 @@ class Header extends React.Component<Props, State> {
                     />
                     <i 
                         styleName="icons"
-                        style={{
-                            width   : '30px',
-                            height  : '30px'
-                        }}
+                        bgimg-center="100"
+                        style={{backgroundImage: 'url(http://net.huanmusic.com/gasha/%E6%9F%A5%E8%AF%A2.png)'}}
                         onClick={this.doSearchHandle}
                     />
                 </div>

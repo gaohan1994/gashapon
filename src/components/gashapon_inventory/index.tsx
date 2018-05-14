@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import { Gashapon } from '../../types/componentTypes';
 import config from '../../config';
-import history from '../../history';
+// import history from '../../history';
 
 interface Props {
     item            : Gashapon;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const onClickHandle = (_id: string): void => {
-    history.push(`/gashapon/${_id}`);
+    //
 };
 
 /**
