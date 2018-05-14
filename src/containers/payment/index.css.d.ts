@@ -20,3 +20,5 @@ export const button: string;
 export const detail: string;
 export const count: string;
 export const money: string;
+export const addressModal: string;
+export const modalItem: string;

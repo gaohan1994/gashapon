@@ -8,4 +8,5 @@ export type Status = {
     showRegister    : boolean;
     showLoginModal  : boolean;
     showSignModal   : boolean;
+    config          : any;
 };

@@ -1,9 +1,9 @@
 require('es6-promise').polyfill();
-// import * as fetch from 'isomorphic-fetch';
+import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/status';
 import { Dispatch } from 'redux';
-// import config from '../config/index';
 import { Notifies } from '../components/news/index';
+import { orderAddressConfig } from '../types/componentTypes';
 
 export interface ShowSearch {
     type: constants.SHOW_SEARCH_MODAL;
@@ -75,6 +75,11 @@ export interface HideSignModal {
     type: constants.HIDE_SIGN_MODAL;
 }
 
+export interface SetOrderAddressConfig {
+    type    : constants.SET_ORDER_ADDRESS_CONFIG;
+    config  : orderAddressConfig;
+}
+
 export type StatusActions = 
     ShowSearch 
     | HideSearch 
@@ -92,7 +97,8 @@ export type StatusActions =
     | ShowLoginModal
     | HideLoginModal
     | ShowSignModal
-    | HideSignModal;
+    | HideSignModal
+    | SetOrderAddressConfig;
 
 export const showSearchModal = () => (dispatch: Dispatch<StatusActions>): void => {
     try {
@@ -235,5 +241,13 @@ export const hideSignModal = () => (dispatch: Dispatch<StatusActions>): void => 
         dispatch({type: constants.HIDE_SIGN_MODAL});
     } catch (err) {
         console.log('hideSignModal', err);
+    }
+};
+
+export const setOrderAddressConfig = (config: orderAddressConfig) => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.SET_ORDER_ADDRESS_CONFIG, config: config});
+    } catch (err) {
+        console.log(err.message ? err.message : 'setOrderAddressConfig err');
     }
 };

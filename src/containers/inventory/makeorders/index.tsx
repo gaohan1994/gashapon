@@ -5,33 +5,45 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../../reducers/type';
-import { Gashapon } from '../../../types/componentTypes';
+import { Gashapon, orderAddressConfig } from '../../../types/componentTypes';
 import { Userdata, Address } from '../../../types/user';
 import history from '../../../history';
 import GashaItem from '../../../components/gashapon_inventory';
 import Header from '../../../components/header_inventory';
 import User from '../../../classes/user';
 import SignModal from '../../sign';
-import { StatusActions } from '../../../actions/status';
+import Modal from '../../../components/modal';
+import Hoc from '../../hoc';
 import { getInventory } from '../../../reducers/inventory';
 import { getUserdata } from '../../../reducers/home';
-import { showSignModal } from '../../../actions/status';
+import { 
+    StatusActions,
+    showSignModal,
+    setOrderAddressConfig,
+} from '../../../actions/status';
 import { 
     setSelectedAddress, 
     setSelectedGashapons,
     BusinessActions,
 } from '../../../actions/business';
+import {
+    HomeActions,
+    loadUserDataFromUuid
+} from '../../../actions/home';
 
 interface Props {
-    getInventory        : Gashapon[];
-    getUserdata         : Userdata;
-    showSignModal       : () => void;
-    setSelectedAddress  : (address: Address | {}) => void;
-    setSelectedGashapons: (gashapons: Gashapon[]) => void;
+    getInventory            : Gashapon[];
+    getUserdata             : Userdata;
+    showSignModal           : () => void;
+    setSelectedAddress      : (address: Address | {}) => void;
+    setSelectedGashapons    : (gashapons: Gashapon[]) => void;
+    setOrderAddressConfig   : (config: any) => void;
+    loadUserDataFromUuid    : () => void;
 }
 
 interface State {
     gashapons: Gashapon[];
+    showModal: boolean;
 }
 
 /**
@@ -46,7 +58,19 @@ class MakeOriders extends React.Component<Props, State> {
         super(props);
         this.state = {
             gashapons: [],
+            showModal: false
         };
+    }
+    
+    componentDidMount (): void {
+        const { loadUserDataFromUuid } = this.props;
+        const user = User.getUser();
+        if (!user.uid) {
+            alert('请先登录~');
+            history.goBack();
+        } else {
+            loadUserDataFromUuid();
+        }
     }
     
     public onNavHandle = (param: string): void => {
@@ -55,6 +79,35 @@ class MakeOriders extends React.Component<Props, State> {
 
     public propsClickHandle = (): void => {
         /* no empty */
+    }
+
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
+    public onCancelClickHandle = (): void => {
+        this.onHideModal();
+        history.goBack();
+    }
+
+    public onConfirmClickHandle = (): void => {
+
+        /* do address handle */
+        const { setOrderAddressConfig } = this.props;
+        const config: orderAddressConfig = {
+            path: 'makeorders',
+        };
+        
+        setOrderAddressConfig(config);
+        history.push('/address');
     }
 
     public doChangeOrderHandle = (item: Gashapon): void => {
@@ -132,7 +185,7 @@ class MakeOriders extends React.Component<Props, State> {
                 if (index !== -1) {
                     defaultAddress = getUserdata.address[index];
                 } else {
-                    defaultAddress = {};
+                    defaultAddress = getUserdata.address[0];
                 }                
 
                 const user = User.getUser();
@@ -148,51 +201,62 @@ class MakeOriders extends React.Component<Props, State> {
                     history.push('/payment');
                 }
             } else {
-                history.push('/address');
+
+                this.onShowModal();
             }
         }
     }
 
     render() {
-        const { gashapons } = this.state;
+        const { gashapons, showModal } = this.state;
         const { getInventory } = this.props;
         return (
-            <div styleName="container">
-                <SignModal/>
-                <Header title=""/>
-                <div styleName="back">
-                    <i 
-                        styleName="backIcon" 
-                        bgimg-center="100"
-                        onClick={() => this.onNavHandle('inventory')}
+            <Hoc>
+                <div styleName="container">
+                    <SignModal/>
+                    <Modal 
+                        display={showModal}
+                        value="还没有地址是否前往设置？"
+                        onCancelClickHandle={() => this.onCancelClickHandle()}
+                        onConfirmClickHandle={() => this.onConfirmClickHandle()}
                     />
-                    <span>
-                        已选择的扭蛋
-                        <span styleName="colorText">{gashapons ? gashapons.length : 0}</span>
-                        件
-                    </span>
-                </div>
-                {getInventory.map((item: Gashapon, i: number) => (
-                    <div 
-                        key={i}
-                        styleName="item"
-                        onClick={() => this.doChangeOrderHandle(item)}
-                    >
-                        <div 
-                            styleName="option"
+                    <Header title=""/>
+                    <div styleName="back">
+                        <i 
+                            styleName="backIcon" 
                             bgimg-center="100"
-                            style={{
-                                backgroundImage: this.renderIcon(item)
-                            }}
+                            onClick={() => this.onNavHandle('inventory')}
                         />
-                        <GashaItem 
-                            item={item}
-                            propsClickHandle={this.propsClickHandle}
-                        />
+                        <span>
+                            已选择的扭蛋
+                            <span styleName="colorText">{gashapons ? gashapons.length : 0}</span>
+                            件
+                        </span>
                     </div>
-                ))}
-                {this.renderFooter()}
-            </div>
+
+                    {getInventory.map((item: Gashapon, i: number) => (
+                        <div 
+                            key={i}
+                            styleName="item"
+                            onClick={() => this.doChangeOrderHandle(item)}
+                        >
+                            <div 
+                                styleName="option"
+                                bgimg-center="100"
+                                style={{
+                                    backgroundImage: this.renderIcon(item)
+                                }}
+                            />
+                            <GashaItem 
+                                item={item}
+                                propsClickHandle={this.propsClickHandle}
+                            />
+                        </div>
+                    ))}
+
+                    {this.renderFooter()}
+                </div>
+            </Hoc>
         );
     }
 
@@ -236,10 +300,12 @@ export const mapStateToProps = (state: Stores) => ({
     getUserdata : getUserdata(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<BusinessActions | StatusActions>, state: Stores) => ({
-    showSignModal       : bindActionCreators(showSignModal, dispatch),
-    setSelectedAddress  : bindActionCreators(setSelectedAddress, dispatch),
-    setSelectedGashapons: bindActionCreators(setSelectedGashapons, dispatch),
+export const mapDispatchToProps = (dispatch: Dispatch<BusinessActions | StatusActions | HomeActions>, state: Stores) => ({
+    showSignModal           : bindActionCreators(showSignModal, dispatch),
+    setSelectedAddress      : bindActionCreators(setSelectedAddress, dispatch),
+    setSelectedGashapons    : bindActionCreators(setSelectedGashapons, dispatch),
+    setOrderAddressConfig   : bindActionCreators(setOrderAddressConfig, dispatch),
+    loadUserDataFromUuid    : bindActionCreators(loadUserDataFromUuid, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

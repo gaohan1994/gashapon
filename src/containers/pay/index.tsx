@@ -160,8 +160,8 @@ class Pay extends React.Component<Props, State> {
                         btnText="充值"
                         btnSize="normal"
                         btnRadius={true}
-                        // clickHandle={() => this.onClickHandle()}
-                        clickHandle={() => this.showQrcodeHandle()}
+                        clickHandle={() => this.onClickHandle()}
+                        // clickHandle={() => this.showQrcodeHandle()}
                     />
                 </div>
             </div>

@@ -8,6 +8,7 @@ import status,
     getRegisterStatus,
     getLoginModalStatus,
     getSignModalStatus,
+    getConfig
 } from '../status';
 import { 
    SHOW_SEARCH_MODAL,
@@ -24,6 +25,7 @@ import {
    HIDE_LOGIN_MODAL,
    SHOW_SIGN_MODAL,
    HIDE_SIGN_MODAL,
+   SET_ORDER_ADDRESS_CONFIG,
 } from '../../constants/status';
 import initState from '../status/state';
 import store from '../initState';
@@ -137,6 +139,13 @@ describe('status test begin', () => {
         });
     });
 
+    it('should set config', () => {
+        expect(status(initState, { type: SET_ORDER_ADDRESS_CONFIG, config: {}})).toEqual({
+            ...initState,
+            config: {}
+        });
+    });
+
     describe('get method tests', () => {
 
         const Store = {
@@ -150,7 +159,8 @@ describe('status test begin', () => {
                 showLogin: true,
                 showRegister: true,
                 showLoginModal: true,
-                showSignModal: true
+                showSignModal: true,
+                config: {test: '123'},
             }
         };
 
@@ -184,6 +194,10 @@ describe('status test begin', () => {
 
         it('should get sign modal status', () => {
             expect(getSignModalStatus(Store)).toEqual(true);
+        });
+
+        it('should get config', () => {
+            expect(getConfig(Store)).toEqual({test: '123'});
         });
     });
 });

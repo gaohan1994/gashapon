@@ -152,7 +152,6 @@ class Business {
 
         try {
             const money = numeral(value).value();
-            console.log('money', money);
             const result = await fetch(`/pay/recharge/${user.uid}`, {
                 method: 'POST',
                 headers: {

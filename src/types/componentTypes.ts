@@ -147,3 +147,8 @@ export type discount = {
     title       : string;
     _id         : string;
 };
+
+export type orderAddressConfig = {
+    path    ?: string;
+    param   ?: string;
+};

@@ -49,7 +49,7 @@ class Hoc extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            title: '幻音音乐'
+            title: '嘀哩扭蛋'
         };
     }
 

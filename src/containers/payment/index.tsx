@@ -6,25 +6,40 @@ import history from '../../history';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../reducers/type';
-import { BusinessActions } from '../../actions/business';
 import { loadUserDataFromUuid } from '../../actions/home';
 import { getUserdata } from '../../reducers/home';
 import { Userdata, Address } from '../../types/user';
-import { Gashapon } from '../../types/componentTypes';
-import { getSelectedAddress, getSelectedGashapons } from '../../reducers/business';
+import { Gashapon, orderAddressConfig } from '../../types/componentTypes';
+import { 
+    getSelectedAddress, 
+    getSelectedGashapons,
+} from '../../reducers/business';
+import {
+    BusinessActions,
+    setSelectedAddress,
+} from '../../actions/business';
+import { 
+    StatusActions,
+    setOrderAddressConfig,
+} from '../../actions/status';
 import GashaponItem from '../../components/gashapon_row_item_v1';
+import AddressItem from '../../components/address_row_item';
+import Header from '../../components/haeder_set';
 import User from '../../classes/user';
 import Business from '../../classes/business';
 
 interface Props {
-    getUserdata         : Userdata;
-    loadUserDataFromUuid: () => void;
-    getSelectedAddress  ?: Address;
-    getSelectedGashapons?: Gashapon[];
+    getUserdata             : Userdata;
+    loadUserDataFromUuid    : () => void;
+    getSelectedAddress      ?: Address;
+    getSelectedGashapons    ?: Gashapon[];
+    setOrderAddressConfig   : (config: orderAddressConfig) => void;
+    setSelectedAddress      : (address: Address) => void;
 }
 
 interface State {
-    payway: number;
+    payway          : number;
+    showAddressModal: boolean;
 }
 
 class Profit extends React.Component <Props, State> {
@@ -32,7 +47,8 @@ class Profit extends React.Component <Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            payway: 1
+            payway: 1,
+            showAddressModal: false
         };
     }
 
@@ -50,6 +66,53 @@ class Profit extends React.Component <Props, State> {
         this.setState({
             payway: param
         });
+    }
+
+    public onShowAddressModal = (): void => {
+        this.setState({
+            showAddressModal: true
+        });
+    }
+
+    public onHideAddressModal = (): void => {
+        this.setState({
+            showAddressModal: false
+        });
+    }
+
+    /* 点击默认地址弹出 */
+    public onAddressClickHandle = (): void => {
+        /* 
+        第一步弹出选择地址的模态框
+        如果选择了则关闭模态框，
+        如果没有选择 那么 跳转到address同事setOrderconfig等设置完address在跳回来
+        */
+        this.onShowAddressModal();
+        // console.log(setOrderAddressConfig);
+    }
+
+    /* 
+    模态框中点击地址触发函数
+    把点击的地址设置到redux中
+    */
+    public onAddressChangeHandle = (data: Address) => {
+        const { setSelectedAddress } = this.props;
+        if (!data._id) {
+            alert('请选择正确的地址~');
+        } else {
+            setSelectedAddress(data);
+            this.onHideAddressModal();
+        }
+    }
+
+    /* 模态中的地址都不选择，点击新增地址跳转到address 设置config */
+    public onOtherAddressHandle = (): void => {
+        const { setOrderAddressConfig } = this.props;
+        const config = {
+            path: 'payment'
+        };
+        setOrderAddressConfig(config);
+        history.push('address');
     }
 
     public doOrderHandle = async (): Promise <void> => {
@@ -121,6 +184,8 @@ class Profit extends React.Component <Props, State> {
                 {this.renderContent()}
                 {this.renderPayway()}
                 {this.renderFooter()}
+                
+                {this.renderAddressModal()}
             </div>
         );
     }
@@ -135,7 +200,10 @@ class Profit extends React.Component <Props, State> {
             );
         } else {
             return (
-                <div styleName="address">
+                <div 
+                    styleName="address"
+                    onClick={() => this.onAddressClickHandle()}
+                >
                     <i 
                         styleName="location"
                         bgimg-center="100"
@@ -245,6 +313,35 @@ class Profit extends React.Component <Props, State> {
             </div>
         );
     }
+
+    private renderAddressModal = (): JSX.Element => {
+        const { showAddressModal } = this.state;
+        const { getUserdata } = this.props;
+        return (
+            <div 
+                styleName="addressModal"
+                style={{
+                    bottom      : showAddressModal === true ? '0' : '-100vh',
+                    opacity     : showAddressModal === true ? 1 : 0,
+                    visibility  : showAddressModal === true ? 'visible' : 'hidden'
+                }}
+            >   
+                <Header 
+                    title="选择地址"
+                    propsClick={this.onHideAddressModal}
+                    subTitle="新增地址"
+                    subPropsClick={this.onOtherAddressHandle}
+                />
+                {getUserdata.address && getUserdata.address.map((item: Address, i: number) => (
+                    <AddressItem 
+                        data={item} 
+                        key={i} 
+                        propsClickHandle={this.onAddressChangeHandle}
+                    />
+                ))}
+            </div>
+        );
+    }
 }
 
 const ProfitHoc = CSSModules(Profit, styles);
@@ -255,8 +352,10 @@ const mapStateToProps = (state: Stores) => ({
     getSelectedGashapons: getSelectedGashapons(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<BusinessActions>) => ({
-    loadUserDataFromUuid: bindActionCreators(loadUserDataFromUuid, dispatch),
+const mapDispatchToProps = (dispatch: Dispatch<BusinessActions | StatusActions>) => ({
+    loadUserDataFromUuid    : bindActionCreators(loadUserDataFromUuid, dispatch),
+    setSelectedAddress      : bindActionCreators(setSelectedAddress, dispatch),
+    setOrderAddressConfig   : bindActionCreators(setOrderAddressConfig, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

@@ -19,6 +19,7 @@ import {
     HIDE_LOGIN_MODAL,
     SHOW_SIGN_MODAL,
     HIDE_SIGN_MODAL,
+    SET_ORDER_ADDRESS_CONFIG,
 } from '../../constants/status';
 import initState from './state';
 import { merge } from 'lodash';
@@ -96,6 +97,11 @@ export default function status (state: Status = initState, action: StatusActions
             state.showSignModal = false;
             return merge({}, state, {});
 
+        case SET_ORDER_ADDRESS_CONFIG:
+            const { config } = action;
+            state.config = config;
+            return merge({}, state, {});
+
         default: return state;
     }
 }
@@ -117,3 +123,5 @@ export const getRegisterStatus = (state: Stores) => state.status.showRegister;
 export const getLoginModalStatus = (state: Stores) => state.status.showLoginModal;
 
 export const getSignModalStatus = (state: Stores) => state.status.showSignModal;
+
+export const getConfig = (state: Stores) => state.status.config;

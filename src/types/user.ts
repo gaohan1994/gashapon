@@ -1,5 +1,6 @@
 
 export interface Address {
+    _id         : string;
     receiver    : string;
     phone       : string;
     detail_area : string;

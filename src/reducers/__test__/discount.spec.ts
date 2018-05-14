@@ -2,9 +2,12 @@ import discount,
 { 
     getDiscountData,
     getHomeDiscount,
+    getHomeDiscounting
 } from '../discount';
 import { 
-    RECEIVE_DISCOUNT, RECEIVE_HOME_DISOUNT,
+    RECEIVE_DISCOUNT, 
+    RECEIVE_HOME_DISOUNT,
+    RECEIVE_HOME_DISCOUNTING,
 } from '../../constants/discount';
 import initState from '../discount/state';
 import store from '../initState';
@@ -27,6 +30,13 @@ describe('discount test begin', () => {
             discount
         });
     });
+    
+    it('should receive home discounting', () => {
+        expect(discount(initState, {type: RECEIVE_HOME_DISCOUNTING, discounting: discountData})).toEqual({
+            ...initState,
+            discounting: discountData,
+        });
+    });
 
     describe('get method tests', () => {
 
@@ -40,6 +50,9 @@ describe('discount test begin', () => {
                 discount: [{
                     _id: '123',
                 }],
+                discounting: [{
+                    _id: '123'
+                }]
             }
         };
 
@@ -52,6 +65,10 @@ describe('discount test begin', () => {
 
         it('should get home discount', () => {
             expect(getHomeDiscount(Store)).toEqual([{_id: '123'}]);
+        });
+
+        it('should get discounting', () => {
+            expect(getHomeDiscounting(Store)).toEqual([{_id: '123'}]);
         });
     });
 });

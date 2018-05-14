@@ -8,4 +8,5 @@ export default {
     showRegister    : false,
     showLoginModal  : false,
     showSignModal   : false,
+    config          : {},
 };

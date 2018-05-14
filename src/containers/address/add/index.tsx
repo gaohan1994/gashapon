@@ -6,9 +6,19 @@ import { merge } from 'lodash';
 import User from '../../../classes/user';
 import Validator from '../../../classes/validate';
 import history from '../../../history';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
+import { Stores } from '../../../reducers/type';
+import { 
+    StatusActions,
+    setOrderAddressConfig,
+} from '../../../actions/status';
+import { getConfig } from '../../../reducers/status';
+import { orderAddressConfig } from '../../../types/componentTypes';
 
 export interface Props {
-    
+    getConfig               : orderAddressConfig;
+    setOrderAddressConfig   : (config: orderAddressConfig) => void;
 }
 
 export interface State {
@@ -150,7 +160,12 @@ class AddAddress extends React.Component <Props, State> {
     }
 
     public doSaveAddressHandle = async (): Promise<void> => {
-        
+
+        const { 
+            getConfig, 
+            setOrderAddressConfig 
+        } = this.props;
+
         const data = this.checkInput();
 
         if (data.success === true && data.data) {
@@ -158,7 +173,20 @@ class AddAddress extends React.Component <Props, State> {
             const result = await User.doAddAddressMethod({data: data.data});
             
             if (result.success === true) {
-                history.push('/my');
+
+                /*
+                如果有config的path 走config的path 之后置空
+                如果没有config的path 正常走
+                */
+                if (!getConfig.path) {
+                    history.push('/my');
+                } else {
+                    const path = getConfig.path;
+                    const config: orderAddressConfig = {};
+                    setOrderAddressConfig(config);
+                    history.push(`/${path}`);
+                }
+                
             } else {
                 /* do error stuff */
                 alert(result.message ? result.message : '添加地址出错');
@@ -270,4 +298,15 @@ class AddAddress extends React.Component <Props, State> {
 
 const AddAddressHoc = CSSModules(AddAddress, styles);
 
-export default AddAddressHoc;
+export const mapStateToProps = (state: Stores) => ({
+    getConfig: getConfig(state),
+});
+
+export const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({
+    setOrderAddressConfig: bindActionCreators(setOrderAddressConfig, dispatch)
+});
+
+export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+    Object.assign({}, ownProps, stateProps, dispatchProps);
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AddAddressHoc);

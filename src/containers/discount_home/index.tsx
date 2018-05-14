@@ -17,6 +17,8 @@ import {
 import { Userdata } from '../../types/user';
 import DiscountItem from '../../components/discount_row_item';
 import Header from '../../components/haeder_set';
+import SignModal from '../sign';
+import history from '../../history';
 import { discount as discountType } from '../../types/componentTypes';
 
 export interface Props {
@@ -47,10 +49,10 @@ class DiscountHome extends React.Component <Props, State> {
             loadDiscounting
         } = this.props;
 
-        // const user = User.getUser();
-
         if (!getUserdata._id) {
             /* do no sign handle */
+            alert('请先登录~');
+            history.goBack();
         } else {
             loadDiscount(getUserdata._id);
             loadDiscounting(getUserdata._id);
@@ -68,6 +70,7 @@ class DiscountHome extends React.Component <Props, State> {
         const { getHomeDiscounting } = this.props;
         return (
             <div container-with-header="true">
+                <SignModal/>
                 <Header title="我的砍价"/>
                 {this.renderNav()}
                 

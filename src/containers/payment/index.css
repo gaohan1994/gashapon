@@ -209,3 +209,23 @@
     color: #fea270;
     margin-left: 20px;
 }
+
+.addressModal {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding-top: 80px;
+    background: #ffffff;
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.modalItem {
+    width: 750px;
+    height: 200px;
+}
