@@ -19,13 +19,13 @@ let config = {
         web_url: 'https://www-dev.huanmusic.com',
         web_url_http: 'http://www-dev.huanmusic.com',
         empty_pic: {
-            // url: 'http://o2xzfohec.qnssl.com/www/img/index/empty-pic.png'
             url: 'http://qntest.huanmusic.com/www/empty.png'
         },
         qnssl_old: 'nzhye65lt.qnssl.com/dt_v1_',
         music_limit: 3,
         list_limit: 3,
         qntoken: 'www-dev.huanmusic.com',
+        url: 'http://gacha-dev.hy233.tv',
     },
 
     pro: {
@@ -47,13 +47,13 @@ let config = {
         web_url_http: 'http://www.huanmusic.com',
         
         empty_pic: {
-            // url: 'http://o2xzfohec.qnssl.com/www/img/index/empty-pic.png'
             url: 'https://net.huanmusic.com/www/empty.png'
         },
         qnssl_old: 'net.huanmusic.com/t_v1_',
         music_limit: 6,
         list_limit: 8,
         qntoken: 'www.huanmusic.com',
+        url: 'http://gacha.hy233.tv',
     },
 };
 

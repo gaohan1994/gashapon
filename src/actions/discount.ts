@@ -2,7 +2,7 @@ require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/discount';
 import { Dispatch } from 'redux';
-// import config from '../config/index';
+import { discount as discountType } from '../types/componentTypes';
 
 export interface LoadDiscountData {
     type: constants.RECEIVE_DISCOUNT;
@@ -10,17 +10,23 @@ export interface LoadDiscountData {
 }
 
 export interface LoadDiscount {
-    type: constants.RECEIVE_HOME_DISOUNT;
-    discount: [{_id: string}];
+    type    : constants.RECEIVE_HOME_DISOUNT;
+    discount: discountType[];
 }
 
 export type LoadDiscountDataParam = {
     id: string;
 };
 
+export interface LoadDiscounting {
+    type        : constants.RECEIVE_HOME_DISCOUNTING;
+    discounting : discountType[];
+}
+
 export type DiscountActions = 
     LoadDiscountData 
-    | LoadDiscount;
+    | LoadDiscount
+    | LoadDiscounting;
 
 export const loadDiscount = (uid: string) => (dispatch: Dispatch<DiscountActions>): void => {
     try {
@@ -44,6 +50,31 @@ export const loadDiscount = (uid: string) => (dispatch: Dispatch<DiscountActions
         });
     } catch (err) {
         console.log('loadDiscount err', err);
+    }
+};
+
+export const loadDiscounting = (uid: string) => (dispatch: Dispatch<DiscountActions>): void => {
+    try {
+        if (!uid) {
+            throw new Error('uid');
+        }
+    } catch (err) {
+        console.log(err.message ? err.message : '数据错误');
+    }
+
+    try {
+        fetch(`/my/discount_plan/fail/${uid}`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                console.log(res);
+                dispatch({type: constants.RECEIVE_HOME_DISCOUNTING, discounting: res.result});
+            } else {
+                throw new Error('ERROR_FETCH_DISCOUNT');
+            }
+        });
+    } catch (err) {
+        console.log(err.message ? err.message : 'loadDiscounting fetch error');
     }
 };
 

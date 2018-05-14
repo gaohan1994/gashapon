@@ -1,0 +1,80 @@
+.container {
+    width: 750px;
+    background: #ffffff;
+}
+
+.detail {
+    width: 750px;
+    height: 180px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+.cover {
+    width: 130px;
+    height: 130px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border: 2px solid #fea270;
+    border-radius: 20px;
+}
+
+.box {
+    width: 480px;
+    margin-left: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.name {
+    font-size: 30px;
+    color: #444444;
+}
+
+.progress {
+    margin-top: 20px;
+    width: 300px;
+    height: 30px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 20px;
+    border: 2px solid #dddddd;
+    text-align: center;
+    line-height: 30px;
+    font-size: 26px;
+}
+
+.footer {
+    width: 750px;
+    height: 80px;
+    border-top: 2px solid #dddddd;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+}
+
+.button {
+    width: 130px;
+    height: 40px;
+    margin-right: 35px;
+}

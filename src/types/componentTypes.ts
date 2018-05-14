@@ -137,3 +137,13 @@ export type Payinfo = {
 };
 
 export type Payinfos = Payinfo[];
+
+export type discount = {
+    create_date : Date;
+    image       : string;
+    machine     : string;
+    max_discount: number;
+    sum         : number;
+    title       : string;
+    _id         : string;
+};

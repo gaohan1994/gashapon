@@ -1,4 +1,5 @@
 export default {
-    data    : {},
-    discount: [],
+    data        : {},
+    discount    : [],
+    discounting : [],
 };

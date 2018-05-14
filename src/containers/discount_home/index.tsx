@@ -7,24 +7,45 @@ import { Stores } from '../../reducers/type';
 import { 
     DiscountActions,
     loadDiscount,
+    loadDiscounting,
 } from '../../actions/discount';
-import { getUserdata, } from '../../reducers/home';
+import { getUserdata } from '../../reducers/home';
+import { 
+    getHomeDiscount, 
+    getHomeDiscounting 
+} from '../../reducers/discount';
 import { Userdata } from '../../types/user';
-// import User from '../../classes/user';
+import DiscountItem from '../../components/discount_row_item';
+import Header from '../../components/haeder_set';
+import { discount as discountType } from '../../types/componentTypes';
 
 export interface Props {
-    loadDiscount: (uid: string) => void;
-    getUserdata : Userdata;
+    getUserdata         : Userdata;
+    loadDiscount        : (uid: string) => void;
+    loadDiscounting     : (uid: string) => void;
+    getHomeDiscount     : discountType[];
+    getHomeDiscounting  : discountType[];
 }
 
 export interface State {
-
+    type: 'discounting' | 'discount';
 }
 
 class DiscountHome extends React.Component <Props, State> {
 
+    constructor (props: Props) {
+        super(props);
+        this.state = {
+            type: 'discounting'
+        };
+    }
+
     componentDidMount (): void {
-        const { loadDiscount, getUserdata } = this.props;
+        const { 
+            getUserdata,
+            loadDiscount, 
+            loadDiscounting
+        } = this.props;
 
         // const user = User.getUser();
 
@@ -32,12 +53,69 @@ class DiscountHome extends React.Component <Props, State> {
             /* do no sign handle */
         } else {
             loadDiscount(getUserdata._id);
+            loadDiscounting(getUserdata._id);
         }
     }
 
+    public onChangeTypeHandle = (type: 'discounting' | 'discount'): void => {
+        this.setState({
+            type: type
+        });
+    }
+
     render (): JSX.Element {
+        const { type } = this.state;
+        const { getHomeDiscounting } = this.props;
         return (
-            <div>DiscountHome</div>
+            <div container-with-header="true">
+                <Header title="我的砍价"/>
+                {this.renderNav()}
+                
+                {type === 'discounting'
+                ? this.renderDiscountData(getHomeDiscounting)
+                : ''}
+
+                {type === 'discount'
+                ? <div>2</div>
+                : ''}
+
+            </div>
+        );
+    }
+
+    private renderNav = (): JSX.Element => {
+        const { type } = this.state;
+        return (
+            <div styleName="navbar">
+                <div styleName="white">
+                    <div 
+                        styleName={type === 'discounting' ? 'navItemActive' : 'navItem'}
+                        onClick={() => this.onChangeTypeHandle('discounting')} 
+                    >
+                        进行中
+                    </div>
+                    <div 
+                        styleName={type === 'discount' ? 'navItemActive' : 'navItem'}
+                        onClick={() => this.onChangeTypeHandle('discount')} 
+                    >
+                        已购买
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    private renderDiscountData = (data: discountType[]): JSX.Element => {
+        return (
+            <div styleName="content">
+                {data && data.length > 0
+                ? data.map((item: discountType, i: number) => (
+                    <div styleName="item" key={i}>
+                        <DiscountItem discount={item}/>
+                    </div>
+                ))
+                : ''}
+            </div>
         );
     }
 }
@@ -45,11 +123,14 @@ class DiscountHome extends React.Component <Props, State> {
 const DiscountHomeHoc = CSSModules(DiscountHome, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    getUserdata: getUserdata(state),
+    getUserdata         : getUserdata(state),
+    getHomeDiscount     : getHomeDiscount(state),
+    getHomeDiscounting  : getHomeDiscounting(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<DiscountActions>) => ({
-    loadDiscount: bindActionCreators(loadDiscount, dispatch),
+    loadDiscount    : bindActionCreators(loadDiscount, dispatch),
+    loadDiscounting : bindActionCreators(loadDiscounting, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

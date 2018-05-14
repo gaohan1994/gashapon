@@ -1,5 +1,6 @@
 
 export type Discount = {
-    data    : {};
-    discount: object[];
+    data        : {};
+    discount    : object[];
+    discounting : object[];
 };
