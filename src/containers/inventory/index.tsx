@@ -59,7 +59,7 @@ class Inventory extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            page: 0,
+            page: 0
         };
     }
 
@@ -70,7 +70,7 @@ class Inventory extends React.Component<Props, State> {
             loadInventoryByGenre 
         } = this.props;
         const user = User.getUser();
-        console.log(nextProps.match);
+
         if (nextProps.location.pathname !== this.props.location.pathname) {
             
             if (!!nextProps.match.params.word) {
@@ -99,11 +99,11 @@ class Inventory extends React.Component<Props, State> {
             loadInventory,
             showSignModal,
             loadInventoryByWord,
-            loadInventoryByGenre,
+            loadInventoryByGenre
         } = this.props;
 
         const user = User.getUser();
-        console.log(match);
+
         if (!user.uid) {
             /* do no id stuff */
             showSignModal();
@@ -159,7 +159,7 @@ class Inventory extends React.Component<Props, State> {
         });
     }
 
-    public onMenuClickHandle = async (type: string): Promise<void> => {
+    public onMenuClickHandle = async (type: string): Promise <void> => {
 
         const { showSignModal, getUserdata } = this.props;
 

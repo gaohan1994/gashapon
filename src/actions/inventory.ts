@@ -101,7 +101,7 @@ export const loadInventoryByWord =
     try {
         let data = state().inventory.inventory;
         console.log('hello');
-        fetch(`/egg_cabinet/${userId}/${encodeURIComponent(word)}`, {
+        fetch(`/egg_cabinet/search/${userId}/${encodeURIComponent(word)}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

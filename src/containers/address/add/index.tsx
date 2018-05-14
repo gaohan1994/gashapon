@@ -186,7 +186,6 @@ class AddAddress extends React.Component <Props, State> {
                     setOrderAddressConfig(config);
                     history.push(`/${path}`);
                 }
-                
             } else {
                 /* do error stuff */
                 alert(result.message ? result.message : '添加地址出错');
@@ -204,7 +203,7 @@ class AddAddress extends React.Component <Props, State> {
                 styleName="container"
                 container-with-header="true"
             >
-                <Header 
+                <Header
                     title="收货地址"
                     subTitle="保存"
                     subPropsClick={() => this.doSaveAddressHandle()}

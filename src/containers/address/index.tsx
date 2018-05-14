@@ -46,7 +46,12 @@ class Address extends React.Component <Props, State> {
                 
                 {getUserdata.address && getUserdata.address.length > 0
                 ? getUserdata.address.map((item: AddressType, i: number) => {
-                    return <AddressItem data={item} key={i}/>;
+                    return (
+                        <AddressItem
+                            data={item} 
+                            key={i}
+                        />
+                    );
                 })
                 : ''}
 

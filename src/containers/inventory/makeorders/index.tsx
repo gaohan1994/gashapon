@@ -273,14 +273,38 @@ class MakeOriders extends React.Component<Props, State> {
     }
 
     private renderFooter = (): JSX.Element => {
+        const { gashapons } = this.state;
+        const { getInventory } = this.props;
+        let money: number = 0;
+        gashapons.map((item: Gashapon, i: number) => {
+            if (typeof item.price === 'number') {
+                money += item.price;
+            } else {
+                console.log(`第${i}个扭蛋价格有问题`);
+            }
+        });
         return (
             <div styleName="footer">
                 <div 
                     styleName="choice"
                     onClick={() => this.doAllChoiceHandle()}
                 >
-                    <span onClick={() => this.doAllChoiceHandle()}>全选</span>
-                    <span>合计：</span>
+                    <i 
+                        styleName="choiceIcon" 
+                        bgimg-center="100"
+                        style={{
+                            backgroundImage: gashapons.length === getInventory.length
+                                            ? `url(http://net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%90%8E.png)`
+                                            : `url(http://net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%89%8D.png)`
+                        }}
+                    />
+                    <span styleName="choiceText" onClick={() => this.doAllChoiceHandle()}>全选</span>
+                    <span styleName="choiceText">
+                        合计：
+                        <span style={{color: '#fea270'}}>
+                            ￥{money}
+                        </span>
+                    </span>
                 </div>
                 <div
                     styleName="button"

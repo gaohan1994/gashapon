@@ -84,6 +84,22 @@
     width: 480px;
     height: 100px;
     background: #f7f7f7;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.choiceIcon {
+    width: 40px;
+    height: 40px;
+    margin-left: 35px;
+}
+
+.choiceText {
+    margin-left: 35px;
 }
 
 .button {
