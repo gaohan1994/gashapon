@@ -80,6 +80,14 @@ export interface SetOrderAddressConfig {
     config  : orderAddressConfig;
 }
 
+export interface ShowShareModal {
+    type: constants.SHOW_SHARE_MODAL;
+}
+
+export interface HideShareModal {
+    type: constants.HIDE_SHARE_MODAL;
+}
+
 export type StatusActions = 
     ShowSearch 
     | HideSearch 
@@ -98,7 +106,9 @@ export type StatusActions =
     | HideLoginModal
     | ShowSignModal
     | HideSignModal
-    | SetOrderAddressConfig;
+    | SetOrderAddressConfig
+    | ShowShareModal
+    | HideShareModal;
 
 export const showSearchModal = () => (dispatch: Dispatch<StatusActions>): void => {
     try {
@@ -249,5 +259,21 @@ export const setOrderAddressConfig = (config: orderAddressConfig) => (dispatch: 
         dispatch({type: constants.SET_ORDER_ADDRESS_CONFIG, config: config});
     } catch (err) {
         console.log(err.message ? err.message : 'setOrderAddressConfig err');
+    }
+};
+
+export const showShareModal = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.SHOW_SHARE_MODAL});
+    } catch (err) {
+        console.log('showShareModal', err);
+    }
+};
+
+export const hideShareModal = () => (dispatch: Dispatch<StatusActions>): void => {
+    try {
+        dispatch({type: constants.HIDE_SHARE_MODAL});
+    } catch (err) {
+        console.log('hideSignModal', err);
     }
 };

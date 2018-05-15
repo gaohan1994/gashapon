@@ -112,14 +112,14 @@ class Order extends React.Component<Props, State> {
                 <Header title="我的订单"/>
                 {this.renderNav()}
                 {getOrders.length > 0
-                ? getOrders.map((item: Gashapon) => (
-                    item.product_list.map((data, i) => (
+                ? getOrders.map((item: Gashapon, i: number) => {
+                    return (
                         <ProductItem
                             key={i}
-                            data={data}
+                            data={item.product_list}
                         />
-                    ))
-                ))
+                    );
+                })
                 : 'empty'}
             </div>
         );

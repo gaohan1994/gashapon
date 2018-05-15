@@ -20,6 +20,8 @@ import {
     SHOW_SIGN_MODAL,
     HIDE_SIGN_MODAL,
     SET_ORDER_ADDRESS_CONFIG,
+    SHOW_SHARE_MODAL,
+    HIDE_SHARE_MODAL,
 } from '../../constants/status';
 import initState from './state';
 import { merge } from 'lodash';
@@ -102,6 +104,14 @@ export default function status (state: Status = initState, action: StatusActions
             state.config = config;
             return merge({}, state, {});
 
+        case SHOW_SHARE_MODAL:
+            state.shareStatus = true;
+            return merge({}, state, {});
+
+        case HIDE_SHARE_MODAL:
+            state.shareStatus = false;
+            return merge({}, state, {});
+
         default: return state;
     }
 }
@@ -125,3 +135,5 @@ export const getLoginModalStatus = (state: Stores) => state.status.showLoginModa
 export const getSignModalStatus = (state: Stores) => state.status.showSignModal;
 
 export const getConfig = (state: Stores) => state.status.config;
+
+export const getShareStatus = (state: Stores) => state.status.shareStatus;

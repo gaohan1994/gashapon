@@ -9,4 +9,5 @@ export default {
     showLoginModal  : false,
     showSignModal   : false,
     config          : {},
+    shareStatus     : false,
 };

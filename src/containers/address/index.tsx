@@ -150,6 +150,7 @@ class Address extends React.Component <Props, State> {
     }
 
     public checkInput = (): CheckInputReturn => {
+
         const { receiver, phone, detail_area, detail_home, postal_code, is_default  } = this.state;
 
         const helper = new Validator();

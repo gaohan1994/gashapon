@@ -18,6 +18,7 @@ import { randomNum } from '../../config/util';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
 import Share from '../../classes/share';
+import ShareModal, { ShareType } from '../../components/share';
 import DiscountClass,
 {
     CreateDiscountPlayReturn,
@@ -32,7 +33,11 @@ import {
     loadGashapon,
     changeGashaponLoading,
 } from '../../actions/gashapon';
-import { showSignModal } from '../../actions/status';
+import { 
+    StatusActions,
+    showSignModal,
+    showShareModal,
+} from '../../actions/status';
 import { 
     getGashapon,
     getLoadingStatus,
@@ -51,6 +56,7 @@ interface Props {
     loadGashapon            : (_id: string) => void;
     changeGashaponLoading   : (status: boolean) => void;
     showSignModal           : () => void;
+    showShareModal          : () => void;
 }
 
 interface State {
@@ -80,20 +86,24 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     componentDidMount () {
+
         const { 
             match,
             loadGashapon,
         } = this.props;
+
         loadGashapon(match.params.id);
     }
 
     componentWillUnmount () {
+
         if (this.timer) {
             clearTimeout(this.timer);
         }
     }
 
     public doGashaponHandle = async (count: number): Promise<void> => {
+
         const { getUserdata, getGashapon, changeGashaponLoading, showSignModal } = this.props;
 
         User.setUser({
@@ -105,16 +115,21 @@ class Gashapon extends React.Component<Props, State> {
         const user = User.getUser();
 
         if (!user.uid) {
+
             showSignModal();
         } else {
-            
-            const result = await GashaponClass.doGashaponMethod({user: user, count: count, machine: getGashapon});
+
+            const result = await GashaponClass.doGashaponMethod({
+                user    : user, 
+                count   : count, 
+                machine : getGashapon
+            });
             
             if (result.success === true) {
+
                 changeGashaponLoading(true);
                 this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
             } else {
-                console.log(`${result.type}--${result.message}`);
 
                 switch (result.message) {
                     case 'user':
@@ -135,15 +150,20 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public doCollectGashaponHandle = async (): Promise<void> => {
+
         const { getGashapon, showSignModal } = this.props;
         const user = User.getUser();
+        
         if (!user.uid) {
             
             /* do login stuff */
             showSignModal();
         } else {
 
-            const result = await GashaponClass.doCollectGashaponMethod({user: user, machine: getGashapon});
+            const result = await GashaponClass.doCollectGashaponMethod({
+                user    : user, 
+                machine : getGashapon
+            });
             
             if (result.success === true) {
                 alert('收藏成功');
@@ -166,7 +186,10 @@ class Gashapon extends React.Component<Props, State> {
             showSignModal();
         } else {
 
-            const result = await GashaponClass.doCancelCollectGashaponMethod({user: user, machine: getGashapon});
+            const result = await GashaponClass.doCancelCollectGashaponMethod({
+                user    : user, 
+                machine : getGashapon
+            });
             
             if (result.success === true) {
                 alert('取消收藏成功');
@@ -183,12 +206,17 @@ class Gashapon extends React.Component<Props, State> {
      * 
      * @memberof Gashapon
      */
-    public doDiscoutHandle = async (): Promise<void> => {
-        //
+    public doDiscoutHandle = async (type: ShareType): Promise<void> => {
         const { getGashapon, getUserdata, showSignModal } = this.props;
         // const user = User.getUser();
         
+        if (!type) {
+            alert('请选择分享渠道');
+            return;
+        }
+
         if (!getUserdata._id) {
+
             /* do no sign stuff */
             showSignModal();
         } else {
@@ -209,7 +237,7 @@ class Gashapon extends React.Component<Props, State> {
                     pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`
                 };
 
-                const share = new Share(shareConfig, 'weibo', '123');
+                const share = new Share(shareConfig, type);
                 share.doShare();
             } else {
                 if (result.type === 'PARAM_ERROR') {
@@ -301,7 +329,7 @@ class Gashapon extends React.Component<Props, State> {
             <Hoc>
                 <div styleName="container">
                     <SignModal/>
-                    {/* http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d */}
+                    <ShareModal propsClickHandle={this.doDiscoutHandle}/>
                     <audio
                         src={getGashapon.music_url
                             ? `http://${config.host.pic}/${getGashapon.music_url}`
@@ -481,13 +509,13 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染生成砍价链接按钮
      */
     private renderDiscountButton = (): JSX.Element | string => {
-        const { getGashapon } = this.props;
+        const { getGashapon, showShareModal } = this.props;
         if (getGashapon.is_discount === true) {
             return (
                 <div 
                     styleName="discount"
                     bgimg-center="100"
-                    onClick={() => this.doDiscoutHandle()}
+                    onClick={showShareModal}
                 />
             );
         } else {
@@ -504,10 +532,11 @@ const mapStateToProps = (state: Stores) => ({
     getLoadingStatus: getLoadingStatus(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions>) => ({
     loadGashapon            : bindActionCreators(loadGashapon, dispatch),
     changeGashaponLoading   : bindActionCreators(changeGashaponLoading, dispatch),
     showSignModal           : bindActionCreators(showSignModal, dispatch),
+    showShareModal          : bindActionCreators(showShareModal, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

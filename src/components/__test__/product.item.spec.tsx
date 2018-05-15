@@ -11,14 +11,14 @@ configure({adapter: new Adapter()});
 
 describe('Product 测试', () => {
 
-    const data = {
+    const data = [{
         _id     : 'string',
         name    : 'string',
         pics    : ['string'],
         quantity: 1,
         rate    : 1,
         status  : 1,
-    };
+    }];
 
     describe('渲染 Product render 测试', () => {
         it('test container render', () => {

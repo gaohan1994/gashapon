@@ -21,9 +21,9 @@ class Share {
 
     doShare () {
 
-        if (!this.accessToken) {
-            return false;
-        }
+        // if (!this.accessToken) {
+        //     return false;
+        // }
 
         mobShare.config({
             debug: true, // 开启调试，将在浏览器的控制台输出调试信息

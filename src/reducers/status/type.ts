@@ -9,4 +9,5 @@ export type Status = {
     showLoginModal  : boolean;
     showSignModal   : boolean;
     config          : any;
+    shareStatus     : boolean;
 };

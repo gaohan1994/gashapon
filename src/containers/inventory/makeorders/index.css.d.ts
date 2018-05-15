@@ -7,4 +7,6 @@ export const backIcon: string;
 export const colorText: string;
 export const footer: string;
 export const choice: string;
+export const choiceIcon: string;
+export const choiceText: string;
 export const button: string;
