@@ -67,22 +67,24 @@ class Pay extends React.Component<Props, State> {
                 });
                 const user = User.getUser();
                 
-                const recharge = await Business.doRechargeMethod(user, value, inApp);
+                const recharge = await Business.doRechargeMethod({
+                    user    : user,
+                    value   : value,
+                    app     : inApp
+                });
                 if (recharge.success === true) {
 
                     if (inApp === true) {
                         const config: SchemaConfig = {
                             protocal: 'dgacha',
-                            schema: `pay/${recharge.result},${value},${user.uid}`
+                            schema  : `pay/${recharge.result},${value},${user.uid}`
                         };
 
                         const schema = new Schema(config);
                         schema.loadSchema();
                     } else {
-                        this.setState({
-                            qrcodeUrl: recharge.result
-                        });
-                        this.showQrcodeHandle();
+                        console.log(recharge);
+                        this.setState({qrcodeUrl: recharge.result}, () => { this.showQrcodeHandle(); });
                     }
 
                 } else {
@@ -110,9 +112,7 @@ class Pay extends React.Component<Props, State> {
     }
 
     public hideQrcodeHandle = ():  void => {
-        this.setState({
-            showQrcode: false
-        });
+        history.push('/');
     }
 
     render() {

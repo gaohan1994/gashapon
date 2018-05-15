@@ -216,7 +216,7 @@ class Sale extends React.Component<Props, State> {
                     <span styleName="choiceText" onClick={() => this.doAllChoiceHandle()}>全选</span>
                     <span styleName="choiceText">
                         合计：
-                        <span style={{color: '#fea270'}}>￥{money}</span>
+                        <span style={{color: '#fea270'}}>￥{money ? money / 100 : 0}</span>
                     </span>
                 </div>
                 <div 

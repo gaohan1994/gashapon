@@ -205,29 +205,29 @@ class My extends React.Component<Props, State> {
                 _id: 1,
                 value: '我的订单',
                 img: 'http://net.huanmusic.com/gasha/my/%E6%88%91%E7%9A%84%E8%AE%A2%E5%8D%95.png',
-                param: 'order/wait',
-                propsClickHandle: () => this.onClickHandle('order/wait')
+                // param: 'order/waitconfirm',
+                propsClickHandle: () => this.onClickHandle('order/waitconfirm')
             },
             {
                 _id: 2,
                 value: '待付款',
                 img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E4%BB%98%E6%AC%BE.png',
-                param: 'order/waitconfirm',
+                // param: 'order/waitconfirm',
                 propsClickHandle: () => this.onClickHandle('order/waitconfirm')
             },
             {
                 _id: 3,
                 value: '待发货',
                 img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E5%8F%91%E8%B4%A7.png',
-                param: 'order/already',
-                propsClickHandle: () => this.onClickHandle('order/already')
+                // param: 'order/wait',
+                propsClickHandle: () => this.onClickHandle('order/wait')
             },
             {
                 _id: 4,
-                value: '待收货',
+                value: '已发货',
                 img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E6%94%B6%E8%B4%A7.png',
-                param: '123',
-                propsClickHandle: () => this.onClickHandle('123')
+                // param: 'order/already',
+                propsClickHandle: () => this.onClickHandle('order/already')
             },
         ];
         return (

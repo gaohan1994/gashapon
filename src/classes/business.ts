@@ -9,6 +9,13 @@ export interface DoRecycleMethodParam {
     products: Products;
 }
 
+export interface DoRechargeMethodParam {
+    user    : UserType;
+    value   : number;
+    app     : boolean;
+    type    ?: 1 | 2;
+}
+
 class Business {
 
     constructor () {
@@ -129,7 +136,7 @@ class Business {
      * 
      * @memberof Business
      */
-    public doRechargeMethod = async (user: UserType, value: number, app: boolean): Promise<NormalReturnObject> => {
+    public doRechargeMethod = async ({user, value, app, type = 2}: DoRechargeMethodParam): Promise<NormalReturnObject> => {
         try {
             if (!user) {
                 throw new Error('用户数据错误');
@@ -161,26 +168,30 @@ class Business {
                     value               : money,
                     from_user_name      : user.name,
                     from_user_headimgurl: user.headimg,
-                    app                 : app
+                    app                 : app,
+                    type                : type
                 })
             })
             .then(res => res.json());
 
             if (result.success) {
-                return { success: true };
+                return { 
+                    success : true,
+                    result  : result.result
+                };
             } else {
 
                 return {
-                    type: 'ERROR_RECHARGE',
-                    message: '充值失败'
+                    type    : 'ERROR_RECHARGE',
+                    message : '充值失败'
                 };
             }
 
         } catch (err) {
             console.log('充值失败', err);
             return {
-                type: 'ERROR_RECHARGE',
-                message: '充值失败'
+                type    : 'ERROR_RECHARGE',
+                message : '充值失败'
             };
         }
     }

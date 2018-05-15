@@ -26,6 +26,7 @@ class TextItem extends React.Component <Props, {}> {
                 {subValue
                 ? this.renderText(subValue, size)
                 : ''}
+                    
             </div>
         );
     }

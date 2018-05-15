@@ -17,7 +17,7 @@ const AddressItem = ({data, propsClickHandle = (address: AddressType) => {/*no e
             <div styleName="border">
                 <div styleName="box">
                     <span styleName="big">{data.receiver}</span>
-                    <span styleName="big">{data.phone}</span>
+                    <span styleName="big" style={{marginLeft: '2vw'}} >{data.phone}</span>
                 </div>
                 
                 <div styleName="box">

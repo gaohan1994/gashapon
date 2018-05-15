@@ -19,7 +19,7 @@ import {
     loadInventory,
     loadInventoryByWord,
     loadInventoryByGenre,
-    LoadInventoryParam,
+    LoadInventoryParam
 } from '../../actions/inventory';
 import { showSignModal } from '../../actions/status';
 import { getInventory } from '../../reducers/inventory';

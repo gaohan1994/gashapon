@@ -67,7 +67,7 @@ class Check extends React.Component <Props, State> {
             
             if (result.success === true) {
                 /* do check ok */
-                // history.push('/');
+                history.push('/');
             } else {
                 /* do error stuff here */
                 alert(result.message ? result.message : '签到出错了');

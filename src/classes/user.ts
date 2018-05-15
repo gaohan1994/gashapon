@@ -152,8 +152,8 @@ class User {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'ERROR_GET_USERID',
-                message: err.message ? err.message : '获取用户id错误'
+                type    : 'ERROR_GET_USERID',
+                message : err.message ? err.message : '获取用户id错误'
             };
         }
 
@@ -173,8 +173,8 @@ class User {
         } catch (err) {
             console.log('getUserFromAccesstoken', err);
             return {
-                type: 'FETCH_ACCESSTOKEN_ERROR',
-                message: err.message ? err.message : '获取用户id错误'
+                type    : 'FETCH_ACCESSTOKEN_ERROR',
+                message : err.message ? err.message : '获取用户id错误'
             };
         }
     }
@@ -220,28 +220,28 @@ class User {
         } catch (err) {
             console.log('doAddAddressMethod', err);
             return {
-                type: 'FETCH_ADD_ADDRESS_ERROR',
-                message: err.message ? err.message : '增加地址出错'
+                type    : 'FETCH_ADD_ADDRESS_ERROR',
+                message : err.message ? err.message : '增加地址出错'
             };
         }
     }
 
     public doChangeAddressMethod = async ({data}: DoAddressMethodParam): Promise <NormalReturnObject> => {
         try {
-            if (!this.userId) {
-                throw new Error('userId');
+            if (!this.uid) {
+                throw new Error('uid');
             }
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'ERROR_CHANGE_ADDRESS',
-                message: err.message ? err.message : '修改地址数据错误'
+                type    : 'ERROR_CHANGE_ADDRESS',
+                message : err.message ? err.message : '修改地址数据错误'
             };
         }
 
         try {
 
-            const result = await fetch(`/change/address/${this.userId}`, {
+            const result = await fetch(`/change/address/${this.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -258,8 +258,8 @@ class User {
         } catch (err) {
             console.log('doChangeAddressMethod', err);
             return {
-                type: 'FETCH_CHANGE_ADDRESS_ERROR',
-                message: err.message ? err.message : '修改地址数据错误'
+                type    : 'FETCH_CHANGE_ADDRESS_ERROR',
+                message : err.message ? err.message : '修改地址数据错误'
             };
         }
     }
