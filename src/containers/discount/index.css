@@ -170,3 +170,19 @@
     right: 0;
     background-image: url('http://net.huanmusic.com/gasha/discount/%E7%A0%8D%E4%BB%B7%E5%9B%BE%E6%A0%87.png');
 }
+
+.progress {
+    width: 600px;
+    margin: 30px 0 0 75px;
+    border-radius: 10px;
+    height: 30px;
+    position: relative;
+}
+
+.progresstext {
+    display: block;
+    line-height: 30px;
+    font-size: 26px;
+    position: absolute;
+    right: 20px;
+}

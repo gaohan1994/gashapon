@@ -94,6 +94,7 @@ class Discount extends React.Component<Props, State> {
                 /* do ok stuff */
                 if (result.result) {
                     alert(`成功帮忙砍价${result.result / 100}元 `);
+                    window.location.reload();
                 } else {
                     alert(`成功砍价`);
                 }
@@ -176,6 +177,23 @@ class Discount extends React.Component<Props, State> {
                         </div>
 
                         <div 
+                            styleName="progress"
+                            style={{
+                                backgroundImage: this.renderProgress()
+                            }}
+                        >
+                            <span styleName="progresstext">
+                                {getDiscountData.sum
+                                ? numeral(getDiscountData.sum / 100).format('0.00')
+                                : 0}
+                                /
+                                {getDiscountData.sum
+                                ? numeral(getDiscountData.max_discount / 100).format('0.00')
+                                : 1}
+                            </span>
+                        </div>
+
+                        <div 
                             styleName="colorbox"
                         >
                             <span styleName="title">{`---- 砍价详情 ----`}</span>
@@ -220,6 +238,17 @@ class Discount extends React.Component<Props, State> {
                 <i styleName="dicounticon" bgimg-center="100"/>
             </div>
         );
+    }
+
+    private renderProgress = (): string => {
+    
+        const { getDiscountData } = this.props;
+
+        const now   = getDiscountData && getDiscountData.sum ? getDiscountData.sum : 0;
+        const total = getDiscountData && getDiscountData.max_discount ? getDiscountData.max_discount : 1;	
+            
+        const current = (numeral(now / total).value()) * 100;	
+        return `linear-gradient(to right, rgb(156, 248, 5) ${current}%, rgba(255, 255, 255) 0%)`;
     }
 }
 
