@@ -8,7 +8,8 @@ import status,
     getRegisterStatus,
     getLoginModalStatus,
     getSignModalStatus,
-    getConfig
+    getConfig,
+    getShareStatus,
 } from '../status';
 import { 
    SHOW_SEARCH_MODAL,
@@ -26,6 +27,8 @@ import {
    SHOW_SIGN_MODAL,
    HIDE_SIGN_MODAL,
    SET_ORDER_ADDRESS_CONFIG,
+   SHOW_SHARE_MODAL,
+   HIDE_SHARE_MODAL,
 } from '../../constants/status';
 import initState from '../status/state';
 import store from '../initState';
@@ -146,6 +149,20 @@ describe('status test begin', () => {
         });
     });
 
+    it('should show share', () => {
+        expect(status(initState, { type: SHOW_SHARE_MODAL })).toEqual({
+            ...initState,
+            shareStatus: true
+        });
+    });
+
+    it('should hide share', () => {
+        expect(status(initState, { type: HIDE_SHARE_MODAL })).toEqual({
+            ...initState,
+            shareStatus: false
+        });
+    });
+
     describe('get method tests', () => {
 
         const Store = {
@@ -161,6 +178,7 @@ describe('status test begin', () => {
                 showLoginModal: true,
                 showSignModal: true,
                 config: {test: '123'},
+                shareStatus: true
             }
         };
 
@@ -198,6 +216,10 @@ describe('status test begin', () => {
 
         it('should get config', () => {
             expect(getConfig(Store)).toEqual({test: '123'});
+        });
+
+        it('should get shareStatus', () => {
+            expect(getShareStatus(Store)).toEqual(true);
         });
     });
 });

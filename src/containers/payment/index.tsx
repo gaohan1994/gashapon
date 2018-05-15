@@ -27,6 +27,7 @@ import AddressItem from '../../components/address_row_item';
 import Header from '../../components/haeder_set';
 import User from '../../classes/user';
 import Business from '../../classes/business';
+import * as numeral from 'numeral';
 // import Schema from '../../classes/schema';
 
 interface Props {
@@ -299,13 +300,31 @@ class Profit extends React.Component <Props, State> {
     }
 
     private renderFooter = (): JSX.Element => {
+
+        const { getSelectedGashapons } = this.props;
+        let money: number = 0;
+
+        if (getSelectedGashapons) {
+            getSelectedGashapons.map((item: Gashapon, i: number) => {
+                if (typeof item.price === 'number') {
+                    money += item.price;
+                } else {
+                    console.log(`第${i}个扭蛋价格有问题`);
+                }
+            });
+        }
+
         return (
             <div styleName="footer">
                 <div styleName="detail">
-                    <span font-s="30" styleName="count">共1件</span>
+                    <span font-s="30" styleName="count">
+                        共
+                        {getSelectedGashapons && getSelectedGashapons.length ? getSelectedGashapons.length : 1}
+                        件
+                    </span>
                     <span style={{marginLeft: '40px'}}>
                         <span font-s="30" >运费：</span>
-                        <span font-s="30" styleName="money">￥30</span>
+                        <span font-s="30" styleName="money">￥{numeral(money / 100).format('0.00')}</span>
                     </span>
                 </div>
                 <div 

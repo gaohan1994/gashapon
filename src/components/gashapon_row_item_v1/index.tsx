@@ -4,6 +4,7 @@ import * as styles from './index.css';
 import config from '../../config/index';
 import Text from '../text';
 import { Gashapon } from '../../types/componentTypes';
+import * as numeral from 'numeral';
 
 export interface Props {
     gashapon: Gashapon;
@@ -32,7 +33,7 @@ const GashaponRow = ({gashapon}: Props): JSX.Element => (
         />
         <div styleName="detail">
             <Text value={gashapon.name}/>
-            <Text value="x1" subValue={`￥${gashapon.price}`}/>
+            <Text value="x1" subValue={`￥${gashapon.price ? numeral(gashapon.price / 100).format('0.00') : 0}`}/>
         </div>
     </div>
 );
