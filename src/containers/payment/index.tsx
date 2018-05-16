@@ -324,7 +324,15 @@ class Profit extends React.Component <Props, State> {
                     </span>
                     <span style={{marginLeft: '40px'}}>
                         <span font-s="30" >运费：</span>
-                        <span font-s="30" styleName="money">￥{numeral(money / 100).format('0.00')}</span>
+                        <span font-s="30" styleName="money">
+                            {/* ￥{numeral(money / 100).format('0.00')} */}
+                            {getSelectedGashapons && getSelectedGashapons.length 
+                            ? getSelectedGashapons.length >= 9
+                                ? '￥0.00'
+                                : '￥10.00'
+                            : ''}
+                            
+                        </span>
                     </span>
                 </div>
                 <div 

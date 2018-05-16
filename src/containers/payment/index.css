@@ -1,7 +1,8 @@
 .container {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 0 0 120px 0;
 }
 
 .header {
@@ -208,7 +209,7 @@
 
 .money {
     color: #fea270;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 .addressModal {

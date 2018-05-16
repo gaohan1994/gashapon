@@ -26,7 +26,8 @@ interface Props {
 }
 
 interface State {
-    gashapons: Gashapon[];
+    // gashapons: Gashapon[];
+    selected: number[];
 }
 
 /**
@@ -40,7 +41,8 @@ class Sale extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            gashapons: [],
+            selected: [],
+            // gashapons: [],
         };
     }
     
@@ -52,57 +54,52 @@ class Sale extends React.Component<Props, State> {
         /* no empty */
     }
 
-    public doChangeOrderHandle = (item: Gashapon): void => {
-        const { gashapons } = this.state;
-        const result = gashapons.findIndex(gashapon => gashapon._id === item._id);
-        if (result !== -1) {
-            /* do not insert stuff */
-            gashapons.splice(result, result + 1);
-            this.setState({
-                gashapons: merge([], gashapons, [])
-            });
-        } else {
-            /* do insert stuff */
-            gashapons.push(item);
-            this.setState({
-                gashapons: merge([], gashapons, [])
-            });
-        }
-    }
+    public doChangeOrderHandle = (i: number): void => {
+        const { selected } = this.state;
 
-    public doDeleteOrderHandle = (item: Gashapon): void => {
-        const { gashapons } = this.state;
-        const result = gashapons.findIndex(gashapon => gashapon._id === item._id);
-        if (result !== -1) {
-            /* do delete stuff */
+        const token = selected.findIndex(num => num === i);
+
+        if (token !== -1) {
+            /* 存在 */
+            selected.splice(token, 1);
             this.setState({
-                gashapons: merge([], gashapons, [])
+                selected: merge([], selected, [])  
             });
         } else {
-            /* do nothing */
+            /* 不存在 */
+            selected.push(i);
+            this.setState({
+                selected: merge([], selected, []) 
+            });
         }
     }
 
     public doAllChoiceHandle = (): void => {
-        const { gashapons } = this.state;
+        const { selected } = this.state;
         const { getInventory } = this.props;
-        /* 全选 如果 length 不等就全选，如果相等就全不选 */
-        if (gashapons.length === getInventory.length) {
-            /* 全部不选 */
+        
+        if (selected.length === getInventory.length) {
             this.setState({
-                gashapons: []
+                selected: []
             });
         } else {
+
+            const newSelected = [];
+
+            for (let i = 0; i < getInventory.length; i++) {
+                newSelected.push(i);
+            }
+
             this.setState({
-                gashapons: merge([], getInventory, [])
+                selected: merge([], newSelected, [])
             });
         }
     }
     
     public doRecycleHandle = async (): Promise<void> => {
-        const { gashapons, } = this.state;
-        const { showSignModal } = this.props;
-        if (gashapons.length === 0) {
+        const { selected } = this.state;
+        const { showSignModal, getInventory } = this.props;
+        if (selected.length === 0) {
             alert('请选择要回收的扭蛋~');
             return;
         } else {
@@ -113,6 +110,10 @@ class Sale extends React.Component<Props, State> {
                 /* do no sign handle */
                 showSignModal();
             } else {
+
+                const gashapons = selected.map(item => {
+                    return getInventory[item];
+                });
 
                 const result: NormalReturnObject = await Business.doRecycleMethod({
                     uid     : user.uid, 
@@ -131,7 +132,7 @@ class Sale extends React.Component<Props, State> {
     }
 
     render() {
-        const { gashapons } = this.state;
+        const { selected } = this.state;
         const { getInventory } = this.props;
         return (
             <div styleName="container">
@@ -146,7 +147,7 @@ class Sale extends React.Component<Props, State> {
                     />
                     <span>
                         已选择的扭蛋
-                        <span styleName="colorText">{gashapons ? gashapons.length : 0}</span>
+                        <span styleName="colorText">{selected.length ? selected.length : 0}</span>
                         件
                     </span>
                 </div>
@@ -154,13 +155,13 @@ class Sale extends React.Component<Props, State> {
                     <div 
                         key={i}
                         styleName="item"
-                        onClick={() => this.doChangeOrderHandle(item)}
+                        onClick={() => this.doChangeOrderHandle(i)}
                     >
                         <div 
                             styleName="option"
                             bgimg-center="100"
                             style={{
-                                backgroundImage: this.renderIcon(item)
+                                backgroundImage: this.renderIcon(i)
                             }}
                         />
                         <GashaItem 
@@ -174,10 +175,10 @@ class Sale extends React.Component<Props, State> {
         );
     }
 
-    private renderIcon = (item: Gashapon): string => {
-        const { gashapons } = this.state;
+    private renderIcon = (i: number): string => {
+        const { selected } = this.state;
         let token = false;
-        const result = gashapons.findIndex(gashapon => gashapon._id === item._id);
+        const result = selected.findIndex(num => num === i);
         if (result !== -1) {
             token = true;
         } else {
@@ -187,14 +188,15 @@ class Sale extends React.Component<Props, State> {
     }
 
     private renderFooter = (): JSX.Element => {
-        const { gashapons } = this.state;
+        const { selected } = this.state;
         const { getInventory } = this.props;
         let money: number = 0;
-        gashapons.map((item: Gashapon, i: number) => {
-            if (typeof item.price === 'number') {
-                money += item.price;
+
+        selected.map(item => {
+            if (typeof getInventory[item].price === 'number') {
+                money += getInventory[item].price;
             } else {
-                console.log(`第${i}个扭蛋价格有问题`);
+                console.log(`第${item}个扭蛋价格有问题`);
             }
         });
         return (
@@ -208,7 +210,7 @@ class Sale extends React.Component<Props, State> {
                         styleName="choiceIcon" 
                         bgimg-center="100"
                         style={{
-                            backgroundImage: gashapons.length === getInventory.length
+                            backgroundImage: selected.length === getInventory.length
                                             ? `url(http://net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%90%8E.png)`
                                             : `url(http://net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%89%8D.png)`
                         }}    

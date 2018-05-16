@@ -67,11 +67,13 @@ class DiscountHome extends React.Component <Props, State> {
 
     render (): JSX.Element {
         const { type } = this.state;
-        const { getHomeDiscounting } = this.props;
+        const { getHomeDiscounting, getHomeDiscount } = this.props;
         return (
             <div container-with-header="true">
+            
                 <SignModal/>
                 <Header title="我的砍价"/>
+
                 {this.renderNav()}
                 
                 {type === 'discounting'
@@ -79,9 +81,8 @@ class DiscountHome extends React.Component <Props, State> {
                 : ''}
 
                 {type === 'discount'
-                ? <div>2</div>
+                ? this.renderDiscountData(getHomeDiscount)
                 : ''}
-
             </div>
         );
     }

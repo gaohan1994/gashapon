@@ -69,11 +69,11 @@ class Discount extends React.Component <Props, {}> {
                 </div>
 
                 <div styleName="footer">
-                    <span 
+                    {/* <span 
                         styleName="button" 
                         bgimg-center="100"
                         style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E5%8F%96%E6%B6%88%E7%A0%8D%E4%BB%B7.png)`}}
-                    />
+                    /> */}
                     <span 
                         styleName="button" 
                         bgimg-center="100"
