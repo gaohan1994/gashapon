@@ -27,7 +27,7 @@ import AddressItem from '../../components/address_row_item';
 import Header from '../../components/haeder_set';
 import User from '../../classes/user';
 import Business from '../../classes/business';
-import * as numeral from 'numeral';
+// import * as numeral from 'numeral';
 // import Schema from '../../classes/schema';
 
 interface Props {
@@ -302,17 +302,17 @@ class Profit extends React.Component <Props, State> {
     private renderFooter = (): JSX.Element => {
 
         const { getSelectedGashapons } = this.props;
-        let money: number = 0;
+        // let money: number = 0;
 
-        if (getSelectedGashapons) {
-            getSelectedGashapons.map((item: Gashapon, i: number) => {
-                if (typeof item.price === 'number') {
-                    money += item.price;
-                } else {
-                    console.log(`第${i}个扭蛋价格有问题`);
-                }
-            });
-        }
+        // if (getSelectedGashapons) {
+        //     getSelectedGashapons.map((item: Gashapon, i: number) => {
+        //         if (typeof item.price === 'number') {
+        //             money += item.price;
+        //         } else {
+        //             console.log(`第${i}个扭蛋价格有问题`);
+        //         }
+        //     });
+        // }
 
         return (
             <div styleName="footer">

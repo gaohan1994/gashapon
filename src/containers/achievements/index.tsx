@@ -3,9 +3,13 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Achievement from '../../components/achievement';
 import history from '../../history';
+import { connect, Dispatch } from 'react-redux';
+import { Stores } from '../../reducers/type';
+import { getUserdata } from '../../reducers/home';
+import { Userdata } from '../../types/user';
 
 interface Props {
-
+    getUserdata: Userdata;
 }
 
 interface State {
@@ -22,39 +26,71 @@ class Achievements extends React.Component<Props, State> {
         const achievements = [
             {
                 name: '我的处女蛋',
-                desc: '扭蛋1次',
+                desc: '暂无奖励',
                 img: 'http://net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
                 progress: 0,
                 totalProgress: 1,
             },
             {
                 name: '扭蛋爱好者',
-                desc: '扭蛋30次',
+                desc: '暂无奖励',
                 img: 'http://net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
                 progress: 5,
                 totalProgress: 30,
             },
             {
                 name: '我的处女蛋',
-                desc: '百蛋斩',
+                desc: '暂无奖励',
                 img: 'http://net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
                 progress: 17,
                 totalProgress: 100,
             },
+
+            /* bianmai */
             {
-                name: '我的处女蛋',
-                desc: '扭蛋1次',
-                img: 'http://net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
-                progress: 5,
-                totalProgress: 6,
-            },
-            {
-                name: '我的处女蛋',
-                desc: '扭蛋1次',
-                img: 'http://net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
+                name: '变卖1个扭蛋',
+                desc: '暂无奖励',
+                img: 'http://net.huanmusic.com/gasha/%E4%BE%9D%E4%BE%9D%E4%B8%8D%E8%88%8D.png',
                 progress: 10,
                 totalProgress: 10,
-            }
+            },
+            {
+                name: '变卖30个扭蛋',
+                desc: '暂无奖励',
+                img: 'http://net.huanmusic.com/gasha/%E6%8C%A5%E6%89%8B%E6%B3%AA%E5%88%AB.png',
+                progress: 10,
+                totalProgress: 10,
+            },
+            {
+                name: '变卖100个扭蛋',
+                desc: '暂无奖励',
+                img: 'http://net.huanmusic.com/gasha/%E7%A6%8F%E6%83%A0%E5%8F%8C%E8%87%B3.png',
+                progress: 10,
+                totalProgress: 10,
+            },
+            
+            /* danmu */
+            {
+                name: '发送1条弹幕',
+                desc: '暂无奖励',
+                img: 'http://net.huanmusic.com/gasha/%E5%B0%8F%E8%AF%95%E8%BA%AB%E6%89%8B.png',
+                progress: 10,
+                totalProgress: 10,
+            },
+            {
+                name: '发送30条弹幕',
+                desc: '暂无奖励',
+                img: 'http://net.huanmusic.com/gasha/%E5%A3%B0%E5%90%8D%E8%BF%9C%E6%89%AC.png',
+                progress: 10,
+                totalProgress: 10,
+            },
+            {
+                name: '发送100条弹幕',
+                desc: '暂无奖励',
+                img: 'http://net.huanmusic.com/gasha/%E5%BC%B9%E5%B9%95%E7%82%AE%E5%8F%B0.png',
+                progress: 10,
+                totalProgress: 10,
+            },
         ];
 
         return (
@@ -62,7 +98,7 @@ class Achievements extends React.Component<Props, State> {
                 {this.renderHeader()}
 
                 {achievements.map((item, i) => (
-                    <div styleName="item" key={i}>
+                    <div  flex-center="all-center" styleName="item" key={i}>
                         <Achievement achievement={item}/>
                     </div>
                 ))}
@@ -116,4 +152,15 @@ class Achievements extends React.Component<Props, State> {
 
 const AchievementsHoc = CSSModules(Achievements, styles);
 
-export default AchievementsHoc;
+export const mapStateToProps = (state: Stores) => ({
+    getUserdata: getUserdata(state),
+});
+
+export const mapDispatchToProps = (dispatch: Dispatch<{}>) => ({
+
+});
+
+export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
+    Object.assign({}, ownProps, stateProps, dispatchProps);
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AchievementsHoc);
