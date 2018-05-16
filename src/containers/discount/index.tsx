@@ -56,6 +56,7 @@ class Discount extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        
         const { 
             match,
             loadDiscountData,
@@ -152,6 +153,7 @@ class Discount extends React.Component<Props, State> {
                             <span 
                                 styleName="cover" 
                                 bgimg-center="bgimg-center"
+                                onClick={() => this.goGashaponHandle()}
                                 style={{
                                     backgroundImage: getDiscountData.image 
                                                     ? `url(http://${config.host.pic}/${getDiscountData.image})`

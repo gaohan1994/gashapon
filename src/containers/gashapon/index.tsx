@@ -259,7 +259,7 @@ class Gashapon extends React.Component<Props, State> {
             if (result.success === true) {
 
                 const shareConfig = {
-                    url     : `http://gacha-dev.hy233.tv/discount/${result.discountId}`,
+                    url     : `${config.url}/discount/${result.discountId}`,
                     title   : getGashapon.name,
                     pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`
                 };
