@@ -20,6 +20,11 @@ export interface DoOrderMethodParam {
     id  : string;
 }
 
+export interface DoPressOrderHandleParam {
+    uid : string;
+    id  : string;
+}
+
 class Business {
 
     constructor () {
@@ -28,6 +33,7 @@ class Business {
         this.doRechargeMethod       = this.doRechargeMethod.bind(this);
         this.doCancelOrderMethod    = this.doCancelOrderMethod.bind(this);
         this.doConfirmOrderHandle   = this.doConfirmOrderHandle.bind(this);
+        this.doPressOrderHandle     = this.doPressOrderHandle.bind(this);
     }
 
     /**
@@ -269,31 +275,24 @@ class Business {
         }
     }
 
-    public getOrderLocation = async (id: string): Promise <NormalReturnObject> => {
+    public doPressOrderHandle =  async ({uid, id}: DoPressOrderHandleParam): Promise <NormalReturnObject> => {
         try {
             if (!id) {
                 throw new Error('id');
+            } else if (!uid) {
+                throw new Error('uid');
             }
         } catch (err) {
             console.log(err.message);
             return {
                 type    : 'GET_WRONG_PARAM',
-                message : err.message
+                message : err.message ? err.message : '数据错误'
             };
         }
 
         try {
             
-            const result = await fetch(`/express/trace/query`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    number: id
-                })
-            })
-            .then(res => res.json());
+            const result = await fetch(`/product/order/press/${uid}/${id}`).then(res => res.json());
 
             if (result.success === true) {
                 return { 
@@ -301,13 +300,13 @@ class Business {
                     result  : result.result
                 };
             } else {
-                throw new Error(result.message ? result.message : '查看物流失败');
+                throw new Error(result.message ? result.message : '确认订单失败');
             }
         } catch (err) {
-            console.log('查看物流失败', err);
+            console.log('确认订单失败', err);
             return {
-                type    : 'ERROR_LOCATION',
-                message : err.message ? err.message : '查看物流失败'
+                type    : 'ERROR_ORDER',
+                message : err.message ? err.message : '确认订单失败'
             };
         }
     }

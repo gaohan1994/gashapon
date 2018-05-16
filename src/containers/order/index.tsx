@@ -37,7 +37,8 @@ interface Props {
 interface State {
     type: string;
     
-    showReminderModal: boolean;
+    reminderValue       : string;
+    showReminderModal   : boolean;
 }
 
 class Order extends React.Component<Props, State> {
@@ -46,6 +47,7 @@ class Order extends React.Component<Props, State> {
         super(props);
         this.state = {
             type                : '',
+            reminderValue       : '',
             showReminderModal   : false,
         };
     }
@@ -85,8 +87,20 @@ class Order extends React.Component<Props, State> {
         }
     }
 
-    public doReminderHandle = (): void => {
-        this.onShowReminderModal();
+    public doReminderHandle = async (id: string): Promise <void> => {
+        const user = User.getUser();
+        if (!user.uid) {
+            /* no sign in */
+        } else {
+            console.log(user);
+            const result = await Business.doPressOrderHandle({uid: user.uid, id: id});
+
+            if (result.success === true) {
+                this.setState({reminderValue: result.result}, () => { this.onShowReminderModal(); });
+            } else {
+                this.setState({reminderValue: result.message ? result.message : '请稍后重试'}, () => { this.onShowReminderModal(); });
+            }
+        }
     }
 
     public onShowReminderModal = (): void => {
@@ -173,13 +187,13 @@ class Order extends React.Component<Props, State> {
     }
 
     render () {
-        const { showReminderModal } = this.state;
+        const { showReminderModal, reminderValue } = this.state;
         const { getOrders } = this.props;
         return (
             <div styleName="container">
                 <Modal 
                     display={showReminderModal}
-                    value="催单成功~请耐心等待"
+                    value={reminderValue}
                     onCancelClickHandle={this.onHideReminderModal}
                     onConfirmClickHandle={this.onHideReminderModal}
                 />
@@ -231,7 +245,7 @@ class Order extends React.Component<Props, State> {
                 buttons: [
                     {
                         value: '我要催单',
-                        clickHandle: () => this.doReminderHandle()
+                        clickHandle: () => this.doReminderHandle(item._id)
                     }
                 ]
             };
