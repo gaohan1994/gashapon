@@ -19,6 +19,7 @@ import { Userdata } from '../../types/user';
 import Business from '../../classes/business';
 import User from '../../classes/user';
 import history from '../../history';
+import Modal from '../../components/modal';
 
 interface Props {
     match: {
@@ -35,6 +36,8 @@ interface Props {
 
 interface State {
     type: string;
+    
+    showReminderModal: boolean;
 }
 
 class Order extends React.Component<Props, State> {
@@ -42,7 +45,8 @@ class Order extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            type: ''
+            type                : '',
+            showReminderModal   : false,
         };
     }
 
@@ -81,6 +85,30 @@ class Order extends React.Component<Props, State> {
         }
     }
 
+    public doReminderHandle = (): void => {
+        this.onShowReminderModal();
+    }
+
+    public onShowReminderModal = (): void => {
+        this.setState({
+            showReminderModal: true
+        });
+    }
+
+    public onHideReminderModal = (): void => {
+        this.setState({
+            showReminderModal: false
+        });
+    }
+
+    public gotoLocationHandle = (id?: string): void => {
+        if (!id) {
+            alert('暂时没有快递信息');
+        } else {
+            history.push(`/location/${id}`);
+        }
+    }
+
     componentDidMount() {
         const { loadOrders, match, getUserdata } = this.props;
 
@@ -88,6 +116,7 @@ class Order extends React.Component<Props, State> {
             
             const type = match.params.type;
             switch (type) {
+                
                 case 'waitconfirm':
                     this.onChangeTypeStateHandle(type);
                     loadWaitConfirmOrders(getUserdata._id);
@@ -144,10 +173,16 @@ class Order extends React.Component<Props, State> {
     }
 
     render () {
+        const { showReminderModal } = this.state;
         const { getOrders } = this.props;
         return (
             <div styleName="container">
-
+                <Modal 
+                    display={showReminderModal}
+                    value="催单成功~请耐心等待"
+                    onCancelClickHandle={this.onHideReminderModal}
+                    onConfirmClickHandle={this.onHideReminderModal}
+                />
                 <Header title="我的订单"/>
                 {this.renderNav()}
 
@@ -190,6 +225,17 @@ class Order extends React.Component<Props, State> {
                 ]
             };
             return footer;
+        } else if (type === 'wait') {
+            footer = {
+                show: true,
+                buttons: [
+                    {
+                        value: '我要催单',
+                        clickHandle: () => this.doReminderHandle()
+                    }
+                ]
+            };
+            return footer;
         } else if (type === 'already') {
             footer = {
                 show: true,
@@ -198,9 +244,13 @@ class Order extends React.Component<Props, State> {
                         value: '确认收货',
                         clickHandle: () => this.onConfirmOrderHandle(item._id)
                     },
+                    // {
+                    //     value: '买家秀',
+                    //     clickHandle: () => {/**/}
+                    // }
                     {
-                        value: '买家秀',
-                        clickHandle: () => {/**/}
+                        value: '查看物流',
+                        clickHandle: () => this.gotoLocationHandle(item.tracking_number),
                     }
                 ]
             };

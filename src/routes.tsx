@@ -36,6 +36,7 @@ import Show from './containers/show';
 import Profit from './containers/profit';
 import Vip from './containers/vip';
 import Payment from './containers/payment';
+import Location from './containers/location';
 
 const routes = (
     <Switch>
@@ -78,6 +79,7 @@ const routes = (
         <Route path="/profit"                   component={Profit}/>
         <Route path="/vip"                      component={Vip}/>
         <Route path="/payment"                  component={Payment}/>
+        <Route path="/location/:id"             component={Location}/>
 
         <Route component={NoMatch}/>
     </Switch>

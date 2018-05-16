@@ -29,13 +29,18 @@ export interface LoadPayinfoParams {
 }
 
 export interface SetSelectedAddress {
-    type: constants.SET_SELECTED_ADDRESS;
-    address: Address | {};
+    type    : constants.SET_SELECTED_ADDRESS;
+    address : Address | {};
 }
 
 export interface SetSelectedGashapons {
-    type: constants.SET_SELECTED_GASHAPONS;
-    gashapons: Gashapon[];
+    type        : constants.SET_SELECTED_GASHAPONS;
+    gashapons   : Gashapon[];
+}
+
+export interface LoadPackageLocation {
+    type    : constants.RECEIVE_PACKAGE_LOCATION;
+    location: {};
 }
 
 export type BusinessActions = 
@@ -43,7 +48,8 @@ export type BusinessActions =
     | LoadPayinfo 
     | LoadIncomeRecord 
     | SetSelectedAddress
-    | SetSelectedGashapons;
+    | SetSelectedGashapons
+    | LoadPackageLocation;
 
 export const loadOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
     if (!_id) {
@@ -209,5 +215,38 @@ export const setSelectedGashapons = (gashapons: Gashapon[]) => (dispatch: Dispat
         dispatch({type: constants.SET_SELECTED_GASHAPONS, gashapons: gashapons});
     } catch (err) {
         console.log(err.message ? err.message : 'setSelectedGashapons error');
+    }
+};
+
+export const loadPackageLocation = (id: string) => (dispatch: Dispatch<BusinessActions>): void => {
+    try {
+        if (!id) {
+            throw new Error('id');
+        } 
+    } catch (err) {
+        console.log(err.message ? err.message : '数据错误');
+        return;
+    }
+
+    try {
+        fetch(`/express/trace/query`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                number: id
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_PACKAGE_LOCATION, location: res.result});
+            } else {
+                throw new Error(res.message ? res.message : '查看物流失败');
+            }
+        });
+    } catch (err) {
+        console.log(err.message ? err.message : '查看物流失败');
     }
 };

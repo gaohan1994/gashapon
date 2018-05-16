@@ -80,7 +80,6 @@ class Product extends React.Component<Props, State> {
                 </div>
                 : ''}
             </div>
-            
         );
     }
 }

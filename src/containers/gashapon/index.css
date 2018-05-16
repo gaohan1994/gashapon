@@ -13,7 +13,7 @@
     background-size: 100% 100%;
 }
 
-.name, .collect, .music, .store, .show, .barrage, .chat, .gashaponImg, .time, .discount {
+.name, .collect, .notcollect, .music, .store, .show, .barrage, .chat, .gashaponImg, .time, .discount {
     position: absolute;
 }
 
@@ -22,7 +22,7 @@
     z-index: 2;
 }
 
-.collect, .gashaponImagePart {
+.collect, .gashaponImagePart, .notcollect {
     background-repeat: no-repeat;
 }
 
@@ -46,8 +46,18 @@
     display: block;
     right: 30px;
     top: 30px;
-    width: 50px;
+    width: 40px;
     height: 63px;
+    background-image: url('http://net.huanmusic.com/gasha/%E6%94%B6%E8%97%8F%E5%89%8D.png');
+}
+
+.notcollect {
+    display: block;
+    right: 30px;
+    top: 30px;
+    width: 71px;
+    height: 63px;
+    background-image: url('http://net.huanmusic.com/gasha/%E6%94%B6%E8%97%8F%E5%90%8E.png');
 }
 
 .music {

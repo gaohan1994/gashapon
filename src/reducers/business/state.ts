@@ -4,4 +4,5 @@ export default {
     income  : {},
     address : {},
     gashapons: [],
+    location: {},
 };

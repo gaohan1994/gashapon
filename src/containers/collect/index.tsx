@@ -110,7 +110,7 @@ class Collect extends React.Component<Props, State> {
     }
 
     private renderGashapons = (): JSX.Element[] | string => {
-        // const { getCollectGashapons } = this.props;
+        
         const { getUserdata } = this.props;
 
         if (getUserdata && getUserdata.collect_machines.length > 0) {

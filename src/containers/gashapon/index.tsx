@@ -15,7 +15,6 @@ import * as Numeral from 'numeral';
 import * as moment from 'moment';
 import config from '../../config';
 import { randomNum } from '../../config/util';
-// import Sign from '../../classes/sign';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
 import Share from '../../classes/share';
@@ -540,21 +539,16 @@ class Gashapon extends React.Component<Props, State> {
             const result = getUserdata.collect_machines 
                         && getUserdata.collect_machines
                         && getUserdata.collect_machines.findIndex(item => item._id === match.params.id);
-           
-            console.log('result', typeof(result) === 'number' && result !== -1);
+            
             return (
                 <i 
                     onClick={typeof(result) === 'number' && result !== -1 
                             ? this.doCancelCollectGashaponHandle
                             : this.doCollectGashaponHandle}
                     bgimg-center="100"
-                    styleName="collect"
-                    style={{
-                        backgroundImage: typeof(result) === 'number' && result !== -1 
-                                        ? `url(http://net.huanmusic.com/gasha/gashapon/%E6%94%B6%E8%97%8F%E5%90%8E.png)`
-                                        : `url(http://net.huanmusic.com/gasha/gashapon/%E6%94%B6%E8%97%8F%E5%89%8D.png)`,
-                        width: result === -1 ? '9vw' : '5.3vw'
-                    }}
+                    styleName={typeof(result) === 'number' && result !== -1 
+                                ? 'notcollect'
+                                : 'collect'}
                 />
             );
         } else {

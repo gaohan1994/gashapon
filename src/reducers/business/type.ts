@@ -5,4 +5,5 @@ export type Business = {
     income  : object;
     address : object;
     gashapons: object[];
+    location: object;
 };

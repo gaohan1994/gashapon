@@ -5,6 +5,7 @@ import config from '../../config/index';
 import Text from '../text';
 import { Gashapon } from '../../types/componentTypes';
 import * as numeral from 'numeral';
+import history from '../../history';
 
 export interface Button {
     value       : string;
@@ -12,15 +13,19 @@ export interface Button {
 }
 
 export interface Footer {
-    show: boolean;
-    buttons: Button[];
+    show    : boolean;
+    buttons : Button[];
 }
 
 export interface Props {
     gashapon: Gashapon;
 
-    footer?: Footer;
+    footer  ?: Footer;
 }
+
+const gotoGashaponHandle = (id: string) => {
+    history.push(`/gashapon/${id}`);
+};
 
 /**
  * 扭蛋行组件
@@ -35,7 +40,8 @@ const GashaponRow = ({gashapon, footer}: Props): JSX.Element => (
             styleName="container"
             flex-center="all-center"
         >
-            <div 
+            <div
+                onClick={() => gotoGashaponHandle(gashapon._id)}
                 bgimg-center="bgimg-center"
                 styleName="cover"
                 style={{
@@ -49,6 +55,7 @@ const GashaponRow = ({gashapon, footer}: Props): JSX.Element => (
                 <Text value="x1" subValue={`￥${gashapon.price ? numeral(gashapon.price / 100).format('0.00') : 0}`}/>
             </div>
         </div>
+
         {footer && footer.show === true
         ? <div styleName="footer">
             {footer.buttons.map((item: Button, i: number) => (

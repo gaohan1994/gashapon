@@ -13,6 +13,7 @@ import * as numeral from 'numeral';
 import config from '../../config/index';
 import Share from '../../classes/share';
 import ShareModal, { ShareType } from '../share';
+import history from '../../history';
 
 interface Props {
     discount        : discountType;
@@ -35,6 +36,11 @@ class Discount extends React.Component <Props, {}> {
         share.doShare();
     }
 
+    public gotoDiscountHandle = (): void => {
+        const { discount } = this.props;
+        history.push(`/discount/${discount._id}`);
+    }
+
     render () {
         const { discount, showShareModal } = this.props;
         return (
@@ -47,6 +53,7 @@ class Discount extends React.Component <Props, {}> {
                     <i 
                         styleName="cover"
                         bgimg-center="bgimg-center"
+                        onClick={() => this.gotoDiscountHandle()}
                         style={{
                             backgroundImage: discount.image 
                                             ? `url(http://${config.host.pic}/${discount.image})`
@@ -57,9 +64,7 @@ class Discount extends React.Component <Props, {}> {
                         <span styleName="name">{discount.title}</span>
                         <div 
                             styleName="progress"
-                            style={{
-                                backgroundImage: this.renderBgimage(discount)
-                            }}
+                            style={{backgroundImage: this.renderBgimage(discount)}}
                         >
                             {discount.sum ? discount.sum / 100 : 0}
                             /

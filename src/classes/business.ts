@@ -27,6 +27,7 @@ class Business {
         this.doRecycleMethod        = this.doRecycleMethod.bind(this);
         this.doRechargeMethod       = this.doRechargeMethod.bind(this);
         this.doCancelOrderMethod    = this.doCancelOrderMethod.bind(this);
+        this.doConfirmOrderHandle   = this.doConfirmOrderHandle.bind(this);
     }
 
     /**
@@ -264,6 +265,49 @@ class Business {
             return {
                 type    : 'ERROR_ORDER',
                 message : err.message ? err.message : '确认订单失败'
+            };
+        }
+    }
+
+    public getOrderLocation = async (id: string): Promise <NormalReturnObject> => {
+        try {
+            if (!id) {
+                throw new Error('id');
+            }
+        } catch (err) {
+            console.log(err.message);
+            return {
+                type    : 'GET_WRONG_PARAM',
+                message : err.message
+            };
+        }
+
+        try {
+            
+            const result = await fetch(`/express/trace/query`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    number: id
+                })
+            })
+            .then(res => res.json());
+
+            if (result.success === true) {
+                return { 
+                    success : true,
+                    result  : result.result
+                };
+            } else {
+                throw new Error(result.message ? result.message : '查看物流失败');
+            }
+        } catch (err) {
+            console.log('查看物流失败', err);
+            return {
+                type    : 'ERROR_LOCATION',
+                message : err.message ? err.message : '查看物流失败'
             };
         }
     }

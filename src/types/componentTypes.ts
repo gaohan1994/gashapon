@@ -154,14 +154,29 @@ export type orderAddressConfig = {
 };
 
 export type Order = {
-    address: string;
-    create_date: Date;
-    free_express: boolean;
-    freight: number;
-    from_user: string;
-    order_status: number;
-    phone: string;
-    product_list: GashaponProductItem[];
-    receiver: string;
-    _id: string;
+    address         : string;
+    create_date     : Date;
+    free_express    : boolean;
+    freight         : number;
+    from_user       : string;
+    order_status    : number;
+    phone           : string;
+    product_list    : GashaponProductItem[];
+    receiver        : string;
+    _id             : string;
+    tracking_number ?: string;
+};
+
+export type LocationItem = {
+    desc: string;
+    time: Date;
+};
+
+export type LocationType = {
+    com     : string;
+    comid   : string;
+    number  : string;
+    site    : string;
+    tel     : string;
+    traces  : LocationItem[];
 };
