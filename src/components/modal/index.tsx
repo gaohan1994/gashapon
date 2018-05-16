@@ -3,9 +3,12 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 
 interface Props {
+    children            ?: JSX.Element;
     display             : boolean;
-    value               : string;
+    value               ?: string;
     headerValue         ?: string;
+    cancelButtonText    ?: string;
+    confirmButtonText   ?: string;
     onConfirmClickHandle?: () => void;
     onCancelClickHandle ?: () => void;
 }
@@ -26,6 +29,8 @@ class Modal extends React.Component <Props, State> {
             display,
             value,
             headerValue,
+            cancelButtonText,
+            confirmButtonText,
             onCancelClickHandle,
             onConfirmClickHandle,
         } = this.props;
@@ -45,13 +50,19 @@ class Modal extends React.Component <Props, State> {
                         styleName="content"
                         flex-center="all-center"
                     >
-                        {value}
+                        {this.props.children
+                        ? this.props.children
+                        : value}
                     </div>
                     <div 
                         styleName="buttons"
                     >
-                        <button styleName="button" onClick={onCancelClickHandle}>取消</button>
-                        <button styleName="button" onClick={onConfirmClickHandle}>确定</button>
+                        <button styleName="button" onClick={onCancelClickHandle}>
+                            {cancelButtonText ? cancelButtonText : '取消'}
+                        </button>
+                        <button styleName="button" onClick={onConfirmClickHandle}>
+                            {confirmButtonText ? confirmButtonText : '确定'}
+                        </button>
                     </div>
                 </div>
             </section>

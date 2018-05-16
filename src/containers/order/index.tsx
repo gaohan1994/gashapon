@@ -4,10 +4,10 @@ import * as styles from './index.css';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import Header from '../../components/haeder_set';
-import ProductItem from '../../components/product_item';
+import ProductItem, { Footer } from '../../components/product_item';
 import { Stores } from '../../reducers/type';
 import { BusinessActions } from '../../actions/business';
-import { Gashapon } from '../../types/componentTypes';
+import { /*Gashapon*/ Order as OrderType } from '../../types/componentTypes';
 import { 
     loadOrders,
     loadWaitOrders,
@@ -16,6 +16,9 @@ import {
 import { getOrders } from '../../reducers/business';
 import { getUserdata } from '../../reducers/home';
 import { Userdata } from '../../types/user';
+import Business from '../../classes/business';
+import User from '../../classes/user';
+import history from '../../history';
 
 interface Props {
     match: {
@@ -23,7 +26,7 @@ interface Props {
             type: string;
         }
     };
-    getOrders               : Gashapon[];
+    getOrders               : OrderType[];
     loadOrders              : (userId: string) => void;
     loadWaitOrders          : (userId: string) => void;
     loadWaitConfirmOrders   : (userId: string) => void;
@@ -41,6 +44,41 @@ class Order extends React.Component<Props, State> {
         this.state = {
             type: ''
         };
+    }
+
+    public onCancelOrderHandle = async (id: string): Promise <void> => {
+        const user = User.getUser();
+
+        if (!user.uid) {
+            alert('请先登录');
+            history.push('/my');
+        } else {
+            const result = await Business.doCancelOrderMethod({id: id});
+            if (result.success === true) {
+                console.log('取消订单成功');
+                history.push('/');
+            } else {
+                alert(result.message ? result.result : '取消订单失败');
+            }
+        }
+    }
+
+    public onConfirmOrderHandle = async (id: string): Promise <void> => {
+        //
+        const user = User.getUser();
+
+        if (!user.uid) {
+            alert('请先登录');
+            history.push('/my');
+        } else {
+            const result = await Business.doConfirmOrderHandle({id: id});
+            if (result.success === true) {
+                console.log('确认订单成功');
+                history.push('/');
+            } else {
+                alert(result.message ? result.result : '确认订单失败');
+            }
+        }
     }
 
     componentDidMount() {
@@ -109,20 +147,70 @@ class Order extends React.Component<Props, State> {
         const { getOrders } = this.props;
         return (
             <div styleName="container">
+
                 <Header title="我的订单"/>
                 {this.renderNav()}
+
                 {getOrders.length > 0
-                ? getOrders.map((item: Gashapon, i: number) => {
+                ? getOrders.map((item: OrderType, i: number) => {
+
+                    let footer: Footer = this.getFooter(item);
+
                     return (
                         <ProductItem
                             key={i}
                             data={item.product_list}
+                            footer={footer}
                         />
                     );
                 })
                 : 'empty'}
             </div>
         );
+    }
+
+    private getFooter = (item: OrderType): Footer => {
+
+        const { type } = this.state;
+
+        let footer: Footer;
+
+        if (type === 'waitconfirm') {
+            footer = {
+                show: true,
+                buttons: [
+                    {
+                        value: '付款',
+                        clickHandle: () => {/**/}
+                    },
+                    {
+                        value: '取消订单',
+                        clickHandle: () => this.onCancelOrderHandle(item._id)
+                    }
+                ]
+            };
+            return footer;
+        } else if (type === 'already') {
+            footer = {
+                show: true,
+                buttons: [
+                    {
+                        value: '确认收货',
+                        clickHandle: () => this.onConfirmOrderHandle(item._id)
+                    },
+                    {
+                        value: '买家秀',
+                        clickHandle: () => {/**/}
+                    }
+                ]
+            };
+            return footer;
+        } else {
+            footer = {
+                show: false
+            };
+            return footer;
+        }
     }
 
     private renderNav = (): JSX.Element => {
@@ -133,7 +221,7 @@ class Order extends React.Component<Props, State> {
                     styleName="white"
                     flex-center="all-center"
                 >
-                    <div 
+                    <div
                         styleName={type === 'waitconfirm' ? 'navItemActive' : 'navItem'}
                         onClick={() => this.onChangeTypeHandle('waitconfirm')} 
                     >

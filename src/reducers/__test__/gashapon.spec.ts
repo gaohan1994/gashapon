@@ -3,9 +3,9 @@ import gashapon,
     getGashapon, 
     getLoadingStatus, 
     getComments,
-    
+    getDiscount
 } from '../gashapon';
-import { RECEIVE_GASHAPON, CHANGE_LOADING_STATUS } from '../../constants/gashapon';
+import { RECEIVE_GASHAPON, CHANGE_LOADING_STATUS, RECEIVE_GASHAPON_DISCOUNT } from '../../constants/gashapon';
 import initState from '../gashapon/state';
 import store from '../initState';
 
@@ -63,6 +63,18 @@ describe('gashapon test', () => {
         ).toEqual({gashapon: testData, loading: true});
     });
     
+    it('should receive gashapon discount', () => {
+        expect(
+            gashapon(
+                initState,
+                {
+                    type: RECEIVE_GASHAPON_DISCOUNT,
+                    discount: 5
+                }
+            )
+        ).toEqual({...initState, discount: 5});
+    });
+
     describe('get method test', () => {
 
         const Store = {
@@ -71,7 +83,8 @@ describe('gashapon test', () => {
                 gashapon: testData,
                 loading : false,
                 comments: [{test: 1}],
-                shows   : []
+                shows   : [],
+                discount: 5,
             }
         };
 
@@ -85,6 +98,10 @@ describe('gashapon test', () => {
         
         it('should receive comments', () => {
             expect(getComments(Store)).toEqual([{test: 1}]);
+        });
+
+        it('should get discount', () => {
+            expect(getDiscount(Store)).toEqual(5);
         });
     });
 });

@@ -1,3 +1,4 @@
+import { Gashapon } from './componentTypes';
 
 export interface Address {
     _id         : string;
@@ -16,10 +17,11 @@ export interface Userdata {
     remain          : number;
     _id             : string;
     address         : Address[];
-    collect_machines: {
-        _id: string;
-        machines: string[];
-    };
+    // collect_machines: {
+    //     _id: string;
+    //     machines: string[];
+    // };
+    collect_machines: Gashapon[];
 
     comment_count: number;
     discount_count: number;

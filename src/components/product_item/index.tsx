@@ -5,8 +5,20 @@ import config from '../../config/index';
 import Text from '../text';
 import { GashaponProductItem } from '../../types/componentTypes';
 
+export interface Button {
+    value       : string;
+    clickHandle : () => void;
+}
+
+export interface Footer {
+    show    : boolean;
+    buttons ?: Button[];
+}
+
 interface Props {
     data: GashaponProductItem[];
+
+    footer?: Footer;
 }
 
 interface State {}
@@ -15,7 +27,7 @@ class Product extends React.Component<Props, State> {
 
     render() {
         
-        const { data } = this.props;
+        const { data, footer } = this.props;
         
         return (
             <div styleName="box">
@@ -52,35 +64,23 @@ class Product extends React.Component<Props, State> {
                     );
                 })
                 : ''}
-                {this.renderFooter()}
+                {footer && footer.show === true
+                ? <div styleName="footer">
+                    <div styleName="buttons">
+                        {footer.buttons && footer.buttons.map((item: Button, i: number) => (
+                            <span 
+                                styleName="button"
+                                key={i}
+                                onClick={item.clickHandle}
+                            >
+                                {item.value}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+                : ''}
             </div>
             
-        );
-    }
-
-    private renderFooter = (): JSX.Element => {
-        return (
-            <div styleName="footer">
-                renderFooter
-                {this.renderButtons()}
-            </div>
-        );
-    }
-
-    private renderButtons = (): JSX.Element => {
-        return (
-            <div styleName="buttons">
-                <i 
-                    styleName="button" 
-                    bgimg-center="100"
-                    style={{backgroundImage: 'url(http://net.huanmusic.com/gasha/%E4%BB%98%E6%AC%BE.png)'}}
-                />
-                <i 
-                    styleName="button" 
-                    bgimg-center="100"
-                    style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E5%8F%96%E6%B6%88%E8%AE%A2%E5%8D%95.png)`}}
-                />
-            </div>
         );
     }
 }

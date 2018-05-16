@@ -152,3 +152,16 @@ export type orderAddressConfig = {
     path    ?: string;
     param   ?: string;
 };
+
+export type Order = {
+    address: string;
+    create_date: Date;
+    free_express: boolean;
+    freight: number;
+    from_user: string;
+    order_status: number;
+    phone: string;
+    product_list: GashaponProductItem[];
+    receiver: string;
+    _id: string;
+};

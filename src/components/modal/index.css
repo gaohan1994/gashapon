@@ -13,20 +13,23 @@
 }
 
 .box {
-    width: 500px;
+    position: relative;
+    width: 460px;
+    height: 460px;
     background: #ffffff;
-    border-radius: 6px;
+    border-radius: 20px;
 }
 
 .haeder {
     display: block;
-    width: 500px;
+    width: 100%;
     font-size: 30px;
     height: 70px;
     line-height: 70px;
     background: #f27a7a;
     color: #ffffff;
     text-align: center;
+    border-radius: 20px 20px 0 0;
 }
 
 .content {
@@ -35,6 +38,8 @@
 }
 
 .buttons {
+    position: absolute;
+    bottom: 20px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

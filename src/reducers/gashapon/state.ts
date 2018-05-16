@@ -1,6 +1,7 @@
 export default {
-    gashapon: {},
-    loading: false,
-    comments: [],
-    shows: [],
+    gashapon    : {},
+    loading     : false,
+    comments    : [],
+    shows       : [],
+    discount    : 0,
 };

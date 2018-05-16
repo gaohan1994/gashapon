@@ -205,3 +205,35 @@
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
 }
+
+.discountModal {
+    position: fixed;
+    z-index: 50;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .7);
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.modalconten {
+    width: 460px;
+    height: 460px;
+    border-radius: 20px;
+}
+
+.progress {
+    position: relative;
+    width: 400px;
+    height: 50px;
+    border: 2px solid #dddddd;
+    border-radius: 20px;
+}
+
+.progress > span {
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-size: 26px;
+    line-height: 50px;
+}

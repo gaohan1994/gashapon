@@ -3,16 +3,23 @@ import { GashaponProductItem, Gashapon as GashaponType } from '../types/componen
 import * as Numeral from 'numeral';
 import { NormalReturnObject } from './base';
 
-// interface Param {
-//     user        : UserType;
-//     count       ?: number;
-//     machine     : GashaponType;
-// }
+interface FetchGashaponBody {
+    count               : number;
+    machine_id          : string;
+    from_user_name      : string;
+    from_user_headimgurl: string;
+    discount            ?: number;
+    is_discount         ?: boolean;
+}
 
 export interface DoGashaponMethodParam {
     user        : UserType;
     count       ?: number;
     machine     : GashaponType;
+    discount    ?: {
+        discount    : number;
+        is_discount : boolean;
+    };
 }
 
 export interface DoGashaponMethodReturnObject {
@@ -73,7 +80,7 @@ class Gashapon {
     /**
      * 扭蛋 Method
      */
-    public doGashaponMethod = async ({user, count = 1, machine}: DoGashaponMethodParam): Promise<DoGashaponMethodReturnObject> => {
+    public doGashaponMethod = async ({user, count = 1, machine, discount}: DoGashaponMethodParam): Promise<DoGashaponMethodReturnObject> => {
 
         try {
             if (!user) {
@@ -106,17 +113,30 @@ class Gashapon {
                 };
             }
 
+            let body: FetchGashaponBody;
+
+            body = discount && discount.is_discount === true 
+                ? {
+                    count               : count,
+                    machine_id          : machine._id,
+                    from_user_name      : user.name,
+                    from_user_headimgurl: user.headimg,
+                    discount            : discount.discount,
+                    is_discount         : discount.is_discount
+                }
+                : {
+                    count               : count,
+                    machine_id          : machine._id,
+                    from_user_name      : user.name,
+                    from_user_headimgurl: user.headimg
+                };
+
             const result = await fetch(`/pay/product/${user.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    count               : count,
-                    machine_id          : machine._id,
-                    from_user_name      : user.name,
-                    from_user_headimgurl: user.headimg
-                })
+                body: JSON.stringify(body)
             }).then(res => res.json());
             
             if (result.success) {
@@ -202,14 +222,14 @@ class Gashapon {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'GET_WRONG_PARAM',
-                message: err.message ? err.message : '数据错误'
+                type    : 'GET_WRONG_PARAM',
+                message : err.message ? err.message : '数据错误'
             };
         }
 
         try {
 
-            const result = await fetch(`/collect/machines/delete/${user.userId}`, {
+            const result = await fetch(`/collect/machines/delete/${user.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

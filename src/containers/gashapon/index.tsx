@@ -8,6 +8,7 @@ import history from '../../history';
 import Header from '../../components/header_gashapon';
 import Hoc from '../hoc';
 import Modal from './modal';
+import DiscountModal from '../../components/modal';
 import SignModal from '../sign';
 import SelectModal from './selectmodal';
 import * as Numeral from 'numeral';
@@ -32,6 +33,7 @@ import { Userdata } from '../../types/user';
 import { 
     loadGashapon,
     changeGashaponLoading,
+    loadGashaponDiscountById,
 } from '../../actions/gashapon';
 import { 
     StatusActions,
@@ -41,6 +43,7 @@ import {
 import { 
     getGashapon,
     getLoadingStatus,
+    getDiscount,
 } from '../../reducers/gashapon';
 import { getUserdata } from '../../reducers/home';
 
@@ -57,6 +60,8 @@ interface Props {
     changeGashaponLoading   : (status: boolean) => void;
     showSignModal           : () => void;
     showShareModal          : () => void;
+    loadGashaponDiscountById: (uid: string, id: string) => void;
+    getDiscount             : number;
 }
 
 interface State {
@@ -64,6 +69,7 @@ interface State {
     showModal           : boolean;
     showSelectModal     : boolean;
     GashaponProductItem ?: GashaponProductItemType[];
+    showDiscountModal   : boolean;
 }
 
 /**
@@ -79,9 +85,10 @@ class Gashapon extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            audioPlaying    : false,
-            showModal       : false,
-            showSelectModal : false,
+            audioPlaying        : false,
+            showModal           : false,
+            showSelectModal     : false,
+            showDiscountModal   : false,
         };
     }
 
@@ -102,9 +109,28 @@ class Gashapon extends React.Component<Props, State> {
         }
     }
 
-    public doGashaponHandle = async (count: number): Promise<void> => {
+    public onDiscountGashaponClickHandle = async (): Promise <void> => {
+        
+        const { getDiscount } = this.props;
 
-        const { getUserdata, getGashapon, changeGashaponLoading, showSignModal } = this.props;
+        const discount = {
+            discount    : getDiscount,
+            is_discount : true
+        };
+
+        this.doGashaponHandle(1, discount);
+    }
+
+    public doGashaponHandle = async (count: number, discount?: {discount: number, is_discount: boolean}): Promise<void> => {
+
+        const { 
+            getUserdata, 
+            getGashapon, 
+            showSignModal,
+            changeGashaponLoading
+        } = this.props;
+
+        this.hideAll();
 
         User.setUser({
             name    : getUserdata.name, 
@@ -122,7 +148,8 @@ class Gashapon extends React.Component<Props, State> {
             const result = await GashaponClass.doGashaponMethod({
                 user    : user, 
                 count   : count, 
-                machine : getGashapon
+                machine : getGashapon,
+                discount: discount
             });
             
             if (result.success === true) {
@@ -211,6 +238,7 @@ class Gashapon extends React.Component<Props, State> {
         // const user = User.getUser();
         
         if (!type) {
+
             alert('请选择分享渠道');
             return;
         }
@@ -277,6 +305,32 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
+    public hideAll = (): void => {
+        this.setState({
+            showDiscountModal   : false,
+            showModal           : false,
+            showSelectModal : false
+        });
+    }
+
+    public onShowDiscountModal = (): void => {
+
+        const { loadGashaponDiscountById, match } = this.props;
+        const user = User.getUser();
+
+        loadGashaponDiscountById(user.uid, match.params.id);
+
+        this.setState({
+            showDiscountModal: true
+        });
+    }
+
+    public onHideDiscountModal = (): void => {
+        this.setState({
+            showDiscountModal: false
+        });
+    }
+
     public doShowSelectModalHandle = (): void => {
         this.setState({
             showSelectModal: true
@@ -330,6 +384,7 @@ class Gashapon extends React.Component<Props, State> {
                 <div styleName="container">
                     <SignModal/>
                     <ShareModal propsClickHandle={this.doDiscoutHandle}/>
+                    {this.renderDiscountModal()}
                     <audio
                         src={getGashapon.music_url
                             ? `http://${config.host.pic}/${getGashapon.music_url}`
@@ -408,7 +463,39 @@ class Gashapon extends React.Component<Props, State> {
         );
     }
 
+    private renderDiscountModal = (): JSX.Element => {
+
+        const { showDiscountModal } = this.state;
+        const { showShareModal, getDiscount, getGashapon } = this.props;
+
+        const now   = getDiscount;
+        const total = getGashapon.discount_plan && getGashapon.discount_plan.max_discount;
+
+        const current = (Numeral(now / total).value()) * 100;	
+
+        return (
+            <DiscountModal
+                display={showDiscountModal}
+                headerValue="我的砍价"
+                cancelButtonText="我要扭蛋"
+                confirmButtonText="分享砍价"
+                onCancelClickHandle={this.onDiscountGashaponClickHandle}
+                onConfirmClickHandle={showShareModal}
+            >
+                <div 
+                    styleName="progress"
+                    style={{
+                        backgroundImage: `linear-gradient(to right, rgb(254, 162, 112) ${current}%, rgba(255, 255, 255) 0%)`
+                    }}
+                >
+                    <span>{Numeral(getDiscount / 100).format('0.00')} / {Numeral(total / 100).format('0.00')}</span>
+                </div>
+            </DiscountModal>
+        );
+    }
+
     private redderSelectModal = (): JSX.Element => {
+
         const { showSelectModal } = this.state;
         const { getGashapon } = this.props;
         return (
@@ -451,8 +538,8 @@ class Gashapon extends React.Component<Props, State> {
         
         if (getUserdata.collect_machines) {
             const result = getUserdata.collect_machines 
-                        && getUserdata.collect_machines.machines
-                        && getUserdata.collect_machines.machines.findIndex(item => item === match.params.id);
+                        && getUserdata.collect_machines
+                        && getUserdata.collect_machines.findIndex(item => item._id === match.params.id);
            
             console.log('result', typeof(result) === 'number' && result !== -1);
             return (
@@ -509,13 +596,13 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染生成砍价链接按钮
      */
     private renderDiscountButton = (): JSX.Element | string => {
-        const { getGashapon, showShareModal } = this.props;
+        const { getGashapon, /*showShareModal*/ } = this.props;
         if (getGashapon.is_discount === true) {
             return (
                 <div 
                     styleName="discount"
                     bgimg-center="100"
-                    onClick={showShareModal}
+                    onClick={this.onShowDiscountModal}
                 />
             );
         } else {
@@ -530,6 +617,7 @@ const mapStateToProps = (state: Stores) => ({
     getGashapon     : getGashapon(state),
     getUserdata     : getUserdata(state),
     getLoadingStatus: getLoadingStatus(state),
+    getDiscount     : getDiscount(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions>) => ({
@@ -537,6 +625,7 @@ const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions>) => 
     changeGashaponLoading   : bindActionCreators(changeGashaponLoading, dispatch),
     showSignModal           : bindActionCreators(showSignModal, dispatch),
     showShareModal          : bindActionCreators(showShareModal, dispatch),
+    loadGashaponDiscountById: bindActionCreators(loadGashaponDiscountById, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

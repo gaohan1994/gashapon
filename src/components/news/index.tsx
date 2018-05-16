@@ -47,9 +47,8 @@ class News extends React.Component<Props, State> {
             >
                 <div
                     styleName="content"
-                    style={{bottom: display === true ? '10vh' : '-100vh'}}
+                    bgimg-center="100"
                 >
-                    <div styleName="header">系统通知</div>
                     {getNotifies && getNotifies.length > 0
                     ? <div styleName="newsBodyWithNotifies" >
                         {getNotifies.map((item) => (

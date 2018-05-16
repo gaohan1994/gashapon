@@ -1,9 +1,7 @@
 require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/gashapon';
-import { 
-    Gashapon
-} from '../types/componentTypes';
+import { Gashapon } from '../types/componentTypes';
 import { Dispatch } from 'redux';
 // import config from '../config/index';
 
@@ -27,7 +25,12 @@ export interface LoadGashaponShows {
     shows: object[];
 }
 
-export type GashaponActions = LoadGashapon | ChangeLoading | LoadGashaponComments;
+export interface LoadGashaponDiscountById {
+    type: constants.RECEIVE_GASHAPON_DISCOUNT;
+    discount: number;
+}
+
+export type GashaponActions = LoadGashapon | ChangeLoading | LoadGashaponComments | LoadGashaponDiscountById;
 
 export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions>): void => {
     if (!_id) {
@@ -94,5 +97,31 @@ export const loadGashaponShows = (id: string) => (dispatch: Dispatch<GashaponAct
         //
     } catch (err) {
         console.log('loadGashaponShows', err);
+    }
+};
+
+export const loadGashaponDiscountById = (uid: string, id: string) => (dispatch: Dispatch<GashaponActions>): void => {
+    try {
+        if (!uid) {
+            throw new  Error('uid');
+        } else if (!id) {
+            throw new  Error('id');
+        }
+    } catch (err) {
+        console.log('loadGashaponShows', err.message ? err.message : 'ERROR_PARAM');
+    }
+
+    try {
+        fetch(`/pay/product/confirm/${uid}/${id}`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_GASHAPON_DISCOUNT, discount: res.result});
+            } else {
+                throw new Error('请求gashapon discount by id 出错');
+            }
+        });
+    } catch (err) {
+        console.log('loadGashaponShows', err.message ? err.message : 'ERROR_FETCH');
     }
 };

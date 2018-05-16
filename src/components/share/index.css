@@ -6,7 +6,7 @@
     bottom: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 100;
+    z-index: 110;
     background: rgba(0, 0, 0, .7);
     -webkit-transition: all .2s ease-out;
     transition: all .2s ease-out;

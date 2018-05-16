@@ -16,12 +16,17 @@ export interface DoRechargeMethodParam {
     type    ?: 1 | 2;
 }
 
+export interface DoOrderMethodParam {
+    id  : string;
+}
+
 class Business {
 
     constructor () {
-        this.doOrderMethod      = this.doOrderMethod.bind(this);
-        this.doRecycleMethod    = this.doRecycleMethod.bind(this);
-        this.doRechargeMethod   = this.doRechargeMethod.bind(this);
+        this.doOrderMethod          = this.doOrderMethod.bind(this);
+        this.doRecycleMethod        = this.doRecycleMethod.bind(this);
+        this.doRechargeMethod       = this.doRechargeMethod.bind(this);
+        this.doCancelOrderMethod    = this.doCancelOrderMethod.bind(this);
     }
 
     /**
@@ -192,6 +197,73 @@ class Business {
             return {
                 type    : 'ERROR_RECHARGE',
                 message : '充值失败'
+            };
+        }
+    }
+
+    /**
+     * 取消订单
+     * 
+     * @memberof Business
+     */
+    public doCancelOrderMethod = async ({id}: DoOrderMethodParam): Promise <NormalReturnObject> => {
+        try {
+             if (!id) {
+                throw new Error('id');
+            }
+        } catch (err) {
+            console.log(err.message);
+            return {
+                type    : 'GET_WRONG_PARAM',
+                message : err.message
+            };
+        }
+        
+        try {
+
+            const result = await fetch(`/product/order/cancel/${id}`).then(res => res.json());
+
+            if (result.success === true) {
+                return { success: true };
+            } else {
+                throw new Error(result.message ? result.message : '取消订单失败');
+            }
+        } catch (err) {
+            console.log('取消订单失败', err);
+            return {
+                type    : 'ERROR_ORDER',
+                message : err.message ? err.message : '取消订单失败'
+            };
+        }
+    }
+
+    public doConfirmOrderHandle = async ({id}: DoOrderMethodParam): Promise <NormalReturnObject> => {
+        try {
+            if (!id) {
+                throw new Error('id');
+            }
+        } catch (err) {
+            console.log(err.message);
+            return {
+                type    : 'GET_WRONG_PARAM',
+                message : err.message
+            };
+        }
+
+        try {
+            
+            const result = await fetch(`/product/order/confirm/${id}`).then(res => res.json());
+
+            if (result.success === true) {
+                return { success: true };
+            } else {
+                throw new Error(result.message ? result.message : '确认订单失败');
+            }
+        } catch (err) {
+            console.log('确认订单失败', err);
+            return {
+                type    : 'ERROR_ORDER',
+                message : err.message ? err.message : '确认订单失败'
             };
         }
     }
