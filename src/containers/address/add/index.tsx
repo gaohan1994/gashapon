@@ -15,6 +15,7 @@ import {
 } from '../../../actions/status';
 import { getConfig } from '../../../reducers/status';
 import { orderAddressConfig } from '../../../types/componentTypes';
+import Modal from '../../../components/modal';
 
 export interface Props {
     getConfig               : orderAddressConfig;
@@ -28,6 +29,9 @@ export interface State {
     detail_home : string;
     postal_code : string;
     is_default  : boolean;
+
+    showModal   : boolean;
+    modalValue  : string;
 }
 
 export interface Item {
@@ -60,8 +64,10 @@ class AddAddress extends React.Component <Props, State> {
             detail_area : '',
             detail_home : '',
             postal_code : '',
+            is_default  : false,
 
-            is_default  : false
+            showModal   : false,
+            modalValue  : ''
         };
     }
 
@@ -98,6 +104,18 @@ class AddAddress extends React.Component <Props, State> {
     public onChangeDefault = (): void => {
         this.setState({
             is_default: !this.state.is_default
+        });
+    }
+
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
         });
     }
 
@@ -146,10 +164,9 @@ class AddAddress extends React.Component <Props, State> {
 
         if (result) {
             /* do error stuff */
-            alert(result.errMsg);
             return { 
                 success: false,
-                message: result.name
+                message: result.errMsg
             };
         } else {
             return {
@@ -188,16 +205,24 @@ class AddAddress extends React.Component <Props, State> {
                 }
             } else {
                 /* do error stuff */
-                alert(result.message ? result.message : '添加地址出错');
+                this.setState({
+                    modalValue: result.message ? result.message : '添加地址出错'
+                });
+                this.onShowModal();
                 history.push('/my');
             }
         } else {
             /* do error stuff */
-            alert(data.message ? data.message : '请检查输入正确性');
+            console.log(data);
+            this.setState({
+                modalValue: data.message ? data.message : '请检查输入正确性'
+            });
+            this.onShowModal();
         }
     }
 
     render (): JSX.Element {
+        const { showModal, modalValue } = this.state;
         return (
             <div 
                 styleName="container"
@@ -207,6 +232,12 @@ class AddAddress extends React.Component <Props, State> {
                     title="收货地址"
                     subTitle="保存"
                     subPropsClick={() => this.doSaveAddressHandle()}
+                />
+                <Modal
+                    display={showModal}
+                    value={modalValue}
+                    onCancelClickHandle={this.onHideModal}
+                    onConfirmClickHandle={this.onHideModal}
                 />
 
                 {this.renderDetail()}

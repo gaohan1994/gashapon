@@ -18,6 +18,7 @@ import { InventoryActions } from '../../../actions/inventory';
 import { showSignModal } from '../../../actions/status';
 import { getInventory } from '../../../reducers/inventory';
 import { getUserdata } from '../../../reducers/home';
+import Modal from '../../../components/modal';
 
 interface Props {
     getInventory    : Gashapon[];
@@ -28,6 +29,9 @@ interface Props {
 interface State {
     // gashapons: Gashapon[];
     selected: number[];
+
+    showModal: boolean;
+    modalValue: string;
 }
 
 /**
@@ -41,7 +45,9 @@ class Sale extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            selected: [],
+            selected    : [],
+            showModal   : false,
+            modalValue  : ''
             // gashapons: [],
         };
     }
@@ -52,6 +58,18 @@ class Sale extends React.Component<Props, State> {
 
     public propsClickHandle = (): void => {
         /* no empty */
+    }
+
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
     }
 
     public doChangeOrderHandle = (i: number): void => {
@@ -100,7 +118,10 @@ class Sale extends React.Component<Props, State> {
         const { selected } = this.state;
         const { showSignModal, getInventory } = this.props;
         if (selected.length === 0) {
-            alert('请选择要回收的扭蛋~');
+            this.setState({
+                modalValue: '请选择要回收的扭蛋~'
+            });
+            this.onShowModal();
             return;
         } else {
             const user = User.getUser();  
@@ -125,7 +146,10 @@ class Sale extends React.Component<Props, State> {
                     history.push('/success');
                 } else {
                     console.log(`${result.type}--${result.message}`);
-                    alert(result.message);
+                    this.setState({
+                        modalValue: result.message ? result.message : '回收出错了'
+                    });
+                    this.onShowModal();
                 }
             }
         }
@@ -137,6 +161,7 @@ class Sale extends React.Component<Props, State> {
         return (
             <div styleName="container">
                 <SignModal/>
+                {this.renderErrorModal()}
                 <Header title=""/>
                 <div styleName="back">
                     
@@ -172,6 +197,18 @@ class Sale extends React.Component<Props, State> {
                 ))}
                 {this.renderFooter()}
             </div>
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { showModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
+            />
         );
     }
 

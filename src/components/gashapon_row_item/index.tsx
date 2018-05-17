@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import history from '../../history';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
+// import Modal from '../../components/modal';
 
 interface Props {
     gashapon: Gashapon;
@@ -16,6 +17,8 @@ interface Props {
 interface State {
     showModal       : boolean;
     modalGahshapon  ?: Gashapon;
+    showCollectModal: boolean;
+    modalValue      : string;
 }
 
 /**
@@ -29,7 +32,9 @@ class GashaponRow extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            showModal: false,
+            showModal       : false,
+            showCollectModal: false,
+            modalValue      : ''
         };
     }
 
@@ -50,6 +55,18 @@ class GashaponRow extends React.Component<Props, State> {
         });
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showCollectModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showCollectModal: false
+        });
+    }
+
     public doCancelCollectGashaponHandle = async (): Promise<void> => {
         const { modalGahshapon } = this.state;
         const user = User.getUser();
@@ -60,11 +77,13 @@ class GashaponRow extends React.Component<Props, State> {
                 const result = await GashaponClass.doCancelCollectGashaponMethod({user: user, machine: modalGahshapon});
                 
                 if (result.success === true) {
-                    alert('取消收藏成功');
                     history.push('/my');
                 } else {
                     console.log(`${result.type}--${result.message}`);
-                    alert(result.message);
+                    this.setState({
+                        modalValue: result.message ? result.message : '收藏扭蛋出错'
+                    });
+                    this.onShowModal();
                 }
             }
         }
@@ -95,6 +114,18 @@ class GashaponRow extends React.Component<Props, State> {
                     <div styleName="button" onClick={() => this.doShowModalHandle(gashapon)}>...</div>
                 </div>
             </div>
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { showCollectModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showCollectModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
+            />
         );
     }
 

@@ -9,19 +9,28 @@ import { Stores } from '../../reducers/type';
 import { getUserdata, getCollectGashapons } from '../../reducers/home';
 import { Userdata } from '../../types/user';
 import { Gashapon } from '../../types/componentTypes';
-import { loadCollectGashapons, LoadCollectGashapons } from '../../actions/home';
+import { 
+    loadCollectGashapons, 
+    LoadCollectGashapons,
+    HomeActions,
+    loadUserDataFromUuid
+} from '../../actions/home';
 import history from '../../history';
 import GashaponClass from '../../classes/gashapon';
 import User from '../../classes/user';
+import Modal from '../../components/modal';
 
 interface Props {
     getUserdata         ?: Userdata;
     getCollectGashapons ?: Gashapon[];
     loadCollectGashapons: (machineIds?: string[]) => void;
+    loadUserDataFromUuid: () => void;
 }
 
 interface State {
     type: 'all' | 'overtime';
+    showModal: boolean;
+    modalValue: string;
 }
 
 class Collect extends React.Component<Props, State> {
@@ -29,19 +38,11 @@ class Collect extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            type: 'all',
+            type        : 'all',
+
+            showModal   : false,
+            modalValue  : ''
         };
-    }
-
-    componentDidMount() {
-        // const { getUserdata, loadCollectGashapons } = this.props;
-
-        // if (getUserdata && getUserdata.collect_machines && getUserdata.collect_machines.machines) {
-
-        //     loadCollectGashapons(
-        //         getUserdata.collect_machines.machines
-        //     );
-        // }
     }
 
     public onChangeTypeHandle = (): void => {
@@ -52,8 +53,20 @@ class Collect extends React.Component<Props, State> {
         history.push(`/gashapon/${param}`);
     }
 
-    public doCancelCollectGashaponHandle = async (data: Gashapon): Promise<void> => {
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
 
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
+    public doCancelCollectGashaponHandle = async (data: Gashapon): Promise<void> => {
+        const { loadUserDataFromUuid } = this.props;
         const user = User.getUser();
         if (!user.uid) {
 
@@ -68,11 +81,13 @@ class Collect extends React.Component<Props, State> {
             });
             
             if (result.success === true) {
-                alert('取消收藏成功');
-                history.push('/my');
+                loadUserDataFromUuid();
             } else {
                 console.log(`${result.type}--${result.message}`);
-                alert(result.message);
+                this.setState({
+                    modalValue: result.message ? result.message : '收藏扭蛋出粗'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -81,9 +96,22 @@ class Collect extends React.Component<Props, State> {
         return (
             <div styleName="container">
                 <Header title="我收藏的扭蛋机"/>
+                {this.renderErrorModal()}
                 {this.renderNav()}
                 {this.renderGashapons()}
             </div>
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { showModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
+            />
         );
     }
 
@@ -151,8 +179,9 @@ export const mapStateToProps = (state: Stores) => ({
     getCollectGashapons : getCollectGashapons(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<LoadCollectGashapons>) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<LoadCollectGashapons | HomeActions>) => ({
     loadCollectGashapons: bindActionCreators(loadCollectGashapons, dispatch),
+    loadUserDataFromUuid: bindActionCreators(loadUserDataFromUuid, dispatch)
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

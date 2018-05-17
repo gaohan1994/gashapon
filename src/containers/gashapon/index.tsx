@@ -8,6 +8,7 @@ import history from '../../history';
 import Header from '../../components/header_gashapon';
 import Hoc from '../hoc';
 import Modal from './modal';
+import ErrorModal from '../../components/modal';
 import DiscountModal from '../../components/modal';
 import SignModal from '../sign';
 import SelectModal from './selectmodal';
@@ -69,6 +70,8 @@ interface State {
     showSelectModal     : boolean;
     gashaponProductItem ?: GashaponProductItemType[];
     showDiscountModal   : boolean;
+    errorModal          : boolean;
+    modalValue          : string;
 }
 
 /**
@@ -89,6 +92,9 @@ class Gashapon extends React.Component<Props, State> {
             showSelectModal     : false,
             showDiscountModal   : false,
             gashaponProductItem : [],
+
+            errorModal          : false,
+            modalValue          : '',
         };
     }
 
@@ -171,7 +177,10 @@ class Gashapon extends React.Component<Props, State> {
                         history.push('/pay');
                         return;
                     default:
-                        alert('扭蛋失败了~');
+                        this.setState({
+                            modalValue:  `扭蛋失败了~`
+                        });
+                        this.onShowErrorModal();
                         return;
                 }
             }
@@ -195,11 +204,14 @@ class Gashapon extends React.Component<Props, State> {
             });
             
             if (result.success === true) {
-                alert('收藏成功');
+                
                 window.location.reload();
             } else {
                 console.log(`${result.type}--${result.message}`);
-                alert(result.message);
+                this.setState({
+                    modalValue: result.message ? result.message : '收藏失败'
+                });
+                this.onShowErrorModal();
             }
         }
     }
@@ -221,11 +233,13 @@ class Gashapon extends React.Component<Props, State> {
             });
             
             if (result.success === true) {
-                alert('取消收藏成功');
                 window.location.reload();
             } else {
                 console.log(`${result.type}--${result.message}`);
-                alert(result.message);
+                this.setState({
+                    modalValue: result.message ? result.message : '收藏失败'
+                });
+                this.onShowErrorModal();
             }
         }
     }
@@ -240,8 +254,10 @@ class Gashapon extends React.Component<Props, State> {
         // const user = User.getUser();
         
         if (!type) {
-
-            alert('请选择分享渠道');
+            this.setState({
+                modalValue: '请选择分享渠道'
+            });
+            this.onShowErrorModal();
             return;
         }
 
@@ -311,7 +327,20 @@ class Gashapon extends React.Component<Props, State> {
         this.setState({
             showDiscountModal   : false,
             showModal           : false,
-            showSelectModal     : false
+            showSelectModal     : false,
+            errorModal          : false
+        });
+    }
+
+    public onShowErrorModal = (): void => {
+        this.setState({
+            errorModal: true
+        });
+    }
+
+    public onHideErrorModal = (): void => {
+        this.setState({
+            errorModal: false
         });
     }
 
@@ -380,25 +409,20 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     render (): JSX.Element {
-
+        const { errorModal, modalValue } = this.state;
         const { getGashapon } = this.props;
         return (
             <Hoc>
                 <div styleName="container">
+                    <ErrorModal
+                        display={errorModal}
+                        value={modalValue}
+                        onCancelClickHandle={this.onHideErrorModal}
+                        onConfirmClickHandle={this.onHideErrorModal}
+                    />
                     <SignModal/>
                     <ShareModal propsClickHandle={this.doDiscoutHandle}/>
                     {this.renderDiscountModal()}
-                    <audio
-                        src={getGashapon.music_url
-                            ? `http://${config.host.pic}/${getGashapon.music_url}`
-                            : 'http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
-                        preload="metadata"
-                        autoPlay={true}
-                        ref={(audio) => { this.audio = audio; }}
-                        style={{width: '1px', height: '1px', visibility: 'hidden'}}
-                        onCanPlay={() => this.handleAudioCanplay()}
-                        loop={true}
-                    />
                     {this.renderLoading()}
                     <Header/>
                     {this.renderModal()}
@@ -407,6 +431,17 @@ class Gashapon extends React.Component<Props, State> {
                         {this.renderName()}
                         {this.renderTime()}
                         {this.renderCollect()}
+                        <audio
+                            src={getGashapon.music_url
+                                ? `http://${config.host.pic}/${getGashapon.music_url}`
+                                : 'http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
+                            preload="metadata"
+                            autoPlay={true}
+                            ref={(audio) => { this.audio = audio; }}
+                            style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                            onCanPlay={() => this.handleAudioCanplay()}
+                            loop={true}
+                        />
                         {this.renderMusicIcon()}
                         {this.renderDiscountButton()}
                         <i styleName="barrage"/>
@@ -564,10 +599,17 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋音乐播放开关
      */
     private renderMusicIcon = (): JSX.Element => {
+
+        const { audioPlaying } = this.state;
         return (
             <i 
                 styleName="music"
                 bgimg-center="100"
+                style={{
+                    backgroundImage: audioPlaying === true
+                                    ? 'url(http://net.huanmusic.com/gasha/gashapon/%E9%9F%B3%E4%B9%90%E5%9C%86.png)'
+                                    : 'url(http://net.huanmusic.com/gasha/%E7%81%B0%E8%89%B2%E9%9F%B3%E4%B9%90%E5%9C%86.png)'
+                }}
                 onClick={() => this.onChangeMusicHandle()}
             />
         );

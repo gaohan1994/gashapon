@@ -26,6 +26,7 @@ import DiscountClass,
 import SignModal from '../sign';
 import history from '../../history';
 import Hoc from '../hoc';
+import Modal from '../../components/modal';
 
 interface Props {
     match: {
@@ -39,7 +40,10 @@ interface Props {
     showSignModal   : () => void;
 }
 
-interface State {}
+interface State {
+    showModal   : boolean;
+    modalValue  : string;
+}
 
 interface DiscountItem {
     customer_id : string;
@@ -53,6 +57,10 @@ class Discount extends React.Component<Props, State> {
 
     constructor (props: Props) {
         super(props);
+        this.state = {
+            showModal   : false,
+            modalValue  : ''
+        };
     }
 
     componentDidMount() {
@@ -71,11 +79,29 @@ class Discount extends React.Component<Props, State> {
         }
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            modalValue  : '',
+            showModal   : false
+        });
+    }
+
     public doHelpDiscoutHandle = async (): Promise<void> => {
         
         /* userId, discountId, nick, image */
-        const { getDiscountData, match, showSignModal, getUserdata } = this.props;
-        // const user = User.getUser();
+        const { 
+            getDiscountData, 
+            match, 
+            showSignModal, 
+            getUserdata,
+            loadDiscountData
+        } = this.props;
 
         if (!getUserdata._id) {
 
@@ -94,10 +120,17 @@ class Discount extends React.Component<Props, State> {
                 
                 /* do ok stuff */
                 if (result.result) {
-                    alert(`成功帮忙砍价${result.result / 100}元 `);
-                    window.location.reload();
+                    this.setState({
+                        modalValue: `成功帮忙砍价${result.result / 100}元 `
+                    });
+                    this.onShowModal();
+                    loadDiscountData({id: match.params.id});
                 } else {
-                    alert(`成功砍价`);
+                    this.setState({
+                        modalValue: `成功砍价`
+                    });
+                    this.onShowModal();
+                    loadDiscountData({id: match.params.id});
                 }
             } else {
                 
@@ -115,7 +148,10 @@ class Discount extends React.Component<Props, State> {
                         default: return;
                     }
                 } else {
-                    alert(result.message ? result.message : '砍价失败~');
+                    this.setState({
+                        modalValue: result.message ? result.message : '砍价失败~'
+                    });
+                    this.onShowModal();
                 }
             }
         }
@@ -126,18 +162,27 @@ class Discount extends React.Component<Props, State> {
         if (!!getDiscountData.machine) {
             history.push(`/gashapon/${getDiscountData.machine}`);
         } else {
-            alert(`没有该扭蛋机!`);
+            this.setState({
+                modalValue: '没有该扭蛋机!'
+            });
+            this.onShowModal();
         }
     }
 
     render (): JSX.Element {
-
+        const { showModal, modalValue } = this.state;
         const { getDiscountData } = this.props;
         return (
             <Hoc>
                 <div 
                     styleName="container"
                 >
+                    <Modal 
+                        display={showModal}
+                        value={modalValue}
+                        onCancelClickHandle={this.onHideModal}
+                        onConfirmClickHandle={this.onHideModal}
+                    />
                     <i 
                         styleName="home"
                         bgimg-center="100"

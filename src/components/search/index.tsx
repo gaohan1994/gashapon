@@ -22,6 +22,7 @@ import {
     getHotSearchWords
 } from '../../reducers/main';
 import history from '../../history';
+import Modal from '../modal';
 
 export interface HotSearchWord {
     status  : number;
@@ -39,7 +40,9 @@ interface Props {
 }
 
 interface State {
-    value: string;
+    value       : string;
+    showModal   : boolean;
+    modalValue  : string;
 }
 
 interface DoChangeWordParam {
@@ -52,7 +55,9 @@ class Search extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            value: ''
+            value       : '',
+            showModal   : false,
+            modalValue  : ''
         };
     }
 
@@ -63,12 +68,27 @@ class Search extends React.Component<Props, State> {
         }
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
     public doSearchHandle = (): void => {
         const { value } = this.state;
         const { addSearchItem, hideSearchModal } = this.props;
 
         if (!value || !value.trim()) {
-            alert('请输入搜索内容~');
+            this.setState({
+                modalValue: '请输入搜索内容~'
+            });
+            this.onShowModal();
             return;
         }
 
@@ -117,6 +137,7 @@ class Search extends React.Component<Props, State> {
     }
 
     render() {
+        const { showModal, modalValue } = this.state;
         const { display } = this.props;
         
         return (
@@ -124,6 +145,12 @@ class Search extends React.Component<Props, State> {
                 styleName={display === true ? 'show' : 'hide'}
                 style={{bottom: display === true ? '0' : '-100vh'}}
             >
+                <Modal 
+                    display={showModal}
+                    value={modalValue}
+                    onCancelClickHandle={this.onHideModal}
+                    onConfirmClickHandle={this.onHideModal}
+                />
                 {this.renderHeader()}
                 {this.renderHot()}
                 {this.renderHistory()}

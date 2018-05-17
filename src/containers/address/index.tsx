@@ -14,6 +14,7 @@ import User from '../../classes/user';
 import { NormalReturnObject } from '../../classes/base';
 import { merge } from 'lodash';
 import Validator from '../../classes/validate';
+import Modal from '../../components/modal';
 
 export interface Props {
     getUserdata : Userdata;
@@ -28,6 +29,9 @@ export interface State {
     detail_home : string;
     postal_code : string;
     is_default  : boolean;
+
+    showModal   : boolean;
+    modalValue  : string;
 }
 
 export interface Item {
@@ -62,7 +66,10 @@ class Address extends React.Component <Props, State> {
             detail_area : '',
             detail_home : '',
             postal_code : '',
-            is_default  : false
+            is_default  : false,
+
+            showModal   : false,
+            modalValue  : ''
         };
     }
 
@@ -145,6 +152,18 @@ class Address extends React.Component <Props, State> {
         this.onShowModifyAddress();
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
     public checkInput = (): CheckInputReturn => {
 
         const { receiver, phone, detail_area, detail_home, postal_code, is_default  } = this.state;
@@ -191,10 +210,9 @@ class Address extends React.Component <Props, State> {
 
         if (result) {
             /* do error stuff */
-            alert(result.errMsg);
             return { 
                 success: false,
-                message: result.name
+                message: result.errMsg
             };
         } else {
             return {
@@ -216,15 +234,21 @@ class Address extends React.Component <Props, State> {
                 this.onClearStateHandle();
                 this.onHideModifyAddress();
             } else {
-                alert(result.message ? result.message : '修改地址失败!');
+                this.setState({
+                    modalValue: result.message ? result.message : '修改地址失败!'
+                });
+                this.onShowModal();
             }
         } else {
-            alert(data.message ? data.message : '请校验输入的数据');
+            this.setState({
+                modalValue: data.message ? data.message : '请校验输入的数据'
+            });
+            this.onShowModal();
         }
     }
     
     render (): JSX.Element {
-
+        const { showModal, modalValue } = this.state;
         const { getUserdata }  = this.props;
         return (
             <div
@@ -233,6 +257,13 @@ class Address extends React.Component <Props, State> {
             >
                 <Header title="收货地址"/>
                 
+                <Modal
+                    display={showModal}
+                    value={modalValue}
+                    onCancelClickHandle={this.onHideModal}
+                    onConfirmClickHandle={this.onHideModal}
+                />
+
                 {getUserdata.address && getUserdata.address.length > 0
                 ? getUserdata.address.map((item: AddressType, i: number) => {
                     return (

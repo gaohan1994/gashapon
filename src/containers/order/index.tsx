@@ -39,6 +39,9 @@ interface State {
     
     reminderValue       : string;
     showReminderModal   : boolean;
+
+    showModal: boolean;
+    modalValue: string;
 }
 
 class Order extends React.Component<Props, State> {
@@ -49,6 +52,8 @@ class Order extends React.Component<Props, State> {
             type                : '',
             reminderValue       : '',
             showReminderModal   : false,
+            showModal           : false,
+            modalValue          : ''
         };
     }
 
@@ -56,7 +61,6 @@ class Order extends React.Component<Props, State> {
         const user = User.getUser();
 
         if (!user.uid) {
-            alert('请先登录');
             history.push('/my');
         } else {
             const result = await Business.doCancelOrderMethod({id: id});
@@ -64,7 +68,10 @@ class Order extends React.Component<Props, State> {
                 console.log('取消订单成功');
                 history.push('/');
             } else {
-                alert(result.message ? result.result : '取消订单失败');
+                this.setState({
+                    modalValue: result.message ? result.result : '取消订单失败'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -74,15 +81,17 @@ class Order extends React.Component<Props, State> {
         const user = User.getUser();
 
         if (!user.uid) {
-            alert('请先登录');
             history.push('/my');
         } else {
             const result = await Business.doConfirmOrderHandle({id: id});
             if (result.success === true) {
-                console.log('确认订单成功');
                 history.push('/');
             } else {
-                alert(result.message ? result.result : '确认订单失败');
+
+                this.setState({
+                    modalValue: result.message ? result.result : '确认订单失败'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -115,9 +124,24 @@ class Order extends React.Component<Props, State> {
         });
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
     public gotoLocationHandle = (id?: string): void => {
         if (!id) {
-            alert('暂时没有快递信息');
+            this.setState({
+                modalValue: '暂时没有快递信息'
+            });
+            this.onShowModal();
         } else {
             history.push(`/location/${id}`);
         }
@@ -134,7 +158,7 @@ class Order extends React.Component<Props, State> {
         const user = User.getUser();
 
         if (!!match.params && !!match.params.type) {
-            console.log(match);
+            
             const type = match.params.type;
             switch (type) {
                 
@@ -198,6 +222,7 @@ class Order extends React.Component<Props, State> {
         const { getOrders } = this.props;
         return (
             <div styleName="container">
+                {this.renderErrorModal()}
                 <Modal 
                     display={showReminderModal}
                     value={reminderValue}
@@ -222,6 +247,18 @@ class Order extends React.Component<Props, State> {
                 })
                 : this.renderNoData()}
             </div>
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { showModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
+            />
         );
     }
 

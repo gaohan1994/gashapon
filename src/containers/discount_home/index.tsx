@@ -51,8 +51,7 @@ class DiscountHome extends React.Component <Props, State> {
 
         if (!getUserdata._id) {
             /* do no sign handle */
-            alert('请先登录~');
-            history.goBack();
+            history.push('/my');
         } else {
             loadDiscount(getUserdata._id);
             loadDiscounting(getUserdata._id);

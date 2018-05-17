@@ -13,10 +13,13 @@ export interface Props {
 }
 
 export interface State {
-    phone   : string;
-    vercode : string;
-    password: string;
-    waitCode: number;
+    phone       : string;
+    vercode     : string;
+    password    : string;
+    waitCode    : number;
+
+    showModal   : boolean;
+    modalValue  : string;
 }
 
 class Forget extends React.Component<Props, State> {
@@ -30,6 +33,8 @@ class Forget extends React.Component<Props, State> {
             vercode : '',
             password: '',
             waitCode: 0,
+            showModal: false,
+            modalValue: ''
         };
     }
 
@@ -48,6 +53,18 @@ class Forget extends React.Component<Props, State> {
     public onChangePasswordHandle = (e: any): void => {
         this.setState({
             password: e.target.value
+        });
+    }
+
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
         });
     }
 
@@ -89,7 +106,10 @@ class Forget extends React.Component<Props, State> {
         let valiResult = helper.start();
 
         if (valiResult) {
-            alert(valiResult.errMsg);
+            this.setState({
+                modalValue: valiResult.errMsg
+            });
+            this.onShowModal();
         } else {
 
             const data: DoForgetPasswordMethodParam = {
@@ -104,7 +124,10 @@ class Forget extends React.Component<Props, State> {
                 window.location.reload();
             } else {
                 /* do error stuff */
-                alert(result.message ? result.message : '');
+                this.setState({
+                    modalValue: result.message ? result.message : '错误'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -132,7 +155,10 @@ class Forget extends React.Component<Props, State> {
         let result = helper.start();
 
         if (result) {
-            alert(result.errMsg);
+            this.setState({
+                modalValue: result.errMsg
+            });
+            this.onShowModal();
         } else {
             /* do stuff */
             const result = await Sign.getVercode(phone);
@@ -140,7 +166,10 @@ class Forget extends React.Component<Props, State> {
             if (result.success === true) {
                 this.setState({ waitCode: 60 }, () => { this.timer = setInterval(this.timerHandle, 1000); });
             } else {
-                alert(result.message ? result.message : '获取验证码出错');
+                this.setState({
+                    modalValue: result.message ? result.message : '获取验证码出错'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -155,7 +184,7 @@ class Forget extends React.Component<Props, State> {
                 container-with-header="true"
             >
                 <Header title="忘记密码"/>
-
+                {this.renderErrorModal()}
                 <div styleName="box">
                     <div styleName="border">
                         <span>手机号</span>
@@ -205,6 +234,18 @@ class Forget extends React.Component<Props, State> {
                     />
                 </div>
             </div>
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { showModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
+            />
         );
     }
 }

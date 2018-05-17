@@ -16,6 +16,7 @@ import { DoLoginMethodReturn } from '../../classes/sign';
 import { hideSignModal, } from '../../actions/status';
 import { getSignModalStatus } from '../../reducers/status';
 import history from '../../history';
+import Modal from '../../components/modal';
 
 export interface Props {
     display         ?: boolean;
@@ -33,6 +34,9 @@ export interface State {
     regpwd  : string;
     regcode : string;
     waitCode: number;
+
+    showModal: boolean;
+    modalValue: string;
 }
 
 interface InputParam {
@@ -59,6 +63,9 @@ class SignContainer extends React.Component<Props, State> {
             regpwd  : '',
             regcode : '',
             waitCode: 0,
+
+            showModal: false,
+            modalValue: ''
         };
 
         this.timerHandle = this.timerHandle.bind(this);
@@ -100,6 +107,18 @@ class SignContainer extends React.Component<Props, State> {
         });
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
     public doRegisterHandle = async (): Promise<void> => {
 
         const { refereeid, hideSignModal } = this.props;
@@ -129,7 +148,11 @@ class SignContainer extends React.Component<Props, State> {
         let valiResult = helper.start();
 
         if (valiResult) {
-            alert(valiResult.errMsg);
+            this.setState({
+                modalValue: valiResult.errMsg
+            });
+            this.onShowModal();
+            
         } else {
             const name = Math.random().toString(36).substr(2);
 
@@ -158,7 +181,10 @@ class SignContainer extends React.Component<Props, State> {
                 }
             } else {
                 /* do error stuff */
-                alert(result.message ? result.message : '注册有问题');
+                this.setState({
+                    modalValue: result.message ? result.message : '注册有问题'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -187,7 +213,10 @@ class SignContainer extends React.Component<Props, State> {
         let result = helper.start();
 
         if (result) {
-            alert(result.errMsg);
+            this.setState({
+                modalValue: result.errMsg
+            });
+            this.onShowModal();
         } else {
             /* do stuff */
             
@@ -200,7 +229,10 @@ class SignContainer extends React.Component<Props, State> {
                 window.location.reload();
             } else {
                 /* do error stuff */
-                alert(res.message ? res.message : '登录出错了！');
+                this.setState({
+                    modalValue: res.message ? res.message : '登录出错了！'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -240,7 +272,10 @@ class SignContainer extends React.Component<Props, State> {
         let result = helper.start();
 
         if (result) {
-            alert(result.errMsg);
+            this.setState({
+                modalValue: result.errMsg
+            });
+            this.onShowModal();
         } else {
             /* do stuff */
             const result = await Sign.getVercode(regphone);
@@ -248,7 +283,10 @@ class SignContainer extends React.Component<Props, State> {
             if (result.success === true) {
                 this.setState({ waitCode: 60 }, () => { this.timer = setInterval(this.timerHandle, 1000); });
             } else {
-                alert(result.message ? result.message : '获取验证码出错');
+                this.setState({
+                    modalValue: result.message ? result.message : '获取验证码出错'
+                });
+                this.onShowModal();
             }
         }
     }
@@ -289,6 +327,7 @@ class SignContainer extends React.Component<Props, State> {
                     visibility  : display === true ? 'visible' : 'hidden',
                 }}
             >
+                {this.renderErrorModal()}
                 <i
                     styleName="back"
                     bgimg-center="100"
@@ -400,6 +439,18 @@ class SignContainer extends React.Component<Props, State> {
                 value={value}
                 placeholder={placeholder}
                 onChange={onChangeHandle}
+            />
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { showModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
             />
         );
     }

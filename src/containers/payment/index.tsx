@@ -27,6 +27,7 @@ import AddressItem from '../../components/address_row_item';
 import Header from '../../components/haeder_set';
 import User from '../../classes/user';
 import Business from '../../classes/business';
+import Modal from '../../components/modal';
 // import * as numeral from 'numeral';
 // import Schema from '../../classes/schema';
 
@@ -42,6 +43,8 @@ interface Props {
 interface State {
     payway          : number;
     showAddressModal: boolean;
+    showModal       : boolean;
+    modalValue      : string;
 }
 
 class Profit extends React.Component <Props, State> {
@@ -49,8 +52,10 @@ class Profit extends React.Component <Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            payway: 1,
-            showAddressModal: false
+            payway          : 1,
+            showAddressModal: false,
+            showModal       : false,
+            modalValue      : ''
         };
     }
 
@@ -82,6 +87,18 @@ class Profit extends React.Component <Props, State> {
         });
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
     /* 点击默认地址弹出 */
     public onAddressClickHandle = (): void => {
         /* 
@@ -100,7 +117,10 @@ class Profit extends React.Component <Props, State> {
     public onAddressChangeHandle = (data: Address) => {
         const { setSelectedAddress } = this.props;
         if (!data._id) {
-            alert('请选择正确的地址~');
+            this.setState({
+                modalValue: '请选择正确的地址~'
+            });
+            this.onShowAddressModal();
         } else {
             setSelectedAddress(data);
             this.onHideAddressModal();
@@ -121,12 +141,19 @@ class Profit extends React.Component <Props, State> {
         const { getSelectedAddress, getSelectedGashapons } = this.props;
 
         if (!getSelectedGashapons || getSelectedGashapons.length <= 0) {
-            alert('请选择扭蛋');
+            
+            this.setState({
+                modalValue: '请选择扭蛋~'
+            });
+            this.onShowAddressModal();
             return;
         }
 
         if (!getSelectedAddress) {
-            alert('请选择地址');
+            this.setState({
+                modalValue: '请选择地址~'
+            });
+            this.onShowAddressModal();
             return;
         }
 
@@ -141,7 +168,7 @@ class Profit extends React.Component <Props, State> {
         const user = User.getUser();
 
         if (!user.uid) {
-            alert('请先登录');
+            
             history.goBack();
         }
 
@@ -165,6 +192,7 @@ class Profit extends React.Component <Props, State> {
     render (): JSX.Element {
         return (
             <div styleName="container">
+                {this.renderErrorModal()}
                 <div 
                     styleName="header"
                     bgimg-center="100"
@@ -191,6 +219,18 @@ class Profit extends React.Component <Props, State> {
                 
                 {this.renderAddressModal()}
             </div>
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { showModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
+            />
         );
     }
 
@@ -302,17 +342,6 @@ class Profit extends React.Component <Props, State> {
     private renderFooter = (): JSX.Element => {
 
         const { getSelectedGashapons } = this.props;
-        // let money: number = 0;
-
-        // if (getSelectedGashapons) {
-        //     getSelectedGashapons.map((item: Gashapon, i: number) => {
-        //         if (typeof item.price === 'number') {
-        //             money += item.price;
-        //         } else {
-        //             console.log(`第${i}个扭蛋价格有问题`);
-        //         }
-        //     });
-        // }
 
         return (
             <div styleName="footer">

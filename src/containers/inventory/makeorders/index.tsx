@@ -43,6 +43,7 @@ interface Props {
 
 interface State {
     showModal   : boolean;
+    modalValue  : string;
     selected    : number[];
 }
 
@@ -58,7 +59,8 @@ class MakeOriders extends React.Component<Props, State> {
         super(props);
         this.state = {
             showModal   : false,
-            selected    : []
+            selected    : [],
+            modalValue  : ''
         };
     }
     
@@ -66,8 +68,7 @@ class MakeOriders extends React.Component<Props, State> {
         const { loadUserDataFromUuid } = this.props;
         const user = User.getUser();
         if (!user.uid) {
-            alert('请先登录~');
-            history.goBack();
+            history.push('/inventory');
         } else {
             loadUserDataFromUuid();
         }
@@ -166,7 +167,10 @@ class MakeOriders extends React.Component<Props, State> {
             setSelectedGashapons,
         } = this.props;
         if (selected.length === 0) {
-            alert('请选择要下单的扭蛋~');
+            this.setState({
+                modalValue: '请选择要下单的扭蛋~'
+            });
+            this.onShowModal();
             return;
         } else {
             const { getUserdata, getInventory } = this.props;
@@ -199,14 +203,16 @@ class MakeOriders extends React.Component<Props, State> {
                     history.push('/payment');
                 }
             } else {
-
+                this.setState({
+                    modalValue: '还没有地址是否前往设置？'
+                });
                 this.onShowModal();
             }
         }
     }
 
     render() {
-        const { showModal, selected } = this.state;
+        const { showModal, modalValue, selected } = this.state;
         const { getInventory } = this.props;
         console.log('selected', selected);
         return (
@@ -215,7 +221,7 @@ class MakeOriders extends React.Component<Props, State> {
                     <SignModal/>
                     <Modal 
                         display={showModal}
-                        value="还没有地址是否前往设置？"
+                        value={modalValue}
                         onCancelClickHandle={() => this.onCancelClickHandle()}
                         onConfirmClickHandle={() => this.onConfirmClickHandle()}
                     />

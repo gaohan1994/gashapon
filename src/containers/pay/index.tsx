@@ -17,6 +17,7 @@ import Business from '../../classes/business';
 import User from '../../classes/user';
 import config from '../../config';
 import Qart from 'react-qart';
+import Modal from '../../components/modal';
 import { inApp } from '../../config/util';
 import Schema, { SchemaConfig } from '../../classes/schema';
 import { HomeActions, loadUserDataFromUuid } from '../../actions/home';
@@ -30,6 +31,9 @@ interface State {
     value       ?: number;
     showQrcode  : boolean;
     qrcodeUrl   : string;
+
+    showModal   : boolean;
+    modalValue  : string;
 }
 
 class Pay extends React.Component<Props, State> {
@@ -38,7 +42,10 @@ class Pay extends React.Component<Props, State> {
         super(props);
         this.state = {
             showQrcode  : false,
-            qrcodeUrl   : ''
+            qrcodeUrl   : '',
+
+            showModal   : false,
+            modalValue  : ''
         };
     }
 
@@ -47,7 +54,10 @@ class Pay extends React.Component<Props, State> {
         const { getUserdata } = this.props;
 
         if (!value) {
-            alert('请输入整数金额~');
+            this.setState({
+                modalValue: '请输入整数金额~'
+            });
+            this.onShowModal();
         } else {
             const helper = new Validator();
 
@@ -60,7 +70,10 @@ class Pay extends React.Component<Props, State> {
             const result = helper.start();
     
             if (result) {
-                alert(result.errMsg);
+                this.setState({
+                    modalValue: result.message ? result.message : '请输入正确的金额'
+                });
+                this.onShowModal();
             } else {
 
                 User.setUser({
@@ -93,7 +106,10 @@ class Pay extends React.Component<Props, State> {
 
                 } else {
                     console.log(`${recharge.type}--${recharge.message}`);
-                    alert(recharge.message);
+                    this.setState({
+                        modalValue: recharge.message ? recharge.message : '充值失败'
+                    });
+                    this.onShowModal();
                 }
             }
         }
@@ -121,12 +137,35 @@ class Pay extends React.Component<Props, State> {
         history.push('/');
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
     render() {
-        const { showQrcode, qrcodeUrl } = this.state;
+        const { 
+            showQrcode, 
+            qrcodeUrl,
+            showModal,
+            modalValue
+        } = this.state;
         const { getUserdata } = this.props;
         
         return (
             <div styleName="container">
+                <Modal
+                    display={showModal}
+                    value={modalValue}
+                    onCancelClickHandle={this.onHideModal}
+                    onConfirmClickHandle={this.onHideModal}
+                />
                 <div 
                     styleName="qrcode"
                     flex-center="all-center"

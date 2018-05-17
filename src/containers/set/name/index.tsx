@@ -16,6 +16,8 @@ interface Props {
 interface State {
     nick        : string;
     showModal   : boolean;
+    errorModal  : boolean;
+    modalValue  : string;
 }
 
 class ChangeName extends React.Component<Props, State> {
@@ -25,12 +27,26 @@ class ChangeName extends React.Component<Props, State> {
         this.state = {
             nick        : '',
             showModal   : false,
+            errorModal  : false,
+            modalValue  : ''
         };
     }
 
     public onChangeNickHandle = (e: any) => {
         this.setState({
             nick: e.target.value
+        });
+    }
+
+    public onShowModal = (): void => {
+        this.setState({
+            errorModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            errorModal: false
         });
     }
 
@@ -46,11 +62,13 @@ class ChangeName extends React.Component<Props, State> {
         let errorMsg = helper.start();
 
         if (errorMsg) {
-            alert(errorMsg.errMsg);
+            this.setState({
+                modalValue: errorMsg.errMsg
+            });
+            this.onShowModal();
         } else {
             const user = User.getUser();
             if (!user.uid) {
-                alert('请先登录~');
                 history.push('/my');
             } else {
                 const result = await Sign.doChangeUserdata({
@@ -64,8 +82,10 @@ class ChangeName extends React.Component<Props, State> {
                         showModal: true
                     });
                 } else {
-                    alert(result.message ? result.message : '修改失败');
-                    history.push('/my');
+                    this.setState({
+                        modalValue: result.message ? result.message : '修改失败'
+                    });
+                    this.onShowModal();
                 }
             }
         }
@@ -92,6 +112,7 @@ class ChangeName extends React.Component<Props, State> {
                 styleName="container"
                 container-with-header="true"
             >
+                {this.renderErrorModal()}
                 <Header title="修改昵称"/>
                 <Modal 
                     display={showModal}
@@ -123,6 +144,18 @@ class ChangeName extends React.Component<Props, State> {
                     />
                 </div>
             </div>
+        );
+    }
+
+    private renderErrorModal = (): JSX.Element => {
+        const { errorModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={errorModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={this.onHideModal}
+            />
         );
     }
 }
