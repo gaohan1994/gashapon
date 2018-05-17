@@ -375,13 +375,13 @@ class Gashapon extends React.Component<Props, State> {
                         {getGenres.map((item: Genre, i: number) => (
                             <span 
                                 key={i}
+                                styleName="typeitem"
                                 onClick={() => this.doChangeGenreHandle(item._id)}
                             >
                                 {item.name}
                             </span>
                         ))}
                     </div>
-                    
                 </div>
                 
                 <div styleName="typeBox">
@@ -402,6 +402,7 @@ class Gashapon extends React.Component<Props, State> {
                         {prices.map((item: any, i: number) => (
                             <div 
                                 key={i}
+                                styleName="typeitem"
                                 onClick={() => this.doChangePriceHandle({min: item.min, max: item.max})}
                             >
                                 {item.value}

@@ -109,20 +109,6 @@ class ChangeName extends React.Component<Props, State> {
                             placeholder="请输入昵称~"
                         />
                     </div>
-                    {/* <div styleName="border">
-                        <span>验证码</span>
-                        <input 
-                            styleName="vercode"
-                            value={vercode}
-                            onChange={this.onChangeVercodeHandle}
-                            placeholder="请输入验证码"
-                        />
-                        <Button 
-                            btnText="发送验证码"
-                            btnSize="small"
-                            btnRadius={true}
-                        />
-                    </div> */}
                 </div>
 
                 <div 

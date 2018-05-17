@@ -10,23 +10,43 @@ interface Props {
     propsClickHandle?: () => void;
 }
 
-// const bges = [
-//     {
-//         _id: 1,
-//         value: '预告'
-//     },
-//     {
-//         _id: 2,
-//         value: '新品'
-//     },
-//     {
-//         _id: 3,
-//         value: '热卖'
-//     }
-// ];
+type Bges = {
+    id  : number;
+    img : string;
+}[];
 
 const onClickHandle = (_id: string): void => {
     history.push(`/gashapon/${_id}`);
+};
+
+const renderBge = (item: Gashapon): JSX.Element => {
+
+    const bges: Bges = [];
+
+    if (item.is_box === true) {
+        bges.push({id: 1, img: 'http://net.huanmusic.com/gasha/gashapon/Box%EF%BC%81.png'});
+    }
+
+    if (item.is_discount === true) {
+        bges.push({id: 2, img: 'http://net.huanmusic.com/gasha/gashapon/Cut%EF%BC%81.png'});
+    }
+
+    if (item.is_flash_sale === true) {
+        bges.push({id: 3, img: 'http://net.huanmusic.com/gasha/gashapon/Next%EF%BC%81%EF%BC%81.png'});
+    }
+
+    return (
+        <div styleName="bges">
+            {bges.map((bge) => (
+                <span
+                    key={bge.id}
+                    bgimg-center="100"
+                    styleName="bge"
+                    style={{backgroundImage: `url(${bge.img})`}}
+                />
+            ))}
+        </div>
+    );
 };
 
 /**
@@ -49,23 +69,7 @@ const Gashapon = ({item, propsClickHandle}: Props) => (
                     : `url(${config.empty_pic.url}?imageView/2/w/170/h/220)`
             }}
         />
-        {/*
-        <div styleName="bges">
-            {bges.map((item) => (
-                <div
-                    key={item._id}
-                    styleName="bge"
-                >
-                    {item.value}
-                </div>
-            ))}
-        </div>
-        */}
-        {/* 
-        <div styleName="collect">
-            1123
-        </div> 
-        */}
+        {renderBge(item)}
         <span styleName="name">{item.name}</span>
     </div>
 );

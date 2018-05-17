@@ -15,9 +15,11 @@ import {
 } from '../../actions/check';
 import { getChecks } from '../../reducers/check/index';
 import { showSignModal } from '../../actions/status';
+import { Reward } from '../../actions/check';
 import { Userdata } from '../../types/user';
 import { getUserdata } from '../../reducers/home';
 import CheckClass from '../../classes/check';
+import Modal from '../../components/modal';
 
 interface Props {
     getChecks           : Checks;
@@ -27,7 +29,11 @@ interface Props {
 }
 
 interface State {
+    showModal   : boolean;
+    value       : string;
 
+    showReword  : boolean;
+    rewordValue : string;
 }
 
 class Check extends React.Component <Props, State> {
@@ -35,7 +41,11 @@ class Check extends React.Component <Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
+            showModal   : false,
+            value       : '',
 
+            showReword  : false,
+            rewordValue : '',
         };
     }
 
@@ -47,6 +57,7 @@ class Check extends React.Component <Props, State> {
         } = this.props;
 
         if (!getUserdata._id) {
+
             /* do no sign stuff */
             showSignModal();
         } else {
@@ -66,17 +77,46 @@ class Check extends React.Component <Props, State> {
             const result = await check.doCheckHandle({_id: getUserdata._id});
             
             if (result.success === true) {
+
                 /* do check ok */
-                history.push('/');
+                this.setState({
+                    value       : '签到成功',
+                    showModal   : true
+                });
             } else {
+                
                 /* do error stuff here */
-                alert(result.message ? result.message : '签到出错了');
+                this.setState({
+                    value       : result.message ? result.message : '签到出错了',
+                    showModal   : true
+                });
             }
         }
     }
 
-    public showReward = (): void => {
-        //
+    public onCancelHandle = (): void => {
+        this.setState({
+            value: ''
+        });
+        this.onHideModal();
+    }
+
+    public onConfirmHandle = (): void => {
+        history.push('/');
+    }
+
+    public onRewordCancelHandle = (): void => {
+        this.setState({
+            rewordValue: ''
+        });
+        this.onHideReword();
+    }
+
+    public showReward = (item: Reward): void => {
+        this.setState({
+            rewordValue: `满${item.condition / 100}减${item.price / 100}`
+        });
+        this.onShowReword();
     }
 
     public onBackHandle = () => {
@@ -91,12 +131,51 @@ class Check extends React.Component <Props, State> {
         }
     }
 
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
+    public onShowReword = (): void => {
+        this.setState({
+            showReword: true
+        });
+    }
+
+    public onHideReword = (): void => {
+        this.setState({
+            showReword: false
+        });
+    }
+
     render () {
+
+        const { getChecks } = this.props;
+
+        let num: number = 0;
+
+        if (getChecks && getChecks.reward) {
+            getChecks.reward.map(item => {
+               if (!!item.user) {
+                num += 1;
+               } 
+            });
+        }
+
         return (
             <section styleName="container">
                 <SignModal/>
+                {this.renderReword()}
+                {this.renderModal()}
                 <i 
-                    styleName="back" 
+                    styleName="back"
                     bgimg-center="100"
                     onClick={() => this.onBackHandle()}
                 />
@@ -111,14 +190,42 @@ class Check extends React.Component <Props, State> {
                         onClick={() => this.doCheckHandle()}
                     >
                         <span styleName="big">签到</span>
-                        <span styleName="normal">签到</span>
+                        <span styleName="normal">
+                            签到{num}天
+                        </span>
                     </div>
-                    <span styleName="normaltext">文字</span>
+                    {/* <span styleName="normaltext">文字</span> */}
                 </div>
 
                 <i styleName="title" bgimg-center="100"/>
                 {this.renderMonthChecks()}
             </section>
+        );
+    }
+
+    private renderModal = (): JSX.Element => {
+
+        const { showModal, value } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={value}
+                onCancelClickHandle={this.onCancelHandle}
+                onConfirmClickHandle={this.onConfirmHandle}
+            />
+        );
+    }
+
+    private renderReword = (): JSX.Element => {
+        
+        const { showReword, rewordValue } = this.state;
+        return (
+            <Modal
+                display={showReword}
+                value={rewordValue}
+                onCancelClickHandle={this.onRewordCancelHandle}
+                onConfirmClickHandle={this.onRewordCancelHandle}
+            />
         );
     }
 
@@ -153,7 +260,7 @@ class Check extends React.Component <Props, State> {
                     check-item="check-item"
                     flex-center="all-center"
                     check-border-top={i < 6 ? 'true' : ''}
-                    onClick={() => this.showReward()}
+                    onClick={() => this.showReward(item.reward)}
                 >
                     <span 
                         styleName="bge"

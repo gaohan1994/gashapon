@@ -13,7 +13,12 @@ import history from '../../history';
 import config from '../../config';
 import { Userdata } from '../../types/user';
 import { Stores } from '../../reducers/type';
-import { loadCode, loadUserDataFromUuid } from '../../actions/home';
+import { 
+    HomeActions,
+    loadCode, 
+    loadUserDataFromUuid,
+    loadOrderCount,
+} from '../../actions/home';
 import { showSignModal } from '../../actions/status';
 import { getUserdata } from '../../reducers/home';
 import Sign from '../../classes/sign';
@@ -22,7 +27,8 @@ interface Props {
     getUserdata         : Userdata;
     loadCode            : (phone: string) => void;
     showSignModal       : () => void;
-    loadUserDataFromUuid: () => void;
+    loadUserDataFromUuid: (callback?: (uid: string) => void) => void;
+    loadOrderCount      : (uid: string) => void;
 }
 
 interface State {
@@ -44,7 +50,7 @@ class My extends React.Component<Props, State> {
         };
     }
 
-    componentWillMount(): void {
+    componentWillMount (): void {
 
         const { 
             loadUserDataFromUuid,
@@ -55,8 +61,13 @@ class My extends React.Component<Props, State> {
         if (!user.userId) {
             showSignModal();
         } else {
-            loadUserDataFromUuid();
+            loadUserDataFromUuid(this.loadUserdataCallback);
         }
+    }
+
+    public loadUserdataCallback = (uid: string) => {
+        const { loadOrderCount } = this.props;
+        loadOrderCount(uid);
     }
 
     public onNavHandle = (param: string): void => {
@@ -327,10 +338,11 @@ export const mapStateToProps = (state: Stores) => ({
     getUserdata: getUserdata(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<MainActions>) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<MainActions | HomeActions>) => ({
     loadCode            : bindActionCreators(loadCode, dispatch),
     showSignModal       : bindActionCreators(showSignModal, dispatch),
     loadUserDataFromUuid: bindActionCreators(loadUserDataFromUuid, dispatch),
+    loadOrderCount      : bindActionCreators(loadOrderCount, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

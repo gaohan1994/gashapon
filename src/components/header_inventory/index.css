@@ -111,6 +111,7 @@
 .wrapper {
     position: absolute;
     width: 100%;
+    background: #ffffff;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -128,7 +129,7 @@
     display: block;
     border-radius: 0;
     border-color: #bba895;
-    background-color: #f9f0e2;
+    background-color: #ffffff;
     color: #351b00;
     font-size: 26px;
     height: 90px;
@@ -140,7 +141,6 @@
 }
 
 .bigButton:hover, .smallButton:hover {
-    background: #dddddd;
     color: #3c7bd6;
 }
 

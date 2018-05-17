@@ -74,6 +74,7 @@ class User {
         this.setUser                = this.setUser.bind(this);
         this.doAddAddressMethod     = this.doAddAddressMethod.bind(this);
         this.doChangeAddressMethod  = this.doChangeAddressMethod.bind(this);
+        this.doDeleteAddressMethod  = this.doDeleteAddressMethod.bind(this);
     }
     
     public getUser = (): UserType => {
@@ -260,6 +261,38 @@ class User {
             return {
                 type    : 'FETCH_CHANGE_ADDRESS_ERROR',
                 message : err.message ? err.message : '修改地址数据错误'
+            };
+        }
+    }
+
+    public doDeleteAddressMethod = async (id: string): Promise <NormalReturnObject> => {
+        try {
+            if (!id) {
+                throw new Error('id');
+            }
+        } catch (err) {
+            console.log(err.message);
+            return {
+                type    : 'ERROR_PARAM',
+                message : err.message ? err.message : '删除地址数据错误'
+            };
+        }
+
+        try {
+
+            const result = await fetch(`/remove/address/${id}`).then(res => res.json());
+
+            if (result.success === true) {
+                return { success: true };
+            } else {
+                throw new Error(result.message ? result.message : '删除地址数据错误');
+            }
+            
+        } catch (err) {
+            console.log('doDeleteAddressMethod', err);
+            return {
+                type    : 'FETCH_DELETE_ADDRESS_ERROR',
+                message : err.message ? err.message : '删除地址数据错误'
             };
         }
     }

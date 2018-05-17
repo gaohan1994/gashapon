@@ -119,7 +119,7 @@ class Collect extends React.Component<Props, State> {
                     show: true,
                     buttons: [
                         {
-                            value       : '扭蛋',
+                            value       : '前去扭蛋',
                             clickHandle : () => this.gotoGashaponHandle(item._id)
                         },
                         {

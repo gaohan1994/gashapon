@@ -14,13 +14,17 @@ import Header from '../../components/header_inventory';
 import SignModal from '../sign';
 import { Stores } from '../../reducers/type';
 import { Gashapon } from '../../types/componentTypes';
-import { InventoryActions } from '../../actions/inventory';
 import { 
+    InventoryActions,
     loadInventory,
     loadInventoryByWord,
     loadInventoryByGenre,
     LoadInventoryParam
 } from '../../actions/inventory';
+import { 
+    HomeActions,
+    loadUserDataFromUuid,
+} from '../../actions/home';
 import { showSignModal } from '../../actions/status';
 import { getInventory } from '../../reducers/inventory';
 import { getUserdata } from '../../reducers/home';
@@ -42,10 +46,12 @@ interface Props {
     loadInventory       : ({}: LoadInventoryParam) => void;
     loadInventoryByWord : ({}: LoadInventoryParam) => void;
     loadInventoryByGenre: ({}: LoadInventoryParam) => void;
+    loadUserDataFromUuid: (callback?: (uid: string) => void) => void;
 }
 
 interface State {
     page: number;
+    uid: string;
 }
 
 /**
@@ -59,16 +65,19 @@ class Inventory extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            page: 0
+            page: 0,
+            uid: ''
         };
     }
 
     componentWillReceiveProps(nextProps: any) {
+
         const { 
             loadInventory, 
             loadInventoryByWord, 
             loadInventoryByGenre 
         } = this.props;
+
         const user = User.getUser();
 
         if (nextProps.location.pathname !== this.props.location.pathname) {
@@ -99,32 +108,26 @@ class Inventory extends React.Component<Props, State> {
             loadInventory,
             showSignModal,
             loadInventoryByWord,
-            loadInventoryByGenre
+            loadInventoryByGenre,
+            
+            loadUserDataFromUuid,
         } = this.props;
 
         const user = User.getUser();
 
-        if (!user.uid) {
+        if (!user.userId) {
+            
             /* do no id stuff */
             showSignModal();
         } else {
-            if (!!match.params.word) {
 
-                loadInventoryByWord({userId: user.uid, word: match.params.word});
-            } else if (!!match.params.genre) {
-
-                loadInventoryByGenre({userId: user.uid, genre: match.params.genre});
-            } else {
-                
-                loadInventory({userId: user.uid});
-            }
+            loadUserDataFromUuid(this.loadUserdataCallback);
     
             arriveFooter.add('inventory', () => {
-    
                 if (!!match.params.word) {
 
                     loadInventoryByWord({
-                        userId  : user.uid,
+                        userId  : this.state.uid,
                         word    : match.params.word,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
@@ -132,7 +135,7 @@ class Inventory extends React.Component<Props, State> {
                 } else if (!!match.params.genre) {
                     
                     loadInventoryByGenre({
-                        userId  : user.uid, 
+                        userId  : this.state.uid,
                         genre   : match.params.genre,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
@@ -140,7 +143,7 @@ class Inventory extends React.Component<Props, State> {
                 } else {
                     
                     loadInventory({
-                        userId  : user.uid,
+                        userId  : this.state.uid,
                         page    : this.state.page + 1,
                         callback: this.loadInventoryCallback
                     });
@@ -151,6 +154,37 @@ class Inventory extends React.Component<Props, State> {
 
     componentWillUnmount () {
         arriveFooter.remove('inventory');
+    }
+
+    public loadUserdataCallback = (uid: string) => {
+
+        const { 
+            loadInventoryByWord,
+            loadInventoryByGenre,
+            loadInventory,
+            match
+        } = this.props;
+
+        this.setState({
+            uid: uid
+        });
+
+        if (!!match.params.word) {
+
+            loadInventoryByWord({
+                userId: uid, 
+                word: match.params.word
+            });
+        } else if (!!match.params.genre) {
+
+            loadInventoryByGenre({
+                userId: uid, 
+                genre: match.params.genre
+            });
+        } else {
+            
+            loadInventory({userId: uid});
+        }
     }
 
     public loadInventoryCallback = (page: number): void => {
@@ -235,11 +269,12 @@ export const mapStateToProps = (state: Stores) => ({
     getUserdata : getUserdata(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions>, state: Stores) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<InventoryActions | HomeActions>, state: Stores) => ({
     loadInventory       : bindActionCreators(loadInventory, dispatch),
     loadInventoryByWord : bindActionCreators(loadInventoryByWord, dispatch),
     showSignModal       : bindActionCreators(showSignModal, dispatch),
     loadInventoryByGenre: bindActionCreators(loadInventoryByGenre, dispatch),
+    loadUserDataFromUuid: bindActionCreators(loadUserDataFromUuid, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

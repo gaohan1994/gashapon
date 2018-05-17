@@ -3,6 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import * as Numeral from 'numeral';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Dispatch } from 'redux';
 import { BusinessActions } from '../../actions/business';
 import { Stores } from '../../reducers/type';
@@ -18,9 +19,11 @@ import config from '../../config';
 import Qart from 'react-qart';
 import { inApp } from '../../config/util';
 import Schema, { SchemaConfig } from '../../classes/schema';
+import { HomeActions, loadUserDataFromUuid } from '../../actions/home';
 
 interface Props {
-    getUserdata: Userdata;
+    getUserdata         : Userdata;
+    loadUserDataFromUuid: () => void;
 }
 
 interface State {
@@ -72,6 +75,7 @@ class Pay extends React.Component<Props, State> {
                     value   : value,
                     app     : inApp
                 });
+                
                 if (recharge.success === true) {
 
                     if (inApp === true) {
@@ -112,6 +116,8 @@ class Pay extends React.Component<Props, State> {
     }
 
     public hideQrcodeHandle = ():  void => {
+        const { loadUserDataFromUuid } = this.props;
+        loadUserDataFromUuid();
         history.push('/');
     }
 
@@ -208,8 +214,8 @@ const mapStateToProps = (state: Stores) => ({
     getUserdata: getUserdata(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<BusinessActions>) => ({
-
+const mapDispatchToProps = (dispatch: Dispatch<BusinessActions | HomeActions>) => ({
+    loadUserDataFromUuid: bindActionCreators(loadUserDataFromUuid, dispatch)
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

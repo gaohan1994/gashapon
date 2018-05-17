@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { Gashapon } from '../types/componentTypes';
 import { getAccessToken } from '../config/util';
 import User from '../classes/user';
+import { result } from '../components/phonemodal/index.css';
 // import config from '../config/index';
 
 export interface LoadUserData {
@@ -27,11 +28,17 @@ export interface LoadUserDataFromUuid {
     userdata: {};
 }
 
+export interface LoadOrderCount {
+    type    : constants.RECEIVE_OREDER_COUNT;
+    count   : {};
+}
+
 export type HomeActions = 
     LoadUserData 
     | LoadCollectGashapons 
     | LoadCode
-    | LoadUserDataFromUuid;
+    | LoadUserDataFromUuid
+    | LoadOrderCount;
 
 export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>): void => {
     if (!userId) {
@@ -113,7 +120,7 @@ export const loadCode = (phone: string) => (dispatch: Dispatch<HomeActions>): vo
     }
 };
 
-export const loadUserDataFromUuid = () => (dispatch: Dispatch<HomeActions>): void => {
+export const loadUserDataFromUuid = (callback?: (uid: string) => void) => (dispatch: Dispatch<HomeActions>): void => {
     try {
         if (!getAccessToken()) {
             throw new Error('uuid');
@@ -135,6 +142,10 @@ export const loadUserDataFromUuid = () => (dispatch: Dispatch<HomeActions>): voi
                     User.setUser({uid: res.result._id});
                 }
                 dispatch({type: constants.RECEIVE_HOME_USERDATA, userdata: res.result});
+                
+                if (!!callback) {
+                    callback(res.result._id);
+                }
             } else {
                 throw new Error('通过uuid请求uid出错');
             }
@@ -142,5 +153,30 @@ export const loadUserDataFromUuid = () => (dispatch: Dispatch<HomeActions>): voi
         
     } catch (err) {
         console.log('dispatching userdata error', err);
+    }
+};
+
+export const loadOrderCount = (uid: string) => (dispatch: Dispatch<HomeActions>): void => {
+    try {
+        if (!uid) {
+            throw new Error('uid');
+        } 
+    } catch (err) {
+        console.log('loadOrderCount', err);
+    }
+
+    try {
+        fetch(`/product/orders/count/${uid}`)
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                dispatch({type: constants.RECEIVE_OREDER_COUNT, count: res.result});
+            } else {
+                throw new Error(res.message ? res.message : 'FETCH_ERROR');
+            }
+            
+        });
+    } catch (err) {
+        console.log('loadOrderCount', err);
     }
 };

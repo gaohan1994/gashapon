@@ -139,10 +139,6 @@ class Address extends React.Component <Props, State> {
         history.push(`/${param}`);
     }
 
-    public subPropsClickHandle = (): void => {
-        //
-    }
-
     public doShowModifyModalHandle = (data: AddressType): void => {
 
         this.onSetSelectedAddress(data);
@@ -235,11 +231,7 @@ class Address extends React.Component <Props, State> {
                 styleName="container"
                 container-with-header="true"
             >
-                <Header
-                    title="收货地址"
-                    subTitle="编辑"
-                    subPropsClick={() => this.subPropsClickHandle()}
-                />
+                <Header title="收货地址"/>
                 
                 {getUserdata.address && getUserdata.address.length > 0
                 ? getUserdata.address.map((item: AddressType, i: number) => {

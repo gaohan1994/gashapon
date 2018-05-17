@@ -24,10 +24,10 @@ class Account extends React.Component<Props, {}> {
                 <Header 
                     title="设置"
                 />
-                <Line 
+                {/* <Line 
                     value="完蛋趣号"
                     subValue="123123"
-                />
+                /> */}
                 <Line 
                     value="修改昵称"
                     param="changeusername"
@@ -35,7 +35,7 @@ class Account extends React.Component<Props, {}> {
                 <Line 
                     value="手机号"
                     subValue={getUserdata.phone || '未绑定手机号'}
-                    param="userphone"
+                    // param="userphone"
                 />
 
                 <div styleName="logout">

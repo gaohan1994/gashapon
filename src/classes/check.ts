@@ -35,8 +35,8 @@ class Check {
         } catch (err) {
             console.log('doCheckHandle', err);
             return {
-                type: 'ERRPR_CHECK',
-                message: err.message ? err.message : '打卡错误'
+                type    : 'ERRPR_CHECK',
+                message : err.message ? err.message : '打卡错误'
             };
         }
     }

@@ -1,5 +1,14 @@
-import home, { getCollectGashapons, getUserdata, getCode } from '../home';
-import { RECEIVE_HOME_COLLECT, RECEIVE_HOME_USERDATA } from '../../constants/home';
+import home, { 
+    getCollectGashapons, 
+    getUserdata, 
+    getCode,
+    getCount
+} from '../home';
+import { 
+    RECEIVE_HOME_COLLECT, 
+    RECEIVE_HOME_USERDATA,
+    RECEIVE_OREDER_COUNT,
+} from '../../constants/home';
 import initState from '../home/state';
 import store from '../initState';
 
@@ -10,6 +19,7 @@ describe('home 测试开始', () => {
     const code = {
         id: 'test'
     };
+    const count = {test: '123'};
 
     it('should receive userdata', () => {
         expect(home(initState, {type: RECEIVE_HOME_USERDATA, userdata: userdata}))
@@ -27,6 +37,14 @@ describe('home 测试开始', () => {
         });
     });
 
+    it('should receive count', () => {
+        expect(home(initState, {type: RECEIVE_OREDER_COUNT, count: count}))
+        .toEqual({
+            ...initState,
+            count: count
+        });
+    });
+
     describe('get method test', () => {
         const Store = {
             ...store,
@@ -34,6 +52,7 @@ describe('home 测试开始', () => {
                 userdata    : userdata,
                 gashapons   : gashapons,
                 code        : code,
+                count       : count,
             }
         };
 
@@ -47,6 +66,10 @@ describe('home 测试开始', () => {
 
         it('should get code', () => {
             expect(getCode(Store)).toEqual(code);
+        });
+
+        it('should get Count', () => {
+            expect(getCount(Store)).toEqual(count);
         });
     });
 });

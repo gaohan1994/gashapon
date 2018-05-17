@@ -393,7 +393,7 @@ class Sign {
                 body.headimgurl = headimgurl;
             }
 
-            const result = await fetch(`/change/user_info/${this.user._id}`, {
+            const result = await fetch(`/change/user_info/${uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -408,8 +408,8 @@ class Sign {
             }
         } catch (err) {
             return {
-                type: 'ERROR_CHANGE_USERDATA',
-                message: err.message ? err.message : '更改用户数据错误'
+                type    : 'ERROR_CHANGE_USERDATA',
+                message : err.message ? err.message : '更改用户数据错误'
             };
         }
     }

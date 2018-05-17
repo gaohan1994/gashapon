@@ -213,7 +213,7 @@ class Order extends React.Component<Props, State> {
                         />
                     );
                 })
-                : 'empty'}
+                : this.renderNoData()}
             </div>
         );
     }
@@ -304,6 +304,17 @@ class Order extends React.Component<Props, State> {
                         已发货
                     </div>
                 </div>
+            </div>
+        );
+    }
+
+    private renderNoData = (): JSX.Element => {
+        return (
+            <div 
+                styleName="nodata"
+                font-s="30"
+            >
+                暂无数据
             </div>
         );
     }

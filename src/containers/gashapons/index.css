@@ -21,7 +21,7 @@
     position: relative;
     float: left;
     width: 710px;
-    height: 200px;
+    height: 300px;
     background: #ffffff;
     margin: 20px 0 0 30px;
 }
@@ -113,6 +113,29 @@
 
 .typeDetail {
     position: absolute;
+    background: #ffffff;
     left: 0;
     top: 50px;
+    z-index: 50;
+    width: 330px;
+    min-height: 120px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+}
+
+.typeitem {
+    display: block;
+    width: 110px;
+    text-align: center;
+    font-size: 30px;
+    line-height: 60px;
+    height: 60px;
+    background: #ffffff;
 }

@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import * as CSSModules from 'react-css-modules';
@@ -7,7 +6,6 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import Header from '../../components/header_home';
 import Footer from '../../components/footer';
-// import config from '../../config';
 import Banner from '../../components/banner';
 import Search from '../../components/search';
 import News from '../../components/news';
@@ -26,9 +24,9 @@ import {
     loadBanners,
     loadGenres,
     loadTopics,
-    loadMainData,
+    loadMainData
 } from '../../actions/main';
-import { loadNotifies, } from '../../actions/status';
+import { loadNotifies } from '../../actions/status';
 import { getData } from '../../reducers/main';
 
 interface Props {
@@ -61,7 +59,7 @@ class Main extends React.Component<Props, State> {
             loadMainData,
             loadNotifies,
         } = this.props;
-        // history.push('/payment');
+
         loadBanners();
         loadGenres();
         loadTopics();
@@ -74,7 +72,6 @@ class Main extends React.Component<Props, State> {
     }
 
     public onMenuClickHandle = (type: number, param: string): void => {
-        // history.push(`/gashapons/${type}`);
 
         Base.onNavHandle(type, param);
     }
@@ -139,7 +136,6 @@ class Main extends React.Component<Props, State> {
     }
 
     private renderMenu = (): JSX.Element => {
-        // const { getData } = this.props;
 
         const menu: MenuItem[] = [
             {
@@ -165,7 +161,7 @@ class Main extends React.Component<Props, State> {
                 img: 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
                 value: '新品上架',
                 propsClickHandle: () => this.onMenuClickHandle(3, '5aeab91fed009e3d8f4a9d0d')
-            },
+            }
         ];
         return (
             <div styleName="menus">
@@ -175,8 +171,8 @@ class Main extends React.Component<Props, State> {
     }
 
     private renderMainData = (): JSX.Element => {
-        const { getData } = this.props;
 
+        const { getData } = this.props;
         return (
             <div styleName="mainData" content-clear="clear">
                 {getData.content && getData.content.length > 0
@@ -189,18 +185,15 @@ class Main extends React.Component<Props, State> {
                         ? <div 
                             styleName="mainDataHeader"
                             bgimg-center="bgimg-center"
-                            style={{
-                                // backgroundImage: this.renderMainDataHeaderImg(item.name)
-                                backgroundImage: `url(http://${config.host.pic}/${item.head})`
-                            }}
+                            style={{backgroundImage: `url(http://${config.host.pic}/${item.head})`}}
                         />
                         : ''}
 
                         {item.banner
-                        ?   <div styleName="bannerBox">
+                        ? <div styleName="bannerBox">
                                 <Banner banner={item.banner}/>
                             </div>
-                        :   ''}
+                        : ''}
 
                         {item.content && item.content.length > 0
                         ? <div styleName="hotItems">

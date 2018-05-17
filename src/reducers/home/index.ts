@@ -5,6 +5,7 @@ import {
     RECEIVE_HOME_USERDATA, 
     RECEIVE_HOME_COLLECT,
     RECEIVE_CODE,
+    RECEIVE_OREDER_COUNT,
 } from '../../constants/home';
 import initState from './state';
 import { merge } from 'lodash';
@@ -27,6 +28,11 @@ export default function home (state: Home = initState, action: HomeActions): Hom
             state.code = code;
             return merge({}, state, {});
 
+        case RECEIVE_OREDER_COUNT:
+            const { count } = action;
+            state.count = count;
+            return merge({}, state, {});
+
         default :
             return state;
     }
@@ -37,3 +43,5 @@ export const getUserdata = (state: Stores) => state.home.userdata;
 export const getCollectGashapons = (state: Stores) => state.home.gashapons;
 
 export const getCode = (state: Stores) => state.home.code;
+
+export const getCount = (state: Stores) => state.home.count;

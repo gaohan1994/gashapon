@@ -153,7 +153,6 @@ class Gashapon extends React.Component<Props, State> {
             });
             
             if (result.success === true) {
-                console.log(result.data);
                 this.setState({
                     gashaponProductItem: result.data
                 });
@@ -381,8 +380,8 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     render (): JSX.Element {
+
         const { getGashapon } = this.props;
-        console.log(this.state);
         return (
             <Hoc>
                 <div styleName="container">
