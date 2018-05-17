@@ -33,6 +33,12 @@ export interface Login {
     password: string;
 }
 
+export interface DoForgetPasswordMethodParam {
+    code        : string;
+    phone       : string;
+    password    : string;
+}
+
 interface DoBindHandleParam {
     user    : string;
     spread  : string;
@@ -56,6 +62,7 @@ class Sign {
         this.doChangePhoneMethod    = this.doChangePhoneMethod.bind(this);
         this.doChangeUserdata       = this.doChangeUserdata.bind(this);
         this.doBindHandle           = this.doBindHandle.bind(this);
+        this.doForgetPasswordMethod = this.doForgetPasswordMethod.bind(this);
     }
 
     public doBindHandle = async ({user, spread}: DoBindHandleParam): Promise <NormalReturnObject> => {
@@ -403,6 +410,55 @@ class Sign {
             return {
                 type: 'ERROR_CHANGE_USERDATA',
                 message: err.message ? err.message : '更改用户数据错误'
+            };
+        }
+    }
+
+    /**
+     * 忘记密码
+     * 
+     * @memberof Sign
+     */
+    public doForgetPasswordMethod = async ({code, phone, password}: DoForgetPasswordMethodParam): Promise <NormalReturnObject> => {
+        try {
+            if (!code) {
+                throw new Error('code');
+            } else if (!phone) {
+                throw new Error('code');
+            } else if (!password) {
+                throw new Error('password');
+            }
+        } catch (err) {
+            return {
+                type    : 'ERROR_PARAM',
+                message : err.message ? err.message : '数据错误'
+            };
+        }
+
+        try {
+
+            const result = await fetch(`/user/password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    code    : code,
+                    phone   : phone,
+                    password: password
+                })
+            }).then(res => res.json());
+
+            if (result.success === true) {
+                return { success: true };
+            } else {
+                throw new Error(result.message ? result.message : '修改密码失败');
+            }
+        } catch (err) {
+            return {
+                type    : 'FETCH_ERROR',
+                message : err.message ? err.message : '修改密码失败'
             };
         }
     }

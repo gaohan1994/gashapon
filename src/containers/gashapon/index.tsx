@@ -67,7 +67,7 @@ interface State {
     audioPlaying        : boolean;
     showModal           : boolean;
     showSelectModal     : boolean;
-    GashaponProductItem ?: GashaponProductItemType[];
+    gashaponProductItem ?: GashaponProductItemType[];
     showDiscountModal   : boolean;
 }
 
@@ -88,6 +88,7 @@ class Gashapon extends React.Component<Props, State> {
             showModal           : false,
             showSelectModal     : false,
             showDiscountModal   : false,
+            gashaponProductItem : [],
         };
     }
 
@@ -152,7 +153,10 @@ class Gashapon extends React.Component<Props, State> {
             });
             
             if (result.success === true) {
-
+                console.log(result.data);
+                this.setState({
+                    gashaponProductItem: result.data
+                });
                 changeGashaponLoading(true);
                 this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
             } else {
@@ -290,7 +294,7 @@ class Gashapon extends React.Component<Props, State> {
         changeGashaponLoading(false);
         this.setState({
             showModal: true,
-            GashaponProductItem: result.data && result.data.product_list
+            // GashaponProductItem: result.data && result.data.product_list
         });
     }
 
@@ -299,8 +303,8 @@ class Gashapon extends React.Component<Props, State> {
         const data = getGashapon.product_list && getGashapon.product_list[randomNum(getGashapon.product_list.length)];
 
         this.setState({
-            showModal: true,
-            GashaponProductItem: [data]
+            showModal           : true,
+            gashaponProductItem : [data]
         });
     }
 
@@ -308,7 +312,7 @@ class Gashapon extends React.Component<Props, State> {
         this.setState({
             showDiscountModal   : false,
             showModal           : false,
-            showSelectModal : false
+            showSelectModal     : false
         });
     }
 
@@ -378,6 +382,7 @@ class Gashapon extends React.Component<Props, State> {
 
     render (): JSX.Element {
         const { getGashapon } = this.props;
+        console.log(this.state);
         return (
             <Hoc>
                 <div styleName="container">
@@ -450,14 +455,14 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     private renderModal = (): JSX.Element => {
-        const { showModal, GashaponProductItem } = this.state;
+        const { showModal, gashaponProductItem } = this.state;
         const { getGashapon } = this.props;
         return (
             <Modal 
                 display={showModal}
                 onHide={this.onHideModalHandle}
                 totalData={getGashapon}
-                data={GashaponProductItem}
+                data={gashaponProductItem}
             />
         );
     }

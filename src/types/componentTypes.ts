@@ -2,6 +2,7 @@ export type GashaponProductItem = {
     _id     : string;
     name    : string;
     pics    : string[];
+    price   : number;
     quantity: number;
     rate    : number;
     status  : number;

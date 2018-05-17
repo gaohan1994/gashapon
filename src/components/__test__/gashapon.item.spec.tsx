@@ -22,6 +22,7 @@ describe('Gashapon 测试', () => {
             name: 'gg',
             pics: ['23'],
             quantity: 0,
+            price: 1000,
             rate: 0.1,
             status: 0,
         }],

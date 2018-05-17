@@ -3,6 +3,10 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import Header from '../../../components/haeder_set';
 import Button from '../../../components/button';
+import Validator from '../../../classes/validate';
+import Sign, { DoForgetPasswordMethodParam } from '../../../classes/sign';
+// import history from '../../../history';
+import { NormalReturnObject } from '../../../classes/base';
 
 export interface Props {
     
@@ -11,15 +15,21 @@ export interface Props {
 export interface State {
     phone   : string;
     vercode : string;
+    password: string;
+    waitCode: number;
 }
 
 class Forget extends React.Component<Props, State> {
+
+    private timer: any;
 
     constructor (props: Props) {
         super(props);
         this.state = {
             phone   : '',
-            vercode : ''
+            vercode : '',
+            password: '',
+            waitCode: 0,
         };
     }
 
@@ -35,9 +45,109 @@ class Forget extends React.Component<Props, State> {
         });
     }
 
+    public onChangePasswordHandle = (e: any): void => {
+        this.setState({
+            password: e.target.value
+        });
+    }
+
+    public timerHandle = (): void => {
+        if (this.state.waitCode === 0) {
+            /* 可以重新计时 */
+            clearInterval(this.timer);
+        } else {
+            this.setState({
+                waitCode: this.state.waitCode - 1,
+            });
+        }
+    }
+
+    public doForgetPasswordHandle = async (): Promise <void> => {
+
+        const { vercode, phone, password } = this.state;
+
+        let helper = new Validator();
+
+        helper.add(phone, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入手机号~',
+            elementName: 'phone'
+        }]);
+
+        helper.add(password, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入密码~',
+            elementName: 'password'
+        }]);
+
+        helper.add(vercode, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入验证码~',
+            elementName: 'vercode'
+        }]);
+
+        let valiResult = helper.start();
+
+        if (valiResult) {
+            alert(valiResult.errMsg);
+        } else {
+
+            const data: DoForgetPasswordMethodParam = {
+                code    : vercode,
+                phone   : phone,
+                password: password
+            };
+            
+            const result: NormalReturnObject = await Sign.doForgetPasswordMethod(data);
+            if (result.success === true) {
+
+                window.location.reload();
+            } else {
+                /* do error stuff */
+                alert(result.message ? result.message : '');
+            }
+        }
+    }
+    
+    public onSendVercodeHandle = async (): Promise <void> => {
+        const {
+            phone,
+            password,
+        } = this.state;
+
+        let helper = new Validator();
+
+        helper.add(phone, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入手机号~',
+            elementName: 'phone'
+        }]);
+
+        helper.add(password, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请输入密码~',
+            elementName: 'password'
+        }]);
+
+        let result = helper.start();
+
+        if (result) {
+            alert(result.errMsg);
+        } else {
+            /* do stuff */
+            const result = await Sign.getVercode(phone);
+
+            if (result.success === true) {
+                this.setState({ waitCode: 60 }, () => { this.timer = setInterval(this.timerHandle, 1000); });
+            } else {
+                alert(result.message ? result.message : '获取验证码出错');
+            }
+        }
+    }
+
     render() {
 
-        const { phone, vercode } = this.state;
+        const { phone, vercode, password } = this.state;
 
         return (
             <div 
@@ -57,6 +167,16 @@ class Forget extends React.Component<Props, State> {
                         />
                     </div>
                     <div styleName="border">
+                        <span>新密码</span>
+                        <input 
+                            styleName="phone"
+                            type="password"
+                            value={password}
+                            onChange={this.onChangePasswordHandle}
+                            placeholder="请输入新密码"
+                        />
+                    </div>
+                    <div styleName="border">
                         <span>验证码</span>
                         <input 
                             styleName="vercode"
@@ -68,6 +188,7 @@ class Forget extends React.Component<Props, State> {
                             btnText="发送验证码"
                             btnSize="small"
                             btnRadius={true}
+                            clickHandle={this.onSendVercodeHandle}
                         />
                     </div>
                 </div>
@@ -80,6 +201,7 @@ class Forget extends React.Component<Props, State> {
                         btnText="确认"
                         btnSize="big"
                         btnRadius={true}
+                        clickHandle={this.doForgetPasswordHandle}
                     />
                 </div>
             </div>

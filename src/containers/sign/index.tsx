@@ -15,6 +15,7 @@ import Validator from '../../classes/validate';
 import { DoLoginMethodReturn } from '../../classes/sign';
 import { hideSignModal, } from '../../actions/status';
 import { getSignModalStatus } from '../../reducers/status';
+import history from '../../history';
 
 export interface Props {
     display         ?: boolean;
@@ -146,7 +147,7 @@ class SignContainer extends React.Component<Props, State> {
                 code    : regcode,
                 password: regpwd,
             };
-            console.log('params', params);
+            
             const result: NormalReturnObject = await Sign.doRegisterMethod(params);
             if (result.success === true) {
 
@@ -252,9 +253,18 @@ class SignContainer extends React.Component<Props, State> {
         }
     }
 
+    public onForgetPasswordHandle = (): void => {
+        const { hideSignModal } = this.props;
+
+        if (hideSignModal) {
+            hideSignModal();
+            history.push('/forget');
+        }
+    }
+
     render() {
 
-        const { 
+        const {
             showType,
             logphone,
             logpwd,
@@ -324,6 +334,14 @@ class SignContainer extends React.Component<Props, State> {
                                     btnRadius={true}
                                     clickHandle={() => this.doLoginHandle()}
                                 />
+                            </div>
+                            <div styleName="box">
+                                <span 
+                                    styleName="forget"
+                                    onClick={() => this.onForgetPasswordHandle()}
+                                >
+                                    忘记密码?
+                                </span>
                             </div>
                         </div>
                     :   ''}

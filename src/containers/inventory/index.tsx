@@ -203,16 +203,16 @@ class Inventory extends React.Component<Props, State> {
         const menus = [
             {
                 _id: 1,
-                img: getInventory.length === 0
-                    ? 'http://net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170543.png'
-                    : 'http://net.huanmusic.com/gasha/inventory/%E5%8F%98%E5%8D%96.png',
+                img: getInventory && getInventory.length !== 0
+                    ? 'http://net.huanmusic.com/gasha/inventory/%E5%8F%98%E5%8D%96.png'
+                    : 'http://net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170543.png',
                 propsClickHandle: this.onMenuClickHandle.bind(this, 'sale')
             },
             {
                 _id: 2,
-                img: getInventory.length === 0
-                    ? 'http://net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170609.png'
-                    : 'http://net.huanmusic.com/gasha/inventory/%E4%B8%8B%E5%8D%95.png',
+                img: getInventory && getInventory.length !== 0
+                    ? 'http://net.huanmusic.com/gasha/inventory/%E4%B8%8B%E5%8D%95.png'
+                    : 'http://net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170609.png',
                 propsClickHandle: this.onMenuClickHandle.bind(this, 'makeorders')
             }
         ];

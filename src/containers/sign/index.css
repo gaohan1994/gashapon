@@ -146,3 +146,12 @@
 .box {
     margin: 100px 0 0 25px;
 }   
+
+.forget {
+    display: block;
+    width: 100%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 30px;
+    color: #444444;
+}

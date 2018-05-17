@@ -15,6 +15,7 @@ describe('Product 测试', () => {
         _id     : 'string',
         name    : 'string',
         pics    : ['string'],
+        price   : 1000,
         quantity: 1,
         rate    : 1,
         status  : 1,

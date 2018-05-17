@@ -55,6 +55,7 @@ describe('business 测试开始', () => {
             _id: '123',
             name: 'gg',
             pics: ['23'],
+            price: 1000,
             quantity: 0,
             rate: 0.1,
             status: 0,

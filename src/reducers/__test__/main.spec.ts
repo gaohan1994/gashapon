@@ -35,6 +35,7 @@ describe('main test begin', () => {
         product_list: [{
             _id: '123',
             name: 'gg',
+            price: 1000,
             pics: ['23'],
             quantity: 0,
             rate: 0.1,

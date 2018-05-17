@@ -27,6 +27,7 @@ describe('inventory test begin', () => {
             _id: '123',
             name: 'gg',
             pics: ['23'],
+            price: 1000,
             quantity: 0,
             rate: 0.1,
             status: 0,

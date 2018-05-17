@@ -26,21 +26,7 @@ export interface DoGashaponMethodReturnObject {
     success ?: boolean;
     type    ?: string;
     message ?: string;
-    data    ?: {
-        channel: number;
-        create_date: Date;
-        desc: string;
-        fixed_value: number;
-        from_user: string;
-        from_user_headimgurl: string;
-        from_user_name: string;
-        name: string;
-        product_list: GashaponProductItem[];
-        status: number;
-        type: number;
-        value: number;
-        _id: string;
-    };
+    data    ?: GashaponProductItem[];
 }
 
 /**

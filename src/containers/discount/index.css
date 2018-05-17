@@ -1,4 +1,5 @@
 .container {
+    position: relative;
     width: 100vw;
     min-height: 100vh;
 }
@@ -185,4 +186,14 @@
     font-size: 26px;
     position: absolute;
     right: 20px;
+}
+
+.home {
+    display: block;
+    position: absolute;
+    left: 35px;
+    top: 35px;
+    width: 40px;
+    height: 40px;
+    background-image: url('http://net.huanmusic.com/gasha/首页.png');
 }

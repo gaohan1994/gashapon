@@ -60,6 +60,7 @@ class Modal extends React.Component<Props, State> {
     private renderSwiper = (): JSX.Element => {
         const { current } = this.state;
         const { data, totalData } = this.props;
+        console.log('data', data);
         const items = data && data.map((item: GashaponProductItem, i) => (
             <div 
                 styleName="item"

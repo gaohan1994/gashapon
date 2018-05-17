@@ -138,6 +138,10 @@ class Discount extends React.Component<Props, State> {
                 <div 
                     styleName="container"
                 >
+                    <i 
+                        styleName="home"
+                        bgimg-center="100"
+                    />
                     <SignModal/>
                     <i 
                         styleName="bgimg"
