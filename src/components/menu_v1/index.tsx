@@ -26,6 +26,7 @@ export interface MenuItem {
     size            ?: string;
     param           ?: string;
     propsClickHandle?: () => void;
+    bge             ?: number;
 }
 
 const onClickHandle = (param?: string): void => {
@@ -34,7 +35,15 @@ const onClickHandle = (param?: string): void => {
 
 const noParamHandle = (): void => {/*no empty*/};
 
-const Menu = ({menus, height, iconSize, menuColor, menuImage, iconWidth, iconHeight}: Props) => (
+const Menu = ({
+    menus, 
+    height, 
+    iconSize, 
+    menuColor, 
+    menuImage, 
+    iconWidth, 
+    iconHeight
+}: Props) => (
     <ul 
         styleName="container"
         style={{
@@ -56,6 +65,14 @@ const Menu = ({menus, height, iconSize, menuColor, menuImage, iconWidth, iconHei
                             ? () => onClickHandle(item.param)
                             : () => noParamHandle()}
             >
+                {!item.bge
+                ? ''
+                : <span styleName="bge">
+                    {item.bge > 99
+                    ? 99
+                    : item.bge}
+                </span>}
+
                 <i
                     styleName="icon"
                     style={{

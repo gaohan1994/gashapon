@@ -124,30 +124,37 @@ class Order extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const { loadOrders, match, getUserdata } = this.props;
+        const { 
+            loadOrders, 
+            loadWaitOrders,
+            loadWaitConfirmOrders,
+            match,
+        } = this.props;
+
+        const user = User.getUser();
 
         if (!!match.params && !!match.params.type) {
-            
+            console.log(match);
             const type = match.params.type;
             switch (type) {
                 
                 case 'waitconfirm':
                     this.onChangeTypeStateHandle(type);
-                    loadWaitConfirmOrders(getUserdata._id);
+                    loadWaitConfirmOrders(user.uid);
                     return;
                 case 'wait':
                     this.onChangeTypeStateHandle(type);
-                    loadWaitOrders(getUserdata._id);
+                    loadWaitOrders(user.uid);
                     return;
                 case 'already':
                     this.onChangeTypeStateHandle(type);
-                    loadOrders(getUserdata._id);
+                    loadOrders(user.uid);
                     return;
                 default: return;
             }
         } else {
 
-            loadOrders(getUserdata._id);
+            loadOrders(user.uid);
         }
     }
 
@@ -158,7 +165,7 @@ class Order extends React.Component<Props, State> {
             loadWaitOrders,
             getUserdata,
         } = this.props;
-
+        
         switch (type) {
             case 'waitconfirm':
                 this.onChangeTypeStateHandle(type);

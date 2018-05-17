@@ -2,10 +2,9 @@ require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/home';
 import { Dispatch } from 'redux';
-import { Gashapon } from '../types/componentTypes';
+import { Gashapon, OrderCount } from '../types/componentTypes';
 import { getAccessToken } from '../config/util';
 import User from '../classes/user';
-import { result } from '../components/phonemodal/index.css';
 // import config from '../config/index';
 
 export interface LoadUserData {
@@ -30,7 +29,7 @@ export interface LoadUserDataFromUuid {
 
 export interface LoadOrderCount {
     type    : constants.RECEIVE_OREDER_COUNT;
-    count   : {};
+    count   : OrderCount;
 }
 
 export type HomeActions = 

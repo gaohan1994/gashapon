@@ -183,3 +183,5 @@ export type LocationType = {
     tel     : string;
     traces  : LocationItem[];
 };
+
+export type OrderCount = number[];

@@ -9,7 +9,6 @@ import Menu from '../../components/menu_v1';
 import User from '../../classes/user';
 import SignModal from '../sign';
 import history from '../../history';
-// import Hoc from '../hoc';
 import config from '../../config';
 import { Userdata } from '../../types/user';
 import { Stores } from '../../reducers/type';
@@ -20,8 +19,12 @@ import {
     loadOrderCount,
 } from '../../actions/home';
 import { showSignModal } from '../../actions/status';
-import { getUserdata } from '../../reducers/home';
+import { 
+    getUserdata,
+    getCount,
+} from '../../reducers/home';
 import Sign from '../../classes/sign';
+import { OrderCount } from '../../types/componentTypes';
 
 interface Props {
     getUserdata         : Userdata;
@@ -29,6 +32,7 @@ interface Props {
     showSignModal       : () => void;
     loadUserDataFromUuid: (callback?: (uid: string) => void) => void;
     loadOrderCount      : (uid: string) => void;
+    getCount            : OrderCount;
 }
 
 interface State {
@@ -211,6 +215,8 @@ class My extends React.Component<Props, State> {
     }
 
     private renderUtils = (): JSX.Element => {
+        const { getCount } = this.props;
+
         const menus = [
             {
                 _id: 1,
@@ -224,6 +230,7 @@ class My extends React.Component<Props, State> {
                 value: '待付款',
                 img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E4%BB%98%E6%AC%BE.png',
                 // param: 'order/waitconfirm',
+                bge: getCount[0] ? getCount[0] : 0,
                 propsClickHandle: () => this.onClickHandle('order/waitconfirm')
             },
             {
@@ -231,6 +238,7 @@ class My extends React.Component<Props, State> {
                 value: '待发货',
                 img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E5%8F%91%E8%B4%A7.png',
                 // param: 'order/wait',
+                bge: getCount[1] ? getCount[1] : 0,
                 propsClickHandle: () => this.onClickHandle('order/wait')
             },
             {
@@ -238,6 +246,7 @@ class My extends React.Component<Props, State> {
                 value: '已发货',
                 img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E6%94%B6%E8%B4%A7.png',
                 // param: 'order/already',
+                bge: getCount[2] ? getCount[2] : 0,
                 propsClickHandle: () => this.onClickHandle('order/already')
             },
         ];
@@ -335,7 +344,8 @@ class My extends React.Component<Props, State> {
 const MyHoc = CSSModules(My, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    getUserdata: getUserdata(state),
+    getUserdata : getUserdata(state),
+    getCount    : getCount(state),
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<MainActions | HomeActions>) => ({

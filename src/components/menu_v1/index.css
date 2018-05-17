@@ -15,6 +15,7 @@
 }
 
 .item {
+    position: relative;
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1;
@@ -49,4 +50,19 @@
 .text {
     margin-top: 10px;
     font-size: 24px;
+}
+
+.bge {
+    display: block;
+    position: absolute;
+    right: 28px;
+    top: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: #ff5c91;
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+    color: #ffffff;
 }

@@ -3,5 +3,5 @@ export type Home = {
     userdata    : object;
     gashapons   : object[];
     code        : object;
-    count       : object;
+    count       : number[];
 };

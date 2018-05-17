@@ -19,7 +19,7 @@ describe('home 测试开始', () => {
     const code = {
         id: 'test'
     };
-    const count = {test: '123'};
+    const count = [1, 2, 3];
 
     it('should receive userdata', () => {
         expect(home(initState, {type: RECEIVE_HOME_USERDATA, userdata: userdata}))
