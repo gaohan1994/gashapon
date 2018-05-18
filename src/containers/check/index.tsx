@@ -34,6 +34,10 @@ interface State {
 
     showReword  : boolean;
     rewordValue : string;
+
+    showResult  : boolean;
+    resultValue : string;
+    resultImg   : string;
 }
 
 class Check extends React.Component <Props, State> {
@@ -46,6 +50,10 @@ class Check extends React.Component <Props, State> {
 
             showReword  : false,
             rewordValue : '',
+
+            showResult  : false,
+            resultValue : '',
+            resultImg   : ''
         };
     }
 
@@ -80,15 +88,21 @@ class Check extends React.Component <Props, State> {
 
                 /* do check ok */
                 this.setState({
-                    value       : '签到成功',
-                    showModal   : true
+                    resultValue : '签到成功',
+                    showResult  : true,
+                    resultImg   : 'http://net.huanmusic.com/gasha/%E7%AD%BE%E5%88%B0%E6%88%90%E5%8A%9F1.png'
                 });
             } else {
                 
                 /* do error stuff here */
+                // this.setState({
+                //     value       : result.message ? result.message : '签到出错了',
+                //     showModal   : true
+                // });
                 this.setState({
-                    value       : result.message ? result.message : '签到出错了',
-                    showModal   : true
+                    resultValue : result.message ? result.message : '签到出错了',
+                    showResult  : true,
+                    resultImg   : 'http://net.huanmusic.com/gasha/%E9%9D%9E%E5%B8%B8%E9%81%97%E6%86%BE.png'
                 });
             }
         }
@@ -155,6 +169,18 @@ class Check extends React.Component <Props, State> {
         });
     }
 
+    public onShowResult = (): void => {
+        this.setState({
+            showResult: true
+        });
+    }
+
+    public onHideResult = (): void => {
+        this.setState({
+            showResult: false
+        });
+    }
+
     render () {
 
         const { getChecks } = this.props;
@@ -174,6 +200,7 @@ class Check extends React.Component <Props, State> {
                 <SignModal/>
                 {this.renderReword()}
                 {this.renderModal()}
+                {this.renderCheckStatusModal()}
                 <i 
                     styleName="back"
                     bgimg-center="100"
@@ -200,6 +227,32 @@ class Check extends React.Component <Props, State> {
                 <i styleName="title" bgimg-center="100"/>
                 {this.renderMonthChecks()}
             </section>
+        );
+    }
+
+    private renderCheckStatusModal = (): JSX.Element => {
+        
+        const { showResult, resultValue, resultImg } = this.state;
+        return (
+            <div 
+                styleName="result"
+                onClick={this.onHideResult}
+                flex-center="all-center"
+                style={{
+                        visibility  : showResult === true ? 'visible' : 'hidden',
+                        opacity     : showResult === true ? 1 : 0
+                    }}
+            >
+                <div styleName="bgimg"/>
+
+                <div 
+                    styleName="resultBox"
+                    style={{backgroundImage: `url(${resultImg})`}}
+                    bgimg-center="100"
+                >
+                    <span styleName="resultText">{resultValue}</span>
+                </div>
+            </div>
         );
     }
 

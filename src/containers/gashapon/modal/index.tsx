@@ -97,10 +97,6 @@ class Modal extends React.Component<Props, State> {
                 </span>
             </div>
         ));
-        const style = {
-            // width: '46.66vw',
-            // height: '50.6vw',
-        };
         
         const containerStyle = {
             width: '100%',

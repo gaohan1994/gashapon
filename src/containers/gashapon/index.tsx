@@ -224,7 +224,6 @@ class Gashapon extends React.Component<Props, State> {
         const user = User.getUser();
         if (!user.uid) {
 
-            console.log('未登录');
             /* do login stuff */
             showSignModal();
         } else {
@@ -328,6 +327,7 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public hideAll = (): void => {
+
         this.setState({
             showDiscountModal   : false,
             showModal           : false,
@@ -365,7 +365,7 @@ class Gashapon extends React.Component<Props, State> {
             showDiscountModal: false
         });
     }
-    
+
     public doShowSelectModalHandle = (): void => {
         this.setState({
             showSelectModal: true
