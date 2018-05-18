@@ -89,6 +89,9 @@ class Gashapon extends React.Component<Props, State> {
     /* 掉落的音乐 */
     private drop: any;
 
+    /* 成功的音效  */
+    private success: any;
+
     constructor (props: Props) {
         super(props);
         this.state = {
@@ -315,6 +318,7 @@ class Gashapon extends React.Component<Props, State> {
     public timeoutHandle = (result: any) => {
 
         changeGashaponLoading(false);
+        this.handleSuccessPlay();
         this.setState({
             showModal: true,
             // GashaponProductItem: result.data && result.data.product_list
@@ -410,6 +414,13 @@ class Gashapon extends React.Component<Props, State> {
         }
     }
 
+    public handleSuccessPlay = (): void => {
+        
+        if (this.success.paused === true) {
+            this.success.play();
+        }
+    }
+
     public onChangeMusicHandle = (): void => {
         if (this.audio.paused === true) {
             this.audio.play();
@@ -438,6 +449,15 @@ class Gashapon extends React.Component<Props, State> {
                         ref={(drop) => { this.drop = drop; }}
                         style={{width: '1px', height: '1px', visibility: 'hidden'}}
                     />
+
+                    <audio
+                        src={'http://net.huanmusic.com/gasha/123%E9%9F%B3%E6%95%88.mp3'}
+                        preload="metadata"
+                        autoPlay={false}
+                        ref={(success) => { this.success = success; }}
+                        style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                    />
+
                     <ErrorModal
                         display={errorModal}
                         value={modalValue}
