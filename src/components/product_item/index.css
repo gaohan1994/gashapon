@@ -89,3 +89,25 @@
     color: #ffffff;
     border-radius: 20px;
 }
+
+
+.more {
+    width: 680px;
+    margin-left: 35px;
+    height: 40px;
+    font-size: 30px;
+    color: #444444;
+    line-height: 40px;
+    background-color: #f7f7f7;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+.morebge {
+    margin-left: 20px;
+    width: 20px;
+    height: 12px;
+    background-image: url('http://net.huanmusic.com/gasha/%E4%B8%8B%E6%8B%89.png');
+}

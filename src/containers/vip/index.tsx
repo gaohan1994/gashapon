@@ -19,7 +19,10 @@ class Vip extends React.Component <Props, {}> {
     }
 
     render (): JSX.Element {
+
         const { getUserdata } = this.props;
+
+        console.log('getUserdata', getUserdata);
         return (
             <div styleName="container">
                 <div 
@@ -63,9 +66,7 @@ class Vip extends React.Component <Props, {}> {
                         </span>
                     </div>
                 </div>
-
                 {this.renderLevels()}
-                
                 {this.renderRules()}
             </div>
         );
@@ -98,7 +99,6 @@ class Vip extends React.Component <Props, {}> {
                 <span font-s="30" styleName="ruletext">1.使用余额消费获得经验值；</span>
                 <span font-s="30" styleName="ruletext">2.消费1元获得1经验值；</span>
                 <span font-s="30" styleName="ruletext">3.余额抵扣运费不获得经验值。</span>
-                
             </div>
         );
     }

@@ -8,6 +8,7 @@ import {
     SET_SELECTED_ADDRESS,
     SET_SELECTED_GASHAPONS,
     RECEIVE_PACKAGE_LOCATION,
+    RECEIVE_SELECTED_ORDER,
 } from '../../constants/business';
 import initState from './state';
 import { merge } from 'lodash';
@@ -45,6 +46,11 @@ export default function business (state: Business = initState, action: BusinessA
             state.location = location;
             return merge({}, state, {});
 
+        case RECEIVE_SELECTED_ORDER:
+            const { order } = action;
+            state.selectedOrder = order;
+            return merge({}, state, {});
+
         default :
             return state;
     }
@@ -61,3 +67,5 @@ export const getSelectedAddress = (state: Stores) => state.business.address;
 export const getSelectedGashapons = (state: Stores) => state.business.gashapons;
 
 export const getLocation = (state: Stores) => state.business.location;
+
+export const getSelectedOrder = (state: Stores) => state.business.selectedOrder;

@@ -10,3 +10,4 @@ export const remain: string;
 export const moneyInput: string;
 export const buttonBox: string;
 export const qrcode: string;
+export const paybutton: string;

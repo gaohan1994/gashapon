@@ -4,7 +4,7 @@ import * as styles from './index.css';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import Header from '../../components/haeder_set';
-import ProductItem, { Footer } from '../../components/product_item';
+import /*ProductItem*/ { Footer } from '../../components/product_item';
 import { Stores } from '../../reducers/type';
 import { BusinessActions } from '../../actions/business';
 import { /*Gashapon*/ Order as OrderType } from '../../types/componentTypes';
@@ -20,6 +20,7 @@ import Business from '../../classes/business';
 import User from '../../classes/user';
 import history from '../../history';
 import Modal from '../../components/modal';
+import OrderItem from '../../components/order_item';
 
 interface Props {
     match: {
@@ -238,9 +239,9 @@ class Order extends React.Component<Props, State> {
                     let footer: Footer = this.getFooter(item);
 
                     return (
-                        <ProductItem
+                        <OrderItem
                             key={i}
-                            data={item.product_list}
+                            data={item}
                             footer={footer}
                         />
                     );

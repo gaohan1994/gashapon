@@ -1,0 +1,41 @@
+.container {
+    width: 750px;
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+.module {
+    width: 750px;
+    background: #f7f7f7;
+    padding-top: 10px;
+}
+
+.box {
+    width: 750px;
+    background: #ffffff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+.left, .content {
+    font-size: 30px;
+    line-height: 60px;
+    height: 60px;
+}
+
+.left {
+    width: 180px;
+    padding-left: 30px;
+    font-weight: bold;
+}
+
+.content {
+    width: 550px;
+    color: #999999;
+    margin-left: 10px
+}

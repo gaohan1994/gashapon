@@ -5,7 +5,8 @@ import business,
     getIncome,
     getSelectedAddress,
     getSelectedGashapons,
-    getLocation
+    getLocation,
+    getSelectedOrder
 } from '../business';
 import { 
     RECEIVE_ORDERS, 
@@ -14,6 +15,7 @@ import {
     SET_SELECTED_ADDRESS,
     SET_SELECTED_GASHAPONS,
     RECEIVE_PACKAGE_LOCATION,
+    RECEIVE_SELECTED_ORDER,
 } from '../../constants/business';
 import initState from '../business/state';
 import store from '../initState';
@@ -74,6 +76,8 @@ describe('business 测试开始', () => {
 
     const location = {id: '123'};
 
+    const order = {id: '123'};
+
     it('应该成功 orders', () => {
         expect(
             business(initState, {type: RECEIVE_ORDERS, orders: orders})
@@ -115,6 +119,13 @@ describe('business 测试开始', () => {
         });
     });
 
+    it('should recieve order', () => {
+        expect(business(initState, { type: RECEIVE_SELECTED_ORDER, order: order})).toEqual({
+            ...initState,
+            selectedOrder: order
+        });
+    });
+
     it('应该成功 get Orders', () => {
         const Store = {
             ...store,
@@ -125,6 +136,7 @@ describe('business 测试开始', () => {
                 address : { id: '123' },
                 gashapons: gashapons,
                 location: { id: '123' },
+                selectedOrder: { id: '123' }
             }
         };
 
@@ -139,6 +151,8 @@ describe('business 测试开始', () => {
         expect(getSelectedGashapons(Store)).toEqual(gashapons);
 
         expect(getLocation(Store)).toEqual(location);
+
+        expect(getSelectedOrder(Store)).toEqual(order);
     });
     
 });

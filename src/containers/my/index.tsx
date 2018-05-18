@@ -111,13 +111,13 @@ class My extends React.Component<Props, State> {
         const { getUserdata } = this.props;
         return (
             <div styleName="user">
-                <div styleName="gift">
+                {/* <div styleName="gift">
                     <i 
                         styleName="giftIcon"
                         onClick={() => this.onClickHandle('set')}
                     />
                     <span>礼包兑换</span>
-                </div>
+                </div> */}
                 <i styleName="recharge" onClick={() => this.onClickHandle('pay')}/>
                 <div 
                     bgimg-center="bgimg-center"
@@ -319,7 +319,7 @@ class My extends React.Component<Props, State> {
             {
                 _id: 5,
                 value: '蛋卷折扣',
-                count: getUserdata.experience ? getUserdata.experience : 0
+                count: getUserdata.experience ? getUserdata.experience / 100 : 0
             }
         ];
         return (

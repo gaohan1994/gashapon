@@ -148,13 +148,13 @@ class Header extends React.Component<Props, State> {
                 >
                     <button styleName="bigButton" onClick={() => this.onNavHandle()}>全部分类</button>
                     {getGenres && getGenres.map((item: Genre, i) => (
-                        <button
+                        <span
                             key={i}
                             styleName="smallButton"
                             onClick={() => this.doChangeGenreHandle(item._id)}
                         >
                             {item.name}
-                        </button>
+                        </span>
                     ))}
                     <button styleName="bigButton">取消</button>
                 </div>
@@ -176,13 +176,13 @@ class Header extends React.Component<Props, State> {
                 >
                     <button styleName="bigButton" onClick={() => this.onNavHandle()}>全部专题</button>
                     {getTopics && getTopics.map((item: Genre, i) => (
-                        <button 
+                        <span 
                             key={i}
                             styleName="smallButton"
                             onClick={() => this.doChangeTopicHandle(item._id)}
                         >
                             {item.name}
-                        </button>
+                        </span>
                     ))}
                     <button styleName="bigButton">取消</button>
                 </div>

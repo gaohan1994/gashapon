@@ -118,9 +118,13 @@
     bottom: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, .7);
+    background: #ffffff;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+}
+
+.paybutton {
+    margin-top: 30px;
 }

@@ -80,9 +80,14 @@ interface State {
  */
 class Gashapon extends React.Component<Props, State> {
 
+    /* 计时器 */
     private timer: any;
 
+    /* 背景音乐 */
     private audio: any;
+
+    /* 掉落的音乐 */
+    private drop: any;
 
     constructor (props: Props) {
         super(props);
@@ -164,6 +169,7 @@ class Gashapon extends React.Component<Props, State> {
                 this.setState({
                     gashaponProductItem: result.data
                 });
+                this.handleDropPlay();
                 changeGashaponLoading(true);
                 this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
             } else {
@@ -319,7 +325,7 @@ class Gashapon extends React.Component<Props, State> {
 
         const { getGashapon } = this.props;
         const data = getGashapon.product_list && getGashapon.product_list[randomNum(getGashapon.product_list.length)];
-
+        this.handleDropPlay();
         this.setState({
             showModal           : true,
             gashaponProductItem : [data]
@@ -397,6 +403,13 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
+    public handleDropPlay = (): void => {
+        
+        if (this.drop.paused === true) {
+            this.drop.play();
+        }
+    }
+
     public onChangeMusicHandle = (): void => {
         if (this.audio.paused === true) {
             this.audio.play();
@@ -418,6 +431,13 @@ class Gashapon extends React.Component<Props, State> {
         return (
             <Hoc>
                 <div styleName="container">
+                    <audio
+                        src={'http://net.huanmusic.com/gasha/%E6%8E%89%E8%90%BD%E9%9F%B3%E6%95%88.mp3'}
+                        preload="metadata"
+                        autoPlay={false}
+                        ref={(drop) => { this.drop = drop; }}
+                        style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                    />
                     <ErrorModal
                         display={errorModal}
                         value={modalValue}

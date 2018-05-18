@@ -115,7 +115,7 @@ class Gashapon extends React.Component<Props, State> {
                 const price = JSON.parse(nextProps.match.params.price);
                 loadGashaponsByGenre({
                     genre       : nextProps.match.params.genre, 
-                    min_price   : price.min, 
+                    min_price   : price.min,
                     max_price   : price.max,
                 });
                 loadBannersByGenre(nextProps.match.params.genre);
@@ -299,6 +299,7 @@ class Gashapon extends React.Component<Props, State> {
             getGashapons, 
             getGashaponBanner,
             getBanners,
+            match
         } = this.props;
         return (
             <Hoc>
@@ -311,7 +312,9 @@ class Gashapon extends React.Component<Props, State> {
                     ? this.renderBanners()
                     : ''}
                     
-                    {this.renderClass()}
+                    {!!match.params && match.params.topic
+                    ? ''
+                    : this.renderClass()}
 
                     {getGashapons.map((item, i) => (
                         <div 

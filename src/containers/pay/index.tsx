@@ -178,13 +178,15 @@ class Pay extends React.Component<Props, State> {
                         value={qrcodeUrl}
                         imagePath="http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851.png"
                     />
-
-                    <Button
-                        btnText="返回主页"
-                        btnSize="big"
-                        btnRadius={true}
-                        clickHandle={() => this.hideQrcodeHandle()}
-                    />
+                    <div styleName="paybutton">
+                        <Button
+                            btnText="返回"
+                            btnSize="normal"
+                            btnRadius={true}
+                            clickHandle={() => this.hideQrcodeHandle()}
+                        />
+                    </div>
+                    
                 </div>
                
                 <Header 

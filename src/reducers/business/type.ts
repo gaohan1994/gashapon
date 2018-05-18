@@ -6,4 +6,5 @@ export type Business = {
     address : object;
     gashapons: object[];
     location: object;
+    selectedOrder: object;
 };

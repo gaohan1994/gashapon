@@ -9,3 +9,4 @@ export const type: string;
 export const typeBox: string;
 export const typeIcon: string;
 export const typeDetail: string;
+export const typeitem: string;

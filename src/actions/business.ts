@@ -43,13 +43,19 @@ export interface LoadPackageLocation {
     location: {};
 }
 
+export interface SetSelectedOrder {
+    type: constants.RECEIVE_SELECTED_ORDER;
+    order: {};
+}
+
 export type BusinessActions = 
     LoadOrders 
     | LoadPayinfo 
     | LoadIncomeRecord 
     | SetSelectedAddress
     | SetSelectedGashapons
-    | LoadPackageLocation;
+    | LoadPackageLocation
+    | SetSelectedOrder;
 
 export const loadOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>): void => {
     if (!_id) {
@@ -248,5 +254,13 @@ export const loadPackageLocation = (id: string) => (dispatch: Dispatch<BusinessA
         });
     } catch (err) {
         console.log(err.message ? err.message : '查看物流失败');
+    }
+};
+
+export const setSelectedOrder = (data: any) => (dispatch: Dispatch<BusinessActions>): void => {
+    try {
+        dispatch({type: constants.RECEIVE_SELECTED_ORDER, order: data});
+    } catch (err) {
+        console.log('setSelectedOrder', err);
     }
 };

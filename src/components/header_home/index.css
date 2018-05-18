@@ -113,6 +113,8 @@
 
 .bigButton, .smallButton {
     display: block;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     border-radius: 0;
     border-color: #bba895;
     background: #ffffff;
@@ -123,7 +125,6 @@
     text-align: center;
     margin: 0;
     padding: 0;
-    border-width: 0 0 1px;
 }
 
 .bigButton:hover, .smallButton:hover {
@@ -132,10 +133,16 @@
 
 .bigButton {
     width: 750px;
+    border: 0px;
 }
 
 .smallButton {
     width: 250px;
+    border-right: 2px;
+}
+
+.smallButton:nth-child(3n + 1) {
+    border-right: 0px;
 }
 
 .header {

@@ -17,6 +17,7 @@ import Help from './containers/about/help';
 import Pay from './containers/pay';
 import Gashapon from './containers/gashapon';
 import Order from './containers/order';
+import OrderDetail from './containers/order/detail';
 import Success from './containers/success';
 import Collect from './containers/collect';
 import Achievements from './containers/achievements';
@@ -59,6 +60,7 @@ const routes = (
         <Route path="/pay"                      component={Pay}/>
         <Route path="/order/:type"              component={Order}/>
         <Route path="/order"                    component={Order}/>
+        <Route path="/orderdetail"              component={OrderDetail}/>
         <Route path="/success"                  component={Success}/>
         <Route path="/collect"                  component={Collect}/>
         <Route path="/achievements"             component={Achievements}/>

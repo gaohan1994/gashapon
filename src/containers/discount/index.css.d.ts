@@ -16,3 +16,4 @@ export const userdiscount: string;
 export const dicounticon: string;
 export const progress: string;
 export const progresstext: string;
+export const home: string;

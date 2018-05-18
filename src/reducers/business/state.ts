@@ -5,4 +5,5 @@ export default {
     address : {},
     gashapons: [],
     location: {},
+    selectedOrder: {},
 };

@@ -14,3 +14,8 @@ export const big: string;
 export const normal: string;
 export const normaltext: string;
 export const title: string;
+export const result: string;
+export const bgimg: string;
+export const resultBox: string;
+export const resultButton: string;
+export const resultText: string;

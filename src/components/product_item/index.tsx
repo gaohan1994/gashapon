@@ -17,70 +17,129 @@ export interface Footer {
 
 interface Props {
     data: GashaponProductItem[];
-
-    footer?: Footer;
 }
 
-interface State {}
+interface State {
+    showMore: boolean;
+}
 
 class Product extends React.Component<Props, State> {
 
+    constructor (props: Props) {
+        super(props);
+        this.state = {
+            showMore: false
+        };
+    }
+
+    public toogleShowMore = (): void => {
+        this.setState({
+            showMore: !this.state.showMore
+        });
+    }
+
     render() {
         
-        const { data, footer } = this.props;
+        const { showMore } = this.state;
+        const { data } = this.props;
         
         return (
             <div styleName="box">
                 {data && data.length > 0
-                ? data.map((item: GashaponProductItem, i: number) => {
-                    return (
-                        <div 
-                            key={i}
-                            styleName="container"
-                            flex-center="all-center"
-                        >
-                            <div styleName="border">
-                                <div 
-                                    bgimg-center="bgimg-center"
-                                    styleName="cover"
-                                    style={{
-                                        backgroundImage: item.pics && item.pics[0]
-                                        ? `url(http://${config.host.pic}/${item.pics[0]})`
-                                        : `url(${config.empty_pic.url})`
-                                    }}
-                                />
-                                <div styleName="detail">
-                                    <Text 
-                                        value={item.name}
-                                        size="bold"
+                ?   showMore === true
+                    ? data.map((item: GashaponProductItem, i: number) => {
+                        return (
+                            <div 
+                                key={i}
+                                styleName="container"
+                                flex-center="all-center"
+                            >
+                                <div styleName="border">
+                                    <div 
+                                        bgimg-center="bgimg-center"
+                                        styleName="cover"
+                                        style={{
+                                            backgroundImage: item.pics && item.pics[0]
+                                            ? `url(http://${config.host.pic}/${item.pics[0]})`
+                                            : `url(${config.empty_pic.url})`
+                                        }}
                                     />
-                                    <Text 
-                                        value={`X${item.quantity}`} 
-                                        subValue={`￥10`}
-                                    />
+                                    <div styleName="detail">
+                                        <Text 
+                                            value={item.name}
+                                            size="bold"
+                                        />
+                                        <Text
+                                            value={`X${item.quantity}`} 
+                                            subValue={`￥10`}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })
-                : ''}
-                {footer && footer.show === true
-                ? <div styleName="footer">
-                    <div styleName="buttons">
-                        {footer.buttons && footer.buttons.map((item: Button, i: number) => (
-                            <span 
-                                styleName="button"
+                        );
+                    })
+                    : data.slice(0, 2).map((item: GashaponProductItem, i: number) => {
+                        return (
+                            <div 
                                 key={i}
-                                onClick={item.clickHandle}
+                                styleName="container"
+                                flex-center="all-center"
                             >
-                                {item.value}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-                : ''}
+                                <div styleName="border">
+                                    <div 
+                                        bgimg-center="bgimg-center"
+                                        styleName="cover"
+                                        style={{
+                                            backgroundImage: item.pics && item.pics[0]
+                                            ? `url(http://${config.host.pic}/${item.pics[0]})`
+                                            : `url(${config.empty_pic.url})`
+                                        }}
+                                    />
+                                    <div styleName="detail">
+                                        <Text 
+                                            value={item.name}
+                                            size="bold"
+                                        />
+                                        <Text
+                                            value={`X${item.quantity}`} 
+                                            subValue={`￥10`}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
+                :   ''}
+                
+                {this.renderShowMore()}
             </div>
         );
+    }
+
+    private renderShowMore = (): JSX.Element | string => {
+        const { showMore } = this.state;
+        const { data } = this.props;
+
+        if (data && data.length > 2) {
+            return (
+                <div 
+                    styleName="more"
+                    flex-center="all-center"
+                    onClick={this.toogleShowMore}
+                >
+                    共{data && data.length}件
+                    <span 
+                        styleName="morebge"
+                        bgimg-center="100"
+                        style={{
+                            transform: showMore === true ? 'rotate(180deg)' : 'rotate(0deg)'
+                        }}
+                    />
+                </div>
+            );
+        } else {
+            return '';
+        }
     }
 }
 
