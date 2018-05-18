@@ -36,7 +36,7 @@ class Select extends React.Component<Props, State> {
         const { current } = this.state;
 
         const { display, totalData, onHideHandle } = this.props;
-
+        
         const 
             data: Array<JSX.Element> = [],
             trig: Array<JSX.Element> = [];

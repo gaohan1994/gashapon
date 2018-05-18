@@ -96,6 +96,8 @@ class Gashapon extends React.Component<Props, State> {
             errorModal          : false,
             modalValue          : '',
         };
+
+        this.onDiscountGashaponClickHandle = this.onDiscountGashaponClickHandle.bind(this);
     }
 
     componentDidMount () {
@@ -306,6 +308,7 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public timeoutHandle = (result: any) => {
+
         changeGashaponLoading(false);
         this.setState({
             showModal: true,
@@ -314,6 +317,7 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public onTestOneTime = (): void => {
+
         const { getGashapon } = this.props;
         const data = getGashapon.product_list && getGashapon.product_list[randomNum(getGashapon.product_list.length)];
 
@@ -361,7 +365,7 @@ class Gashapon extends React.Component<Props, State> {
             showDiscountModal: false
         });
     }
-
+    
     public doShowSelectModalHandle = (): void => {
         this.setState({
             showSelectModal: true
@@ -489,8 +493,10 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     private renderModal = (): JSX.Element => {
+
         const { showModal, gashaponProductItem } = this.state;
         const { getGashapon } = this.props;
+
         return (
             <Modal 
                 display={showModal}
@@ -536,6 +542,7 @@ class Gashapon extends React.Component<Props, State> {
 
         const { showSelectModal } = this.state;
         const { getGashapon } = this.props;
+
         return (
             <SelectModal 
                 display={showSelectModal}
@@ -549,7 +556,9 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋标题
      */
     private renderName = (): JSX.Element => {
+
         const { getGashapon } = this.props;
+
         return (
             <div styleName="name" word-overflow="word-overflow">
                 {`${getGashapon.name || '加载中'}  
@@ -562,7 +571,9 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋开放时间
      */
     private renderTime = (): JSX.Element => {
+
         const { getGashapon } = this.props;
+
         return (
             <div styleName="time" word-overflow="word-overflow">
                 开放购买时间：{moment(getGashapon.open_time).format('YYYY-MM-DD hh:mm')}
@@ -572,6 +583,7 @@ class Gashapon extends React.Component<Props, State> {
 
     /*渲染 是否收藏*/
     private renderCollect = (): JSX.Element | string => {
+
         const { getUserdata, match } = this.props;
         
         if (getUserdata.collect_machines) {
@@ -601,6 +613,7 @@ class Gashapon extends React.Component<Props, State> {
     private renderMusicIcon = (): JSX.Element => {
 
         const { audioPlaying } = this.state;
+
         return (
             <i 
                 styleName="music"
@@ -619,7 +632,9 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋库存
      */
     private renderStore = (): JSX.Element => {
+
         const { getGashapon } = this.props;
+
         return (
             <div styleName="store">
                 <span>库存：{getGashapon.residue_quantity || 0}</span>

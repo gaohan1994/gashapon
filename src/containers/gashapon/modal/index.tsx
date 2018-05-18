@@ -8,6 +8,8 @@ import {
 } from '../../../types/componentTypes';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import Button from '../../../components/button';
+
 const AutoSwipeableViews = autoPlay(SwipeableViews);
 
 interface Props {
@@ -35,24 +37,36 @@ class Modal extends React.Component<Props, State> {
         return (
             <div 
                 styleName="container"
+                flex-center="all-center"
                 style={{
-                        display: display === true ? 'block' : 'none', 
-                        opacity: display === true ? 1 : 0
+                        visibility  : display === true ? 'visible' : 'hidden',
+                        opacity     : display === true ? 1 : 0
                     }}
             >
-                <div styleName="bgimg">
-                    <i styleName="title"/>
-                    <div styleName="image">
-                        {this.renderSwiper()}
-                    </div>
-                    <span styleName="tip">特别提示：试一试结果与实际库存无关</span>
-                    <span 
+                <div styleName="bgimg"/>
+                <div 
+                    styleName="image"
+                    bgimg-center="100"
+                >
+                    {this.renderSwiper()}
+                </div>
+                <div styleName="button">
+                    <Button
+                        btnText="继续扭蛋"
+                        clickHandle={onHide}
+                        btnRadius={true}
+                        btnSize="small"
+                    />
+                </div>
+                
+                    {/* <span styleName="tip">特别提示：试一试结果与实际库存无关</span> */}
+                    {/* <span 
                         styleName="button"
                         onClick={onHide}
                     >
                         继续扭蛋
-                    </span>
-                </div>
+                    </span> */}
+                    
             </div>
         );
     }
@@ -60,10 +74,11 @@ class Modal extends React.Component<Props, State> {
     private renderSwiper = (): JSX.Element => {
         const { current } = this.state;
         const { data, totalData } = this.props;
-        console.log('data', data);
+
         const items = data && data.map((item: GashaponProductItem, i) => (
             <div 
                 styleName="item"
+                flex-center="all-center"
                 key={i}
             >
                 <div
@@ -83,8 +98,8 @@ class Modal extends React.Component<Props, State> {
             </div>
         ));
         const style = {
-            width: '60vw',
-            height: '100%'
+            // width: '46.66vw',
+            // height: '50.6vw',
         };
         
         const containerStyle = {
@@ -92,16 +107,18 @@ class Modal extends React.Component<Props, State> {
             height: '100%'
         };
         return (
-            <AutoSwipeableViews
-                autoplay={true}
-                style={style}
-                index={current}
-                containerStyle={containerStyle}
-                onChangeIndex={this.onChangeIndex}
-                enableMouseEvents={true}
-            >
-                {items ? items : []}
-            </AutoSwipeableViews>
+            <div styleName="box">
+                <AutoSwipeableViews
+                    autoplay={true}
+                    style={containerStyle}
+                    index={current}
+                    containerStyle={containerStyle}
+                    onChangeIndex={this.onChangeIndex}
+                    enableMouseEvents={true}
+                >
+                    {items ? items : []}
+                </AutoSwipeableViews>
+            </div>
         );
     }
 

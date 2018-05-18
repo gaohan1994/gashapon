@@ -27,7 +27,6 @@ interface Props {
 }
 
 interface State {
-    // gashapons: Gashapon[];
     selected: number[];
 
     showModal: boolean;
@@ -36,7 +35,6 @@ interface State {
 
 /**
  * 变卖页面
- * 
  * @class Sale
  * @extends {React.Component<Props, State>}
  */

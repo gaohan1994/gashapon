@@ -8,7 +8,6 @@ import * as moment from 'moment';
 import history from '../../history';
 import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
-// import Modal from '../../components/modal';
 
 interface Props {
     gashapon: Gashapon;
@@ -114,18 +113,6 @@ class GashaponRow extends React.Component<Props, State> {
                     <div styleName="button" onClick={() => this.doShowModalHandle(gashapon)}>...</div>
                 </div>
             </div>
-        );
-    }
-
-    private renderErrorModal = (): JSX.Element => {
-        const { showCollectModal, modalValue } = this.state;
-        return (
-            <Modal
-                display={showCollectModal}
-                value={modalValue}
-                onCancelClickHandle={this.onHideModal}
-                onConfirmClickHandle={this.onHideModal}
-            />
         );
     }
 

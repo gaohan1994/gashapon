@@ -27,12 +27,27 @@ type Menus = Array<{
 
 class ShareModal extends React.Component <Props, {}> {
 
+    constructor (props: Props) {
+        super(props);
+        this.onCancelHandle = this.onCancelHandle.bind(this);
+    }
+
+    public onCancelHandle = (event: any): void => {
+        const { hideShareModal } = this.props;
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        if (hideShareModal) {
+            hideShareModal();
+        }
+    }
+    
     render () {
 
         const { 
-            getShareStatus, 
+            getShareStatus,
             propsClickHandle = (type: ShareType) => {/*no empty*/},
-            hideShareModal,
         } = this.props;
 
         const menus: Menus = [
@@ -65,7 +80,7 @@ class ShareModal extends React.Component <Props, {}> {
         return (
             <div 
                 styleName="container"
-                // onClick={hideShareModal}
+                onClick={this.onCancelHandle}
                 style={{
                     visibility  : getShareStatus === true ? 'visible' : 'hidden',
                     opacity     : getShareStatus === true ? 1 : 0
@@ -82,9 +97,10 @@ class ShareModal extends React.Component <Props, {}> {
                         {menus.map((item) => {
                             return (
                                 <div
+                                    key={item._id}
                                     styleName="item"
                                     flex-center="all-center"
-                                    key={item._id}
+                                    id="share_click_item"
                                     onClick={propsClickHandle ? () => propsClickHandle(item.value) : () => {/*no empty*/}}
                                 >
                                     <i 
@@ -97,9 +113,8 @@ class ShareModal extends React.Component <Props, {}> {
                             );
                         })}
                     </div>
-                    <div styleName="button" onClick={hideShareModal}>取消分享</div>
+                    <div styleName="button" onClick={this.onCancelHandle}>取消分享</div>
                 </div>
-                
             </div>
         );
     }

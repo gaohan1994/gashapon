@@ -43,6 +43,7 @@ class DiscountHome extends React.Component <Props, State> {
     }
 
     componentDidMount (): void {
+        
         const { 
             getUserdata,
             loadDiscount, 

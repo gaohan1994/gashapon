@@ -7,6 +7,7 @@ import Validator from '../../../classes/validate';
 import Sign, { DoForgetPasswordMethodParam } from '../../../classes/sign';
 // import history from '../../../history';
 import { NormalReturnObject } from '../../../classes/base';
+import Modal from '../../../components/modal';
 
 export interface Props {
     
