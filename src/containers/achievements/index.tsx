@@ -94,7 +94,7 @@ class Achievements extends React.Component<Props, State> {
         ];
 
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 {this.renderHeader()}
 
                 {achievements.map((item, i) => (

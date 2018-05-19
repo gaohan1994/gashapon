@@ -191,7 +191,7 @@ class Profit extends React.Component <Props, State> {
 
     render (): JSX.Element {
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 {this.renderErrorModal()}
                 <div 
                     styleName="header"
@@ -228,7 +228,6 @@ class Profit extends React.Component <Props, State> {
             <Modal
                 display={showModal}
                 value={modalValue}
-                onCancelClickHandle={this.onHideModal}
                 onConfirmClickHandle={this.onHideModal}
             />
         );

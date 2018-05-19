@@ -196,7 +196,7 @@ class Check extends React.Component <Props, State> {
         }
 
         return (
-            <section styleName="container">
+            <section styleName="container" bg-white="true">
                 <SignModal/>
                 {this.renderReword()}
                 {this.renderModal()}
@@ -276,7 +276,6 @@ class Check extends React.Component <Props, State> {
             <Modal
                 display={showReword}
                 value={rewordValue}
-                onCancelClickHandle={this.onRewordCancelHandle}
                 onConfirmClickHandle={this.onRewordCancelHandle}
             />
         );

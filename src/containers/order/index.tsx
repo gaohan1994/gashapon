@@ -222,7 +222,7 @@ class Order extends React.Component<Props, State> {
         const { showReminderModal, reminderValue } = this.state;
         const { getOrders } = this.props;
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 {this.renderErrorModal()}
                 <Modal 
                     display={showReminderModal}
@@ -257,7 +257,6 @@ class Order extends React.Component<Props, State> {
             <Modal
                 display={showModal}
                 value={modalValue}
-                onCancelClickHandle={this.onHideModal}
                 onConfirmClickHandle={this.onHideModal}
             />
         );

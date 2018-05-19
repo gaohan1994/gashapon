@@ -93,7 +93,7 @@ class My extends React.Component<Props, State> {
     render(): JSX.Element {
         const { } = this.props;
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <SignModal/>
                 {this.renderProfile()}
                 {this.renderMoney()}
@@ -264,7 +264,7 @@ class My extends React.Component<Props, State> {
 
     private renderSet = (): JSX.Element => {
         return (
-            <div styleName="set">
+            <div styleName="set" bg-white="true">
                 <div 
                     styleName="setItem"
                     onClick={() => this.onClickHandle('address')}

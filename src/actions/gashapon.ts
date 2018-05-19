@@ -30,7 +30,17 @@ export interface LoadGashaponDiscountById {
     discount: number;
 }
 
-export type GashaponActions = LoadGashapon | ChangeLoading | LoadGashaponComments | LoadGashaponDiscountById;
+export interface ReceiveCreateDiscount {
+    type: constants.RECEIVE_CREATE_GASHAPON_DISCOUNT;
+    createDiscount: string;
+}
+
+export type GashaponActions = 
+    LoadGashapon 
+    | ChangeLoading 
+    | LoadGashaponComments 
+    | LoadGashaponDiscountById
+    | ReceiveCreateDiscount;
 
 export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions>): void => {
     if (!_id) {
@@ -123,5 +133,13 @@ export const loadGashaponDiscountById = (uid: string, id: string) => (dispatch: 
         });
     } catch (err) {
         console.log('loadGashaponShows', err.message ? err.message : 'ERROR_FETCH');
+    }
+};
+
+export const receiveCreateDiscount = (id: string) => (dispatch: Dispatch<GashaponActions>): void => {
+    try {
+        dispatch({type: constants.RECEIVE_CREATE_GASHAPON_DISCOUNT, createDiscount: id});
+    } catch (err) {
+        console.log('receiveCreateDiscount', err.message ? err.message : 'receiveCreateDiscount');
     }
 };

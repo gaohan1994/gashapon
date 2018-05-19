@@ -11,6 +11,9 @@ interface Props {
     confirmButtonText   ?: string;
     onConfirmClickHandle?: () => void;
     onCancelClickHandle ?: () => void;
+    
+    close               ?: boolean;
+    closeClickHandle    ?: () => void;
 }
 
 interface State {
@@ -33,6 +36,8 @@ class Modal extends React.Component <Props, State> {
             confirmButtonText,
             onCancelClickHandle,
             onConfirmClickHandle,
+            close,
+            closeClickHandle,
         } = this.props;
 
         return (
@@ -45,6 +50,16 @@ class Modal extends React.Component <Props, State> {
                 }}
             >
                 <div styleName="box">
+                
+                    {close === true
+                    ? <span 
+                        styleName="close"
+                        onClick={closeClickHandle}
+                    >
+                        X
+                    </span>
+                    : ''}
+                    
                     <span styleName="haeder">{headerValue ? headerValue : '提示'}</span>
                     <div
                         styleName="content"
@@ -57,9 +72,12 @@ class Modal extends React.Component <Props, State> {
                     <div 
                         styleName="buttons"
                     >
-                        <button styleName="button" onClick={onCancelClickHandle}>
+                        {onCancelClickHandle
+                        ? <button styleName="button" onClick={onCancelClickHandle}>
                             {cancelButtonText ? cancelButtonText : '取消'}
                         </button>
+                        : ''}
+                        
                         <button styleName="button" onClick={onConfirmClickHandle}>
                             {confirmButtonText ? confirmButtonText : '确定'}
                         </button>

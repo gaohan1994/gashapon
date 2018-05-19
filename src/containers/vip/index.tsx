@@ -24,7 +24,7 @@ class Vip extends React.Component <Props, {}> {
 
         console.log('getUserdata', getUserdata);
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <div 
                     styleName="back"
                     onClick={() => this.onBackHandle()}

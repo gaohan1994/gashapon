@@ -4,4 +4,5 @@ export default {
     comments    : [],
     shows       : [],
     discount    : 0,
+    createDiscount: ''
 };

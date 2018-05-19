@@ -158,7 +158,7 @@ class Sale extends React.Component<Props, State> {
         const { selected } = this.state;
         const { getInventory } = this.props;
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <SignModal/>
                 {this.renderErrorModal()}
                 <Header title=""/>
@@ -205,7 +205,6 @@ class Sale extends React.Component<Props, State> {
             <Modal
                 display={showModal}
                 value={modalValue}
-                onCancelClickHandle={this.onHideModal}
                 onConfirmClickHandle={this.onHideModal}
             />
         );

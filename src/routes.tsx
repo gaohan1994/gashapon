@@ -42,6 +42,7 @@ import Location from './containers/location';
 const routes = (
     <Switch>
         <Route path="/" exact={true}            component={Main}/>
+        <Route path="/iframe"                   component={Main}/>
         <Route path="/gashapon/:id"             component={Gashapon}/>
         <Route path="/gashapons/word/:word"     component={Gashapons}/>
         <Route path="/gashapons/topic/:topic"   component={Gashapons}/>

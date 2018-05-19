@@ -63,6 +63,7 @@ class Sign {
         this.doChangeUserdata       = this.doChangeUserdata.bind(this);
         this.doBindHandle           = this.doBindHandle.bind(this);
         this.doForgetPasswordMethod = this.doForgetPasswordMethod.bind(this);
+        this.getChangePwdVercode    = this.getChangePwdVercode.bind(this);
     }
 
     public doBindHandle = async ({user, spread}: DoBindHandleParam): Promise <NormalReturnObject> => {
@@ -305,8 +306,49 @@ class Sign {
                 return { success : true };
             } else {
                 return {
-                    type: 'ERROR_GETVERCODE',
-                    message: '获取验证吗失败'
+                    type    : 'ERROR_GETVERCODE',
+                    message : result.message ? result.message : '获取验证吗失败'
+                };
+            }
+        } catch (err) {
+            return {
+                type: 'ERROR_GETVERCODE',
+                message: err.message ? err.message : '获取验证吗失败'
+            };
+        }
+    }
+
+    /**
+     * 获取验证码
+     * 
+     * @memberof Sign
+     */
+    public getChangePwdVercode = async (phone: string): Promise <NormalReturnObject> => {
+
+        if (!phone) {
+            return {
+                type: 'ERROR_PARAM',
+                message: 'phone'
+            };
+        }
+
+        try {
+            const result = await fetch('/code_v1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phone
+                })
+            }).then(res => res.json());
+
+            if (result.success === true) {
+                return { success : true };
+            } else {
+                return {
+                    type    : 'ERROR_GETVERCODE',
+                    message : result.message ? result.message : '获取验证吗失败'
                 };
             }
         } catch (err) {

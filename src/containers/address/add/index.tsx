@@ -236,7 +236,6 @@ class AddAddress extends React.Component <Props, State> {
                 <Modal
                     display={showModal}
                     value={modalValue}
-                    onCancelClickHandle={this.onHideModal}
                     onConfirmClickHandle={this.onHideModal}
                 />
 

@@ -21,7 +21,7 @@ class Account extends React.Component<Props, {}> {
     render () {
         const { getUserdata, showPhone } = this.props;
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <Phone/>
                 <Header 
                     title="绑定手机号"

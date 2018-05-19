@@ -109,7 +109,6 @@ class Collect extends React.Component<Props, State> {
             <Modal
                 display={showModal}
                 value={modalValue}
-                onCancelClickHandle={this.onHideModal}
                 onConfirmClickHandle={this.onHideModal}
             />
         );
@@ -118,7 +117,7 @@ class Collect extends React.Component<Props, State> {
     private renderNav = (): JSX.Element => {
         const { type } = this.state;
         return (
-            <div styleName="navbar">
+            <div styleName="navbar" bg-white="true">
                 <div 
                     styleName="white"
                 >

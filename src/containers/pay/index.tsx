@@ -159,11 +159,10 @@ class Pay extends React.Component<Props, State> {
         const { getUserdata } = this.props;
         
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <Modal
                     display={showModal}
                     value={modalValue}
-                    onCancelClickHandle={this.onHideModal}
                     onConfirmClickHandle={this.onHideModal}
                 />
                 <div 

@@ -40,6 +40,7 @@ class Show extends React.Component<Props, State> {
             <section
                 styleName="container"
                 bgimg-center="100"
+                bg-white="true"
             >
                 <i 
                     styleName="back"

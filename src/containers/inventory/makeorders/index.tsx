@@ -218,7 +218,7 @@ class MakeOriders extends React.Component<Props, State> {
         console.log('selected', selected);
         return (
             <Hoc>
-                <div styleName="container">
+                <div styleName="container" bg-white="true">
                     <SignModal/>
                     <Modal 
                         display={showModal}

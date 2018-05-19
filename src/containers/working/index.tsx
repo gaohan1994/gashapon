@@ -10,6 +10,7 @@ const onClickHandle = (): void => {
 const Working = ({}): JSX.Element => (
     <div 
         styleName="container"
+        bg-white="true"
         onClick={onClickHandle}
     >
         正在建设中

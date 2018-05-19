@@ -254,13 +254,13 @@ class Address extends React.Component <Props, State> {
             <div
                 styleName="container"
                 container-with-header="true"
+                bg-white="true"
             >
                 <Header title="收货地址"/>
                 
                 <Modal
                     display={showModal}
                     value={modalValue}
-                    onCancelClickHandle={this.onHideModal}
                     onConfirmClickHandle={this.onHideModal}
                 />
 

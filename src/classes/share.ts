@@ -1,6 +1,4 @@
-// import mobShare from '../mobshare.index';
-
-/// <reference path="../mobshare.index.d.ts" />
+/// <reference path="../index.d.ts" />
 
 const _default = {
     url         : 'http://gacha-dev.hy233.tv',
@@ -53,8 +51,8 @@ class Share {
             });
 
             const share = mobShare(`${this.type}`);
-
             share.send();
+            
         } catch (err) {
             console.log(err.message ? err.message : '分享出错');
         }

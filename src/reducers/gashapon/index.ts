@@ -6,6 +6,7 @@ import {
     CHANGE_LOADING_STATUS,
     RECEIVE_GAHSAPON_COMMENTS,
     RECEIVE_GASHAPON_DISCOUNT,
+    RECEIVE_CREATE_GASHAPON_DISCOUNT,
 } from '../../constants/gashapon';
 import initState from './state';
 import { merge } from 'lodash';
@@ -32,6 +33,11 @@ export default function gashapon (state: Gashapon = initState, action: GashaponA
             const { discount } = action;
             state.discount = discount;
             return merge({}, state, {});
+
+        case RECEIVE_CREATE_GASHAPON_DISCOUNT:
+            const { createDiscount } = action;
+            state.createDiscount = createDiscount;
+            return merge({}, state, {});
             
         default :
             return state;
@@ -45,3 +51,5 @@ export const getLoadingStatus = (state: Stores) => state.gashapon.loading;
 export const getComments = (state: Stores) => state.gashapon.comments;
 
 export const getDiscount = (state: Stores) => state.gashapon.discount;
+
+export const getCreateDiscount = (state: Stores) => state.gashapon.createDiscount;

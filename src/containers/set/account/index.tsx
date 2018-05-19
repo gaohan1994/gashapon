@@ -20,7 +20,7 @@ class Account extends React.Component<Props, {}> {
         const { getUserdata } = this.props;
         
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <Header 
                     title="设置"
                 />

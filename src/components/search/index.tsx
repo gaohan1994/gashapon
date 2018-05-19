@@ -148,7 +148,6 @@ class Search extends React.Component<Props, State> {
                 <Modal 
                     display={showModal}
                     value={modalValue}
-                    onCancelClickHandle={this.onHideModal}
                     onConfirmClickHandle={this.onHideModal}
                 />
                 {this.renderHeader()}

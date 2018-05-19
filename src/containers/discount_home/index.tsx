@@ -69,7 +69,7 @@ class DiscountHome extends React.Component <Props, State> {
         const { type } = this.state;
         const { getHomeDiscounting, getHomeDiscount } = this.props;
         return (
-            <div container-with-header="true">
+            <div container-with-header="true" bg-white="true">
             
                 <SignModal/>
                 <Header title="我的砍价"/>

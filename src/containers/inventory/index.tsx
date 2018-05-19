@@ -172,14 +172,14 @@ class Inventory extends React.Component<Props, State> {
         if (!!match.params.word) {
 
             loadInventoryByWord({
-                userId: uid, 
-                word: match.params.word
+                userId  : uid, 
+                word    : match.params.word
             });
         } else if (!!match.params.genre) {
 
             loadInventoryByGenre({
-                userId: uid, 
-                genre: match.params.genre
+                userId  : uid, 
+                genre   : match.params.genre
             });
         } else {
             
@@ -251,7 +251,7 @@ class Inventory extends React.Component<Props, State> {
             }
         ];
         return (
-            <div styleName="menu">
+            <div styleName="menu" bg-white="true">
                 <Menu
                     menus={menus}
                     iconWidth="33.33vw"

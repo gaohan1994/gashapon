@@ -29,6 +29,7 @@ class Detail extends React.Component <Props, {}> {
             <div 
                 styleName="container"
                 container-with-header="true"
+                bg-white="true"
             >
                 <Header title="订单详情"/>
 

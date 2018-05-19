@@ -41,7 +41,7 @@ class Profit extends React.Component <Props, {}> {
     render (): JSX.Element {
         const { getIncome } = this.props;
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <div 
                     styleName="back"
                     onClick={() => this.onBackHandle()}

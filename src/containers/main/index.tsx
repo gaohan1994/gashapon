@@ -123,7 +123,7 @@ class Main extends React.Component<Props, State> {
     render() {
         return (
             <Hoc>
-                <div styleName="container">
+                <div styleName="container" bg-white="true">
                     <SignModal/>
                     <Header/>
                     <Search/>

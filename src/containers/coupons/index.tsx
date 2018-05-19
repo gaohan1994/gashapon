@@ -121,7 +121,7 @@ class Coupons extends React.Component<Props, State> {
         const { getCoupons } = this.props;
         console.log('getCoupons', getCoupons);
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
 
                 <Header title="我的优惠券"/>
                 

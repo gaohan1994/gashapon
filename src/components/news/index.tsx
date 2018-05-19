@@ -7,13 +7,12 @@ import { Stores } from '../../reducers/type';
 import { 
     hideNews,
     StatusActions,
+    loadNotifies,
 } from '../../actions/status';
 import { 
     getNewsStatus,
     getNotifies,
 } from '../../reducers/status';
-// import config from '../../config/index';
-// import history from '../../history';
 
 export type Notifies = [{
     _id     : string;
@@ -24,6 +23,7 @@ interface Props {
     display     ?: boolean;
     hideNews    ?: () => void;
     getNotifies ?: Notifies;
+    loadNotifies?: () => void;
 }
 
 interface State {
@@ -31,6 +31,14 @@ interface State {
 }
 
 class News extends React.Component<Props, State> {
+
+    componentDidMount() {
+        
+        const { loadNotifies } = this.props;
+        if (loadNotifies) {
+            loadNotifies();
+        }
+    }
 
     render (): JSX.Element {
         const { 
@@ -70,7 +78,8 @@ const mapStateToProps = (state: Stores) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<StatusActions>) => ({
-    hideNews: bindActionCreators(hideNews, dispatch),
+    hideNews    : bindActionCreators(hideNews, dispatch),
+    loadNotifies: bindActionCreators(loadNotifies, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

@@ -5,7 +5,7 @@ import Header from '../../components/haeder_set';
 import Line from '../../components/lineItem';
 
 const About = ({}): JSX.Element => (
-    <div styleName="container">
+    <div styleName="container" bg-white="true">
         <Header 
             title="关于完蛋趣"
         />

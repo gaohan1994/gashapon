@@ -70,6 +70,7 @@ class Record extends React.Component<Props, State> {
             <div 
                 styleName="container"
                 container-with-header="true"
+                bg-white="true"
             >
                 <Header title="收支明细"/> 
                 {getPayinfo.length > 0

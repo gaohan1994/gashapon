@@ -5,4 +5,5 @@ export type Gashapon = {
     comments    : object[];
     shows       : object[];
     discount    : number;
+    createDiscount: string;
 };

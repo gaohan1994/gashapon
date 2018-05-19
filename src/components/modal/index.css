@@ -69,3 +69,15 @@
 .button:hover {
     background: #f9f0e2;
 }
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    line-height: 70px;
+    color: #ffffff;
+    text-align: center;
+}

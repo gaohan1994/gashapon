@@ -111,6 +111,7 @@ class ChangeName extends React.Component<Props, State> {
             <div 
                 styleName="container"
                 container-with-header="true"
+                bg-white="true"
             >
                 {this.renderErrorModal()}
                 <Header title="修改昵称"/>
@@ -153,7 +154,6 @@ class ChangeName extends React.Component<Props, State> {
             <Modal
                 display={errorModal}
                 value={modalValue}
-                onCancelClickHandle={this.onHideModal}
                 onConfirmClickHandle={this.onHideModal}
             />
         );

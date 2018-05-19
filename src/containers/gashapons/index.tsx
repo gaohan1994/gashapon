@@ -303,7 +303,7 @@ class Gashapon extends React.Component<Props, State> {
         } = this.props;
         return (
             <Hoc>
-                <div styleName="container">
+                <div styleName="container" bg-white="true">
                     <Header/>
                     <Search/>
                     <News/>

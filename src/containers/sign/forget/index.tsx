@@ -162,7 +162,7 @@ class Forget extends React.Component<Props, State> {
             this.onShowModal();
         } else {
             /* do stuff */
-            const result = await Sign.getVercode(phone);
+            const result = await Sign.getChangePwdVercode(phone);
 
             if (result.success === true) {
                 this.setState({ waitCode: 60 }, () => { this.timer = setInterval(this.timerHandle, 1000); });
@@ -177,7 +177,7 @@ class Forget extends React.Component<Props, State> {
 
     render() {
 
-        const { phone, vercode, password } = this.state;
+        const { phone, vercode, password, waitCode } = this.state;
 
         return (
             <div 
@@ -208,18 +208,24 @@ class Forget extends React.Component<Props, State> {
                     </div>
                     <div styleName="border">
                         <span>验证码</span>
-                        <input 
+                        <input
                             styleName="vercode"
                             value={vercode}
                             onChange={this.onChangeVercodeHandle}
                             placeholder="请输入验证码"
                         />
-                        <Button 
+                        {waitCode === 0
+                        ? <Button 
                             btnText="发送验证码"
                             btnSize="small"
                             btnRadius={true}
                             clickHandle={this.onSendVercodeHandle}
                         />
+                        : <Button 
+                            btnText={`重新获取(${waitCode - 1})`}
+                            btnSize="small"
+                            btnRadius={true}
+                        />}
                     </div>
                 </div>
 
@@ -244,7 +250,6 @@ class Forget extends React.Component<Props, State> {
             <Modal
                 display={showModal}
                 value={modalValue}
-                onCancelClickHandle={this.onHideModal}
                 onConfirmClickHandle={this.onHideModal}
             />
         );

@@ -45,6 +45,7 @@ class Location extends React.Component <Props, State> {
         return (
             <div 
                 container-with-header="true"
+                bg-white="true"
             >
                 <Header title="物流信息"/>
                 <div styleName="header">

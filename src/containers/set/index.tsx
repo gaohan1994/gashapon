@@ -36,7 +36,7 @@ class Setting extends React.Component<Props, State> {
     render() {
         const { } = this.props;
         return (
-            <div styleName="container">
+            <div styleName="container" bg-white="true">
                 <Header 
                     title="设置"
                 />

@@ -3,9 +3,10 @@ import gashapon,
     getGashapon, 
     getLoadingStatus, 
     getComments,
-    getDiscount
+    getDiscount,
+    getCreateDiscount
 } from '../gashapon';
-import { RECEIVE_GASHAPON, CHANGE_LOADING_STATUS, RECEIVE_GASHAPON_DISCOUNT } from '../../constants/gashapon';
+import { RECEIVE_GASHAPON, CHANGE_LOADING_STATUS, RECEIVE_GASHAPON_DISCOUNT, RECEIVE_CREATE_GASHAPON_DISCOUNT } from '../../constants/gashapon';
 import initState from '../gashapon/state';
 import store from '../initState';
 
@@ -76,6 +77,18 @@ describe('gashapon test', () => {
         ).toEqual({...initState, discount: 5});
     });
 
+    it('should receive discount', () => {
+        expect(
+            gashapon(
+                initState,
+                {
+                    type: RECEIVE_CREATE_GASHAPON_DISCOUNT,
+                    createDiscount: '123'
+                }
+            )
+        ).toEqual({...initState, createDiscount: '123'});
+    });
+
     describe('get method test', () => {
 
         const Store = {
@@ -86,6 +99,7 @@ describe('gashapon test', () => {
                 comments: [{test: 1}],
                 shows   : [],
                 discount: 5,
+                createDiscount: '123'
             }
         };
 
@@ -103,6 +117,10 @@ describe('gashapon test', () => {
 
         it('should get discount', () => {
             expect(getDiscount(Store)).toEqual(5);
+        });
+
+        it('should get creatediscount', () => {
+            expect(getCreateDiscount(Store)).toEqual('123');
         });
     });
 });

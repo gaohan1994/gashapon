@@ -321,6 +321,7 @@ class SignContainer extends React.Component<Props, State> {
             <section
                 styleName="container"
                 flex-center="all-center"
+                bg-white="true"
                 style={{
                     bottom      : display === true ? '0' : '-100vh',
                     opacity     : display === true ? 1 : 0,
@@ -449,7 +450,6 @@ class SignContainer extends React.Component<Props, State> {
             <Modal
                 display={showModal}
                 value={modalValue}
-                onCancelClickHandle={this.onHideModal}
                 onConfirmClickHandle={this.onHideModal}
             />
         );

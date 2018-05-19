@@ -28,12 +28,14 @@ import { Stores } from '../../reducers/type';
 import { 
     Gashapon as GashaponType,
     GashaponProductItem as GashaponProductItemType,
+    discount
 } from '../../types/componentTypes';
 import { Userdata } from '../../types/user';
 import { 
     loadGashapon,
     changeGashaponLoading,
     loadGashaponDiscountById,
+    receiveCreateDiscount,
 } from '../../actions/gashapon';
 import { 
     StatusActions,
@@ -44,6 +46,7 @@ import {
     getGashapon,
     getLoadingStatus,
     getDiscount,
+    getCreateDiscount,
 } from '../../reducers/gashapon';
 import { getUserdata } from '../../reducers/home';
 
@@ -62,6 +65,8 @@ interface Props {
     showShareModal          : () => void;
     loadGashaponDiscountById: (uid: string, id: string) => void;
     getDiscount             : number;
+    getCreateDiscount       : discount;
+    receiveCreateDiscount   : (id: string) => void;
 }
 
 interface State {
@@ -174,7 +179,7 @@ class Gashapon extends React.Component<Props, State> {
                 });
                 this.handleDropPlay();
                 changeGashaponLoading(true);
-                this.timer = setTimeout(() => { this.timeoutHandle(result); }, 1500);
+                this.timer = setTimeout(() => { this.timeoutHandle(result); }, 2000);
             } else {
 
                 switch (result.message) {
@@ -260,7 +265,12 @@ class Gashapon extends React.Component<Props, State> {
      * @memberof Gashapon
      */
     public doDiscoutHandle = async (type: ShareType): Promise<void> => {
-        const { getGashapon, getUserdata, showSignModal } = this.props;
+        const { 
+            getGashapon, 
+            getUserdata, 
+            showSignModal,
+            getCreateDiscount,
+        } = this.props;
         // const user = User.getUser();
         
         if (!type) {
@@ -277,41 +287,15 @@ class Gashapon extends React.Component<Props, State> {
             showSignModal();
         } else {
 
-            const result: CreateDiscountPlayReturn = await DiscountClass.createDiscoutPlay({
-                userId      : getUserdata._id,
-                machine     : getGashapon._id,
-                max_discount: getGashapon.price,
-                title       : getGashapon.name,
-                image       : getGashapon.pics && getGashapon.pics[0]
-            });
+            const shareConfig = {
+                url     : `${config.url}/discount/${getCreateDiscount}`,
+                title   : getGashapon.name,
+                pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`
+            };
 
-            if (result.success === true) {
+            const share = new Share(shareConfig, type);
 
-                const shareConfig = {
-                    url     : `${config.url}/discount/${result.discountId}`,
-                    title   : getGashapon.name,
-                    pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`
-                };
-
-                const share = new Share(shareConfig, type);
-                share.doShare();
-            } else {
-                if (result.type === 'PARAM_ERROR') {
-                    switch (result.message) {
-                        case 'userId':
-                            return;
-                        case 'machine':
-                            return;
-                        case 'max_discount':
-                            return;
-                        case 'title':
-                            return;
-                        case 'image':
-                            return;
-                        default: return;
-                    }
-                }
-            }
+            share.doShare();
         }
     }
 
@@ -357,16 +341,69 @@ class Gashapon extends React.Component<Props, State> {
         });
     }
 
-    public onShowDiscountModal = (): void => {
+    public onShowDiscountModal = async (): Promise <void> => {
 
-        const { loadGashaponDiscountById, match } = this.props;
+        const { 
+            loadGashaponDiscountById, 
+            match, 
+            showSignModal,
+            receiveCreateDiscount,
+            getGashapon,
+            getUserdata
+        } = this.props;
         const user = User.getUser();
 
-        loadGashaponDiscountById(user.uid, match.params.id);
+        if (!user.uid) {
 
-        this.setState({
-            showDiscountModal: true
-        });
+            showSignModal();
+        } else {
+
+            loadGashaponDiscountById(user.uid, match.params.id);
+
+            const result: CreateDiscountPlayReturn = await DiscountClass.createDiscoutPlay({
+                userId      : getUserdata._id,
+                machine     : getGashapon._id,
+                max_discount: getGashapon.price,
+                title       : getGashapon.name,
+                image       : getGashapon.pics && getGashapon.pics[0]
+            });
+
+            if (result.success === true) {
+
+                if (result.discountId) {
+                    receiveCreateDiscount(result.discountId);
+                    this.setState({
+                        showDiscountModal: true
+                    });
+                } else {
+                    this.setState({
+                        modalValue: '未获得砍价id'
+                    });
+                    this.onShowErrorModal();
+                }
+                
+            } else {
+                if (result.type === 'PARAM_ERROR') {
+                    switch (result.message) {
+                        case 'userId':
+                            showSignModal();
+                            return;
+                        case 'machine':
+                            this.setState({
+                                modalValue: '扭蛋机ID出错了'
+                            });
+                            this.onShowErrorModal();
+                            return;
+                        default: 
+                            this.setState({
+                                modalValue: '砍价出错了！'
+                            });
+                            this.onShowErrorModal();
+                            return;
+                    }
+                }
+            }
+        }
     }
 
     public onHideDiscountModal = (): void => {
@@ -440,7 +477,7 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon } = this.props;
         return (
             <Hoc>
-                <div styleName="container">
+                <div styleName="container" bg-white="true">
                     <audio
                         src={'http://net.huanmusic.com/gasha/%E6%8E%89%E8%90%BD%E9%9F%B3%E6%95%88.mp3'}
                         preload="metadata"
@@ -564,6 +601,8 @@ class Gashapon extends React.Component<Props, State> {
                 confirmButtonText="分享砍价"
                 onCancelClickHandle={this.onDiscountGashaponClickHandle}
                 onConfirmClickHandle={showShareModal}
+                close={true}
+                closeClickHandle={this.onHideDiscountModal}
             >
                 <div 
                     styleName="progress"
@@ -705,10 +744,11 @@ class Gashapon extends React.Component<Props, State> {
 const GashaponHoc = CSSModules(Gashapon, styles);
 
 const mapStateToProps = (state: Stores) => ({
-    getGashapon     : getGashapon(state),
-    getUserdata     : getUserdata(state),
-    getLoadingStatus: getLoadingStatus(state),
-    getDiscount     : getDiscount(state),
+    getGashapon         : getGashapon(state),
+    getUserdata         : getUserdata(state),
+    getLoadingStatus    : getLoadingStatus(state),
+    getDiscount         : getDiscount(state),
+    getCreateDiscount   : getCreateDiscount(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions>) => ({
@@ -717,6 +757,7 @@ const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions>) => 
     showSignModal           : bindActionCreators(showSignModal, dispatch),
     showShareModal          : bindActionCreators(showShareModal, dispatch),
     loadGashaponDiscountById: bindActionCreators(loadGashaponDiscountById, dispatch),
+    receiveCreateDiscount   : bindActionCreators(receiveCreateDiscount, dispatch)
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

@@ -176,11 +176,11 @@ class Discount extends React.Component<Props, State> {
             <Hoc>
                 <div 
                     styleName="container"
+                    bg-white="true"
                 >
                     <Modal 
                         display={showModal}
                         value={modalValue}
-                        onCancelClickHandle={this.onHideModal}
                         onConfirmClickHandle={this.onHideModal}
                     />
                     <i 
