@@ -18,7 +18,6 @@ import Hoc from '../hoc';
 import config from '../../config/index';
 import { Stores } from '../../reducers/type';
 import history from '../../history';
-import * as moment from 'moment';
 import { MainData } from '../../types/componentTypes';
 import { 
     loadBanners,
@@ -28,18 +27,19 @@ import {
 } from '../../actions/main';
 import { loadNotifies } from '../../actions/status';
 import { getData } from '../../reducers/main';
+import { timeFn } from '../../config/util';
 
 interface Props {
     loadBanners : () => void;
     loadGenres  : () => void;
     loadTopics  : () => void;
-    loadMainData: () => void;
+    loadMainData: (callback: (res: any) => void) => void;
     loadNotifies: () => void;
     getData     : MainData;
 }
 
 interface State {
-    meta: string;
+    flashDate   : string;
 }
 
 /**
@@ -51,7 +51,16 @@ interface State {
  */
 class Main extends React.Component<Props, State> {
 
-    async componentDidMount() {
+    private timer: any;
+
+    constructor (props: Props) {
+        super(props);
+        this.state = {
+            flashDate: ''
+        };
+    }
+
+    componentDidMount(): void {
         const { 
             loadBanners,
             loadGenres,
@@ -63,8 +72,12 @@ class Main extends React.Component<Props, State> {
         loadBanners();
         loadGenres();
         loadTopics();
-        loadMainData();
+        loadMainData(this.loadMainDataCallback);
         loadNotifies();
+    }
+
+    componentWillUnmount(): void {
+        clearTimeout(this.timer);
     }
 
     public onNavHandle = (type: string): void => {
@@ -84,6 +97,27 @@ class Main extends React.Component<Props, State> {
 
     public goGashaponHandle = (param: string): void => {
         history.push(`/gashapon/${param}`);
+    }
+
+    public loadMainDataCallback = (data: MainData): void => {
+
+        if (!!data.flash_sale) {
+            
+            if (!!data.flash_sale.open_time) {
+                this.timer = setInterval(() => this.setDateHandle(data.flash_sale.open_time), 1000);
+            }
+        }
+    }
+
+    public setDateHandle = (date?: Date): void => {
+
+        if (!!date) {
+
+            const result = timeFn(date);
+            this.setState({
+                flashDate: result
+            });
+        }
     }
 
     render() {
@@ -121,17 +155,23 @@ class Main extends React.Component<Props, State> {
                     }}
                     onClick={() => this.goGashaponHandle(getData.flash_sale._id)}
                 >
-                    {getData.flash_sale && getData.flash_sale.start_time
-                    ? <span 
-                        styleName="flashName"
-                        font-s="24"
-                    >
-                        距离开始{moment(getData.flash_sale.start_time).format('DD:HH:mm')}
-                    </span>
-                    : ''}
                     
+                    {this.renderFlashDate()}
                 </div>
             </div>
+        );
+    }
+
+    private renderFlashDate = (): JSX.Element => {
+        
+        const { flashDate } = this.state;
+        return (
+            <span 
+                styleName="flashName"
+                font-s="24"
+            >
+                {flashDate}
+            </span>
         );
     }
 

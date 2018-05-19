@@ -95,3 +95,26 @@ export const browser = {
 };
 
 export const inApp = !!navigator.userAgent.toLowerCase().match('gacha'); 
+
+export const timeFn = (d1: Date): string => {
+    /* 
+    /di作为一个变量传进来
+    //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
+    */ 
+
+    /*//将-转化为/，使用new Date*/
+    var dateBegin = new Date(d1);
+    var dateEnd = new Date();
+    var dateDiff = dateEnd.getTime() - dateBegin.getTime(); 
+    var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));
+    var leave1 = dateDiff % (24 * 3600 * 1000);
+    var hours = Math.floor(leave1 / (3600 * 1000));
+    var leave2 = leave1 % (3600 * 1000);   
+    var minutes = Math.floor(leave2 / (60 * 1000));
+    var leave3 = leave2 % (60 * 1000);
+    var seconds = Math.round(leave3 / 1000);
+    // console.log(' 相差 ' + dayDiff + '天 ' + hours + '小时 ' + minutes + ' 分钟' + seconds + ' 秒');
+    return ' 距离开始还有 ' + dayDiff + '天 ' + hours + '小时 ' + minutes + ' 分钟' + seconds + ' 秒';
+    // console.log(dateDiff+"时间差的毫秒数",dayDiff+"计算出相差天数",leave1+"计算天数后剩余的毫秒数"
+    //     ,hours+"计算出小时数",minutes+"计算相差分钟数",seconds+"计算相差秒数");
+};

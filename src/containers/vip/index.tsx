@@ -73,16 +73,149 @@ class Vip extends React.Component <Props, {}> {
     }
 
     private renderLevels = (): JSX.Element => {
-        const data = [0, 1, 2, 3, 4, 5, 6];
+        const data = [
+        {
+            experience: 100,
+        },
+        {
+            experience: 500,
+            discounts: [{
+                condition:   2000,
+                price:       300,
+                count:       1
+            }]
+        },
+        {
+            experience: 1000,
+            discounts: [{
+                condition:   2000,
+                price:       300,
+                count:       3
+            },
+            {
+                condition:   3000,
+                price:       500,
+                count:       1
+            }]
+        },
+        {
+            experience: 2000,
+            discounts: [{
+                condition:   2000,
+                price:       300,
+                count:       5
+            },
+            {
+                condition:   3000,
+                price:       300,
+                count:       1
+            }]
+        },
+        {
+            experience: 5000,
+            discounts: [{
+                condition:   2000,
+                price:       300,
+                count:       5
+            },
+            {
+                condition:   3000,
+                price:       500,
+                count:       5
+            },
+            {
+                condition:   5000,
+                price:       800,
+                count:       3
+            }]
+        },
+        {
+            experience: 10000,
+            discounts: [{
+                condition:   2000,
+                price:       300,
+                count:       10
+            },
+            {
+                condition:   3000,
+                price:       500,
+                count:       10
+            },
+            {
+                condition:   5000,
+                price:       800,
+                count:       5
+            },
+            {
+                condition:   10000,
+                price:       2000,
+                count:       1
+            }]
+        },
+        {
+            experience: 30000,
+            discounts: [{
+                condition:   2000,
+                price:       300,
+                count:       15
+            },
+            {
+                condition:   3000,
+                price:       500,
+                count:       15
+            },
+            {
+                condition:   5000,
+                price:       800,
+                count:       10
+            },
+            {
+                condition:   10000,
+                price:       2000,
+                count:       5
+            }]
+        },
+        {
+            experience: 50000,
+            discounts: [{
+                condition:   2000,
+                price:       300,
+                count:       20
+            },
+            {
+                condition:   3000,
+                price:       500,
+                count:       20
+            },
+            {
+                condition:   5000,
+                price:       800,
+                count:       15
+            },
+            {
+                condition:   10000,
+                price:       2000,
+                count:       10
+            }]
+        }];
         return (
             <div styleName="levels">
-                {data.map(item => (
+                {data.map((item, i) => (
                     <div 
-                        key={item}
+                        key={i}
                         styleName="level"
                     >
                         <i styleName="icon" bgimg-center="100"/>
                         <span styleName="reword">暂无奖励</span>
+                        {item.discounts && item.discounts.length > 0
+                        ? item.discounts.map((text, j) => {
+                            return (
+                                <span key={j} styleName="reword">
+                                    满{text.condition / 100}减{text.price / 100}
+                                </span>
+                            );
+                        })
+                        : <span styleName="reword">暂无奖励</span>}
                     </div>
                 ))}
             </div>

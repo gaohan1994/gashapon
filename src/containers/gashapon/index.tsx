@@ -320,8 +320,7 @@ class Gashapon extends React.Component<Props, State> {
         changeGashaponLoading(false);
         this.handleSuccessPlay();
         this.setState({
-            showModal: true,
-            // GashaponProductItem: result.data && result.data.product_list
+            showModal: true
         });
     }
 
@@ -598,7 +597,6 @@ class Gashapon extends React.Component<Props, State> {
     private renderName = (): JSX.Element => {
 
         const { getGashapon } = this.props;
-
         return (
             <div styleName="name" word-overflow="word-overflow">
                 {`${getGashapon.name || '加载中'}  
@@ -613,7 +611,6 @@ class Gashapon extends React.Component<Props, State> {
     private renderTime = (): JSX.Element => {
 
         const { getGashapon } = this.props;
-
         return (
             <div styleName="time" word-overflow="word-overflow">
                 开放购买时间：{moment(getGashapon.open_time).format('YYYY-MM-DD hh:mm')}
@@ -653,7 +650,6 @@ class Gashapon extends React.Component<Props, State> {
     private renderMusicIcon = (): JSX.Element => {
 
         const { audioPlaying } = this.state;
-
         return (
             <i 
                 styleName="music"
@@ -674,7 +670,6 @@ class Gashapon extends React.Component<Props, State> {
     private renderStore = (): JSX.Element => {
 
         const { getGashapon } = this.props;
-
         return (
             <div styleName="store">
                 <span>库存：{getGashapon.residue_quantity || 0}</span>
@@ -691,6 +686,7 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染生成砍价链接按钮
      */
     private renderDiscountButton = (): JSX.Element | string => {
+        
         const { getGashapon, /*showShareModal*/ } = this.props;
         if (getGashapon.is_discount === true) {
             return (
