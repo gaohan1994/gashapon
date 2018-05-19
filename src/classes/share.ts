@@ -1,3 +1,6 @@
+// import mobShare from '../mobshare.index';
+
+/// <reference path="../mobshare.index.d.ts" />
 
 const _default = {
     url         : 'http://gacha-dev.hy233.tv',
@@ -8,13 +11,22 @@ const _default = {
 
 class Share {
 
-    constructor (data, type, accessToken) {
+    private url: string;
+
+    private title: string;
+
+    private description: string;
+
+    private pic: string;
+
+    private type: string;
+
+    constructor (data: any, type: any) {
         this.url         = data.url             || _default.url;
         this.title       = data.title           || _default.title;
         this.description = data.description     || _default.description;
         this.pic         = data.pic             || _default.pic;
         this.type        = type;
-        this.accessToken = accessToken;
 
         this.doShare     = this.doShare.bind(this);
     }
@@ -22,7 +34,7 @@ class Share {
     doShare () {
 
         try {
-
+            console.log(mobShare);
             mobShare.config({
                 debug: true, // 开启调试，将在浏览器的控制台输出调试信息
                 appkey: '227cacf4a7474', // appkey
@@ -40,7 +52,8 @@ class Share {
                 }
             });
 
-            const share = new mobShare(`${this.type}`);
+            const share = mobShare(`${this.type}`);
+
             share.send();
         } catch (err) {
             console.log(err.message ? err.message : '分享出错');

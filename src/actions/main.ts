@@ -373,7 +373,10 @@ export const loadBannersByGenre = (genre: string) => (dispatch: Dispatch<MainAct
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                dispatch({type: constants.RECEIVE_BANNERS_BY_GENRE, gashaponBanner: res.result.contents});
+
+                if (res.result.contents) {
+                    dispatch({type: constants.RECEIVE_BANNERS_BY_GENRE, gashaponBanner: res.result.contents});
+                }
             } else {
                 throw new Error('loadBannersByGenre error');
             }
@@ -389,7 +392,10 @@ export const loadBannersByTopic = (topic: string) => (dispatch: Dispatch<MainAct
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                dispatch({type: constants.RECEIVE_BANNERS_BY_TOPIC, gashaponBanner: res.result.contents});
+
+                if (res.result.contents) {
+                    dispatch({type: constants.RECEIVE_BANNERS_BY_TOPIC, gashaponBanner: res.result.contents});
+                }
             } else {
                 throw new Error('loadBannersByTopic error');
             }

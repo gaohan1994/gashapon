@@ -19,6 +19,7 @@ import { showSignModal } from '../../../actions/status';
 import { getInventory } from '../../../reducers/inventory';
 import { getUserdata } from '../../../reducers/home';
 import Modal from '../../../components/modal';
+import * as numeral from 'numeral';
 
 interface Props {
     getInventory    : Gashapon[];
@@ -253,7 +254,7 @@ class Sale extends React.Component<Props, State> {
                     <span styleName="choiceText" onClick={() => this.doAllChoiceHandle()}>全选</span>
                     <span styleName="choiceText">
                         合计：
-                        <span style={{color: '#fea270'}}>￥{money ? ((money / 100) * 0.8) : 0}</span>
+                        <span style={{color: '#fea270'}}>￥{money ? numeral((money / 100) * 0.8).format('0') : 0}</span>
                     </span>
                 </div>
                 <div 

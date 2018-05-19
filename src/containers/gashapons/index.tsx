@@ -308,7 +308,9 @@ class Gashapon extends React.Component<Props, State> {
                     <Search/>
                     <News/>
 
-                    {(getGashaponBanner && getGashaponBanner.length > 0) || (getBanners.contents && getBanners.contents.length > 0)
+                    {
+                    (getGashaponBanner && getGashaponBanner.length > 0) || 
+                    (getBanners.contents && getBanners.contents.length > 0)
                     ? this.renderBanners()
                     : ''}
                     

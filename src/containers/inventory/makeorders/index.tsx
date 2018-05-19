@@ -30,6 +30,7 @@ import {
     HomeActions,
     loadUserDataFromUuid
 } from '../../../actions/home';
+import * as numeral from 'numeral';
 
 interface Props {
     getInventory            : Gashapon[];
@@ -309,7 +310,7 @@ class MakeOriders extends React.Component<Props, State> {
                     <span styleName="choiceText">
                         合计：
                         <span style={{color: '#fea270'}}>
-                            ￥{money ? money / 100 : 0}
+                            ￥{money ? numeral(money / 100).format('0') : 0}
                         </span>
                     </span>
                 </div>

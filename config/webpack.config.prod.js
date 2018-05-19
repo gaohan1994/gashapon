@@ -139,6 +139,7 @@ module.exports = {
       {
         test: /\.(js|jsx|mjs)$/,
         loader: require.resolve('source-map-loader'),
+        // loader: require.resolve('babel-loader'),
         enforce: 'pre',
         include: paths.appSrc,
       },
