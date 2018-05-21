@@ -5,7 +5,7 @@ import Header from '../../../components/haeder_set';
 import Button from '../../../components/button';
 import Validator from '../../../classes/validate';
 import Sign, { DoForgetPasswordMethodParam } from '../../../classes/sign';
-// import history from '../../../history';
+import history from '../../../history';
 import { NormalReturnObject } from '../../../classes/base';
 import Modal from '../../../components/modal';
 
@@ -39,6 +39,13 @@ class Forget extends React.Component<Props, State> {
         };
     }
 
+    componentWillUnmount (): void {
+
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    }
+
     public onChangePhoneHandle = (e: any): void => {
         this.setState({
             phone: e.target.value
@@ -70,6 +77,7 @@ class Forget extends React.Component<Props, State> {
     }
 
     public timerHandle = (): void => {
+
         if (this.state.waitCode === 0) {
             /* 可以重新计时 */
             clearInterval(this.timer);
@@ -120,9 +128,10 @@ class Forget extends React.Component<Props, State> {
             };
             
             const result: NormalReturnObject = await Sign.doForgetPasswordMethod(data);
+
             if (result.success === true) {
 
-                window.location.reload();
+                history.push('/my');
             } else {
                 /* do error stuff */
                 this.setState({

@@ -11,7 +11,7 @@ import {
 } from '../../actions/status';
 import { 
     getNewsStatus,
-    getNotifies,
+    getNotifies
 } from '../../reducers/status';
 
 export type Notifies = [{
