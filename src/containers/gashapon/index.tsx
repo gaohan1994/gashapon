@@ -569,19 +569,23 @@ class Gashapon extends React.Component<Props, State> {
         }
     }
 
-    private renderModal = (): JSX.Element => {
+    private renderModal = (): JSX.Element | string => {
 
         const { showModal, gashaponProductItem } = this.state;
         const { getGashapon } = this.props;
 
-        return (
-            <Modal 
-                display={showModal}
-                onHide={this.onHideModalHandle}
-                totalData={getGashapon}
-                data={gashaponProductItem}
-            />
-        );
+        if (gashaponProductItem && gashaponProductItem.length > 0) {
+            return (
+                <Modal 
+                    display={showModal}
+                    onHide={this.onHideModalHandle}
+                    totalData={getGashapon}
+                    data={gashaponProductItem}
+                />
+            );
+        } else {
+            return '';
+        }
     }
 
     private renderDiscountModal = (): JSX.Element => {
