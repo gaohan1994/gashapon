@@ -5,7 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import { bindActionCreators } from 'redux';
 import { Stores } from '../../../reducers/type';
-import { Gashapon, orderAddressConfig } from '../../../types/componentTypes';
+import { InventoryItem, orderAddressConfig } from '../../../types/componentTypes';
 import { Userdata, Address } from '../../../types/user';
 import history from '../../../history';
 import GashaItem from '../../../components/gashapon_inventory';
@@ -33,11 +33,11 @@ import {
 import * as numeral from 'numeral';
 
 interface Props {
-    getInventory            : Gashapon[];
+    getInventory            : InventoryItem[];
     getUserdata             : Userdata;
     showSignModal           : () => void;
     setSelectedAddress      : (address: Address | {}) => void;
-    setSelectedGashapons    : (gashapons: Gashapon[]) => void;
+    setSelectedGashapons    : (gashapons: InventoryItem[]) => void;
     setOrderAddressConfig   : (config: any) => void;
     loadUserDataFromUuid    : () => void;
 }
@@ -112,7 +112,7 @@ class MakeOriders extends React.Component<Props, State> {
         history.push('/address');
     }
 
-    public doChangeOrderHandle = (item: Gashapon, i: number): void => {
+    public doChangeOrderHandle = (item: InventoryItem, i: number): void => {
         const { selected } = this.state;
 
         const token = selected.findIndex(num => num === i);
@@ -240,7 +240,7 @@ class MakeOriders extends React.Component<Props, State> {
                         </span>
                     </div>
 
-                    {getInventory.map((item: Gashapon, i: number) => (
+                    {getInventory.map((item: InventoryItem, i: number) => (
                         <div 
                             key={i}
                             styleName="item"
@@ -266,7 +266,7 @@ class MakeOriders extends React.Component<Props, State> {
         );
     }
 
-    private renderIcon = (item: Gashapon, i: number) => {
+    private renderIcon = (item: InventoryItem, i: number) => {
         const { selected } = this.state;
 
         let token = false;

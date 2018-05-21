@@ -13,7 +13,7 @@ import User from '../../classes/user';
 import Header from '../../components/header_inventory';
 import SignModal from '../sign';
 import { Stores } from '../../reducers/type';
-import { Gashapon } from '../../types/componentTypes';
+import { InventoryItem } from '../../types/componentTypes';
 import { 
     InventoryActions,
     loadInventory,
@@ -41,7 +41,7 @@ interface Props {
         };
     };
     getUserdata         : Userdata;
-    getInventory        : Gashapon[];
+    getInventory        : InventoryItem[];
     showSignModal       : () => void;
     loadInventory       : ({}: LoadInventoryParam) => void;
     loadInventoryByWord : ({}: LoadInventoryParam) => void;
@@ -214,7 +214,7 @@ class Inventory extends React.Component<Props, State> {
                     <Header title={match.params.word ? match.params.word : ''}/>
 
                     {getInventory && getInventory.length > 0
-                    ? getInventory.map((item, i) => (
+                    ? getInventory.map((item: InventoryItem, i: number) => (
                         <div 
                             key={i}
                             styleName="item"

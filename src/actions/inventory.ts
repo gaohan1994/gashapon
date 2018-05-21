@@ -2,7 +2,7 @@ require('es6-promise').polyfill();
 import * as fetch from 'isomorphic-fetch';
 import * as constants from '../constants/inventory';
 import { 
-    Gashapon
+    InventoryItem
 } from '../types/componentTypes';
 import { Dispatch } from 'redux';
 import { Stores } from '../reducers/type';
@@ -10,7 +10,7 @@ import { Stores } from '../reducers/type';
 
 export interface LoadInventory {
     type: constants.RECEIVE_INVENTORY;
-    inventory: Gashapon[];
+    inventory: InventoryItem[];
 }
 
 export interface LoadInventoryParam {
@@ -24,12 +24,12 @@ export interface LoadInventoryParam {
 
 export interface LoadInventoryByWord {
     type: constants.RECEIVE_INVENTORY;
-    inventory: Gashapon[];
+    inventory: InventoryItem[];
 }
 
 export interface LoadInventoryByGenre {
     type: constants.RECEIVE_INVENTORY;
-    inventory: Gashapon[];
+    inventory: InventoryItem[];
 }
 
 export interface LoadingInventoryStatus {

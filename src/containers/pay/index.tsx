@@ -16,7 +16,8 @@ import Validator from '../../classes/validate';
 import Business from '../../classes/business';
 import User from '../../classes/user';
 import config from '../../config';
-import Qart from 'react-qart';
+// import Qart from 'react-qart';
+import * as QRcode from 'qrcode.react';
 import Modal from '../../components/modal';
 import { inApp } from '../../config/util';
 import Schema, { SchemaConfig } from '../../classes/schema';
@@ -177,9 +178,14 @@ class Pay extends React.Component<Props, State> {
                         visibility  : showQrcode === true ? 'visible' : 'hidden'
                     }}
                 >
-                    <Qart
+                    {/* <Qart
                         value={qrcodeUrl}
-                        imagePath="http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851.png"
+                        filter="color"
+                        imagePath="http://net.huanmusic.com/www/img/logo1.png"
+                    /> */}
+                    <QRcode
+                        value={qrcodeUrl}
+                        size={200}
                     />
                     <div styleName="paybutton">
                         <Button

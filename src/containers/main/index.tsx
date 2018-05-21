@@ -77,7 +77,7 @@ class Main extends React.Component<Props, State> {
     }
 
     componentWillUnmount(): void {
-        clearTimeout(this.timer);
+        clearInterval(this.timer);
     }
 
     public onNavHandle = (type: string): void => {
@@ -114,7 +114,7 @@ class Main extends React.Component<Props, State> {
 
         if (!!date) {
 
-            const result = timeFn(date);
+            const result = ' 距离开始还有 ' + timeFn(date);
             this.setState({
                 flashDate: result
             });
@@ -184,6 +184,7 @@ class Main extends React.Component<Props, State> {
             '热卖排行': 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
             '超值特价': 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
             '抢先预定': 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
+            '抢先预订': 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
             '新品上架': 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
         };
         
@@ -193,7 +194,7 @@ class Main extends React.Component<Props, State> {
                     _id             : i,
                     img             : imgs[item.name],
                     value           : item.name,
-                    propsClickHandle: () => this.onMenuClickHandle(item.type, item.param),
+                    propsClickHandle: () => this.onMenuClickHandle(item.type, item._id),
                 };
             });
 

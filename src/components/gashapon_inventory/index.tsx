@@ -1,17 +1,19 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-import { Gashapon as GashaponType } from '../../types/componentTypes';
+import { InventoryItem } from '../../types/componentTypes';
 import config from '../../config';
+import { timeFn } from '../../config/util';
 // import history from '../../history';
 
 interface Props {
-    item            : GashaponType;
+    item            : InventoryItem;
     propsClickHandle?: () => void;
 }
 
 interface State {
     showImg: boolean;
+    time: string;
 }
 
 /**
@@ -20,11 +22,40 @@ interface State {
  */
 class Gashapon extends React.Component <Props, State> {
 
+    private timer: any;
+
     constructor (props: Props) {
         super(props);
         this.state = {
-            showImg: false
+            showImg: false,
+            time: ''
         };
+    }
+
+    componentDidMount(): void {
+
+        const { item } = this.props;
+
+        if (!!item.create_date) {
+            this.timer = setInterval(() => this.setTimeHandle(item.create_date), 1000);
+        }
+    }
+
+    componentWillUnmount(): void {
+        if (!!this.timer) {
+            clearInterval(this.timer);
+        }
+    }
+
+    public setTimeHandle = (date?: Date): void => {
+
+        if (!!date) {
+
+            const result = timeFn(date);
+            this.setState({
+                time: result
+            });
+        }
     }
 
     public onClickHandle = (_id: string): void => {
@@ -46,12 +77,19 @@ class Gashapon extends React.Component <Props, State> {
     }
 
     render (): JSX.Element {
+        const { time } = this.state;
         const { item, propsClickHandle } = this.props;
         return (
             <div 
                 styleName="container"
                 onClick={propsClickHandle ? propsClickHandle : () => this.onClickHandle(item._id)}
             >
+                <span 
+                    styleName="time"
+                    word-overflow="word-overflow"
+                >
+                    {time}
+                </span>
                 {/* {this.renderModal()} */}
                 <i 
                     styleName="cover"

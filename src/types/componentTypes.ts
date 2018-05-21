@@ -95,7 +95,7 @@ export type MainData = {
     }];
     advice: [{
         type    : number;
-        param   : string;
+        _id     : string;
         pic     : string;
         desc    : string;
         name    : string;
@@ -187,3 +187,13 @@ export type LocationType = {
 };
 
 export type OrderCount = number[];
+
+export type InventoryItem = {
+    create_date : Date;
+    genres      : string[];
+    name        : string;
+    pics        : string[];
+    price       : number;
+    quantity    : number;
+    _id         : string;
+};

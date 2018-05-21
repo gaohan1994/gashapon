@@ -5,7 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
 import { Stores } from '../../../reducers/type';
 import { bindActionCreators } from 'redux';
-import { Gashapon } from '../../../types/componentTypes';
+import { InventoryItem } from '../../../types/componentTypes';
 import { Userdata } from '../../../types/user';
 import history from '../../../history';
 import GashaItem from '../../../components/gashapon_inventory';
@@ -22,7 +22,7 @@ import Modal from '../../../components/modal';
 import * as numeral from 'numeral';
 
 interface Props {
-    getInventory    : Gashapon[];
+    getInventory    : InventoryItem[];
     getUserdata     : Userdata;
     showSignModal   : () => void;
 }
@@ -175,7 +175,7 @@ class Sale extends React.Component<Props, State> {
                         件
                     </span>
                 </div>
-                {getInventory.map((item: Gashapon, i: number) => (
+                {getInventory.map((item: InventoryItem, i: number) => (
                     <div 
                         key={i}
                         styleName="item"
