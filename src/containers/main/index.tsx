@@ -81,6 +81,7 @@ class Main extends React.Component<Props, State> {
     }
 
     public onNavHandle = (type: string): void => {
+        
         history.push(`/${type}`);
     }
 
@@ -189,9 +190,9 @@ class Main extends React.Component<Props, State> {
         if (getData && getData.advice && getData.advice.length > 0) {
             const menu: MenuItem[] = getData.advice.map((item, i) => {
                 return {
-                    _id: i,
-                    img: imgs[item.name],
-                    value: item.name,
+                    _id             : i,
+                    img             : imgs[item.name],
+                    value           : item.name,
                     propsClickHandle: () => this.onMenuClickHandle(item.type, item.param),
                 };
             });
