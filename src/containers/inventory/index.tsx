@@ -102,7 +102,7 @@ class Inventory extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        
+
         const {
             match,
             loadInventory,
@@ -124,6 +124,7 @@ class Inventory extends React.Component<Props, State> {
             loadUserDataFromUuid(this.loadUserdataCallback);
     
             arriveFooter.add('inventory', () => {
+
                 if (!!match.params.word) {
 
                     loadInventoryByWord({
@@ -156,7 +157,7 @@ class Inventory extends React.Component<Props, State> {
         arriveFooter.remove('inventory');
     }
 
-    public loadUserdataCallback = (uid: string) => {
+    public loadUserdataCallback = (uid: string): void => {
 
         const { 
             loadInventoryByWord,
@@ -251,7 +252,7 @@ class Inventory extends React.Component<Props, State> {
             }
         ];
         return (
-            <div styleName="menu" bg-white="true">
+            <div styleName="menu">
                 <Menu
                     menus={menus}
                     iconWidth="33.33vw"

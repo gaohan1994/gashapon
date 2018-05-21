@@ -100,8 +100,12 @@ class Pay extends React.Component<Props, State> {
                         const schema = new Schema(config);
                         schema.loadSchema();
                     } else {
-                        console.log(recharge);
-                        this.setState({qrcodeUrl: recharge.result}, () => { this.showQrcodeHandle(); });
+                        alert(recharge.result);
+                        this.setState({
+                            qrcodeUrl: recharge.result
+                        }, () => { 
+                            this.showQrcodeHandle(); 
+                        });
                     }
 
                 } else {
@@ -115,7 +119,7 @@ class Pay extends React.Component<Props, State> {
         }
     }
 
-    public doNavHandle = (index: string) => {
+    public doNavHandle = (index: string): void => {
         history.push(`/${index}`);
     }
 

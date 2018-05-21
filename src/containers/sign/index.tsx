@@ -411,8 +411,8 @@ class SignContainer extends React.Component<Props, State> {
                                     onChangeHandle  : this.onChangeRegcode
                                 })}
                                 {waitCode === 0
-                                ? <div styleName="wait" onClick={() => this.doGetVercodeHandle()}>发送验证码</div>
-                                : <div styleName="send">重新获取({waitCode - 1})</div>}
+                                ? <div styleName="send" onClick={() => this.doGetVercodeHandle()}>发送验证码</div>
+                                : <div styleName="wait">重新获取({waitCode - 1})</div>}
                                 
                             </div>
                             <div styleName="box">

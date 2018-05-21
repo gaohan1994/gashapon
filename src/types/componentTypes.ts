@@ -97,6 +97,8 @@ export type MainData = {
         type    : number;
         param   : string;
         pic     : string;
+        desc    : string;
+        name    : string;
     }];
     flash_sale: Gashapon;
 };

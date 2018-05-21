@@ -175,39 +175,35 @@ class Main extends React.Component<Props, State> {
         );
     }
 
-    private renderMenu = (): JSX.Element => {
+    private renderMenu = (): JSX.Element | string => {
 
-        const menu: MenuItem[] = [
-            {
-                _id: 1,
-                img: 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
-                value: '热卖排行',
-                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab912ed009e3d8f4a9d0a')
-            },
-            {
-                _id: 2,
-                img: 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
-                value: '超值特价',
-                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab916ed009e3d8f4a9d0b')
-            },
-            {
-                _id: 3,
-                img: 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
-                value: '抢先预订',
-                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab91bed009e3d8f4a9d0c')
-            },
-            {
-                _id: 4,
-                img: 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
-                value: '新品上架',
-                propsClickHandle: () => this.onMenuClickHandle(3, '5aeab91fed009e3d8f4a9d0d')
-            }
-        ];
-        return (
-            <div styleName="menus">
-                <Menu menus={menu}/>
-            </div>
-        );
+        const { getData } = this.props;
+        
+        const imgs = {
+            '热卖排行': 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
+            '超值特价': 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
+            '抢先预定': 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
+            '新品上架': 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
+        };
+        
+        if (getData && getData.advice && getData.advice.length > 0) {
+            const menu: MenuItem[] = getData.advice.map((item, i) => {
+                return {
+                    _id: i,
+                    img: imgs[item.name],
+                    value: item.name,
+                    propsClickHandle: () => this.onMenuClickHandle(item.type, item.param),
+                };
+            });
+
+            return (
+                <div styleName="menus">
+                    <Menu menus={menu}/>
+                </div>
+            );
+        } else {
+            return '';
+        }
     }
 
     private renderMainData = (): JSX.Element => {

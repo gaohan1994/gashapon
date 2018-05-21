@@ -27,8 +27,9 @@ class Discount extends React.Component <Props, {}> {
         const { discount } = this.props;
         const data = {
             url     : `${config.url}/discount/${discount._id}`,
-            title   : discount.title,
+            title   : `我在嘀哩扭蛋发现了一个超好玩的${discount.title}，快来帮我砍价吧！`,
             pic     : `http://${config.host.pic}/${discount.image}`,
+            description: `我在嘀哩扭蛋发现了一个超好玩的${discount.title}，快来帮我砍价吧！`,
         };
     
         const share = new Share(data, type);
@@ -37,6 +38,7 @@ class Discount extends React.Component <Props, {}> {
     }
 
     public gotoDiscountHandle = (): void => {
+
         const { discount } = this.props;
         history.push(`/discount/${discount._id}`);
     }

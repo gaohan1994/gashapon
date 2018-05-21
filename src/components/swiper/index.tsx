@@ -27,9 +27,26 @@ class Swiper extends React.Component<Props, State> {
         };
     }
 
+    componentDidMount () {
+        const { current } = this.state;
+        const { images} = this.props;
+
+        if (images[0]) {
+            alert(
+                `data.length: ${images.length} ` + 
+                `data[0]: http://${config.host.pic}/${images[0].pic} ` +
+                `index: ${current} `
+            );
+        } else {
+            alert(
+                `data.length: ${images.length} ` +
+                `index: ${current} `
+            );
+        }
+    }
+
     public doNavHandle = (type: number, param: string): void => {
-        // history.push(`/gashapon/${param}`);
-        console.log(type, param);
+        
         Base.onBannerNavHandle(type, param);
     }
 
@@ -52,7 +69,8 @@ class Swiper extends React.Component<Props, State> {
                         styleName="imageItem"
                         style={{
                             backgroundImage: item.pic 
-                            ? `url(http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350)` 
+                            // ? `url(http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350)` 
+                            ? `url(http://${config.host.pic}/${item.pic})` 
                             : `url(${config.empty_pic.url})`
                         }}
                     />
@@ -76,6 +94,7 @@ class Swiper extends React.Component<Props, State> {
             height: '100%'
         };
 
+        // console.table(data);
         return (
             <section styleName="container">
                 <AutoSwipeableViews

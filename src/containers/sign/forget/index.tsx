@@ -115,6 +115,7 @@ class Forget extends React.Component<Props, State> {
         let valiResult = helper.start();
 
         if (valiResult) {
+            
             this.setState({
                 modalValue: valiResult.errMsg
             });

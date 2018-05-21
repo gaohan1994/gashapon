@@ -289,8 +289,9 @@ class Gashapon extends React.Component<Props, State> {
 
             const shareConfig = {
                 url     : `${config.url}/discount/${getCreateDiscount}`,
-                title   : getGashapon.name,
-                pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`
+                title   : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
+                pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`,
+                description: `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
             };
 
             const share = new Share(shareConfig, type);

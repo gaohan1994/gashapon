@@ -252,6 +252,7 @@ class Gashapon {
      * @memberof Gashapon
      */
     public doAddCommentMethod = async ({uid, content, machine}: DoAddCommentMethodParam): Promise<NormalReturnObject> => {
+        
         try {
             if (!uid) {
                 throw new Error('uid');

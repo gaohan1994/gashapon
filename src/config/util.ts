@@ -48,7 +48,9 @@ export const arriveFooter = (function() {
       let scrollHeight = document.body.scrollHeight || document.documentElement.scrollTop;
   
       if (scrollTop + clientHeight >= scrollHeight - 150) {
-        list.map((val: any) => { val.callback(); });
+        list.map((val: any) => {
+          val.callback();
+        });
       }
     };
   
@@ -117,4 +119,45 @@ export const timeFn = (d1: Date): string => {
     return ' 距离开始还有 ' + dayDiff + '天 ' + hours + '小时 ' + minutes + ' 分钟' + seconds + ' 秒';
     // console.log(dateDiff+"时间差的毫秒数",dayDiff+"计算出相差天数",leave1+"计算天数后剩余的毫秒数"
     //     ,hours+"计算出小时数",minutes+"计算相差分钟数",seconds+"计算相差秒数");
+};
+
+/* 节流 */
+// export function debounce (func: () => void, wait: number, immediate?: boolean) {
+
+//   let timeout: any;
+//   let result: any;
+
+//   var debounced = function () {
+
+//       if (timeout) {
+//         console.log(timeout);
+//         clearTimeout(timeout);
+//       }
+//       if (immediate) {
+//           // 如果已经执行过，不再执行
+//           var callNow = !timeout;
+//           timeout = setTimeout(function () {
+//               timeout = null;
+//           }, wait);
+//           if (callNow) {
+//             result = () => func();
+//           }
+//       } else {
+//           timeout = setTimeout(() => func(), wait);
+//       }
+//       return result;
+//   };
+
+//   return debounced;
+// }
+
+export const debounce = (func: () => void, wait: number) => {
+
+  let timeout: any;
+
+  return () => {
+
+    clearTimeout(timeout);
+    timeout = setTimeout(func, wait);
+  };  
 };
