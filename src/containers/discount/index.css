@@ -173,10 +173,8 @@
 }
 
 .progress {
-    width: 600px;
-    margin: 30px 0 0 75px;
-    border-radius: 10px;
-    height: 30px;
+    margin-top: 30px;
+    width: 100%;
     position: relative;
 }
 
@@ -185,7 +183,7 @@
     line-height: 30px;
     font-size: 26px;
     position: absolute;
-    right: 20px;
+    right: 100px;
 }
 
 .home {

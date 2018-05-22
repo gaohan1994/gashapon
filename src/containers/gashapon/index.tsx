@@ -210,7 +210,7 @@ class Gashapon extends React.Component<Props, State> {
                         return;
                     default:
                         this.setState({
-                            modalValue:  `扭蛋失败了~`
+                            modalValue: result.message ? result.message : `扭蛋失败了~`
                         });
                         this.onShowErrorModal();
                         return;
@@ -475,11 +475,13 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public onChangeMusicHandle = (): void => {
+
         if (this.audio.paused === true) {
             this.audio.play();
         } else {
             this.audio.pause();
         }
+        
         this.setState({
             audioPlaying: this.audio.paused === true ? false : true
         });

@@ -246,3 +246,8 @@
     font-size: 26px;
     line-height: 50px;
 }
+
+.test {
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(10%, rgb(254, 162, 112)), color-stop(0%, rgba(255, 255, 255)));
+    background-image: linear-gradient(to right, rgb(254, 162, 112) 10%, rgba(255, 255, 255) 0%);
+}

@@ -27,6 +27,7 @@ import SignModal from '../sign';
 import history from '../../history';
 import Hoc from '../hoc';
 import Modal from '../../components/modal';
+import Meter from '../../components/meter';
 
 interface Props {
     match: {
@@ -233,10 +234,9 @@ class Discount extends React.Component<Props, State> {
 
                         <div 
                             styleName="progress"
-                            style={{
-                                backgroundImage: this.renderProgress()
-                            }}
+                            flex-center="all-center"
                         >
+                            {this.renderProgress()}
                             <span styleName="progresstext">
                                 {getDiscountData.sum
                                 ? numeral(getDiscountData.sum / 100).format('0.00')
@@ -295,15 +295,23 @@ class Discount extends React.Component<Props, State> {
         );
     }
 
-    private readonly renderProgress = (): string => {
+    private readonly renderProgress = (): JSX.Element => {
     
         const { getDiscountData } = this.props;
 
         const now   = getDiscountData && getDiscountData.sum ? getDiscountData.sum : 0;
         const total = getDiscountData && getDiscountData.max_discount ? getDiscountData.max_discount : 1;	
             
-        const current = (numeral(now / total).value()) * 100;	
-        return `linear-gradient(to right, rgb(156, 248, 5) ${current}%, rgba(255, 255, 255) 0%)`;
+        const current = numeral(now / total).value();
+        // return `linear-gradient(to right, rgb(156, 248, 5) ${current}%, rgba(255, 255, 255) 0%)`;
+        return (
+            <Meter
+                percent={current}
+                width={300}
+                height={15}
+                color="#9cff05"
+            />
+        );
     }
 }
 

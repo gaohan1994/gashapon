@@ -85,18 +85,15 @@ class Gashapon {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'GET_WRONG_USER_PARAM',
-                message: err.message ? err.message : '数据错误'
+                type    : 'GET_WRONG_USER_PARAM',
+                message : err.message ? err.message : '数据错误'
             };
         }
 
         try {
 
             if (user.remain < (count * Numeral(machine.price / 100).value())) {
-                return {
-                    type: 'ERROR_GASHAPON',
-                    message: '余额不足'
-                };
+                throw new Error('余额不足');
             }
 
             let body: FetchGashaponBody;
@@ -139,8 +136,8 @@ class Gashapon {
         } catch (err) {
             console.log('扭蛋失败', err);
             return {
-                type: 'ERROR_GASHAPON',
-                message: '扭蛋失败'
+                type    : 'ERROR_GASHAPON',
+                message : err.message ? err.message : '扭蛋失败'
             };
         }
     }
