@@ -58,7 +58,7 @@ class Location extends React.Component <Props, State> {
         );
     }
 
-    private renderItems = (): JSX.Element | string => {
+    private readonly renderItems = (): JSX.Element | string => {
 
         const { getLocation } = this.props;
         if (getLocation && getLocation.traces) {

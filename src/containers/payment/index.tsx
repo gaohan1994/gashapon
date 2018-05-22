@@ -57,6 +57,22 @@ class Profit extends React.Component <Props, State> {
             showModal       : false,
             modalValue      : ''
         };
+
+        this.onAddressChangeHandle = this.onAddressChangeHandle.bind(this);
+        this.onAddressClickHandle = this.onAddressClickHandle.bind(this);
+        this.onBackHandle = this.onBackHandle.bind(this);
+        this.onChangePayWayHandle = this.onChangePayWayHandle.bind(this);
+        this.onShowAddressModal = this.onShowAddressModal.bind(this);
+        this.onHideAddressModal = this.onHideAddressModal.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.onOtherAddressHandle = this.onOtherAddressHandle.bind(this);
+        this.doOrderHandle = this.doOrderHandle.bind(this);
+        this.renderAddressModal = this.renderAddressModal.bind(this);
+        this.renderContent = this.renderContent.bind(this);
+        this.renderDefaultAddress = this.renderDefaultAddress.bind(this);
+        this.renderErrorModal = this.renderErrorModal.bind(this);
+        this.renderFooter = this.renderFooter.bind(this);
     }
 
     componentDidMount() {

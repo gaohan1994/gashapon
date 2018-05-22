@@ -56,6 +56,21 @@ class Order extends React.Component<Props, State> {
             showModal           : false,
             modalValue          : ''
         };
+
+        this.onCancelOrderHandle = this.onCancelOrderHandle.bind(this);
+        this.onConfirmOrderHandle = this.onConfirmOrderHandle.bind(this);
+        this.doReminderHandle = this.doReminderHandle.bind(this);
+        this.onShowReminderModal = this.onShowReminderModal.bind(this);
+        this.onHideReminderModal = this.onHideReminderModal.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.gotoLocationHandle = this.gotoLocationHandle.bind(this);
+        this.onChangeTypeHandle = this.onChangeTypeHandle.bind(this);
+        this.onChangeTypeStateHandle = this.onChangeTypeStateHandle.bind(this);
+        this.renderErrorModal = this.renderErrorModal.bind(this);
+        this.renderNav = this.renderNav.bind(this);
+        this.renderNoData = this.renderNoData.bind(this);
+        this.getFooter = this.getFooter.bind(this);
     }
 
     public onCancelOrderHandle = async (id: string): Promise <void> => {
@@ -208,7 +223,7 @@ class Order extends React.Component<Props, State> {
         }
     }
 
-    onChangeTypeStateHandle = (type: string): void => {
+    public onChangeTypeStateHandle = (type: string): void => {
         if (!type) {
             return;
         } else {
@@ -251,7 +266,7 @@ class Order extends React.Component<Props, State> {
         );
     }
 
-    private renderErrorModal = (): JSX.Element => {
+    private readonly renderErrorModal = (): JSX.Element => {
         const { showModal, modalValue } = this.state;
         return (
             <Modal
@@ -262,7 +277,7 @@ class Order extends React.Component<Props, State> {
         );
     }
 
-    private getFooter = (item: OrderType): Footer => {
+    private readonly getFooter = (item: OrderType): Footer => {
 
         const { type } = this.state;
 
@@ -321,7 +336,7 @@ class Order extends React.Component<Props, State> {
         }
     }
 
-    private renderNav = (): JSX.Element => {
+    private readonly renderNav = (): JSX.Element => {
         const { type } = this.state;
         return (
             <div styleName="navbar">
@@ -352,7 +367,7 @@ class Order extends React.Component<Props, State> {
         );
     }
 
-    private renderNoData = (): JSX.Element => {
+    private readonly renderNoData = (): JSX.Element => {
         return (
             <div 
                 styleName="nodata"

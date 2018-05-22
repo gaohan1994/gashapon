@@ -11,6 +11,10 @@
 .cover {
     width: 128px;
     height: 110px;
+    text-align: center;
+    line-height: 110px;
+    font-size: 24px;
+    color: #fd5e08;
 }
 
 .name {

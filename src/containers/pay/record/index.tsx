@@ -13,6 +13,7 @@ import { showSignModal } from '../../../actions/status';
 import { arriveFooter } from '../../../config/util';
 import { Payinfos, Payinfo } from '../../../types/componentTypes';
 import * as Moment from 'moment';
+import * as numeral from 'numeral';
 
 interface Props {
     loadPayinfo     : ({}: LoadPayinfoParams) => void;
@@ -99,7 +100,7 @@ class Record extends React.Component<Props, State> {
                         </span>
                     </div>
                     <div styleName="boxRight">
-                        <span styleName="money">+￥{data.value}</span>
+                        <span styleName="money">+￥{data.value ? numeral(data.value / 100).format('0') : '0'}</span>
                         <span word-overflow="word-overflow">{data._id}</span>
                     </div>
                 </div>

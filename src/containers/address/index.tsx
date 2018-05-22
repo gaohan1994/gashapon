@@ -60,17 +60,33 @@ class Address extends React.Component <Props, State> {
         super(props);
         this.state = {
             showModify  : false,
-            
             receiver    : '',
             phone       : '',
             detail_area : '',
             detail_home : '',
             postal_code : '',
             is_default  : false,
-
             showModal   : false,
             modalValue  : ''
         };
+
+        this.onClearStateHandle = this.onClearStateHandle.bind(this);
+        this.onSetSelectedAddress = this.onSetSelectedAddress.bind(this);
+        this.onNameChangeHandle = this.onNameChangeHandle.bind(this);
+        this.onPhoneChangeHandle = this.onPhoneChangeHandle.bind(this);
+        this.onAreaChangeHandle    = this.onAreaChangeHandle.bind(this);
+        this.onAreaChangeHandle = this.onAreaChangeHandle.bind(this);
+        this.onAddressChangeHandle = this.onAddressChangeHandle.bind(this);
+        this.onPostcodeChangeHandle = this.onPostcodeChangeHandle.bind(this);
+        this.onChangeDefault = this.onChangeDefault.bind(this);
+        this.onShowModifyAddress = this.onShowModifyAddress.bind(this);
+        this.onHideModifyAddress = this.onHideModifyAddress.bind(this);
+        this.onNavHandle = this.onNavHandle.bind(this);
+        this.doShowModifyModalHandle = this.doShowModifyModalHandle.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.checkInput = this.checkInput.bind(this);
+        this.doSaveModifyAddress = this.doSaveModifyAddress.bind(this);
     }
 
     public onClearStateHandle = (): void => {
@@ -283,7 +299,7 @@ class Address extends React.Component <Props, State> {
         );
     }
 
-    private renderFooter = (): JSX.Element => {
+    private readonly renderFooter = (): JSX.Element => {
         return (
             <div 
                 styleName="footer"
@@ -295,7 +311,7 @@ class Address extends React.Component <Props, State> {
         );
     }
 
-    private renderModifyAddress = (): JSX.Element => {
+    private readonly renderModifyAddress = (): JSX.Element => {
         const { showModify } = this.state;
         return (
             <div 
@@ -321,7 +337,7 @@ class Address extends React.Component <Props, State> {
         );
     }
 
-    private renderDetail = (): JSX.Element => {
+    private readonly renderDetail = (): JSX.Element => {
         const { receiver, phone, detail_area, detail_home, postal_code  } = this.state;
         const data: Item[] = [
             {
@@ -365,7 +381,7 @@ class Address extends React.Component <Props, State> {
         );
     }
 
-    private renderItem = (data: Item): JSX.Element => {
+    private readonly renderItem = (data: Item): JSX.Element => {
         return (
             <div 
                 key={data.title}
@@ -384,7 +400,7 @@ class Address extends React.Component <Props, State> {
         );
     }
 
-    private renderDefault = (): JSX.Element => {
+    private readonly renderDefault = (): JSX.Element => {
         const { is_default } = this.state;
         return (
             <div 

@@ -27,23 +27,23 @@ class Swiper extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount () {
-        const { current } = this.state;
-        const { images} = this.props;
+    // componentDidMount () {
+    //     const { current } = this.state;
+    //     const { images} = this.props;
 
-        if (images[0]) {
-            alert(
-                `data.length: ${images.length} ` + 
-                `data[0]: http://${config.host.pic}/${images[0].pic} ` +
-                `index: ${current} `
-            );
-        } else {
-            alert(
-                `data.length: ${images.length} ` +
-                `index: ${current} `
-            );
-        }
-    }
+    //     if (images[0]) {
+    //         alert(
+    //             `data.length: ${images.length} ` + 
+    //             `data[0]: http://${config.host.pic}/${images[0].pic} ` +
+    //             `index: ${current} `
+    //         );
+    //     } else {
+    //         alert(
+    //             `data.length: ${images.length} ` +
+    //             `index: ${current} `
+    //         );
+    //     }
+    // }
 
     public doNavHandle = (type: number, param: string): void => {
         

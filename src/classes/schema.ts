@@ -144,7 +144,6 @@ class Schema {
             apkInfo     : config.apkInfo ? config.apkInfo : defaultConfig.APK_INFO
         };
     }
-    
 }
 
 export default Schema;

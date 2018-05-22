@@ -47,17 +47,29 @@ class Check extends React.Component <Props, State> {
         this.state = {
             showModal   : false,
             value       : '',
-
             showReword  : false,
             rewordValue : '',
-
             showResult  : false,
             resultValue : '',
             resultImg   : ''
         };
+        this.doCheckHandle = this.doCheckHandle.bind(this);
+        this.onCancelHandle = this.onCancelHandle.bind(this);
+        this.onConfirmHandle = this.onConfirmHandle.bind(this);      
+        this.onRewordCancelHandle = this.onRewordCancelHandle.bind(this);
+        this.showReward = this.showReward.bind(this);
+        this.onBackHandle = this.onBackHandle.bind(this);
+        this.renderItemImg = this.renderItemImg.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.onShowReword = this.onShowReword.bind(this);
+        this.onHideReword = this.onHideReword.bind(this);
+        this.onShowResult = this.onShowResult.bind(this);
+        this.onHideResult = this.onHideResult.bind(this);         
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
+
         const {
             getUserdata,
             loadMonthCheckById,
@@ -91,14 +103,12 @@ class Check extends React.Component <Props, State> {
                     resultValue : '签到成功',
                     showResult  : true,
                     resultImg   : 'http://net.huanmusic.com/gasha/%E7%AD%BE%E5%88%B0%E6%88%90%E5%8A%9F1.png'
+                }, () => {
+                    loadMonthCheckById({_id: getUserdata._id});
                 });
             } else {
                 
                 /* do error stuff here */
-                // this.setState({
-                //     value       : result.message ? result.message : '签到出错了',
-                //     showModal   : true
-                // });
                 this.setState({
                     resultValue : result.message ? result.message : '签到出错了',
                     showResult  : true,
@@ -230,7 +240,7 @@ class Check extends React.Component <Props, State> {
         );
     }
 
-    private renderCheckStatusModal = (): JSX.Element => {
+    private readonly renderCheckStatusModal = (): JSX.Element => {
         
         const { showResult, resultValue, resultImg } = this.state;
         return (
@@ -256,7 +266,7 @@ class Check extends React.Component <Props, State> {
         );
     }
 
-    private renderModal = (): JSX.Element => {
+    private readonly renderModal = (): JSX.Element => {
 
         const { showModal, value } = this.state;
         return (
@@ -269,7 +279,7 @@ class Check extends React.Component <Props, State> {
         );
     }
 
-    private renderReword = (): JSX.Element => {
+    private readonly renderReword = (): JSX.Element => {
         
         const { showReword, rewordValue } = this.state;
         return (
@@ -281,7 +291,7 @@ class Check extends React.Component <Props, State> {
         );
     }
 
-    private renderMonthChecks = (): JSX.Element => {
+    private readonly renderMonthChecks = (): JSX.Element => {
         const { getChecks } = this.props;
 
         /* 

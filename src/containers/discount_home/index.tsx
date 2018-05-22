@@ -40,6 +40,8 @@ class DiscountHome extends React.Component <Props, State> {
         this.state = {
             type: 'discounting'
         };
+
+        this.onChangeTypeHandle = this.onChangeTypeHandle.bind(this);
     }
 
     componentDidMount (): void {
@@ -87,7 +89,7 @@ class DiscountHome extends React.Component <Props, State> {
         );
     }
 
-    private renderNav = (): JSX.Element => {
+    private readonly renderNav = (): JSX.Element => {
         const { type } = this.state;
         return (
             <div styleName="navbar">
@@ -109,7 +111,7 @@ class DiscountHome extends React.Component <Props, State> {
         );
     }
 
-    private renderDiscountData = (data: discountType[]): JSX.Element => {
+    private readonly renderDiscountData = (data: discountType[]): JSX.Element => {
         return (
             <div styleName="content">
                 {data && data.length > 0

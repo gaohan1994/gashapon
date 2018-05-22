@@ -16,7 +16,6 @@ import Validator from '../../classes/validate';
 import Business from '../../classes/business';
 import User from '../../classes/user';
 import config from '../../config';
-// import Qart from 'react-qart';
 import * as QRcode from 'qrcode.react';
 import Modal from '../../components/modal';
 import { inApp } from '../../config/util';
@@ -44,10 +43,17 @@ class Pay extends React.Component<Props, State> {
         this.state = {
             showQrcode  : false,
             qrcodeUrl   : '',
-
             showModal   : false,
             modalValue  : ''
         };
+        this.onClickHandle = this.onClickHandle.bind(this);
+        this.doNavHandle = this.doNavHandle.bind(this);
+        this.onChangeHandle = this.onChangeHandle.bind(this);
+        this.showQrcodeHandle = this.showQrcodeHandle.bind(this);
+        this.hideQrcodeHandle = this.hideQrcodeHandle.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.renderInput = this.renderInput.bind(this);
     }
 
     public onClickHandle = async (): Promise<void> => {
@@ -101,7 +107,7 @@ class Pay extends React.Component<Props, State> {
                         const schema = new Schema(config);
                         schema.loadSchema();
                     } else {
-                        alert(recharge.result);
+                        
                         this.setState({
                             qrcodeUrl: recharge.result
                         }, () => { 
@@ -178,11 +184,6 @@ class Pay extends React.Component<Props, State> {
                         visibility  : showQrcode === true ? 'visible' : 'hidden'
                     }}
                 >
-                    {/* <Qart
-                        value={qrcodeUrl}
-                        filter="color"
-                        imagePath="http://net.huanmusic.com/www/img/logo1.png"
-                    /> */}
                     <QRcode
                         value={qrcodeUrl}
                         size={200}

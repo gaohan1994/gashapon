@@ -105,12 +105,28 @@ class Gashapon extends React.Component<Props, State> {
             showSelectModal     : false,
             showDiscountModal   : false,
             gashaponProductItem : [],
-
             errorModal          : false,
             modalValue          : '',
         };
 
         this.onDiscountGashaponClickHandle = this.onDiscountGashaponClickHandle.bind(this);
+        this.doGashaponHandle = this.doGashaponHandle.bind(this);
+        this.doCollectGashaponHandle = this.doCollectGashaponHandle.bind(this);
+        this.doCancelCollectGashaponHandle = this.doCancelCollectGashaponHandle.bind(this);
+        this.doDiscoutHandle = this.doDiscoutHandle.bind(this);
+        this.timeoutHandle = this.timeoutHandle.bind(this);
+        this.onTestOneTime = this.onTestOneTime.bind(this);
+        this.hideAll = this.hideAll.bind(this);
+        this.onShowErrorModal = this.onShowErrorModal.bind(this);
+        this.onHideErrorModal = this.onHideErrorModal.bind(this);
+        this.onShowDiscountModal = this.onShowDiscountModal.bind(this);
+        this.onHideDiscountModal = this.onHideDiscountModal.bind(this);
+        this.doShowSelectModalHandle = this.doShowSelectModalHandle.bind(this);
+        this.doHideSelectModalHandle = this.doHideSelectModalHandle.bind(this);
+        this.onShowModalHandle = this.onShowModalHandle.bind(this);
+        this.onHideModalHandle = this.onHideModalHandle.bind(this);
+        this.onChangeMusicHandle = this.onChangeMusicHandle.bind(this);
+        this.goGashaponShow = this.goGashaponShow.bind(this);
     }
 
     componentDidMount () {
@@ -288,10 +304,10 @@ class Gashapon extends React.Component<Props, State> {
         } else {
 
             const shareConfig = {
-                url     : `${config.url}/discount/${getCreateDiscount}`,
-                title   : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
-                pic     : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`,
-                description: `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
+                url         : `${config.url}/discount/${getCreateDiscount}`,
+                title       : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
+                pic         : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`,
+                description : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
             };
 
             const share = new Share(shareConfig, type);
@@ -498,7 +514,6 @@ class Gashapon extends React.Component<Props, State> {
                     <ErrorModal
                         display={errorModal}
                         value={modalValue}
-                        onCancelClickHandle={this.onHideErrorModal}
                         onConfirmClickHandle={this.onHideErrorModal}
                     />
                     <SignModal/>

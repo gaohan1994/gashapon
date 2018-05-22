@@ -58,6 +58,13 @@ class Main extends React.Component<Props, State> {
         this.state = {
             flashDate: ''
         };
+
+        this.onNavHandle = this.onNavHandle.bind(this);
+        this.onMenuClickHandle = this.onMenuClickHandle.bind(this);
+        this.doLogoutHandle = this.doLogoutHandle.bind(this);
+        this.goGashaponHandle = this.goGashaponHandle.bind(this);
+        this.loadMainDataCallback = this.loadMainDataCallback.bind(this);
+        this.setDateHandle = this.setDateHandle.bind(this);
     }
 
     componentDidMount(): void {
@@ -138,7 +145,7 @@ class Main extends React.Component<Props, State> {
         );
     }
 
-    private renderTimeLimit = (): JSX.Element => {
+    private readonly renderTimeLimit = (): JSX.Element => {
         const { getData } = this.props;
         return (
             <div styleName="timeLimit">
@@ -163,7 +170,7 @@ class Main extends React.Component<Props, State> {
         );
     }
 
-    private renderFlashDate = (): JSX.Element => {
+    private readonly renderFlashDate = (): JSX.Element => {
         
         const { flashDate } = this.state;
         return (
@@ -176,7 +183,7 @@ class Main extends React.Component<Props, State> {
         );
     }
 
-    private renderMenu = (): JSX.Element | string => {
+    private readonly renderMenu = (): JSX.Element | string => {
 
         const { getData } = this.props;
         
@@ -208,7 +215,7 @@ class Main extends React.Component<Props, State> {
         }
     }
 
-    private renderMainData = (): JSX.Element => {
+    private readonly renderMainData = (): JSX.Element => {
 
         const { getData } = this.props;
         return (

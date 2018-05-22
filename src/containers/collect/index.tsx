@@ -39,10 +39,15 @@ class Collect extends React.Component<Props, State> {
         super(props);
         this.state = {
             type        : 'all',
-
             showModal   : false,
             modalValue  : ''
         };
+
+        this.onChangeTypeHandle = this.onChangeTypeHandle.bind(this);
+        this.gotoGashaponHandle = this.gotoGashaponHandle.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.doCancelCollectGashaponHandle = this.doCancelCollectGashaponHandle.bind(this);
     }
 
     public onChangeTypeHandle = (): void => {
@@ -114,7 +119,7 @@ class Collect extends React.Component<Props, State> {
         );
     }
 
-    private renderNav = (): JSX.Element => {
+    private readonly renderNav = (): JSX.Element => {
         const { type } = this.state;
         return (
             <div styleName="navbar" bg-white="true">
@@ -136,7 +141,7 @@ class Collect extends React.Component<Props, State> {
         );
     }
 
-    private renderGashapons = (): JSX.Element[] | string => {
+    private readonly renderGashapons = (): JSX.Element[] | string => {
         
         const { getUserdata } = this.props;
 

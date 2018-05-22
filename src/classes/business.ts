@@ -195,7 +195,7 @@ class Business {
 
                 return {
                     type    : 'ERROR_RECHARGE',
-                    message : '充值失败'
+                    message : result.message ? result.message : '充值失败'
                 };
             }
 
@@ -203,7 +203,7 @@ class Business {
             console.log('充值失败', err);
             return {
                 type    : 'ERROR_RECHARGE',
-                message : '充值失败'
+                message : err.message ? err.message : '充值失败'
             };
         }
     }

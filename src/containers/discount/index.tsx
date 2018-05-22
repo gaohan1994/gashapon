@@ -61,6 +61,10 @@ class Discount extends React.Component<Props, State> {
             showModal   : false,
             modalValue  : ''
         };
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.doHelpDiscoutHandle = this.doHelpDiscoutHandle.bind(this);
+        this.goGashaponHandle = this.goGashaponHandle.bind(this);
     }
 
     componentDidMount() {
@@ -269,7 +273,7 @@ class Discount extends React.Component<Props, State> {
         );
     }
 
-    private renderDiscountItem = (item: DiscountItem, i: number): JSX.Element => {
+    private readonly renderDiscountItem = (item: DiscountItem, i: number): JSX.Element => {
         return (
             <div 
                 styleName="item"
@@ -291,7 +295,7 @@ class Discount extends React.Component<Props, State> {
         );
     }
 
-    private renderProgress = (): string => {
+    private readonly renderProgress = (): string => {
     
         const { getDiscountData } = this.props;
 

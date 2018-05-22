@@ -14,6 +14,12 @@ interface Props {
 
 class Vip extends React.Component <Props, {}> {
 
+    constructor (props: Props) {
+        super(props);
+        this.renderLevels = this.renderLevels.bind(this);
+        this.renderRules = this.renderRules.bind(this);
+    }
+
     public onBackHandle = (): void => {
         history.goBack();
     }
@@ -22,14 +28,61 @@ class Vip extends React.Component <Props, {}> {
 
         const { getUserdata } = this.props;
 
-        console.log('getUserdata', getUserdata);
+        let vipUrl: string  = '';
+        let now: number     = 0;
+        let total: number   = 0;
+
+        if (getUserdata.experience > 0) {
+            now = getUserdata.experience / 100;
+            if (now < 100) {
+
+                total   = 100;
+                vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+            } else if (now < 500) {
+
+                total   = 500;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v1.png';
+            } else if (now < 1000) {
+
+                total   = 1000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v2.png';
+            } else if (now < 2000) {
+
+                total   = 2000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v3.png';
+            } else if (now < 5000) {
+
+                total   = 5000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v4.png';
+            } else {
+
+                total   = 80000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+            }
+            /*
+            else if (getUserdata.experience < 10000) {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+            } else if (getUserdata.experience < 30000) {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v6.png';
+            } else if (getUserdata.experience < 50000) {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v7.png';
+            } else {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v8.png';
+            }
+            */
+        } else {
+            now     = 0;
+            total   = 10;
+            vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+        }
+
         return (
             <div styleName="container" bg-white="true">
                 <div 
                     styleName="back"
                     onClick={() => this.onBackHandle()}
                 >
-                    <i 
+                    <i
                         styleName="backicon" 
                         bgimg-center="100"
                     />
@@ -54,15 +107,13 @@ class Vip extends React.Component <Props, {}> {
                         {getUserdata.name}
                     </span>
                     
-                    <div 
-                        styleName="exp"
-                    >
+                    <div styleName="exp">
                         <i 
                             styleName="vipIcon"
-                            style={{backgroundImage: `url(http://net.huanmusic.com/gasha/vip/v0.png)`}}
+                            style={{backgroundImage: `url(${vipUrl})`}}
                         />
                         <span styleName="progress">
-                            0 / 10
+                            {now} / {total}
                         </span>
                     </div>
                 </div>
@@ -206,7 +257,6 @@ class Vip extends React.Component <Props, {}> {
                         styleName="level"
                     >
                         <i styleName="icon" bgimg-center="100"/>
-                        <span styleName="reword">暂无奖励</span>
                         {item.discounts && item.discounts.length > 0
                         ? item.discounts.map((text, j) => {
                             return (

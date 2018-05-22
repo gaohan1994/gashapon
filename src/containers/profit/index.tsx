@@ -20,6 +20,12 @@ interface Props {
 
 class Profit extends React.Component <Props, {}> {
 
+    constructor (props: Props) {
+        super(props);
+        this.onBackHandle = this.onBackHandle.bind(this);
+        this.onNavHandle = this.onNavHandle.bind(this);
+    }
+
     componentDidMount() {
         const { loadIncomeRecord } = this.props;
         const user = User.getUser();

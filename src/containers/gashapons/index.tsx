@@ -95,6 +95,15 @@ class Gashapon extends React.Component<Props, State> {
             showPrice   : false,
         };
         this.clickListenHandle = this.clickListenHandle.bind(this);
+        this.loadGashaponCallback = this.loadGashaponCallback.bind(this);
+        this.onChangeIndex = this.onChangeIndex.bind(this);
+        this.doChangeGenreHandle = this.doChangeGenreHandle.bind(this);
+        this.doChangeTopicHandle = this.doChangeTopicHandle.bind(this);
+        this.onBannerNavHandle = this.onBannerNavHandle.bind(this);
+        this.doChangePriceHandle = this.doChangePriceHandle.bind(this);
+        this.doToogleGenreHandle = this.doToogleGenreHandle.bind(this);
+        this.doTooglePriceHandle = this.doTooglePriceHandle.bind(this);
+        this.doHideAllHandle = this.doHideAllHandle.bind(this);
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -331,7 +340,7 @@ class Gashapon extends React.Component<Props, State> {
         );
     }
 
-    private renderClass = (): JSX.Element => {
+    private readonly renderClass = (): JSX.Element => {
         const { showGenre, showPrice } = this.state;
         const { getGenres } = this.props;
 
@@ -418,7 +427,7 @@ class Gashapon extends React.Component<Props, State> {
         );
     }
 
-    private renderBanners = (): JSX.Element => {
+    private readonly renderBanners = (): JSX.Element => {
 
         const { current } = this.state;
         const { getGashaponBanner, getBanners } = this.props;

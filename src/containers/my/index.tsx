@@ -30,9 +30,9 @@ interface Props {
     getUserdata         : Userdata;
     loadCode            : (phone: string) => void;
     showSignModal       : () => void;
-    loadUserDataFromUuid: (callback?: (uid: string) => void) => void;
     loadOrderCount      : (uid: string) => void;
     getCount            : OrderCount;
+    loadUserDataFromUuid: (callback?: (uid: string) => void) => void;
 }
 
 interface State {
@@ -52,6 +52,10 @@ class My extends React.Component<Props, State> {
         this.state = {
             current: 0,
         };
+
+        this.loadUserdataCallback = this.loadUserdataCallback.bind(this);
+        this.onNavHandle = this.onNavHandle.bind(this);
+        this.onClickHandle = this.onClickHandle.bind(this);
     }
 
     componentWillMount (): void {
@@ -106,9 +110,58 @@ class My extends React.Component<Props, State> {
         );
     }
 
-    private renderProfile = (): JSX.Element => {
-        const { current } = this.state;
+    private readonly renderProfile = (): JSX.Element => {
+        // const { current } = this.state;
         const { getUserdata } = this.props;
+
+        let vipUrl: string  = '';
+        let now: number     = 0;
+        let total: number   = 0;
+
+        if (getUserdata.experience > 0) {
+            now = getUserdata.experience / 100;
+            if (now < 100) {
+
+                total   = 100;
+                vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+            } else if (now < 500) {
+
+                total   = 500;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v1.png';
+            } else if (now < 1000) {
+
+                total   = 1000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v2.png';
+            } else if (now < 2000) {
+
+                total   = 2000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v3.png';
+            } else if (now < 5000) {
+
+                total   = 5000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v4.png';
+            } else {
+
+                total   = 80000;
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+            }
+            /*
+            else if (getUserdata.experience < 10000) {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+            } else if (getUserdata.experience < 30000) {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v6.png';
+            } else if (getUserdata.experience < 50000) {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v7.png';
+            } else {
+                vipUrl = 'http://net.huanmusic.com/gasha/vip/v8.png';
+            }
+            */
+        } else {
+            now     = 0;
+            total   = 10;
+            vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+        }
+
         return (
             <div styleName="user">
                 {/* <div styleName="gift">
@@ -134,23 +187,23 @@ class My extends React.Component<Props, State> {
                     </span>
                 </div>
 
-                <div 
+                <div
                     styleName="vip"
                     onClick={() => this.onClickHandle('vip')}
                 >
                     <i 
                         styleName="vipIcon"
-                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/vip/v0.png)`}}
+                        style={{backgroundImage: `url(${vipUrl})`}}
                     />
                     <span styleName="progress">
-                        {current} / 10
+                        {now} / {total}
                     </span>
                 </div>
             </div>
         );
     }
 
-    private renderMoney = (): JSX.Element => {
+    private readonly renderMoney = (): JSX.Element => {
         const { getUserdata } = this.props;
         return (
             <div styleName="money">
@@ -173,7 +226,7 @@ class My extends React.Component<Props, State> {
         );
     }
 
-    private renderMenu = (): JSX.Element => {
+    private readonly renderMenu = (): JSX.Element => {
         const menus = [
             {
                 _id: 1,
@@ -201,7 +254,7 @@ class My extends React.Component<Props, State> {
                 param: 'coupons',
                 img: 'http://net.huanmusic.com/gasha/my/%E4%BC%98%E6%83%A0%E5%88%B8.png',
                 propsClickHandle: () => this.onClickHandle('coupons')
-            },
+            }
         ];
         return (
             <div styleName="menu">
@@ -214,7 +267,7 @@ class My extends React.Component<Props, State> {
         );
     }
 
-    private renderUtils = (): JSX.Element => {
+    private readonly renderUtils = (): JSX.Element => {
         const { getCount } = this.props;
 
         const menus = [
@@ -262,7 +315,7 @@ class My extends React.Component<Props, State> {
         );
     }
 
-    private renderSet = (): JSX.Element => {
+    private readonly renderSet = (): JSX.Element => {
         return (
             <div styleName="set" bg-white="true">
                 <div 
@@ -293,7 +346,7 @@ class My extends React.Component<Props, State> {
         );
     }
 
-    private renderMyData = (): JSX.Element => {
+    private readonly renderMyData = (): JSX.Element => {
         const { getUserdata } = this.props;
         const menus = [
             {
@@ -331,7 +384,7 @@ class My extends React.Component<Props, State> {
         );
     }
 
-    private renderDataItem = (data: any, i: number): JSX.Element => {
+    private readonly renderDataItem = (data: any, i: number): JSX.Element => {
         return (
             <div key={i} styleName="dataItem">
                 <span font-s="30">{data.count}</span>

@@ -68,6 +68,10 @@ class Inventory extends React.Component<Props, State> {
             page: 0,
             uid: ''
         };
+
+        this.loadUserdataCallback = this.loadUserdataCallback.bind(this);
+        this.loadInventoryCallback = this.loadInventoryCallback.bind(this);
+        this.onMenuClickHandle = this.onMenuClickHandle.bind(this);
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -231,7 +235,7 @@ class Inventory extends React.Component<Props, State> {
         );
     }
 
-    private renderMenu = (): JSX.Element => {
+    private readonly renderMenu = (): JSX.Element => {
         
         const { getInventory } = this.props;
         

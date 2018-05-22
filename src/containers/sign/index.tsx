@@ -69,6 +69,20 @@ class SignContainer extends React.Component<Props, State> {
         };
 
         this.timerHandle = this.timerHandle.bind(this);
+        this.onChangeLogphone = this.onChangeLogphone.bind(this);
+        this.onChangeLogpwd = this.onChangeLogpwd.bind(this);
+        this.onChangeRegphone = this.onChangeRegphone.bind(this);
+        this.onChangeRegpwd = this.onChangeRegpwd.bind(this);
+        this.onChangeRegcode = this.onChangeRegcode.bind(this);
+        this.onButtonClickHandle = this.onButtonClickHandle.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.doRegisterHandle = this.doRegisterHandle.bind(this);
+        this.doLoginHandle = this.doLoginHandle.bind(this);
+        this.doGetVercodeHandle = this.doGetVercodeHandle.bind(this);
+        this.onForgetPasswordHandle = this.onForgetPasswordHandle.bind(this);
+        this.renderErrorModal = this.renderErrorModal.bind(this);
+        this.renderInput = this.renderInput.bind(this);
     }
 
     public onChangeLogphone = (event: any) => {

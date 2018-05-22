@@ -25,7 +25,7 @@ import {
 import history from '../../history';
 
 interface Props {
-    getBanners      ?: {contents: BannerType[]};
+    getBanners      ?: {contents?: BannerType[]};
     getGenres       ?: Genres;
     showSearchModal ?: () => void;
     getTopics       ?: Genres;

@@ -126,8 +126,10 @@
 }
 
 .progress {
+    
     display: block;
-    width: 130px;
+    padding: 0 30px;
+    min-width: 130px;
     text-align: center;
     line-height: 40px;
     height: 40px;

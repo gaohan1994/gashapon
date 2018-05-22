@@ -8,6 +8,7 @@ export interface AchievementType {
     progress        ?: number;
     totalProgress   ?: number;
     img             : string;
+    failImg         ?: string;
 }
 
 interface Props {
@@ -19,9 +20,30 @@ const Achievement = ({achievement}: Props) => (
         styleName="container"
         flex-center="all-center"
     >
-        <i styleName="cover"  bgimg-center="100" style={{backgroundImage: `url(${achievement.img})`}}/>
-        <span styleName="name" font-s="30">{achievement.name}</span>
-        <span styleName="desc">{achievement.desc}</span>
+        {achievement && achievement.progress && achievement.totalProgress &&
+        achievement.progress >= achievement.totalProgress
+        ? <span 
+            styleName="cover"  
+            bgimg-center="100" 
+            style={{backgroundImage: `url(${achievement.img})`}}
+        />
+        : <span 
+            styleName="cover"  
+            bgimg-center="100" 
+            style={{backgroundImage: `url(${achievement.failImg})`}}
+        >{achievement.progress} / {achievement.totalProgress}
+        </span>}
+        
+        <span 
+            styleName="name" 
+            font-s="30"
+        >
+            {achievement.name}
+        </span>
+
+        <span styleName="desc">
+            {achievement.desc}
+        </span>
     </div>
 );
 

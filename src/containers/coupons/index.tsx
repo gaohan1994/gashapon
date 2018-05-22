@@ -42,6 +42,8 @@ class Coupons extends React.Component<Props, State> {
         this.state = {
             page: 0
         };
+
+        this.loadCouponsCallback = this.loadCouponsCallback.bind(this);
     }
 
     componentWillReceiveProps (nextProps: any): void {
