@@ -46,14 +46,15 @@ class Select extends React.Component<Props, State> {
                 data.push(
                     <div 
                         key={i}
-                        bgimg-center="bgimg-center"
                         styleName="image"
-                        style={{
-                            backgroundImage: item.pics && item.pics[0]
-                                            ? `url(http://${config.host.pic}/${item.pics[0]})`
-                                            : `url(${config.empty_pic.url})`
-                        }}
-                    />
+                    >
+                        <img 
+                            styleName="imageItem"
+                            src={item.pics && item.pics[0]
+                                ? `http://${config.host.pic}/${item.pics[0]}`
+                                : `${config.empty_pic.url}`}
+                        />
+                    </div>
                 );
                 trig.push(
                     <span 
@@ -67,8 +68,8 @@ class Select extends React.Component<Props, State> {
         if (display === true) {
 
             const style = {
-                width: '90vw',
-                height: '400px'
+                width: '60vw',
+                height: '60vw'
             };
     
             const containerStyle = {

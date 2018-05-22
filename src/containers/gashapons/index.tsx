@@ -461,13 +461,11 @@ class Gashapon extends React.Component<Props, State> {
                     styleName="wrapItem"
                     onClick={() => this.onBannerNavHandle(item.type, item.param)}
                 >
-                    <i
+                    <img
                         styleName="imageItem"
-                        style={{
-                            backgroundImage: item.pic 
-                            ? `url(http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350)` 
-                            : `url(${config.empty_pic.url})`
-                        }}
+                        src={item.pic 
+                            ? `http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
+                            : `${config.empty_pic.url}`}
                     />
                 </div>
             );

@@ -52,17 +52,16 @@
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    /* background: -webkit-gradient(linear,left top, right top,from(#351b00),color-stop(#865A21),to(#351b00));
-    background: linear-gradient(to right,#351b00,#865A21,#351b00); */
     background-image: url('http://net.huanmusic.com/gasha/%E6%89%8B%E6%B0%94%E7%9C%9F%E5%A5%BD.png');
 }
 
 .cover {
-    /* position: absolute; */
+    float: left;
+    border: 0px;
+    display: block;
+    position: relative;
     width: 220px;
     height: 200px;
-    /* top: 20px;
-    left: 20px; */
 }
 
 .tip {
@@ -73,7 +72,6 @@
     color: red;
     font-weight: 700;
     text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff
-
 }
 
 .button {

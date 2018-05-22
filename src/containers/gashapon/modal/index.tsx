@@ -81,13 +81,11 @@ class Modal extends React.Component<Props, State> {
                 flex-center="all-center"
                 key={i}
             >
-                <div
-                    bgimg-center="bgimg-center"
+                <img
                     styleName="cover"
-                    style={{backgroundImage: 
-                            item && item.pics && item.pics[0] 
-                            ? `url(http://${config.host.pic}/${item.pics[0]})` 
-                            : `url(${config.empty_pic.url})`}}
+                    src={item && item.pics && item.pics[0] 
+                        ? `http://${config.host.pic}/${item.pics[0]}` 
+                        : `${config.empty_pic.url}`}
                 />
                 <span styleName="name" word-overflow="word-overflow">
                     {item

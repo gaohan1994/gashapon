@@ -64,15 +64,12 @@ class Swiper extends React.Component<Props, State> {
                     key={i}
                     styleName="wrapItem"
                 >
-                    <i
+                    <img
                         onClick={() => this.doNavHandle(item.type, item.param)}
                         styleName="imageItem"
-                        style={{
-                            backgroundImage: item.pic 
-                            // ? `url(http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350)` 
-                            ? `url(http://${config.host.pic}/${item.pic})` 
-                            : `url(${config.empty_pic.url})`
-                        }}
+                        src={item.pic 
+                            ? `http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
+                            : `${config.empty_pic}`}
                     />
                 </div>
             );

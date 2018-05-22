@@ -74,6 +74,7 @@ class Record extends React.Component<Props, State> {
                 bg-white="true"
             >
                 <Header title="收支明细"/> 
+                
                 {getPayinfo.length > 0
                 ? getPayinfo.map((item: Payinfo, i: number) => {
                     return this.renderItem(item, i);
@@ -83,7 +84,7 @@ class Record extends React.Component<Props, State> {
         );
     }
 
-    private renderItem = (data: Payinfo, i: number): JSX.Element => {
+    private readonly renderItem = (data: Payinfo, i: number): JSX.Element => {
         return (
             <div 
                 styleName="item"

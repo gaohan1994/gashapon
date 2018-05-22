@@ -127,8 +127,8 @@ class Sign {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'GET_WRONG_PARAM',
-                message: err.message
+                type    : 'GET_WRONG_PARAM',
+                message : err.message
             };
         }
         
@@ -170,27 +170,27 @@ class Sign {
                         } else {
                             return {
                                 type    : 'BIND_ERROR',
-                                message : '注册成功绑定失败'
+                                message : res.message ? res.message : '注册成功绑定失败'
                             };
                         }
                     } else {
                         return {
-                            type: 'ERROR_FETCH_UID',
-                            message: '获取用户UID失败'
+                            type    : 'ERROR_FETCH_UID',
+                            message : uid.message ? uid.message : '获取用户UID失败'
                         };
                     }
                 }
             } else {
                 return {
-                    type: 'ERROR_REGISTER',
-                    message: result.message
+                    type    : 'ERROR_REGISTER',
+                    message : result.message
                 };
             }
         } catch (err) {
             console.log('注册失败', err);
             return {
-                type: 'ERROR_REGISTER',
-                message: '注册失败'
+                type    : 'ERROR_REGISTER',
+                message : err.message ? err.message : '注册失败'
             };
         }
     }
@@ -307,13 +307,13 @@ class Sign {
             } else {
                 return {
                     type    : 'ERROR_GETVERCODE',
-                    message : result.message ? result.message : '获取验证吗失败'
+                    message : result.message ? result.message : '获取验证码失败'
                 };
             }
         } catch (err) {
             return {
                 type: 'ERROR_GETVERCODE',
-                message: err.message ? err.message : '获取验证吗失败'
+                message: err.message ? err.message : '获取验证码失败'
             };
         }
     }
@@ -348,13 +348,13 @@ class Sign {
             } else {
                 return {
                     type    : 'ERROR_GETVERCODE',
-                    message : result.message ? result.message : '获取验证吗失败'
+                    message : result.message ? result.message : '获取验证码失败'
                 };
             }
         } catch (err) {
             return {
                 type: 'ERROR_GETVERCODE',
-                message: err.message ? err.message : '获取验证吗失败'
+                message: err.message ? err.message : '获取验证码失败'
             };
         }
     }

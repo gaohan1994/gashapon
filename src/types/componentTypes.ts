@@ -109,7 +109,7 @@ export type DiscountDataType = {
     image       : string;
     machine     : string;
     max_discount: number;
-    statu       : number;
+    status      : number;
     sum         : number;
     title       : string;
     user        : string;

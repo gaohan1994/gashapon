@@ -68,7 +68,7 @@ class Discount extends React.Component<Props, State> {
         this.goGashaponHandle = this.goGashaponHandle.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount (): void {
         
         const { 
             match,
@@ -79,18 +79,22 @@ class Discount extends React.Component<Props, State> {
 
             loadDiscountData({id: match.params.id});
         } else {
-            
-            window.location.href = 'http://gacha-dev.hy233.tv';
+
+            process.env.NODE_ENV === 'production'
+            ? window.location.href = '//gacha.hy233.tv'
+            : window.location.href = '//gacha-dev.hy233.tv';
         }
     }
 
     public onShowModal = (): void => {
+
         this.setState({
             showModal: true
         });
     }
 
     public onHideModal = (): void => {
+
         this.setState({
             modalValue  : '',
             showModal   : false
@@ -117,7 +121,7 @@ class Discount extends React.Component<Props, State> {
             const result: HelpDiscountMethodReturn = await DiscountClass.helpDiscountMethod({
                 userId      : getUserdata._id,
                 discountId  : match.params.id,
-                nick        : '123',
+                nick        : getUserdata.name ? getUserdata.name : '',
                 image       : getDiscountData.image
             });
 
@@ -163,10 +167,14 @@ class Discount extends React.Component<Props, State> {
     }
 
     public goGashaponHandle = (): void => {
+
         const { getDiscountData } = this.props;
+
         if (!!getDiscountData.machine) {
+
             history.push(`/gashapon/${getDiscountData.machine}`);
         } else {
+
             this.setState({
                 modalValue: '没有该扭蛋机!'
             });
@@ -175,8 +183,10 @@ class Discount extends React.Component<Props, State> {
     }
 
     render (): JSX.Element {
+
         const { showModal, modalValue } = this.state;
         const { getDiscountData } = this.props;
+
         return (
             <Hoc>
                 <div 
@@ -192,7 +202,9 @@ class Discount extends React.Component<Props, State> {
                         styleName="home"
                         bgimg-center="100"
                     />
-                    <SignModal/>
+                    <SignModal
+                        refereeid={getDiscountData.user}
+                    />
                     <i 
                         styleName="bgimg"
                         bgimg-center="100"
@@ -201,7 +213,11 @@ class Discount extends React.Component<Props, State> {
                     <div styleName="content">
                         {/* <Login/>
                         <Registe/> */}
-                        <img styleName="logo" alt="嘀哩扭蛋" src="http://net.huanmusic.com/gasha/discount/%E5%A5%BD%E5%8F%8B%E7%A0%8D%E4%BB%B7.png"/>
+                        <img 
+                            styleName="logo" 
+                            alt="嘀哩扭蛋" 
+                            src="http://net.huanmusic.com/gasha/discount/%E5%A5%BD%E5%8F%8B%E7%A0%8D%E4%BB%B7.png"
+                        />
                         
                         <div styleName="coverbox">
                             <span 
@@ -274,6 +290,7 @@ class Discount extends React.Component<Props, State> {
     }
 
     private readonly renderDiscountItem = (item: DiscountItem, i: number): JSX.Element => {
+
         return (
             <div 
                 styleName="item"
