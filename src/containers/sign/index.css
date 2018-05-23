@@ -8,7 +8,7 @@
     background: #ffffff;
     -webkit-transition: all .2s ease-out;
     transition: all .2s ease-out;
-    background-image: url('http://net.huanmusic.com/gasha/%E7%99%BB%E5%BD%95%E8%83%8C%E6%99%AF.png');
+    background-image: url('//net.huanmusic.com/gasha/%E7%99%BB%E5%BD%95%E8%83%8C%E6%99%AF.png');
     background-repeat: no-repeat;
     background-size: 100%;
     background-position-y: top;
@@ -21,7 +21,7 @@
     height: 33px;
     left: 35px;
     top: 30px;
-    background-image: url('http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
+    background-image: url('//net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
 }
 
 .content {

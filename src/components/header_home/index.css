@@ -27,14 +27,14 @@
 .clock {
     width: 130px;
     height: 60px;
-    background-image: url('http://net.huanmusic.com/gasha/%E7%AD%BE%E5%88%B0.png');
+    background-image: url('//net.huanmusic.com/gasha/%E7%AD%BE%E5%88%B0.png');
 }
 
 .search {
     margin-left: 30px;
     width: 350px;
     height: 50px;
-    background-image: url('http://net.huanmusic.com/gasha/%E6%9F%A5%E8%AF%A21.png');
+    background-image: url('//net.huanmusic.com/gasha/%E6%9F%A5%E8%AF%A21.png');
 }
 
 .item1, .item2, .item3 {
@@ -44,15 +44,15 @@
 }
 
 .item1 {
-    background-image: url('http://net.huanmusic.com/gasha/%E5%88%86%E7%B1%BB1.png');
+    background-image: url('//net.huanmusic.com/gasha/%E5%88%86%E7%B1%BB1.png');
 }
 
 .item2 {
-    background-image: url('http://net.huanmusic.com/gasha/%E4%B8%93%E9%A2%981.png');
+    background-image: url('//net.huanmusic.com/gasha/%E4%B8%93%E9%A2%981.png');
 }
 
 .item3 {
-    background-image: url('http://net.huanmusic.com/gasha/%E6%B6%88%E6%81%AF1.png');
+    background-image: url('//net.huanmusic.com/gasha/%E6%B6%88%E6%81%AF1.png');
 }
 
 .swiper {
@@ -158,5 +158,5 @@
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    background-image: url('http://net.huanmusic.com/gasha/%E5%AF%BC%E8%88%AA%E6%9D%A1.png')
+    background-image: url('//net.huanmusic.com/gasha/%E5%AF%BC%E8%88%AA%E6%9D%A1.png')
 }

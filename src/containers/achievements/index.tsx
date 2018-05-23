@@ -183,7 +183,7 @@ class Achievements extends React.Component<Props, State> {
                         <i 
                             styleName="medalIcon"
                             bgimg-center="100"
-                            style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E9%9A%BE.png)`}}
+                            style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E9%9A%BE.png)`}}
                         />
                     </li>
                     <li styleName="medal"  style={{width: '40vw'}}>
@@ -191,7 +191,7 @@ class Achievements extends React.Component<Props, State> {
                         <i 
                             styleName="medalIcon"
                             bgimg-center="100"
-                            style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E4%B8%AD.png)`}}
+                            style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E4%B8%AD.png)`}}
                         />
                     </li>
                     <li styleName="medal"  style={{width: '45vw'}}>
@@ -199,7 +199,7 @@ class Achievements extends React.Component<Props, State> {
                         <i 
                             styleName="medalIcon"
                             bgimg-center="100"
-                            style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E6%98%93.png)`}}
+                            style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E6%98%93.png)`}}
                         />
                     </li>
                 </ul>

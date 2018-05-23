@@ -52,7 +52,7 @@
         flex-wrap: wrap;
     -webkit-transition: all .4s ease-out;
     transition: all .4s ease-out;
-    background-image: url('http://net.huanmusic.com/gasha/%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5.png');
+    background-image: url('//net.huanmusic.com/gasha/%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5.png');
 }
 
 .header {

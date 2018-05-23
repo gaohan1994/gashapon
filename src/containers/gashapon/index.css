@@ -8,7 +8,7 @@
     position: relative;
     width: 750px;
     height: 94vh;
-    background-image: url('http://net.huanmusic.com/gasha/%E6%89%AD%E8%9B%8B%E6%9C%BA%E8%83%8C%E6%99%AF.png');
+    background-image: url('//net.huanmusic.com/gasha/%E6%89%AD%E8%9B%8B%E6%9C%BA%E8%83%8C%E6%99%AF.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -48,7 +48,7 @@
     top: 30px;
     width: 40px;
     height: 63px;
-    background-image: url('http://net.huanmusic.com/gasha/%E6%94%B6%E8%97%8F%E5%89%8D.png');
+    background-image: url('//net.huanmusic.com/gasha/%E6%94%B6%E8%97%8F%E5%89%8D.png');
 }
 
 .notcollect {
@@ -57,7 +57,7 @@
     top: 30px;
     width: 71px;
     height: 63px;
-    background-image: url('http://net.huanmusic.com/gasha/%E6%94%B6%E8%97%8F%E5%90%8E.png');
+    background-image: url('//net.huanmusic.com/gasha/%E6%94%B6%E8%97%8F%E5%90%8E.png');
 }
 
 .music {
@@ -73,7 +73,7 @@
     bottom: 610px;
     height: 74px;
     width: 74px;
-    background-image: url('http://net.huanmusic.com/gasha/gashapon/%E7%A0%8D%E4%BB%B7%E5%9C%86.png');
+    background-image: url('//net.huanmusic.com/gasha/gashapon/%E7%A0%8D%E4%BB%B7%E5%9C%86.png');
     z-index: 2;
 }
 
@@ -110,7 +110,7 @@
     width: 160px;
     height: 65px;
     z-index: 2;
-    background-image: url('http://net.huanmusic.com/gasha/gashapon/%E4%B9%B0%E5%AE%B6%E7%A7%80.png');
+    background-image: url('//net.huanmusic.com/gasha/gashapon/%E4%B9%B0%E5%AE%B6%E7%A7%80.png');
 }
 
 .barrage {
@@ -143,7 +143,7 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    background-image: url('http://net.huanmusic.com/gasha/gashapon/%E7%BB%84%2042(1).png');
+    background-image: url('//net.huanmusic.com/gasha/gashapon/%E7%BB%84%2042(1).png');
     background-size: 100% 100%;
 }
 
@@ -169,7 +169,7 @@
 
 .button1, .button2, .button3, .button4 {
     z-index: 2;
-    background-image: url('http://net.huanmusic.com/gasha/gashapon/%E6%89%AD%E8%9B%8B%E6%8C%89%E9%92%AE%E6%8B%B7%E8%B4%9D.png');
+    background-image: url('//net.huanmusic.com/gasha/gashapon/%E6%89%AD%E8%9B%8B%E6%8C%89%E9%92%AE%E6%8B%B7%E8%B4%9D.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }

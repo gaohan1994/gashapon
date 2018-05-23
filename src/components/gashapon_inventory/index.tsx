@@ -100,7 +100,7 @@ class Gashapon extends React.Component <Props, State> {
                     style={{
                         backgroundImage: 
                             item.pics && item.pics[0] 
-                            ? `url(http://${config.host.pic}/${item.pics[0]}?imageView/2/w/170/h/220)`
+                            ? `url(//${config.host.pic}/${item.pics[0]}?imageView/2/w/170/h/220)`
                             : `url(${config.empty_pic.url}?imageView/2/w/170/h/220)`
                     }}
                 />
@@ -129,7 +129,7 @@ class Gashapon extends React.Component <Props, State> {
     //                 onClick={() => this.onHideImgHandle()}
     //                 style={{
     //                     backgroundImage: item.pics && item.pics[0]
-    //                                     ? `url(http://${config.host.pic}/${item.pics[0]})`
+    //                                     ? `url(//${config.host.pic}/${item.pics[0]})`
     //                                     : `url(${config.empty_pic.url})`
     //                 }}
     //             />

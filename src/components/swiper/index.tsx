@@ -34,7 +34,7 @@ class Swiper extends React.Component<Props, State> {
     //     if (images[0]) {
     //         alert(
     //             `data.length: ${images.length} ` + 
-    //             `data[0]: http://${config.host.pic}/${images[0].pic} ` +
+    //             `data[0]: //${config.host.pic}/${images[0].pic} ` +
     //             `index: ${current} `
     //         );
     //     } else {
@@ -68,7 +68,7 @@ class Swiper extends React.Component<Props, State> {
                         onClick={() => this.doNavHandle(item.type, item.param)}
                         styleName="imageItem"
                         src={item.pic 
-                            ? `http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
+                            ? `//${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
                             : `${config.empty_pic}`}
                     />
                 </div>

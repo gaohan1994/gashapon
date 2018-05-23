@@ -71,7 +71,7 @@ class OrderItem extends React.Component <Props, {}> {
                                 bgimg-center="bgimg-center"
                                 style={{
                                     backgroundImage: item.pics && item.pics[0]
-                                                    ? `url(http://${config.host.pic}/${item.pics[0]})`
+                                                    ? `url(//${config.host.pic}/${item.pics[0]})`
                                                     : `url(${config.empty_pic.url})`
                                 }}
                             />

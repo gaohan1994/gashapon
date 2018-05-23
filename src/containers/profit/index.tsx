@@ -78,7 +78,7 @@ class Profit extends React.Component <Props, {}> {
                         <i
                             styleName="setIcon"
                             bgimg-center="100"
-                            style={{backgroundImage: 'url(http://net.huanmusic.com/gasha/%E4%BD%99%E9%A2%9D.png)'}}
+                            style={{backgroundImage: 'url(//net.huanmusic.com/gasha/%E4%BD%99%E9%A2%9D.png)'}}
                         />
                         <span styleName="setText">收支明细</span>
                     </div>

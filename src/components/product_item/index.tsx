@@ -60,7 +60,7 @@ class Product extends React.Component<Props, State> {
                                         styleName="cover"
                                         style={{
                                             backgroundImage: item.pics && item.pics[0]
-                                            ? `url(http://${config.host.pic}/${item.pics[0]})`
+                                            ? `url(//${config.host.pic}/${item.pics[0]})`
                                             : `url(${config.empty_pic.url})`
                                         }}
                                     />
@@ -91,7 +91,7 @@ class Product extends React.Component<Props, State> {
                                         styleName="cover"
                                         style={{
                                             backgroundImage: item.pics && item.pics[0]
-                                            ? `url(http://${config.host.pic}/${item.pics[0]})`
+                                            ? `url(//${config.host.pic}/${item.pics[0]})`
                                             : `url(${config.empty_pic.url})`
                                         }}
                                     />

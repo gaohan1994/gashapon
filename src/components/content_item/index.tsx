@@ -53,7 +53,7 @@ class Item extends React.Component<Props, State> {
                 onClick={propsClickHandle ? propsClickHandle : () => this.onClickHandle()}
                 styleName="hotItem"
                 style={{backgroundImage: content.pic 
-                    ? `url(http://${config.host.pic}/${content.pic})`
+                    ? `url(//${config.host.pic}/${content.pic})`
                     : `url(${config.empty_pic})`}}
             >
                 <span styleName="name">{content.name}</span>

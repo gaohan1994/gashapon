@@ -51,7 +51,7 @@ class Select extends React.Component<Props, State> {
                         <img 
                             styleName="imageItem"
                             src={item.pics && item.pics[0]
-                                ? `http://${config.host.pic}/${item.pics[0]}`
+                                ? `//${config.host.pic}/${item.pics[0]}`
                                 : `${config.empty_pic.url}`}
                         />
                     </div>

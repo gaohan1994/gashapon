@@ -1,7 +1,7 @@
 /// <reference path="../index.d.ts" />
 
 const _default = {
-    url         : 'http://gacha-dev.hy233.tv',
+    url         : '//gacha-dev.hy233.tv',
     title       : '嘀哩扭蛋',
     description : '嘀哩扭蛋',
     pic         : ''

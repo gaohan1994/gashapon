@@ -37,43 +37,43 @@ class Vip extends React.Component <Props, {}> {
             if (now < 100) {
 
                 total   = 100;
-                vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+                vipUrl  = '//net.huanmusic.com/gasha/vip/v0.png';
             } else if (now < 500) {
 
                 total   = 500;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v1.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v1.png';
             } else if (now < 1000) {
 
                 total   = 1000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v2.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v2.png';
             } else if (now < 2000) {
 
                 total   = 2000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v3.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v3.png';
             } else if (now < 5000) {
 
                 total   = 5000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v4.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v4.png';
             } else {
 
                 total   = 80000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v5.png';
             }
             /*
             else if (getUserdata.experience < 10000) {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v5.png';
             } else if (getUserdata.experience < 30000) {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v6.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v6.png';
             } else if (getUserdata.experience < 50000) {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v7.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v7.png';
             } else {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v8.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v8.png';
             }
             */
         } else {
             now     = 0;
             total   = 10;
-            vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+            vipUrl  = '//net.huanmusic.com/gasha/vip/v0.png';
         }
 
         return (

@@ -23,7 +23,7 @@
     height: 310px; 
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-image: url('http://net.huanmusic.com/gasha/my/%E7%9F%A9%E5%BD%A2786.png');
+    background-image: url('//net.huanmusic.com/gasha/my/%E7%9F%A9%E5%BD%A2786.png');
 }
 
 .module {
@@ -120,7 +120,7 @@
     display: block;
     width: 40px;
     height: 47px;
-    background-image: url('http://net.huanmusic.com/gasha/my/%E7%A4%BC%E5%8C%85%E5%85%91%E6%8D%A2.png');
+    background-image: url('//net.huanmusic.com/gasha/my/%E7%A4%BC%E5%8C%85%E5%85%91%E6%8D%A2.png');
 }
 
 .gift > span {
@@ -139,7 +139,7 @@
     position: absolute;
     right: 30px;
     top: 30px;
-    background-image: url('http://net.huanmusic.com/gasha/my/%E5%85%85%E5%80%BC.png');
+    background-image: url('//net.huanmusic.com/gasha/my/%E5%85%85%E5%80%BC.png');
 }
 
 .giftIcon, .recharge, .setIcon {

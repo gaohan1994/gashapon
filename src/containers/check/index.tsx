@@ -102,7 +102,7 @@ class Check extends React.Component <Props, State> {
                 this.setState({
                     resultValue : '签到成功',
                     showResult  : true,
-                    resultImg   : 'http://net.huanmusic.com/gasha/%E7%AD%BE%E5%88%B0%E6%88%90%E5%8A%9F1.png'
+                    resultImg   : '//net.huanmusic.com/gasha/%E7%AD%BE%E5%88%B0%E6%88%90%E5%8A%9F1.png'
                 }, () => {
                     loadMonthCheckById({_id: getUserdata._id});
                 });
@@ -112,7 +112,7 @@ class Check extends React.Component <Props, State> {
                 this.setState({
                     resultValue : result.message ? result.message : '签到出错了',
                     showResult  : true,
-                    resultImg   : 'http://net.huanmusic.com/gasha/%E9%9D%9E%E5%B8%B8%E9%81%97%E6%86%BE.png'
+                    resultImg   : '//net.huanmusic.com/gasha/%E9%9D%9E%E5%B8%B8%E9%81%97%E6%86%BE.png'
                 });
             }
         }
@@ -149,9 +149,9 @@ class Check extends React.Component <Props, State> {
 
     public renderItemImg = (i: number, token: boolean): string => {
         if (token === true) {
-            return 'http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851.png';
+            return '//net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851.png';
         } else {
-            return 'http://net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851%E9%BB%91%E7%99%BD.png';
+            return '//net.huanmusic.com/gasha/%E7%BA%A2%E5%8C%851%E9%BB%91%E7%99%BD.png';
         }
     }
 

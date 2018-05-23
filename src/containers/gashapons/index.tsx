@@ -135,7 +135,7 @@ class Gashapon extends React.Component<Props, State> {
                 });
                 loadBannersByGenre(nextProps.match.params.genre);
             } else if (!!nextProps.match.params.topic) {
-    
+                
                 loadBannersByTopic(nextProps.match.params.topic);
                 loadGashaponsByTopic({
                     topic: nextProps.match.params.topic
@@ -153,7 +153,8 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     componentDidMount(): void {
-        const { 
+
+        const {
             match,
             loadGashapons,
             loadGashaponsByGenre,
@@ -161,7 +162,6 @@ class Gashapon extends React.Component<Props, State> {
             loadBannersByGenre,
             loadBannersByTopic,
             loadGashaponsByWord,
-
             getGenres,
             getTopics,
             loadGenres,
@@ -196,13 +196,15 @@ class Gashapon extends React.Component<Props, State> {
             loadBannersByGenre(match.params.genre);
         } else if (!!match.params.topic) {
 
-            loadBannersByTopic(match.params.topic);
             loadGashaponsByTopic({
                 topic: match.params.topic
             });
+            loadBannersByTopic(match.params.topic);
         } else if (!!match.params.word) {
 
-            loadGashaponsByWord({word: match.params.word});
+            loadGashaponsByWord({
+                word: match.params.word
+            });
         } else {
             
             loadGashapons({});
@@ -477,7 +479,7 @@ class Gashapon extends React.Component<Props, State> {
                     <img
                         styleName="imageItem"
                         src={item.pic 
-                            ? `http://${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
+                            ? `//${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
                             : `${config.empty_pic.url}`}
                     />
                 </div>

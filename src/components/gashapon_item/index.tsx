@@ -24,15 +24,15 @@ const renderBge = (item: Gashapon): JSX.Element => {
     const bges: Bges = [];
 
     if (item.is_box === true) {
-        bges.push({id: 1, img: 'http://net.huanmusic.com/gasha/gashapon/Box%EF%BC%81.png'});
+        bges.push({id: 1, img: '//net.huanmusic.com/gasha/gashapon/Box%EF%BC%81.png'});
     }
 
     if (item.is_discount === true) {
-        bges.push({id: 2, img: 'http://net.huanmusic.com/gasha/gashapon/Cut%EF%BC%81.png'});
+        bges.push({id: 2, img: '//net.huanmusic.com/gasha/gashapon/Cut%EF%BC%81.png'});
     }
 
     if (item.is_flash_sale === true) {
-        bges.push({id: 3, img: 'http://net.huanmusic.com/gasha/gashapon/Next%EF%BC%81%EF%BC%81.png'});
+        bges.push({id: 3, img: '//net.huanmusic.com/gasha/gashapon/Next%EF%BC%81%EF%BC%81.png'});
     }
 
     return (

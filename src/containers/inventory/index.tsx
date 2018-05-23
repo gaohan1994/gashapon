@@ -188,7 +188,9 @@ class Inventory extends React.Component<Props, State> {
             });
         } else {
             
-            loadInventory({userId: uid});
+            loadInventory({
+                userId: uid
+            });
         }
     }
 
@@ -213,8 +215,11 @@ class Inventory extends React.Component<Props, State> {
         const { getInventory, match } = this.props;
         return (
             <Hoc>
+
                 <SignModal/>
+
                 <div styleName="container">
+
                     <Header title={match.params.word ? match.params.word : ''}/>
 
                     {getInventory && getInventory.length > 0
@@ -229,6 +234,7 @@ class Inventory extends React.Component<Props, State> {
                     : ''}
 
                     {this.renderMenu()}
+                    
                     <Footer/>
                 </div>
             </Hoc>
@@ -243,15 +249,15 @@ class Inventory extends React.Component<Props, State> {
             {
                 _id: 1,
                 img: getInventory && getInventory.length !== 0
-                    ? 'http://net.huanmusic.com/gasha/inventory/%E5%8F%98%E5%8D%96.png'
-                    : 'http://net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170543.png',
+                    ? '//net.huanmusic.com/gasha/inventory/%E5%8F%98%E5%8D%96.png'
+                    : '//net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170543.png',
                 propsClickHandle: this.onMenuClickHandle.bind(this, 'sale')
             },
             {
                 _id: 2,
                 img: getInventory && getInventory.length !== 0
-                    ? 'http://net.huanmusic.com/gasha/inventory/%E4%B8%8B%E5%8D%95.png'
-                    : 'http://net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170609.png',
+                    ? '//net.huanmusic.com/gasha/inventory/%E4%B8%8B%E5%8D%95.png'
+                    : '//net.huanmusic.com/gasha/QQ%E5%9B%BE%E7%89%8720180516170609.png',
                 propsClickHandle: this.onMenuClickHandle.bind(this, 'makeorders')
             }
         ];

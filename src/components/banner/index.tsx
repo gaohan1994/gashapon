@@ -31,7 +31,7 @@ const Banner = ({banner, BannerType}: Props) => (
             styleName="banner"
             style={{
                 backgroundImage: banner && banner.pic
-                                ? `url(http://${config.host.pic}/${banner.pic})`
+                                ? `url(//${config.host.pic}/${banner.pic})`
                                 : `url(${config.empty_pic.url})`
             }}
             onClick={() => onClickHandle(banner.type, banner.param)}

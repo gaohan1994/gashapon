@@ -84,7 +84,7 @@ class Modal extends React.Component<Props, State> {
                 <img
                     styleName="cover"
                     src={item && item.pics && item.pics[0] 
-                        ? `http://${config.host.pic}/${item.pics[0]}` 
+                        ? `//${config.host.pic}/${item.pics[0]}` 
                         : `${config.empty_pic.url}`}
                 />
                 <span styleName="name" word-overflow="word-overflow">

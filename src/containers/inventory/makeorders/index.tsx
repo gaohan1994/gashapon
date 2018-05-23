@@ -276,7 +276,7 @@ class MakeOriders extends React.Component<Props, State> {
         } else {
             token = false;
         }
-        return token === true ? 'url(http://net.huanmusic.com/gasha/%E5%B0%8F%E7%A1%AE%E8%AE%A4.png)' : 'url()';
+        return token === true ? 'url(//net.huanmusic.com/gasha/%E5%B0%8F%E7%A1%AE%E8%AE%A4.png)' : 'url()';
     }
 
     private renderFooter = (): JSX.Element => {
@@ -302,8 +302,8 @@ class MakeOriders extends React.Component<Props, State> {
                         bgimg-center="100"
                         style={{
                             backgroundImage: selected.length === getInventory.length
-                                            ? `url(http://net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%90%8E.png)`
-                                            : `url(http://net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%89%8D.png)`
+                                            ? `url(//net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%90%8E.png)`
+                                            : `url(//net.huanmusic.com/gasha/%E6%89%93%E9%92%A9%E5%89%8D.png)`
                         }}
                     />
                     <span styleName="choiceText" onClick={() => this.doAllChoiceHandle()}>全选</span>
@@ -317,7 +317,7 @@ class MakeOriders extends React.Component<Props, State> {
                 <div
                     styleName="button"
                     bgimg-center="100"
-                    style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E4%B8%8B%E5%8D%95-%E7%A1%AE%E8%AE%A4%E8%AE%A2%E5%8D%95.png)`}}
+                    style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E4%B8%8B%E5%8D%95-%E7%A1%AE%E8%AE%A4%E8%AE%A2%E5%8D%95.png)`}}
                     onClick={() => this.doOrderHandle()}
                 />
             </div>

@@ -143,7 +143,7 @@ class Phone extends React.Component<Props, State> {
                 <i 
                     styleName="icon"
                     style={{
-                        backgroundImage: 'url(http://net.huanmusic.com/gasha/gacha-icon.png)',
+                        backgroundImage: 'url(//net.huanmusic.com/gasha/gacha-icon.png)',
                         backgroundPosition: '-119px -28px',
                         backgroundSize: '146.5px auto',
                         width: '21px',

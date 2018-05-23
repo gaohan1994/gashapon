@@ -306,7 +306,7 @@ class Gashapon extends React.Component<Props, State> {
             const shareConfig = {
                 url         : `${config.url}/discount/${getCreateDiscount}`,
                 title       : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
-                pic         : `http://${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`,
+                pic         : `//${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`,
                 description : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
             };
 
@@ -498,7 +498,7 @@ class Gashapon extends React.Component<Props, State> {
             <Hoc>
                 <div styleName="container" bg-white="true">
                     <audio
-                        src={'http://net.huanmusic.com/gasha/%E6%8E%89%E8%90%BD%E9%9F%B3%E6%95%88.mp3'}
+                        src={'//net.huanmusic.com/gasha/%E6%8E%89%E8%90%BD%E9%9F%B3%E6%95%88.mp3'}
                         preload="metadata"
                         autoPlay={false}
                         ref={(drop) => { this.drop = drop; }}
@@ -506,7 +506,7 @@ class Gashapon extends React.Component<Props, State> {
                     />
 
                     <audio
-                        src={'http://net.huanmusic.com/gasha/123%E9%9F%B3%E6%95%88.mp3'}
+                        src={'//net.huanmusic.com/gasha/123%E9%9F%B3%E6%95%88.mp3'}
                         preload="metadata"
                         autoPlay={false}
                         ref={(success) => { this.success = success; }}
@@ -531,8 +531,8 @@ class Gashapon extends React.Component<Props, State> {
                         {this.renderCollect()}
                         <audio
                             src={getGashapon.music_url
-                                ? `http://${config.host.pic}/${getGashapon.music_url}`
-                                : 'http://b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
+                                ? `//${config.host.pic}/${getGashapon.music_url}`
+                                : '//b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
                             preload="metadata"
                             autoPlay={true}
                             ref={(audio) => { this.audio = audio; }}
@@ -558,7 +558,7 @@ class Gashapon extends React.Component<Props, State> {
                                 styleName="gashaponImg"
                                 style={{backgroundImage: 
                                         getGashapon.pics && getGashapon.pics[0]
-                                        ? `url(http://${config.host.pic}/${getGashapon.pics[0]})`
+                                        ? `url(//${config.host.pic}/${getGashapon.pics[0]})`
                                         : `url(${config.empty_pic.url})`}}
                             />
                             <i styleName="show" bgimg-center="100" onClick={() => this.goGashaponShow(getGashapon._id)}/>
@@ -717,8 +717,8 @@ class Gashapon extends React.Component<Props, State> {
                 bgimg-center="100"
                 style={{
                     backgroundImage: audioPlaying === true
-                                    ? 'url(http://net.huanmusic.com/gasha/gashapon/%E9%9F%B3%E4%B9%90%E5%9C%86.png)'
-                                    : 'url(http://net.huanmusic.com/gasha/%E7%81%B0%E8%89%B2%E9%9F%B3%E4%B9%90%E5%9C%86.png)'
+                                    ? 'url(//net.huanmusic.com/gasha/gashapon/%E9%9F%B3%E4%B9%90%E5%9C%86.png)'
+                                    : 'url(//net.huanmusic.com/gasha/%E7%81%B0%E8%89%B2%E9%9F%B3%E4%B9%90%E5%9C%86.png)'
                 }}
                 onClick={() => this.onChangeMusicHandle()}
             />

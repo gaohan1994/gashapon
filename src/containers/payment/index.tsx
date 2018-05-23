@@ -313,7 +313,7 @@ class Profit extends React.Component <Props, State> {
                     <i 
                         styleName="wayicon" 
                         bgimg-center="100"
-                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E4%BD%99%E9%A2%9D.png)`}}
+                        style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E4%BD%99%E9%A2%9D.png)`}}
                     />
                     <div styleName="waycontent" >
                         <span font-s="30" style={{color: payway === 1 ? '#fea270' : '#444444'}}>使用余额支付</span>
@@ -336,7 +336,7 @@ class Profit extends React.Component <Props, State> {
                     <i 
                         styleName="wayicon" 
                         bgimg-center="100"
-                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E5%8C%85%E9%82%AE%E5%88%B8.png)`}}
+                        style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E5%8C%85%E9%82%AE%E5%88%B8.png)`}}
                     />
                     <div styleName="waycontent" >
                         <span font-s="30" style={{color: payway === 2 ? '#fea270' : '#444444'}}>使用包邮券</span>

@@ -216,7 +216,7 @@ class Discount extends React.Component<Props, State> {
                         <img 
                             styleName="logo" 
                             alt="嘀哩扭蛋" 
-                            src="http://net.huanmusic.com/gasha/discount/%E5%A5%BD%E5%8F%8B%E7%A0%8D%E4%BB%B7.png"
+                            src="//net.huanmusic.com/gasha/discount/%E5%A5%BD%E5%8F%8B%E7%A0%8D%E4%BB%B7.png"
                         />
                         
                         <div styleName="coverbox">
@@ -226,7 +226,7 @@ class Discount extends React.Component<Props, State> {
                                 onClick={() => this.goGashaponHandle()}
                                 style={{
                                     backgroundImage: getDiscountData.image 
-                                                    ? `url(http://${config.host.pic}/${getDiscountData.image})`
+                                                    ? `url(//${config.host.pic}/${getDiscountData.image})`
                                                     : `url(${config.empty_pic.url})`
                                 }}
                             />
@@ -237,13 +237,13 @@ class Discount extends React.Component<Props, State> {
                             <button 
                                 styleName="button"
                                 bgimg-center="100"
-                                style={{backgroundImage: `url(http://net.huanmusic.com/gasha/discount/%E5%B8%AETA%E7%A0%8D%E4%BB%B7.png)`}}
+                                style={{backgroundImage: `url(//net.huanmusic.com/gasha/discount/%E5%B8%AETA%E7%A0%8D%E4%BB%B7.png)`}}
                                 onClick={() => this.doHelpDiscoutHandle()}
                             />
                             <button 
                                 styleName="button"
                                 bgimg-center="100"
-                                style={{backgroundImage: `url(http://net.huanmusic.com/gasha/discount/%E6%88%91%E4%B9%9F%E6%83%B3%E8%A6%81.png)`}}
+                                style={{backgroundImage: `url(//net.huanmusic.com/gasha/discount/%E6%88%91%E4%B9%9F%E6%83%B3%E8%A6%81.png)`}}
                                 onClick={() => this.goGashaponHandle()}
                             />
                         </div>
@@ -301,7 +301,7 @@ class Discount extends React.Component<Props, State> {
                     bgimg-center="bgimg-center"
                     style={{
                         backgroundImage: item.image 
-                                        ? `url(http://${config.host.pic}/${item.image})`
+                                        ? `url(//${config.host.pic}/${item.image})`
                                         : `url(${config.empty_pic.url})`
                     }}
                 />

@@ -28,7 +28,7 @@ class Discount extends React.Component <Props, {}> {
         const data = {
             url     : `${config.url}/discount/${discount._id}`,
             title   : `我在嘀哩扭蛋发现了一个超好玩的${discount.title}，快来帮我砍价吧！`,
-            pic     : `http://${config.host.pic}/${discount.image}`,
+            pic     : `//${config.host.pic}/${discount.image}`,
             description: `我在嘀哩扭蛋发现了一个超好玩的${discount.title}，快来帮我砍价吧！`,
         };
     
@@ -58,7 +58,7 @@ class Discount extends React.Component <Props, {}> {
                         onClick={() => this.gotoDiscountHandle()}
                         style={{
                             backgroundImage: discount.image 
-                                            ? `url(http://${config.host.pic}/${discount.image})`
+                                            ? `url(//${config.host.pic}/${discount.image})`
                                             : `url(${config.empty_pic.url})`
                         }}
                     />
@@ -79,12 +79,12 @@ class Discount extends React.Component <Props, {}> {
                     {/* <span 
                         styleName="button" 
                         bgimg-center="100"
-                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E5%8F%96%E6%B6%88%E7%A0%8D%E4%BB%B7.png)`}}
+                        style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E5%8F%96%E6%B6%88%E7%A0%8D%E4%BB%B7.png)`}}
                     /> */}
                     <span 
                         styleName="button" 
                         bgimg-center="100"
-                        style={{backgroundImage: 'url(http://net.huanmusic.com/gasha/%E5%88%86%E4%BA%AB.png)'}}
+                        style={{backgroundImage: 'url(//net.huanmusic.com/gasha/%E5%88%86%E4%BA%AB.png)'}}
                         onClick={showShareModal}
                     />
                 </div>

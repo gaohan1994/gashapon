@@ -55,25 +55,25 @@ class ShareModal extends React.Component <Props, {}> {
                 _id: 1,
                 value: 'qq',
                 title: 'qq',
-                img: 'http://net.huanmusic.com/activity/qq.png',
+                img: '//net.huanmusic.com/activity/qq.png',
             },
             {
                 _id: 2,
                 value: 'weixin',
                 title: '微信',
-                img: 'http://net.huanmusic.com/activity/weixin.png',
+                img: '//net.huanmusic.com/activity/weixin.png',
             },
             {
                 _id: 3,
                 value: 'weibo',
                 title: '微博',
-                img: 'http://net.huanmusic.com/activity/weibo.png',
+                img: '//net.huanmusic.com/activity/weibo.png',
             },
             {
                 _id: 4,
                 value: 'qzone',
                 title: 'qq空间',
-                img: 'http://net.huanmusic.com/activity/qqzone.png',
+                img: '//net.huanmusic.com/activity/qqzone.png',
             },
         ];
 

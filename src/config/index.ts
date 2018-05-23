@@ -25,7 +25,7 @@ let config = {
         music_limit: 3,
         list_limit: 3,
         qntoken: 'www-dev.huanmusic.com',
-        url: 'http://gacha-dev.hy233.tv',
+        url: '//gacha-dev.hy233.tv',
     },
 
     pro: {
@@ -53,7 +53,7 @@ let config = {
         music_limit: 6,
         list_limit: 8,
         qntoken: 'www.huanmusic.com',
-        url: 'http://gacha.hy233.tv',
+        url: '//gacha.hy233.tv',
     },
 };
 

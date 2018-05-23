@@ -124,43 +124,43 @@ class My extends React.Component<Props, State> {
             if (now < 100) {
 
                 total   = 100;
-                vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+                vipUrl  = '//net.huanmusic.com/gasha/vip/v0.png';
             } else if (now < 500) {
 
                 total   = 500;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v1.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v1.png';
             } else if (now < 1000) {
 
                 total   = 1000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v2.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v2.png';
             } else if (now < 2000) {
 
                 total   = 2000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v3.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v3.png';
             } else if (now < 5000) {
 
                 total   = 5000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v4.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v4.png';
             } else {
 
                 total   = 80000;
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v5.png';
             }
             /*
             else if (getUserdata.experience < 10000) {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v5.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v5.png';
             } else if (getUserdata.experience < 30000) {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v6.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v6.png';
             } else if (getUserdata.experience < 50000) {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v7.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v7.png';
             } else {
-                vipUrl = 'http://net.huanmusic.com/gasha/vip/v8.png';
+                vipUrl = '//net.huanmusic.com/gasha/vip/v8.png';
             }
             */
         } else {
             now     = 0;
             total   = 10;
-            vipUrl  = 'http://net.huanmusic.com/gasha/vip/v0.png';
+            vipUrl  = '//net.huanmusic.com/gasha/vip/v0.png';
         }
 
         return (
@@ -232,28 +232,28 @@ class My extends React.Component<Props, State> {
             {
                 _id: 1,
                 value: '收藏',
-                img: 'http://net.huanmusic.com/gasha/my/%E6%94%B6%E8%97%8F.png',
+                img: '//net.huanmusic.com/gasha/my/%E6%94%B6%E8%97%8F.png',
                 propsClickHandle: () => this.onClickHandle('collect')
             },
             {
                 _id: 2,
                 value: '砍价',
                 param: 'discounthome',
-                img: 'http://net.huanmusic.com/gasha/my/%E7%A0%8D%E4%BB%B7.png',
+                img: '//net.huanmusic.com/gasha/my/%E7%A0%8D%E4%BB%B7.png',
                 propsClickHandle: () => this.onClickHandle('discounthome')
             },
             {
                 _id: 4,
                 param: 'achievements',
                 value: '成就',
-                img: 'http://net.huanmusic.com/gasha/my/%E6%88%90%E5%B0%B1.png',
+                img: '//net.huanmusic.com/gasha/my/%E6%88%90%E5%B0%B1.png',
                 propsClickHandle: () => this.onClickHandle('achievements')
             },
             {
                 _id: 5,
                 value: '优惠券',
                 param: 'coupons',
-                img: 'http://net.huanmusic.com/gasha/my/%E4%BC%98%E6%83%A0%E5%88%B8.png',
+                img: '//net.huanmusic.com/gasha/my/%E4%BC%98%E6%83%A0%E5%88%B8.png',
                 propsClickHandle: () => this.onClickHandle('coupons')
             }
         ];
@@ -275,14 +275,14 @@ class My extends React.Component<Props, State> {
             {
                 _id: 1,
                 value: '我的订单',
-                img: 'http://net.huanmusic.com/gasha/my/%E6%88%91%E7%9A%84%E8%AE%A2%E5%8D%95.png',
+                img: '//net.huanmusic.com/gasha/my/%E6%88%91%E7%9A%84%E8%AE%A2%E5%8D%95.png',
                 // param: 'order/waitconfirm',
                 propsClickHandle: () => this.onClickHandle('order/waitconfirm')
             },
             {
                 _id: 2,
                 value: '待付款',
-                img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E4%BB%98%E6%AC%BE.png',
+                img: '//net.huanmusic.com/gasha/my/%E5%BE%85%E4%BB%98%E6%AC%BE.png',
                 // param: 'order/waitconfirm',
                 bge: getCount[0] ? getCount[0] : 0,
                 propsClickHandle: () => this.onClickHandle('order/waitconfirm')
@@ -290,7 +290,7 @@ class My extends React.Component<Props, State> {
             {
                 _id: 3,
                 value: '待发货',
-                img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E5%8F%91%E8%B4%A7.png',
+                img: '//net.huanmusic.com/gasha/my/%E5%BE%85%E5%8F%91%E8%B4%A7.png',
                 // param: 'order/wait',
                 bge: getCount[1] ? getCount[1] : 0,
                 propsClickHandle: () => this.onClickHandle('order/wait')
@@ -298,7 +298,7 @@ class My extends React.Component<Props, State> {
             {
                 _id: 4,
                 value: '已发货',
-                img: 'http://net.huanmusic.com/gasha/my/%E5%BE%85%E6%94%B6%E8%B4%A7.png',
+                img: '//net.huanmusic.com/gasha/my/%E5%BE%85%E6%94%B6%E8%B4%A7.png',
                 // param: 'order/already',
                 bge: getCount[2] ? getCount[2] : 0,
                 propsClickHandle: () => this.onClickHandle('order/already')
@@ -326,7 +326,7 @@ class My extends React.Component<Props, State> {
                     <i
                         styleName="setIcon"
                         style={{
-                            backgroundImage: 'url(http://net.huanmusic.com/gasha/my/%E5%9C%B0%E5%9D%80.png)'
+                            backgroundImage: 'url(//net.huanmusic.com/gasha/my/%E5%9C%B0%E5%9D%80.png)'
                         }}
                     />
                     <span styleName="setText">我的收货地址</span>
@@ -338,7 +338,7 @@ class My extends React.Component<Props, State> {
                     <i
                         styleName="setIcon"
                         style={{
-                            backgroundImage: 'url(http://net.huanmusic.com/gasha/my/%E8%B4%A6%E6%88%B7%E8%AE%BE%E7%BD%AE.png)'
+                            backgroundImage: 'url(//net.huanmusic.com/gasha/my/%E8%B4%A6%E6%88%B7%E8%AE%BE%E7%BD%AE.png)'
                         }}
                     />
                     <span styleName="setText">账户设置</span>

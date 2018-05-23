@@ -26,7 +26,7 @@
     position: relative;
     width: 750px;
     height: 313px;
-    background-image: url('http://net.huanmusic.com/gasha/%E6%88%90%E5%B0%B1%E8%83%8C%E6%99%AF%E3%80%91.png');
+    background-image: url('//net.huanmusic.com/gasha/%E6%88%90%E5%B0%B1%E8%83%8C%E6%99%AF%E3%80%91.png');
 }
 
 .back {
@@ -46,7 +46,7 @@
     display: block;
     width: 45px;
     height: 37px;
-    background-image: url('http://net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
+    background-image: url('//net.huanmusic.com/gasha/%E8%BF%94%E5%9B%9E%E6%8B%B7%E8%B4%9D2.png');
 }
 
 .text {
@@ -61,7 +61,7 @@
     position: absolute;
     top: 0;
     right: 35px;
-    background-image: url('http://net.huanmusic.com/gasha/%E5%8B%8B%E7%AB%A0.png');
+    background-image: url('//net.huanmusic.com/gasha/%E5%8B%8B%E7%AB%A0.png');
 }
 
 .medals {

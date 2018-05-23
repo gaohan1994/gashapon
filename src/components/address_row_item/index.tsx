@@ -94,13 +94,13 @@ class AddressItem extends React.Component <Props, State> {
                     <span 
                         styleName="button"
                         bgimg-center="100"
-                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E7%BC%96%E8%BE%91.png)`}}
+                        style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E7%BC%96%E8%BE%91.png)`}}
                         onClick={propsClickHandle ? () => propsClickHandle(data) : () => {/* no empty */}}
                     />
                     <span 
                         styleName="button"
                         bgimg-center="100"
-                        style={{backgroundImage: `url(http://net.huanmusic.com/gasha/%E5%88%A0%E9%99%A4.png)`}}
+                        style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E5%88%A0%E9%99%A4.png)`}}
                         onClick={this.onShowDeleteHandle}
                     />
                 </div>

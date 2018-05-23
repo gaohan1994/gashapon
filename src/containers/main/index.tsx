@@ -189,11 +189,11 @@ class Main extends React.Component<Props, State> {
         const { getData } = this.props;
         
         const imgs = {
-            '热卖排行': 'http://net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
-            '超值特价': 'http://net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
-            '抢先预定': 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
-            '抢先预订': 'http://net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
-            '新品上架': 'http://net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
+            '热卖排行': '//net.huanmusic.com/gasha/%E7%83%AD%E5%8D%96%E6%8E%92%E8%A1%8C.png',
+            '超值特价': '//net.huanmusic.com/gasha/%E8%B6%85%E5%80%BC%E7%89%B9%E4%BB%B7.png',
+            '抢先预定': '//net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
+            '抢先预订': '//net.huanmusic.com/gasha/%E6%8A%A2%E5%85%88%E9%A2%84%E8%AE%A2.png',
+            '新品上架': '//net.huanmusic.com/gasha/%E6%96%B0%E5%93%81%E4%B8%8A%E6%9E%B6.png',
         };
         
         if (getData && getData.advice && getData.advice.length > 0) {
@@ -231,7 +231,7 @@ class Main extends React.Component<Props, State> {
                         ? <div 
                             styleName="mainDataHeader"
                             bgimg-center="bgimg-center"
-                            style={{backgroundImage: `url(http://${config.host.pic}/${item.head})`}}
+                            style={{backgroundImage: `url(//${config.host.pic}/${item.head})`}}
                         />
                         : ''}
 

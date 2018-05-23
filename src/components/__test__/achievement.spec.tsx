@@ -10,7 +10,7 @@ describe('Achievement test begin', () => {
     const achievement = {
         name: '我的处女蛋',
         desc: '扭蛋1次',
-        img: 'http://net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
+        img: '//net.huanmusic.com/gasha/%E5%88%9D%E5%85%A5%E8%9B%8B%E5%9C%88.png',
         progress: 0,
         totalProgress: 1,
     };
