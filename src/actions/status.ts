@@ -178,13 +178,21 @@ export const hidePhone = () => (dispatch: Dispatch<StatusActions>): void => {
     }
 };
 
-export const loadNotifies = () => (dispatch: Dispatch<StatusActions>): void => {
+export const loadNotifies = (uid: string) => (dispatch: Dispatch<StatusActions>): void => {
     try {
-        fetch(`/notifies`)
-        .then(res => res.json())
-        .then(res => {
-            dispatch({type: constants.RECEIVE_NOTIFIES, notifies: res.result});
-        });
+        if (!uid) {
+            fetch(`/notifies`)
+            .then(res => res.json())
+            .then(res => {
+                dispatch({type: constants.RECEIVE_NOTIFIES, notifies: res.result});
+            });
+        } else {
+            fetch(`/notifies/${uid}`)
+            .then(res => res.json())
+            .then(res => {
+                dispatch({type: constants.RECEIVE_NOTIFIES, notifies: res.result});
+            });
+        }
     } catch (err) {
         console.log('loadNotifies err', err);
     }

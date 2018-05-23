@@ -28,6 +28,7 @@ import {
 import { loadNotifies } from '../../actions/status';
 import { getData } from '../../reducers/main';
 import { timeFn } from '../../config/util';
+import * as moment from 'moment';
 
 interface Props {
     loadBanners : () => void;
@@ -112,7 +113,7 @@ class Main extends React.Component<Props, State> {
         if (!!data.flash_sale) {
             
             if (!!data.flash_sale.open_time) {
-                this.timer = setInterval(() => this.setDateHandle(data.flash_sale.open_time), 1000);
+                this.timer = setInterval(() => this.setDateHandle(data.flash_sale.end_time), 1000);
             }
         }
     }
@@ -120,8 +121,8 @@ class Main extends React.Component<Props, State> {
     public setDateHandle = (date?: Date): void => {
 
         if (!!date) {
-
-            const result = ' 距离开始还有 ' + timeFn(date);
+            const endDate = moment(date).format();
+            const result = ' 距离开始还有 ' + timeFn(endDate);
             this.setState({
                 flashDate: result
             });

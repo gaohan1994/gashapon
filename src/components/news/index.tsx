@@ -10,6 +10,10 @@ import {
     loadNotifies,
 } from '../../actions/status';
 import { 
+    HomeActions,
+    loadUserDataFromUuid,
+} from '../../actions/home';
+import { 
     getNewsStatus,
     getNotifies
 } from '../../reducers/status';
@@ -20,10 +24,11 @@ export type Notifies = [{
 }];
 
 interface Props {
-    display     ?: boolean;
-    hideNews    ?: () => void;
-    getNotifies ?: Notifies;
-    loadNotifies?: () => void;
+    display             ?: boolean;
+    hideNews            ?: () => void;
+    getNotifies         ?: Notifies;
+    loadNotifies        ?: (uid?: string) => void;
+    loadUserDataFromUuid?: (callback?: (uid: string) => void) => void;
 }
 
 interface State {
@@ -34,13 +39,27 @@ class News extends React.Component<Props, State> {
 
     componentDidMount() {
         
-        const { loadNotifies } = this.props;
+        const { loadUserDataFromUuid } = this.props;
+
+        if (loadUserDataFromUuid) {
+            loadUserDataFromUuid(this.loadUserdataCallback);
+        }
+    }
+
+    public loadUserdataCallback = (uid?: string): void => {
+        const { loadNotifies }  = this.props;
+
         if (loadNotifies) {
-            loadNotifies();
+            if (!uid) {
+                loadNotifies();
+            } else {
+                loadNotifies(uid);
+            }
         }
     }
 
     render (): JSX.Element {
+        
         const { 
             display, 
             hideNews,
@@ -60,7 +79,7 @@ class News extends React.Component<Props, State> {
                     {getNotifies && getNotifies.length > 0
                     ? <div styleName="newsBodyWithNotifies" >
                         {getNotifies.map((item) => (
-                            <div key={item._id}>{item.content}</div>
+                            <div key={item._id}>{item.content ? item.content : '空'}</div>
                         ))}
                     </div>
                     : <div styleName="newsBody" flex-center="all-center">暂时没有收到消息</div>}
@@ -77,9 +96,10 @@ const mapStateToProps = (state: Stores) => ({
     getNotifies : getNotifies(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<StatusActions>) => ({
-    hideNews    : bindActionCreators(hideNews, dispatch),
-    loadNotifies: bindActionCreators(loadNotifies, dispatch),
+const mapDispatchToProps = (dispatch: Dispatch<StatusActions | HomeActions>) => ({
+    hideNews            : bindActionCreators(hideNews, dispatch),
+    loadNotifies        : bindActionCreators(loadNotifies, dispatch),
+    loadUserDataFromUuid: bindActionCreators(loadUserDataFromUuid, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

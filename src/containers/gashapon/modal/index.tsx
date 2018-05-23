@@ -77,9 +77,9 @@ class Modal extends React.Component<Props, State> {
 
         const items = data && data.map((item: GashaponProductItem, i) => (
             <div 
+                key={i}
                 styleName="item"
                 flex-center="all-center"
-                key={i}
             >
                 <img
                     styleName="cover"

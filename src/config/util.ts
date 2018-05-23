@@ -98,7 +98,7 @@ export const browser = {
 
 export const inApp = !!navigator.userAgent.toLowerCase().match('gacha'); 
 
-export const timeFn = (d1: Date): string => {
+export const timeFn = (d1: string): string => {
     /* 
     /di作为一个变量传进来
     //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
@@ -107,7 +107,8 @@ export const timeFn = (d1: Date): string => {
     /*//将-转化为/，使用new Date*/
     var dateBegin = new Date(d1);
     var dateEnd = new Date();
-    var dateDiff = dateEnd.getTime() - dateBegin.getTime(); 
+    // var dateDiff = dateEnd.getTime() - dateBegin.getTime(); 
+    var dateDiff = dateBegin.getTime() - dateEnd.getTime(); 
     var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));
     var leave1 = dateDiff % (24 * 3600 * 1000);
     var hours = Math.floor(leave1 / (3600 * 1000));

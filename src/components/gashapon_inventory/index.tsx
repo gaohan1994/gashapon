@@ -4,6 +4,7 @@ import * as styles from './index.css';
 import { InventoryItem } from '../../types/componentTypes';
 import config from '../../config';
 import { timeFn } from '../../config/util';
+import * as moment from 'moment';
 // import history from '../../history';
 
 interface Props {
@@ -32,16 +33,19 @@ class Gashapon extends React.Component <Props, State> {
         };
     }
 
-    componentDidMount(): void {
+    componentDidMount (): void {
 
         const { item } = this.props;
 
         if (!!item.create_date) {
-            this.timer = setInterval(() => this.setTimeHandle(item.create_date), 1000);
+            this.timer = setInterval(() => {
+                this.setTimeHandle(item.create_date);
+            }, 1000);
         }
     }
 
-    componentWillUnmount(): void {
+    componentWillUnmount (): void {
+
         if (!!this.timer) {
             clearInterval(this.timer);
         }
@@ -50,8 +54,8 @@ class Gashapon extends React.Component <Props, State> {
     public setTimeHandle = (date?: Date): void => {
 
         if (!!date) {
-
-            const result = timeFn(date);
+            const endDate = moment(date).add(10, 'days').format();
+            const result = timeFn(endDate);
             this.setState({
                 time: result
             });
@@ -135,6 +139,6 @@ class Gashapon extends React.Component <Props, State> {
     // }
 }
 
-const GashaponHoc = CSSModules(Gashapon, styles);
+const GashaponHoc = CSSModules (Gashapon, styles);
 
 export default GashaponHoc;

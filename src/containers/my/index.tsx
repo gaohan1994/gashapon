@@ -25,6 +25,7 @@ import {
 } from '../../reducers/home';
 import Sign from '../../classes/sign';
 import { OrderCount } from '../../types/componentTypes';
+import * as numeral from 'numeral';
 
 interface Props {
     getUserdata         : Userdata;
@@ -53,9 +54,9 @@ class My extends React.Component<Props, State> {
             current: 0,
         };
 
-        this.loadUserdataCallback = this.loadUserdataCallback.bind(this);
-        this.onNavHandle = this.onNavHandle.bind(this);
-        this.onClickHandle = this.onClickHandle.bind(this);
+        this.loadUserdataCallback   = this.loadUserdataCallback.bind(this);
+        this.onNavHandle            = this.onNavHandle.bind(this);
+        this.onClickHandle          = this.onClickHandle.bind(this);
     }
 
     componentWillMount (): void {
@@ -211,7 +212,7 @@ class My extends React.Component<Props, State> {
                     余额：
                     <span>
                         {typeof getUserdata.remain === 'number'
-                        ? (getUserdata.remain / 100)
+                        ? numeral(getUserdata.remain / 100).format('0.00')
                         : 0}
                     </span>
                     元

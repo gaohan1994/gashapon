@@ -69,9 +69,9 @@ class Inventory extends React.Component<Props, State> {
             uid: ''
         };
 
-        this.loadUserdataCallback = this.loadUserdataCallback.bind(this);
-        this.loadInventoryCallback = this.loadInventoryCallback.bind(this);
-        this.onMenuClickHandle = this.onMenuClickHandle.bind(this);
+        this.loadUserdataCallback   = this.loadUserdataCallback.bind(this);
+        this.loadInventoryCallback  = this.loadInventoryCallback.bind(this);
+        this.onMenuClickHandle      = this.onMenuClickHandle.bind(this);
     }
 
     componentWillReceiveProps(nextProps: any) {
