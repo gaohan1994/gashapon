@@ -674,7 +674,7 @@ class Gashapon extends React.Component<Props, State> {
         const { getGashapon } = this.props;
         return (
             <div styleName="time" word-overflow="word-overflow">
-                开放购买时间：{moment(getGashapon.open_time).format('YYYY-MM-DD hh:mm')}
+                开放购买时间：{moment(getGashapon.open_time).format('YYYY-MM-DD HH:mm')}
             </div>
         );
     }

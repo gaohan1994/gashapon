@@ -212,9 +212,7 @@ class Pay extends React.Component<Props, State> {
                     </div>
                 </div>
                 
-                <div 
-                    styleName="content"
-                >
+                <div styleName="content">
                     <div styleName="contentItem">
                         <span styleName="rechargeTitle">充值金额</span>
                     </div>

@@ -63,7 +63,7 @@ class Detail extends React.Component <Props, {}> {
                         <span styleName="left">下单时间</span>
                         <span styleName="content">
                             {getSelectedOrder.create_date
-                            ? moment(getSelectedOrder.create_date).format('YYYY-MM-DD hh:mm')
+                            ? moment(getSelectedOrder.create_date).format('YYYY-MM-DD HH:mm')
                             : ''}
                         </span>
                     </div>

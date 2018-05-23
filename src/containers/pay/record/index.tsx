@@ -139,7 +139,7 @@ class Record extends React.Component<Props, State> {
                             {desc}
                         </span>
                         <span styleName="small">
-                            {data.create_date ? Moment(data.create_date).format('MM月DD日 hh:mm') : ''}
+                            {data.create_date ? Moment(data.create_date).format('MM月DD日 HH:mm') : ''}
                         </span>
                     </div>
                     <div styleName="boxRight">

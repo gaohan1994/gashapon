@@ -90,7 +90,7 @@ class Location extends React.Component <Props, State> {
                                     </span>
                                     <span>
                                         {item.time
-                                        ? moment(item.time).format('hh:mm')
+                                        ? moment(item.time).format('HH:mm')
                                         : ''}
                                     </span>
                                 </div>

@@ -56,7 +56,7 @@ class OrderItem extends React.Component <Props, {}> {
                     font-s="24"
                 >
                     {data.create_date
-                    ? moment(data.create_date).format('YYYY-MM-DD hh:mm')
+                    ? moment(data.create_date).format('YYYY-MM-DD HH:mm')
                     : ''}
                 </span>
                 <div 
