@@ -65,7 +65,7 @@ const Gashapon = ({item, propsClickHandle}: Props) => (
             style={{
                 backgroundImage: 
                     item.pics && item.pics[0] 
-                    ? `url(http://${config.host.pic}/${item.pics[0]}?imageView/2/w/170/h/220)`
+                    ? `url(//${config.host.pic}/${item.pics[0]}?imageView/2/w/170/h/220)`
                     : `url(${config.empty_pic.url}?imageView/2/w/170/h/220)`
             }}
         />

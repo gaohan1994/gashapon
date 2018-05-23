@@ -55,15 +55,12 @@ class SignContainer extends React.Component<Props, State> {
         super(props);
         this.state = {
             showType: 'login',
-
             logphone: '',
             logpwd  : '',
-
             regphone: '',
             regpwd  : '',
             regcode : '',
             waitCode: 0,
-
             showModal: false,
             modalValue: ''
         };
@@ -142,21 +139,21 @@ class SignContainer extends React.Component<Props, State> {
         let helper = new Validator();
 
         helper.add(regphone, [{
-            strategy: 'isNonEmpty',
-            errorMsg: '请输入手机号码~',
-            elementName: 'regphone'
+            strategy    : 'isNonEmpty',
+            errorMsg    : '请输入手机号码~',
+            elementName : 'regphone'
         }]);
 
         helper.add(regpwd, [{
-            strategy: 'isNonEmpty',
-            errorMsg: '请输入密码~',
-            elementName: 'regpwd'
+            strategy    : 'isNonEmpty',
+            errorMsg    : '请输入密码~',
+            elementName : 'regpwd'
         }]);
 
         helper.add(regcode, [{
-            strategy: 'isNonEmpty',
-            errorMsg: '请输入验证码~',
-            elementName: 'regcode'
+            strategy    : 'isNonEmpty',
+            errorMsg    : '请输入验证码~',
+            elementName : 'regcode'
         }]);
 
         let valiResult = helper.start();
@@ -232,8 +229,8 @@ class SignContainer extends React.Component<Props, State> {
             });
             this.onShowModal();
         } else {
+
             /* do stuff */
-            
             const res: DoLoginMethodReturn = await Sign.doLoginMethod({
                 phone   : logphone, 
                 password: logpwd

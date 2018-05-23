@@ -257,6 +257,7 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     componentWillUnmount(): void {
+        
         arriveFooter.remove('gashapons');
         window.removeEventListener('click', this.clickListenHandle);
     }
@@ -319,12 +320,14 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     render(): JSX.Element {
+
         const { 
             getGashapons, 
             getGashaponBanner,
             getBanners,
             match
         } = this.props;
+        
         return (
             <Hoc>
                 <div styleName="container" bg-white="true">
