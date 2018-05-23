@@ -82,7 +82,7 @@ const routes = (
         <Route path="/profit"                   component={Profit}/>
         <Route path="/vip"                      component={Vip}/>
         <Route path="/payment"                  component={Payment}/>
-        <Route path="/location/:id"             component={Location}/>
+        <Route path="/location/:id/:comid"      component={Location}/>
 
         <Route component={NoMatch}/>
     </Switch>

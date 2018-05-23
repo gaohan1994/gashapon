@@ -333,21 +333,48 @@ export const loadGashaponsByWord =
     }
 };
 
-export const loadGashapons = () => (dispatch: Dispatch<MainActions>) => {
+export const loadGashapons = 
+    ({page = 0, count = 20, callback = (page: number) => {/**/}}: LoadGashaponsParam) => 
+    (dispatch: Dispatch<MainActions>, state: () => Stores) => {
 
-    try {
-        fetch('/machine')
-        .then(res => res.json())
-        .then(res => {
-            if (res.success === true) {
-                dispatch({type: constants.LAST_LOAD_GASHAPONS_GENRE, lastGenre: ''});
-                dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: res.result});
-            } else {
-                throw new Error('loadGashapons error');
-            }
-        });
-    } catch (err) {
-        console.log(err);
+    let 
+        loadStatus  = state().main.loading,
+        data        = state().main.gashapons;
+
+    if (loadStatus === false) {
+
+        try {
+            fetch('/machine', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    page    : page,
+                    count   : count
+                })
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success === true) {
+
+                    dispatch({type: constants.LAST_LOAD_GASHAPONS_GENRE, lastGenre: ''});
+                    if (page === 0) {
+                        dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: res.result});
+                    } else {
+                        data = data.concat(res.result);
+                        dispatch({type: constants.RECEIVE_MAIN_GAHSAPONS, gashapons: data});
+                    }
+                    callback(page);
+                } else {
+                    throw new Error('loadGashapons error');
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+        return;
     }
 };
     

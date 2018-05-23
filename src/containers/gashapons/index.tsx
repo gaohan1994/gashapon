@@ -57,13 +57,13 @@ interface Props {
         }
     };
     getGashapons        : Gashapons;
-    loadGashapons       : () => void;
+    loadGashapons       : ({}: LoadGashaponsParam) => void;
     loadGashaponsByGenre: ({}: LoadGashaponsParam) => void;
     loadGashaponsByTopic: ({}: LoadGashaponsParam) => void;
+    loadGashaponsByWord : ({}: LoadGashaponsParam) => void;
     loadBannersByGenre  : (genre: string) => void;
     loadBannersByTopic  : (topic: string) => void;
     getGashaponBanner   : BannerType[];
-    loadGashaponsByWord : ({}: LoadGashaponsParam) => void;
     getBanners          : {contents: BannerType[]};
     loadGenres          : () => void;
     loadTopics          : () => void;
@@ -130,18 +130,24 @@ class Gashapon extends React.Component<Props, State> {
                 loadBannersByGenre(nextProps.match.params.genre);
             } else if (!!nextProps.match.params.genre) {
 
-                loadGashaponsByGenre({genre: nextProps.match.params.genre});
+                loadGashaponsByGenre({
+                    genre: nextProps.match.params.genre
+                });
                 loadBannersByGenre(nextProps.match.params.genre);
             } else if (!!nextProps.match.params.topic) {
     
                 loadBannersByTopic(nextProps.match.params.topic);
-                loadGashaponsByTopic({topic: nextProps.match.params.topic});
+                loadGashaponsByTopic({
+                    topic: nextProps.match.params.topic
+                });
             } else if (!!nextProps.match.params.word) {
     
-                loadGashaponsByWord({word: nextProps.match.params.word});
+                loadGashaponsByWord({
+                    word: nextProps.match.params.word
+                });
             } else {
                 
-                loadGashapons();
+                loadGashapons({});
             }
         }
     }
@@ -184,18 +190,22 @@ class Gashapon extends React.Component<Props, State> {
 
         if (!!match.params.genre) {
 
-            loadGashaponsByGenre({genre: match.params.genre});
+            loadGashaponsByGenre({
+                genre: match.params.genre
+            });
             loadBannersByGenre(match.params.genre);
         } else if (!!match.params.topic) {
 
             loadBannersByTopic(match.params.topic);
-            loadGashaponsByTopic({topic: match.params.topic});
+            loadGashaponsByTopic({
+                topic: match.params.topic
+            });
         } else if (!!match.params.word) {
 
             loadGashaponsByWord({word: match.params.word});
         } else {
             
-            loadGashapons();
+            loadGashapons({});
         }
 
         window.addEventListener('click', this.clickListenHandle);
@@ -213,28 +223,31 @@ class Gashapon extends React.Component<Props, State> {
                     max_price   : price.max,
                     callback    : this.loadGashaponCallback
                 });
-            }
+            } else if (!!match.params.genre) {
 
-            if (!!match.params.genre) {
                 loadGashaponsByGenre({
                     genre   : match.params.genre, 
                     page    : this.state.page + 1, 
                     callback: this.loadGashaponCallback
                 });
-            }
+            } else if (!!match.params.word) {
 
-            if (!!match.params.word) {
                 loadGashaponsByWord({
                     word    : match.params.word, 
                     page    : this.state.page + 1, 
                     callback: this.loadGashaponCallback
                 });
-            }
+            } else if (!!match.params.topic) {
 
-            if (!!match.params.topic) {
                 loadGashaponsByTopic({
                     topic   : match.params.topic, 
                     page    : this.state.page + 1, 
+                    callback: this.loadGashaponCallback
+                });
+            } else {
+
+                loadGashapons({
+                    page    : this.state.page + 1,
                     callback: this.loadGashaponCallback
                 });
             }

@@ -161,6 +161,7 @@ class Pay extends React.Component<Props, State> {
     }
 
     render() {
+        
         const { 
             showQrcode, 
             qrcodeUrl,

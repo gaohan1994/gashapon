@@ -16,10 +16,11 @@ import * as moment from 'moment';
 export interface Props {
     match: {
         params: {
-            id: string;
+            id      : string;
+            comid   : string;
         }
     };
-    loadPackageLocation : (id: string) => void;
+    loadPackageLocation : (id: string, comid: string) => void;
     getLocation         : LocationType;
 }
 
@@ -29,12 +30,17 @@ export interface State {
 
 class Location extends React.Component <Props, State> {
 
+    constructor (props: Props) {
+        super(props);
+        this.renderItems = this.renderItems.bind(this);
+    }
+
     componentDidMount (): void {
 
         const { match, loadPackageLocation } = this.props;
 
-        if (match.params && match.params.id) {
-            loadPackageLocation(match.params.id);
+        if (match.params && match.params.id && match.params.comid) {
+            loadPackageLocation(match.params.id, match.params.comid);
         }
     }
     
@@ -77,11 +83,9 @@ class Location extends React.Component <Props, State> {
                                 >
                                     <i 
                                         styleName="icon"
-                                        style={{
-                                            backgroundColor: i === getLocation.traces.length - 1
-                                                            ? '#fea270'
-                                                            : '#dddddd'
-                                        }}
+                                        style={{backgroundColor: i === getLocation.traces.length - 1
+                                                                ? '#fea270'
+                                                                : '#dddddd'}}
                                     />
                                     <span>
                                         {item.time

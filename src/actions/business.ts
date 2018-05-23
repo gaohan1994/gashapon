@@ -224,11 +224,13 @@ export const setSelectedGashapons = (gashapons: Gashapon[]) => (dispatch: Dispat
     }
 };
 
-export const loadPackageLocation = (id: string) => (dispatch: Dispatch<BusinessActions>): void => {
+export const loadPackageLocation = (id: string, comid: string) => (dispatch: Dispatch<BusinessActions>): void => {
     try {
         if (!id) {
             throw new Error('id');
-        } 
+        } else if (!comid) {
+            throw new Error('comid');
+        }
     } catch (err) {
         console.log(err.message ? err.message : '数据错误');
         return;
@@ -241,7 +243,8 @@ export const loadPackageLocation = (id: string) => (dispatch: Dispatch<BusinessA
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                number: id
+                number  : id,
+                comid   : comid
             })
         })
         .then(res => res.json())

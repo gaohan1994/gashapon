@@ -148,18 +148,19 @@ class Order extends React.Component<Props, State> {
 
     public onHideModal = (): void => {
         this.setState({
-            showModal: true
+            showModal: false
         });
     }
 
-    public gotoLocationHandle = (id?: string): void => {
-        if (!id) {
+    public gotoLocationHandle = (id: string, comid: string): void => {
+        
+        if (!!id && !!comid) {
+            history.push(`/location/${id}/${comid}`);
+        } else {
             this.setState({
                 modalValue: '暂时没有快递信息'
             });
             this.onShowModal();
-        } else {
-            history.push(`/location/${id}`);
         }
     }
 
@@ -267,6 +268,7 @@ class Order extends React.Component<Props, State> {
     }
 
     private readonly renderErrorModal = (): JSX.Element => {
+        
         const { showModal, modalValue } = this.state;
         return (
             <Modal
@@ -323,7 +325,7 @@ class Order extends React.Component<Props, State> {
                     // }
                     {
                         value: '查看物流',
-                        clickHandle: () => this.gotoLocationHandle(item.tracking_number),
+                        clickHandle: () => this.gotoLocationHandle(item.tracking_number, item.express),
                     }
                 ]
             };

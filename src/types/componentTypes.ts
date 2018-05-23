@@ -160,6 +160,7 @@ export type orderAddressConfig = {
 
 export type Order = {
     address         : string;
+    express         : string;
     create_date     : Date;
     free_express    : boolean;
     freight         : number;
@@ -169,7 +170,7 @@ export type Order = {
     product_list    : GashaponProductItem[];
     receiver        : string;
     _id             : string;
-    tracking_number ?: string;
+    tracking_number : string;
 };
 
 export type LocationItem = {
