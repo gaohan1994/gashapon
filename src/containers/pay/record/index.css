@@ -3,13 +3,11 @@
 }
 
 .item {
-    height: 160px;
     width: 750px;
 }
 
 .border {
     width: 680px;
-    height: 100%;
     border-bottom: 2px solid #dddddd;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -24,6 +22,10 @@
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
+}
+
+.box {
+    padding-top: 10px;
 }
 
 .box, .boxRight {
@@ -44,13 +46,12 @@
 
 .box > span, .boxRight > span  {
     display: block;
-    height: 50px;
     line-height: 50px;
 }
 
-.boxRight > span {
+/* .boxRight > span {
     width: 210px;
-}
+} */
 
 .normal {
     font-size: 30px;
@@ -64,5 +65,5 @@
 
 .money {
     font-size: 48px;
-    color: #fba175;
+    /* color: #fba175; */
 }

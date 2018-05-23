@@ -134,8 +134,8 @@ export type Payinfo = {
     };
     name: string;
     product_list: object[];
-    status: number;
-    type: number;
+    status: number; /* 0：待确认  1：支付成功 */ 
+    type: number; /* 订单类型 1:扭蛋  2:邮费  3:充值 4:变卖 5:系统回收 6:线下收益 */
     user: PayinfoUser;
     value: number;
     _id: string;

@@ -85,6 +85,44 @@ class Record extends React.Component<Props, State> {
     }
 
     private readonly renderItem = (data: Payinfo, i: number): JSX.Element => {
+
+        let desc: string = '';
+        let value: JSX.Element = <span/>;
+
+        if (data.type) {
+            switch (data.type) {
+                case 1:
+                    desc = '扭蛋';
+                    break;
+                case 2:
+                    desc = '邮费';
+                    break;
+                case 3:
+                    desc = '充值';
+                    break;
+                case 4:
+                    desc = '变卖';
+                    break;
+                case 5:
+                    desc = '系统回收';
+                    break;
+                case 6:
+                    desc = '线下收益';
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if (data.type && data.value) {
+            if (data.type === 1 || data.type === 2) {
+                value = (<span styleName="money" style={{color: '#7dc3fe'}}>-￥{data.value ? numeral(data.value / 100).format('0') : '0'}</span>);
+            } else {
+                value = (<span styleName="money" style={{color: '#fba175'}}>+￥{data.value ? numeral(data.value / 100).format('0') : '0'}</span>);
+            }
+        }
+
         return (
             <div 
                 styleName="item"
@@ -94,15 +132,19 @@ class Record extends React.Component<Props, State> {
                 <SignModal/>
                 <div styleName="border">
                     <div styleName="box">
-                        <span styleName="normal">{data.name}</span>
-                        <span styleName="small">{data.status}</span>
+                        <span styleName="normal">
+                            {data.name}
+                        </span>
+                        <span styleName="small">
+                            {desc}
+                        </span>
                         <span styleName="small">
                             {data.create_date ? Moment(data.create_date).format('MM月DD日 hh:mm') : ''}
                         </span>
                     </div>
                     <div styleName="boxRight">
-                        <span styleName="money">+￥{data.value ? numeral(data.value / 100).format('0') : '0'}</span>
-                        <span word-overflow="word-overflow">{data._id}</span>
+                        {value}
+                        <span styleName="small">{data._id}</span>
                     </div>
                 </div>
             </div>

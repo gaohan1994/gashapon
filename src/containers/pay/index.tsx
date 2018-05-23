@@ -221,7 +221,7 @@ class Pay extends React.Component<Props, State> {
                     <div styleName="contentItem">{this.renderInput()}</div>
                     <div styleName="contentItem">
                         <span styleName="remain">
-                        当前剩余余额{getUserdata && getUserdata.remain
+                        当前余额为{getUserdata && getUserdata.remain
                             ? Numeral(getUserdata.remain / 100).format('0.00')
                             : '0.00'}元
                         </span>
