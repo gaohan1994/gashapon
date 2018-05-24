@@ -74,7 +74,7 @@ class Address extends React.Component <Props, State> {
         this.onSetSelectedAddress = this.onSetSelectedAddress.bind(this);
         this.onNameChangeHandle = this.onNameChangeHandle.bind(this);
         this.onPhoneChangeHandle = this.onPhoneChangeHandle.bind(this);
-        this.onAreaChangeHandle    = this.onAreaChangeHandle.bind(this);
+        this.onAreaChangeHandle = this.onAreaChangeHandle.bind(this);
         this.onAreaChangeHandle = this.onAreaChangeHandle.bind(this);
         this.onAddressChangeHandle = this.onAddressChangeHandle.bind(this);
         this.onPostcodeChangeHandle = this.onPostcodeChangeHandle.bind(this);
@@ -225,12 +225,14 @@ class Address extends React.Component <Props, State> {
         const result = helper.start();
 
         if (result) {
+
             /* do error stuff */
             return { 
                 success: false,
                 message: result.errMsg
             };
         } else {
+
             return {
                 success : true,
                 data    : merge({}, {receiver, phone, detail_area, detail_home, postal_code, is_default}, {})
@@ -243,9 +245,11 @@ class Address extends React.Component <Props, State> {
         const data = this.checkInput();
 
         if (data.success === true && data.data) {
+
             const result: NormalReturnObject = await User.doChangeAddressMethod({data: data.data});
 
             if (result.success === true) {
+
                 /* 修改成功，隐藏modal然后清除state */
                 this.onClearStateHandle();
                 this.onHideModifyAddress();
@@ -264,8 +268,10 @@ class Address extends React.Component <Props, State> {
     }
     
     render (): JSX.Element {
+
         const { showModal, modalValue } = this.state;
         const { getUserdata }  = this.props;
+
         return (
             <div
                 styleName="container"
@@ -300,6 +306,7 @@ class Address extends React.Component <Props, State> {
     }
 
     private readonly renderFooter = (): JSX.Element => {
+
         return (
             <div 
                 styleName="footer"

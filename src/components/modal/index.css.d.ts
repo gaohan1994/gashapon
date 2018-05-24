@@ -4,3 +4,4 @@ export const haeder: string;
 export const content: string;
 export const buttons: string;
 export const button: string;
+export const close: string;

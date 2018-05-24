@@ -69,6 +69,7 @@ class Main extends React.Component<Props, State> {
     }
 
     componentDidMount(): void {
+        
         const { 
             loadBanners,
             loadGenres,
@@ -85,6 +86,7 @@ class Main extends React.Component<Props, State> {
     }
 
     componentWillUnmount(): void {
+        
         clearInterval(this.timer);
     }
 

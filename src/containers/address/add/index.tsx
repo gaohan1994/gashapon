@@ -7,7 +7,10 @@ import User from '../../../classes/user';
 import Validator from '../../../classes/validate';
 import history from '../../../history';
 import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
+import { 
+    Dispatch, 
+    bindActionCreators 
+} from 'redux';
 import { Stores } from '../../../reducers/type';
 import { 
     StatusActions,
@@ -23,15 +26,15 @@ export interface Props {
 }
 
 export interface State {
-    receiver    : string;
-    phone       : string;
-    detail_area : string;
-    detail_home : string;
-    postal_code : string;
-    is_default  : boolean;
-
-    showModal   : boolean;
-    modalValue  : string;
+    receiver        : string;
+    phone           : string;
+    detail_area     : string;
+    detail_home     : string;
+    postal_code     : string;
+    is_default      : boolean;
+    showModal       : boolean;
+    modalValue      : string;
+    showChoiceModal : boolean;
 }
 
 export interface Item {
@@ -59,16 +62,33 @@ class AddAddress extends React.Component <Props, State> {
     constructor (props: Props) {
         super(props);
         this.state = {
-            receiver    : '',
-            phone       : '',
-            detail_area : '',
-            detail_home : '',
-            postal_code : '',
-            is_default  : false,
-
-            showModal   : false,
-            modalValue  : ''
+            receiver        : '',
+            phone           : '',
+            detail_area     : '',
+            detail_home     : '',
+            postal_code     : '',
+            is_default      : false,
+            showModal       : false,
+            modalValue      : '',
+            showChoiceModal : false,
         };
+
+        this.onAddressChangeHandle = this.onAddressChangeHandle.bind(this);
+        this.onAreaChangeHandle = this.onAreaChangeHandle.bind(this);
+        this.onChangeDefault = this.onChangeDefault.bind(this);
+        this.onHideChoiceModal = this.onHideChoiceModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
+        this.onNameChangeHandle = this.onNameChangeHandle.bind(this);
+        this.onPhoneChangeHandle = this.onPhoneChangeHandle.bind(this);
+        this.onPostcodeChangeHandle = this.onPostcodeChangeHandle.bind(this);
+        this.onShowChoiceModal = this.onShowChoiceModal.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.checkInput = this.checkInput.bind(this);
+        this.doSaveAddressHandle = this.doSaveAddressHandle.bind(this);
+        this.renderChangeAddressModal = this.renderChangeAddressModal.bind(this);
+        this.renderDefault = this.renderDefault.bind(this);
+        this.renderDetail = this.renderDetail.bind(this);
+        this.renderItem = this.renderItem.bind(this);
     }
 
     public onNameChangeHandle = (event: any): void => {
@@ -119,15 +139,28 @@ class AddAddress extends React.Component <Props, State> {
         });
     }
 
+    public onShowChoiceModal = (): void => {
+        this.setState({
+            showChoiceModal: true
+        });
+    }
+
+    public onHideChoiceModal = (): void => {
+        this.setState({
+            showChoiceModal: false
+        });
+    }
+
     public checkInput = (): CheckInputReturn => {
+
         const { receiver, phone, detail_area, detail_home, postal_code  } = this.state;
 
         const helper = new Validator();
 
         helper.add(receiver, [{
-            strategy: 'isNonEmpty',
-            errorMsg: '请输入姓名~',
-            elementName: 'receiver'
+            strategy    : 'isNonEmpty',
+            errorMsg    : '请输入姓名~',
+            elementName : 'receiver'
         }]);
 
         helper.add(phone, [{
@@ -137,9 +170,9 @@ class AddAddress extends React.Component <Props, State> {
         }]);
 
         helper.add(phone, [{
-            strategy: 'isNumberVali',
-            errorMsg: '请输入正确的电话格式~',
-            elementName: 'phone'
+            strategy    : 'isNumberVali',
+            errorMsg    : '请输入正确的电话格式~',
+            elementName : 'phone'
         }]);
 
         helper.add(detail_area, [{
@@ -149,26 +182,28 @@ class AddAddress extends React.Component <Props, State> {
         }]);
 
         helper.add(detail_home, [{
-            strategy: 'isNonEmpty',
-            errorMsg: '请输入地址~',
-            elementName: 'detail_home'
+            strategy    : 'isNonEmpty',
+            errorMsg    : '请输入地址~',
+            elementName : 'detail_home'
         }]);
 
         helper.add(postal_code, [{
-            strategy: 'isNonEmpty',
-            errorMsg: '请输入邮编~',
-            elementName: 'postal_code'
+            strategy    : 'isNonEmpty',
+            errorMsg    : '请输入邮编~',
+            elementName : 'postal_code'
         }]);
 
         const result = helper.start();
 
         if (result) {
+
             /* do error stuff */
             return { 
                 success: false,
                 message: result.errMsg
             };
         } else {
+
             return {
                 success : true,
                 data    : merge({}, this.state, {})
@@ -186,24 +221,28 @@ class AddAddress extends React.Component <Props, State> {
         const data = this.checkInput();
 
         if (data.success === true && data.data) {
+
             /* loading 动画 */
             const result = await User.doAddAddressMethod({data: data.data});
             
             if (result.success === true) {
 
                 /*
-                如果有config的path 走config的path 之后置空
-                如果没有config的path 正常走
-                */
+                 * 如果有config的path 走config的path 之后置空
+                 * 如果没有config的path 正常走
+                 */
                 if (!getConfig.path) {
+
                     history.push('/my');
                 } else {
+
                     const path = getConfig.path;
                     const config: orderAddressConfig = {};
                     setOrderAddressConfig(config);
                     history.push(`/${path}`);
                 }
             } else {
+
                 /* do error stuff */
                 this.setState({
                     modalValue: result.message ? result.message : '添加地址出错'
@@ -212,8 +251,8 @@ class AddAddress extends React.Component <Props, State> {
                 history.push('/my');
             }
         } else {
+
             /* do error stuff */
-            console.log(data);
             this.setState({
                 modalValue: data.message ? data.message : '请检查输入正确性'
             });
@@ -222,9 +261,10 @@ class AddAddress extends React.Component <Props, State> {
     }
 
     render (): JSX.Element {
+
         const { showModal, modalValue } = this.state;
         return (
-            <div 
+            <div
                 styleName="container"
                 container-with-header="true"
             >
@@ -233,6 +273,7 @@ class AddAddress extends React.Component <Props, State> {
                     subTitle="保存"
                     subPropsClick={() => this.doSaveAddressHandle()}
                 />
+
                 <Modal
                     display={showModal}
                     value={modalValue}
@@ -241,12 +282,46 @@ class AddAddress extends React.Component <Props, State> {
 
                 {this.renderDetail()}
                 {this.renderDefault()}
+                {this.renderChangeAddressModal()}
+            </div>
+        );
+    }
+
+    private renderChangeAddressModal = (): JSX.Element => {
+
+        const { showChoiceModal } = this.state;
+
+        return (
+            <div
+                styleName="choiceAddress"
+                style={{
+                    visibility  : showChoiceModal === true ? 'visible' : 'hidden',
+                    opacity     : showChoiceModal === true ? 1 : 0
+                }}
+                onClick={this.onHideChoiceModal}
+            >
+                <Header title="选择地区"/>
+                <div styleName="choinceContent">
+                    content
+                </div>
+                
+            </div>
+        );
+    }
+
+    private renderChoiceLine = (): JSX.Element => {
+        console.log('renderChoiceLine', this.renderChoiceLine);
+        return (
+            <div>
+                choice
             </div>
         );
     }
 
     private renderDetail = (): JSX.Element => {
+
         const { receiver, phone, detail_area, detail_home, postal_code  } = this.state;
+
         const data: Item[] = [
             {
                 title           : '姓名',
@@ -277,7 +352,7 @@ class AddAddress extends React.Component <Props, State> {
                 value           : postal_code,
                 placeholder     : '6位邮政编码',
                 onChangeHandle  : this.onPostcodeChangeHandle
-            },
+            }
         ];
 
         return (
@@ -285,11 +360,22 @@ class AddAddress extends React.Component <Props, State> {
                 {data.map((item: Item, i) => {
                     return this.renderItem(item);
                 })}
+                <div
+                    styleName="item"
+                    flex-center="all-center"
+                >
+                    <span styleName="title">地区</span>
+                    <span 
+                        styleName="input"
+                        onClick={this.onShowChoiceModal}
+                    />
+                </div>
             </div>
         );
     }
 
     private renderItem = (data: Item): JSX.Element => {
+
         return (
             <div 
                 key={data.title}
@@ -309,9 +395,10 @@ class AddAddress extends React.Component <Props, State> {
     }
 
     private renderDefault = (): JSX.Element => {
+
         const { is_default } = this.state;
         return (
-            <div 
+            <div
                 styleName="default"
                 onClick={() => this.onChangeDefault()}
             >

@@ -54,3 +54,16 @@
     color: #999999;
     margin-left: 35px;
 }
+
+.choiceAddress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 80px;
+    overflow-y: auto;
+    background: #ffffff;
+}

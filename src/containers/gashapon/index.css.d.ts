@@ -23,3 +23,4 @@ export const loading: string;
 export const discountModal: string;
 export const modalconten: string;
 export const progress: string;
+export const test: string;

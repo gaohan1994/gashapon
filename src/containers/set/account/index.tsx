@@ -25,7 +25,7 @@ class Account extends React.Component<Props, {}> {
                     title="设置"
                 />
                 {/* <Line 
-                    value="完蛋趣号"
+                    value="嘀哩扭蛋号"
                     subValue="123123"
                 /> */}
                 <Line 

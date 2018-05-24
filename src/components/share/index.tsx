@@ -54,7 +54,7 @@ class ShareModal extends React.Component <Props, {}> {
             {
                 _id: 1,
                 value: 'qq',
-                title: 'qq',
+                title: 'QQ',
                 img: '//net.huanmusic.com/activity/qq.png',
             },
             {
@@ -72,7 +72,7 @@ class ShareModal extends React.Component <Props, {}> {
             {
                 _id: 4,
                 value: 'qzone',
-                title: 'qq空间',
+                title: 'QQ空间',
                 img: '//net.huanmusic.com/activity/qqzone.png',
             },
         ];

@@ -68,13 +68,14 @@ class Gashapon extends React.Component <Props, State> {
     }
 
     public onShowImgHandle = (): void => {
+        
         this.setState({
             showImg: true
         });
     }
 
     public onHideImgHandle = (): void => {
-        console.log('hide');
+
         this.setState({
             showImg: false
         });

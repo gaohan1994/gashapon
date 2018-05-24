@@ -13,46 +13,29 @@ interface Props {
     // btnBlock    : boolean;   // 按钮是不是块元素，是一个布遥值，true表示块元素
 }
 
-interface State {
+const renderType = (btnType?: string): string => {
+    return btnType ? btnType : 'button-primary';
+};
 
-}
+const renderSize = (btnSize?: string): string => {
+    return btnSize ? btnSize : 'normal';
+};
 
-class Button extends React.Component<Props, State> {
-    render() {
-        
-        const { 
-            btnText, 
-            btnType,
-            btnSize,
-            btnRadius,
-            clickHandle,
-        } = this.props;
+const renderRadius = (btnRadius?: boolean): string => {
+    return btnRadius ? 'true' : 'false';
+};
 
-        return (
-            <div
-                styleName="container"
-                button-type={this.renderType(btnType)}
-                button-size={this.renderSize(btnSize)}
-                button-radius={this.renderRadius(btnRadius)}
-                onClick={clickHandle ? clickHandle : () => {/*no empty*/}}
-            >
-                {btnText}
-            </div>
-        );
-    }
-
-    private renderType = (btnType?: string): string => {
-        return btnType ? btnType : 'button-primary';
-    }
-
-    private renderSize = (btnSize?: string): string => {
-        return btnSize ? btnSize : 'normal';
-    }
-
-    private renderRadius = (btnRadius?: boolean): string => {
-        return btnRadius ? 'true' : 'false';
-    }
-}
+const Button = ({ btnText, btnType, btnSize, btnRadius, clickHandle = () => {/**/} }: Props): JSX.Element => (
+    <div
+        styleName="container"
+        button-type={renderType(btnType)}
+        button-size={renderSize(btnSize)}
+        button-radius={renderRadius(btnRadius)}
+        onClick={clickHandle ? clickHandle : () => {/*no empty*/}}
+    >
+        {btnText}
+    </div>
+);
 
 const ButtonHoc = CSSModules(Button, styles);
 

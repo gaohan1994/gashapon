@@ -6,3 +6,5 @@ export const detail: string;
 export const footer: string;
 export const buttons: string;
 export const button: string;
+export const more: string;
+export const morebge: string;

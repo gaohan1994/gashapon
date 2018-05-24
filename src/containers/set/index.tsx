@@ -45,7 +45,7 @@ class Setting extends React.Component<Props, State> {
                     param="account"
                 />
                 <Line 
-                    value="关于完蛋趣"
+                    value="关于嘀哩扭蛋"
                     param="about"
                 />
             </div>

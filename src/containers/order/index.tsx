@@ -312,13 +312,23 @@ class Order extends React.Component<Props, State> {
             };
             return footer;
         } else if (type === 'already') {
-            footer = {
+            footer = item.order_status === 2
+            ? {
                 show: true,
                 buttons: [
                     {
                         value: '确认收货',
                         clickHandle: () => this.onConfirmOrderHandle(item._id)
                     },
+                    {
+                        value: '查看物流',
+                        clickHandle: () => this.gotoLocationHandle(item.tracking_number, item.express),
+                    }
+                ]
+            }
+            : {
+                show: true,
+                buttons: [
                     // {
                     //     value: '买家秀',
                     //     clickHandle: () => {/**/}

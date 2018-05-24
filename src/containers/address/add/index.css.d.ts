@@ -5,3 +5,4 @@ export const input: string;
 export const title: string;
 export const icon: string;
 export const defaultText: string;
+export const choiceAddress: string;

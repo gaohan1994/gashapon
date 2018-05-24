@@ -1,0 +1,27 @@
+.container {
+    width: 750px;
+    min-height: 100vh;
+    padding: 80px 0 0 0;
+    background: #ffffff;
+}
+
+.content {
+    width: 750px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 0 20px;
+}
+
+.content > span {
+    color: #444444;
+    display: block;
+    margin: 10px 0;
+}
+
+.title {
+    line-height: 50px;
+}
+
+.desc {
+    line-height: 40px;
+}

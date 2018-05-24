@@ -7,7 +7,7 @@ import Line from '../../components/lineItem';
 const About = ({}): JSX.Element => (
     <div styleName="container" bg-white="true">
         <Header 
-            title="关于完蛋趣"
+            title="关于嘀哩扭蛋"
         />
         <Line 
             value="帮助与反馈"
