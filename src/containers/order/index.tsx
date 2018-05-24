@@ -43,6 +43,10 @@ interface State {
 
     showModal: boolean;
     modalValue: string;
+
+    showConfirmModal: boolean;
+    confirmValue: string;
+    confirmId: string;
 }
 
 class Order extends React.Component<Props, State> {
@@ -54,7 +58,10 @@ class Order extends React.Component<Props, State> {
             reminderValue       : '',
             showReminderModal   : false,
             showModal           : false,
-            modalValue          : ''
+            modalValue          : '',
+            showConfirmModal    : false,
+            confirmValue        : '',
+            confirmId           : '',
         };
 
         this.onCancelOrderHandle = this.onCancelOrderHandle.bind(this);
@@ -71,6 +78,9 @@ class Order extends React.Component<Props, State> {
         this.renderNav = this.renderNav.bind(this);
         this.renderNoData = this.renderNoData.bind(this);
         this.getFooter = this.getFooter.bind(this);
+        this.onShowConfirmModal = this.onShowConfirmModal.bind(this);
+        this.onHideConfirmModal = this.onHideConfirmModal.bind(this); 
+        this.renderConfirmModal = this.renderConfirmModal.bind(this);
     }
 
     public onCancelOrderHandle = async (id: string): Promise <void> => {
@@ -92,15 +102,31 @@ class Order extends React.Component<Props, State> {
     }
 
     public onConfirmOrderHandle = async (id: string): Promise <void> => {
-        //
-        const user = User.getUser();
 
+        const user = User.getUser();
+        const { match, loadWaitConfirmOrders, loadWaitOrders, loadOrders } = this.props;
         if (!user.uid) {
             history.push('/my');
         } else {
             const result = await Business.doConfirmOrderHandle({id: id});
             if (result.success === true) {
-                history.push('/');
+
+                this.onHideConfirmModal();
+                const type = match.params.type;
+                console.log('type', type);
+                switch (type) {
+                    
+                    case 'waitconfirm':
+                        loadWaitConfirmOrders(user.uid);
+                        return;
+                    case 'wait':
+                        loadWaitOrders(user.uid);
+                        return;
+                    case 'already':
+                        loadOrders(user.uid);
+                        return;
+                    default: return;
+                }
             } else {
 
                 this.setState({
@@ -148,6 +174,19 @@ class Order extends React.Component<Props, State> {
     public onHideModal = (): void => {
         this.setState({
             showModal: false
+        });
+    }
+
+    public onShowConfirmModal = (id: string): void => {
+        this.setState({
+            showConfirmModal: true,
+            confirmId       : id
+        });
+    }
+
+    public onHideConfirmModal = (): void => {
+        this.setState({
+            showConfirmModal: false
         });
     }
 
@@ -239,6 +278,7 @@ class Order extends React.Component<Props, State> {
         return (
             <div styleName="container" bg-white="true">
                 {this.renderErrorModal()}
+                {this.renderConfirmModal()}
                 <Modal 
                     display={showReminderModal}
                     value={reminderValue}
@@ -274,6 +314,19 @@ class Order extends React.Component<Props, State> {
                 display={showModal}
                 value={modalValue}
                 onConfirmClickHandle={this.onHideModal}
+            />
+        );
+    }
+
+    private readonly renderConfirmModal = (): JSX.Element => {
+        
+        const { showConfirmModal, confirmId } = this.state;
+        return (
+            <Modal
+                display={showConfirmModal}
+                value="是否确认已收到商品？"
+                onCancelClickHandle={this.onHideConfirmModal}
+                onConfirmClickHandle={() => this.onConfirmOrderHandle(confirmId)}
             />
         );
     }
@@ -317,7 +370,7 @@ class Order extends React.Component<Props, State> {
                 buttons: [
                     {
                         value: '确认收货',
-                        clickHandle: () => this.onConfirmOrderHandle(item._id)
+                        clickHandle: () => this.onShowConfirmModal(item._id)
                     },
                     {
                         value: '查看物流',
