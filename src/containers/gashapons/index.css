@@ -20,10 +20,7 @@
 .banner {
     position: relative;
     float: left;
-    width: 710px;
-    height: 300px;
-    background: #ffffff;
-    margin: 20px 0 0 30px;
+    margin: 20px 0 0 0;
 }
 
 

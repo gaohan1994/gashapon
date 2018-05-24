@@ -13,7 +13,6 @@ import Hoc from '../hoc';
 import Base from '../../classes/base';
 import { arriveFooter } from '../../config/util';
 import { Stores } from '../../reducers/type';
-import config from '../../config/index';
 import history from '../../history';
 import { 
     Gashapons,
@@ -39,10 +38,7 @@ import {
     getGashaponBanner,
     getBanners,
 } from '../../reducers/main';
-
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
-const AutoSwipeableViews = autoPlay(SwipeableViews);
+import Swiper from '../../components/swiper';
 
 interface Props {
     location: {
@@ -447,22 +443,7 @@ class Gashapon extends React.Component<Props, State> {
 
     private readonly renderBanners = (): JSX.Element => {
 
-        const { current } = this.state;
         const { getGashaponBanner, getBanners } = this.props;
-
-        const style = {
-            width: '92vw',
-            height: '100%'
-        };
-
-        const containerStyle = {
-            width: '100%',
-            height: '100%'
-        };
-
-        const 
-            data: Array<JSX.Element> = [],
-            trig: Array<JSX.Element> = [];
 
         let prepareData: BannerType[] = [];
 
@@ -472,43 +453,10 @@ class Gashapon extends React.Component<Props, State> {
             prepareData = getBanners.contents;
         }
 
-        prepareData.map((item: BannerType, i) => {
-            data.push(
-                <div 
-                    key={i}
-                    styleName="wrapItem"
-                    onClick={() => this.onBannerNavHandle(item.type, item.param)}
-                >
-                    <img
-                        styleName="imageItem"
-                        src={item.pic 
-                            ? `//${config.host.pic}/${item.pic}?imageView/2/w/720/h/350` 
-                            : `${config.empty_pic.url}`}
-                    />
-                </div>
-            );
-            trig.push(
-                <span 
-                    key={i}
-                    styleName={current === i ? `on` : ``}
-                />
-            );
-        });
-
         return (
-            <section styleName="banner">
-                <AutoSwipeableViews
-                    autoplay={true}
-                    style={style}
-                    index={current}
-                    containerStyle={containerStyle}
-                    onChangeIndex={this.onChangeIndex}
-                    enableMouseEvents={true}
-                >
-                    {data}
-                </AutoSwipeableViews>
-                <ul styleName="trig">{trig}</ul>
-            </section>
+            <Swiper
+                images={prepareData}
+            />
         );
     }
 }

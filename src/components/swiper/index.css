@@ -1,6 +1,6 @@
 .container {
     position: relative;
-    width: 690px;
+    width: 750px;
     height: 300px;
     float: left;    
     overflow: hidden;
@@ -60,7 +60,7 @@
 
 .wrapItem {
     position: relative;
-    width: 690px;
+    width: 750px;
     height: 300px;
 }
 
@@ -68,12 +68,12 @@
     display: block;
     position: relative;
     float: left;
-    width: 690px;
+    width: 750px;
     height: 300px;
     content: normal !important;
     border: 0px;
 }
 
 .imageItem {
-    aspect-ratio: '710:440';
+    aspect-ratio: '750:300';
 }

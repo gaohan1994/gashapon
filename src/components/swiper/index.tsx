@@ -82,7 +82,7 @@ class Swiper extends React.Component<Props, State> {
         });
 
         const style = {
-            width: '92vw',
+            width: '100vw',
             height: '100%'
         };
 
