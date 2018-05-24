@@ -81,7 +81,6 @@ class Order extends React.Component<Props, State> {
         } else {
             const result = await Business.doCancelOrderMethod({id: id});
             if (result.success === true) {
-                console.log('取消订单成功');
                 history.push('/');
             } else {
                 this.setState({

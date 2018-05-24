@@ -86,6 +86,7 @@ class SignContainer extends React.Component<Props, State> {
         this.renderVercodeErrorModal = this.renderVercodeErrorModal.bind(this);
         this.onHideVercodeErrorModal = this.onHideVercodeErrorModal.bind(this);
         this.onShowVercodeErrorModal = this.onShowVercodeErrorModal.bind(this);
+        this.hideAll = this.hideAll.bind(this);
     }
 
     public onChangeLogphone = (event: any) => {
@@ -215,6 +216,7 @@ class SignContainer extends React.Component<Props, State> {
                     window.location.reload();
                 }
             } else {
+                
                 /* do error stuff */
                 this.setState({
                     modalValue: result.message ? result.message : '注册有问题'
@@ -263,6 +265,7 @@ class SignContainer extends React.Component<Props, State> {
             if (res.success === true) {
                 window.location.reload();
             } else {
+
                 /* do error stuff */
                 this.setState({
                     modalValue: res.message ? res.message : '登录出错了！'
@@ -273,6 +276,7 @@ class SignContainer extends React.Component<Props, State> {
     }
 
     public timerHandle = (): void => {
+
         if (this.state.waitCode === 0) {
             /* 可以重新计时 */
             clearInterval(this.timer);
@@ -312,9 +316,9 @@ class SignContainer extends React.Component<Props, State> {
             });
             this.onShowModal();
         } else {
+
             /* do stuff */
             const result = await Sign.getVercode(regphone);
-            console.log('result', result);
             if (result.success === true) {
                 this.setState({ waitCode: 60 }, () => { this.timer = setInterval(this.timerHandle, 1000); });
             } else {

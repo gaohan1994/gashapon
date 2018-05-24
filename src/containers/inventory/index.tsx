@@ -29,6 +29,7 @@ import { showSignModal } from '../../actions/status';
 import { getInventory } from '../../reducers/inventory';
 import { getUserdata } from '../../reducers/home';
 import { arriveFooter } from '../../config/util';
+import Modal from '../../components/modal';
 
 interface Props {
     location: {
@@ -52,6 +53,8 @@ interface Props {
 interface State {
     page: number;
     uid: string;
+    showModal: boolean;
+    modalValue: string;
 }
 
 /**
@@ -66,12 +69,19 @@ class Inventory extends React.Component<Props, State> {
         super(props);
         this.state = {
             page: 0,
-            uid: ''
+            uid: '',
+            showModal: false,
+            modalValue: ''
         };
 
         this.loadUserdataCallback   = this.loadUserdataCallback.bind(this);
         this.loadInventoryCallback  = this.loadInventoryCallback.bind(this);
         this.onMenuClickHandle      = this.onMenuClickHandle.bind(this);
+
+        this.renderErrorModal = this.renderErrorModal.bind(this);
+        this.renderMenu = this.renderMenu.bind(this);
+        this.onShowModal = this.onShowModal.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -202,13 +212,36 @@ class Inventory extends React.Component<Props, State> {
 
     public onMenuClickHandle = async (type: string): Promise <void> => {
 
-        const { showSignModal, getUserdata } = this.props;
+        const { showSignModal, getUserdata, getInventory } = this.props;
 
         if (!getUserdata._id) {
             showSignModal();
         } else {
-            history.push(`/${type}`);
+            if (getInventory && getInventory.length > 0) {
+                history.push(`/${type}`);
+            } else {
+                this.setState({
+                    modalValue: '暂无扭蛋前去扭蛋？'
+                });
+                this.onShowModal();
+            }
         }
+    }
+
+    public onShowModal = (): void => {
+        this.setState({
+            showModal: true
+        });
+    }
+
+    public onHideModal = (): void => {
+        this.setState({
+            showModal: false
+        });
+    }
+
+    public onNavHandle = (param: string) => {
+        history.push(`/${param}`);
     }
 
     render() {
@@ -217,6 +250,8 @@ class Inventory extends React.Component<Props, State> {
             <Hoc>
 
                 <SignModal/>
+
+                {this.renderErrorModal()}
 
                 <div styleName="container">
 
@@ -238,6 +273,19 @@ class Inventory extends React.Component<Props, State> {
                     <Footer/>
                 </div>
             </Hoc>
+        );
+    }
+
+    private readonly renderErrorModal = (): JSX.Element => {
+        
+        const { showModal, modalValue } = this.state;
+        return (
+            <Modal
+                display={showModal}
+                value={modalValue}
+                onCancelClickHandle={this.onHideModal}
+                onConfirmClickHandle={() => this.onNavHandle('gashapons')}
+            />
         );
     }
 
