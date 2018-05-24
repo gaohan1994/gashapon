@@ -37,6 +37,8 @@ export interface State {
 
     showModal: boolean;
     modalValue: string;
+
+    showVercodeModal: boolean;
 }
 
 interface InputParam {
@@ -62,7 +64,8 @@ class SignContainer extends React.Component<Props, State> {
             regcode : '',
             waitCode: 0,
             showModal: false,
-            modalValue: ''
+            modalValue: '',
+            showVercodeModal: false
         };
 
         this.timerHandle = this.timerHandle.bind(this);
@@ -80,6 +83,9 @@ class SignContainer extends React.Component<Props, State> {
         this.onForgetPasswordHandle = this.onForgetPasswordHandle.bind(this);
         this.renderErrorModal = this.renderErrorModal.bind(this);
         this.renderInput = this.renderInput.bind(this);
+        this.renderVercodeErrorModal = this.renderVercodeErrorModal.bind(this);
+        this.onHideVercodeErrorModal = this.onHideVercodeErrorModal.bind(this);
+        this.onShowVercodeErrorModal = this.onShowVercodeErrorModal.bind(this);
     }
 
     public onChangeLogphone = (event: any) => {
@@ -113,6 +119,7 @@ class SignContainer extends React.Component<Props, State> {
     }
 
     public onButtonClickHandle = (type: 'login' | 'register') => {
+        this.hideAll();
         this.setState({
             showType: type
         });
@@ -128,6 +135,23 @@ class SignContainer extends React.Component<Props, State> {
         this.setState({
             showModal: false
         });
+    }
+
+    public onShowVercodeErrorModal = (): void => {
+        this.setState({
+            showVercodeModal: true
+        });
+    }
+
+    public onHideVercodeErrorModal = (): void => {
+        this.setState({
+            showVercodeModal: false
+        });
+    }
+
+    public hideAll = (): void => {
+        this.onHideModal();
+        this.onHideVercodeErrorModal();
     }
 
     public doRegisterHandle = async (): Promise<void> => {
@@ -290,14 +314,19 @@ class SignContainer extends React.Component<Props, State> {
         } else {
             /* do stuff */
             const result = await Sign.getVercode(regphone);
-
+            console.log('result', result);
             if (result.success === true) {
                 this.setState({ waitCode: 60 }, () => { this.timer = setInterval(this.timerHandle, 1000); });
             } else {
-                this.setState({
-                    modalValue: result.message ? result.message : '获取验证码出错'
-                });
-                this.onShowModal();
+
+                if (result.message === '该用户已存在') {
+                    this.onShowVercodeErrorModal();
+                } else {
+                    this.setState({
+                        modalValue: result.message ? result.message : '获取验证码出错'
+                    });
+                    this.onShowModal();
+                }
             }
         }
     }
@@ -340,6 +369,7 @@ class SignContainer extends React.Component<Props, State> {
                 }}
             >
                 {this.renderErrorModal()}
+                {this.renderVercodeErrorModal()}
                 <i
                     styleName="back"
                     bgimg-center="100"
@@ -462,6 +492,18 @@ class SignContainer extends React.Component<Props, State> {
                 display={showModal}
                 value={modalValue}
                 onConfirmClickHandle={this.onHideModal}
+            />
+        );
+    }
+
+    private renderVercodeErrorModal = (): JSX.Element => {
+        const { showVercodeModal } = this.state;
+        return (
+            <Modal
+                display={showVercodeModal}
+                value="您的手机号已注册，是否直接登录？"
+                onCancelClickHandle={this.onHideVercodeErrorModal}
+                onConfirmClickHandle={() => this.onButtonClickHandle('login')}
             />
         );
     }

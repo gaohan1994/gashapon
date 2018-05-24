@@ -305,15 +305,13 @@ class Sign {
             if (result.success === true) {
                 return { success : true };
             } else {
-                return {
-                    type    : 'ERROR_GETVERCODE',
-                    message : result.message ? result.message : '获取验证码失败'
-                };
+                throw new Error(result.result ? result.result : '获取验证码失败');
             }
         } catch (err) {
+            console.log('err', err);
             return {
-                type: 'ERROR_GETVERCODE',
-                message: err.message ? err.message : '获取验证码失败'
+                type    : 'ERROR_GETVERCODE',
+                message : err.message ? err.message : '获取验证码失败'
             };
         }
     }
