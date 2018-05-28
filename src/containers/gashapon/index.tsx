@@ -20,10 +20,7 @@ import User from '../../classes/user';
 import GashaponClass from '../../classes/gashapon';
 import Share from '../../classes/share';
 import ShareModal, { ShareType } from '../../components/share';
-import DiscountClass,
-{
-    CreateDiscountPlayReturn,
-} from '../../classes/discount';
+import DiscountClass, { CreateDiscountPlayReturn } from '../../classes/discount';
 import { Stores } from '../../reducers/type';
 import { 
     Gashapon as GashaponType,
@@ -527,7 +524,7 @@ class Gashapon extends React.Component<Props, State> {
                     {this.redderSelectModal()}
                     <div styleName="content">
                         {this.renderName()}
-                        {this.renderTime()}
+                        {/* {this.renderTime()} */}
                         {this.renderCollect()}
                         <audio
                             src={getGashapon.music_url
@@ -632,7 +629,9 @@ class Gashapon extends React.Component<Props, State> {
                         backgroundImage: `linear-gradient(to right, rgb(254, 162, 112) ${current}%, rgba(255, 255, 255) 0%)`
                     }}
                 >
-                    <span>{Numeral(getDiscount / 100).format('0.00')} / {Numeral(total / 100).format('0.00')}</span>
+                    <span>
+                        {Numeral(getDiscount / 100).format('0.00')} / {Numeral(total / 100).format('0.00')}
+                    </span>
                 </div>
             </DiscountModal>
         );
@@ -670,6 +669,7 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋开放时间
      */
     private renderTime = (): JSX.Element => {
+        console.log(this.renderTime);
 
         const { getGashapon } = this.props;
         return (

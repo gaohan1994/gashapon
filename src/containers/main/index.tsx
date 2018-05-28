@@ -55,7 +55,9 @@ class Main extends React.Component<Props, State> {
     private timer: any;
 
     constructor (props: Props) {
+
         super(props);
+
         this.state = {
             flashDate: ''
         };
@@ -66,6 +68,10 @@ class Main extends React.Component<Props, State> {
         this.goGashaponHandle = this.goGashaponHandle.bind(this);
         this.loadMainDataCallback = this.loadMainDataCallback.bind(this);
         this.setDateHandle = this.setDateHandle.bind(this);
+        this.renderTimeLimit = this.renderTimeLimit.bind(this);
+        this.renderMainData = this.renderMainData.bind(this);
+        this.renderMenu = this.renderMenu.bind(this);
+        this.renderFlashDate = this.renderFlashDate.bind(this);
     }
 
     componentDidMount(): void {
@@ -86,12 +92,12 @@ class Main extends React.Component<Props, State> {
     }
 
     componentWillUnmount(): void {
-        
+
         clearInterval(this.timer);
     }
 
     public onNavHandle = (type: string): void => {
-        
+
         history.push(`/${type}`);
     }
 
@@ -132,6 +138,7 @@ class Main extends React.Component<Props, State> {
     }
 
     render() {
+        
         return (
             <Hoc>
                 <div styleName="container" bg-white="true">
@@ -152,11 +159,14 @@ class Main extends React.Component<Props, State> {
         const { getData } = this.props;
         return (
             <div styleName="timeLimit">
+
                 <i 
                     styleName="timeIcon"
                     bgimg-center="100"
                 />
-                <div 
+
+                {getData.flash_sale && getData.flash_sale._id
+                ? <div 
                     styleName="flash"
                     bgimg-center="bgimg-center"
                     style={{
@@ -169,6 +179,12 @@ class Main extends React.Component<Props, State> {
                     
                     {this.renderFlashDate()}
                 </div>
+                : <div 
+                    styleName="flash"
+                    bgimg-center="bgimg-center"
+                    style={{backgroundImage: `url(//net.huanmusic.com/gasha/%E9%99%90%E6%97%B6%E6%8A%A2%E8%B4%AD2.png)`}}
+                    // onClick={() => this.goGashaponHandle(getData.flash_sale._id)}
+                />}
             </div>
         );
     }
