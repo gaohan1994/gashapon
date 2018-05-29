@@ -6,7 +6,6 @@ import { MainActions } from '../../actions/main';
 import * as styles from './index.css';
 import history from '../../history';
 import Header from '../../components/header_gashapon';
-import Hoc from '../hoc';
 import Modal from './modal';
 import ErrorModal from '../../components/modal';
 import DiscountModal from '../../components/modal';
@@ -45,6 +44,10 @@ import {
     getDiscount,
     getCreateDiscount,
 } from '../../reducers/gashapon';
+import {
+    loadUserDataFromUuid,
+    HomeActions,
+} from '../../actions/home';
 import { getUserdata } from '../../reducers/home';
 
 interface Props {
@@ -64,6 +67,7 @@ interface Props {
     getDiscount             : number;
     getCreateDiscount       : discount;
     receiveCreateDiscount   : (id: string) => void;
+    loadUserDataFromUuid    : () => void;
 }
 
 interface State {
@@ -126,14 +130,16 @@ class Gashapon extends React.Component<Props, State> {
         this.goGashaponShow = this.goGashaponShow.bind(this);
     }
 
-    componentDidMount () {
+    componentWillMount () {
 
         const { 
             match,
             loadGashapon,
+            loadUserDataFromUuid,
         } = this.props;
 
         loadGashapon(match.params.id);
+        loadUserDataFromUuid();
     }
 
     componentWillUnmount () {
@@ -192,7 +198,9 @@ class Gashapon extends React.Component<Props, State> {
                 });
                 this.handleDropPlay();
                 changeGashaponLoading(true);
-                this.timer = setTimeout(() => { this.timeoutHandle(result); }, 2000);
+                this.timer = setTimeout(() => { 
+                    this.timeoutHandle(result); 
+                }, 2000);
             } else {
 
                 switch (result.message) {
@@ -492,82 +500,80 @@ class Gashapon extends React.Component<Props, State> {
         const { errorModal, modalValue } = this.state;
         const { getGashapon } = this.props;
         return (
-            <Hoc>
-                <div styleName="container" bg-white="true">
+            <div styleName="container" bg-white="true">
+                <audio
+                    src={'//net.huanmusic.com/gasha/%E6%8E%89%E8%90%BD%E9%9F%B3%E6%95%88.mp3'}
+                    preload="metadata"
+                    autoPlay={false}
+                    ref={(drop) => { this.drop = drop; }}
+                    style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                />
+
+                <audio
+                    src={'//net.huanmusic.com/gasha/123%E9%9F%B3%E6%95%88.mp3'}
+                    preload="metadata"
+                    autoPlay={false}
+                    ref={(success) => { this.success = success; }}
+                    style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                />
+
+                <ErrorModal
+                    display={errorModal}
+                    value={modalValue}
+                    onConfirmClickHandle={this.onHideErrorModal}
+                />
+                <SignModal/>
+                <ShareModal propsClickHandle={this.doDiscoutHandle}/>
+                {this.renderDiscountModal()}
+                {this.renderLoading()}
+                <Header/>
+                {this.renderModal()}
+                {this.redderSelectModal()}
+                <div styleName="content">
+                    {this.renderName()}
+                    {/* {this.renderTime()} */}
+                    {this.renderCollect()}
                     <audio
-                        src={'//net.huanmusic.com/gasha/%E6%8E%89%E8%90%BD%E9%9F%B3%E6%95%88.mp3'}
+                        src={getGashapon.music_url
+                            ? `//${config.host.pic}/${getGashapon.music_url}`
+                            : '//b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
                         preload="metadata"
-                        autoPlay={false}
-                        ref={(drop) => { this.drop = drop; }}
+                        autoPlay={true}
+                        ref={(audio) => { this.audio = audio; }}
                         style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                        onCanPlay={() => this.handleAudioCanplay()}
+                        loop={true}
                     />
+                    {this.renderMusicIcon()}
+                    {this.renderDiscountButton()}
+                    <i styleName="barrage"/>
+                    <i styleName="chat"/>
 
-                    <audio
-                        src={'//net.huanmusic.com/gasha/123%E9%9F%B3%E6%95%88.mp3'}
-                        preload="metadata"
-                        autoPlay={false}
-                        ref={(success) => { this.success = success; }}
-                        style={{width: '1px', height: '1px', visibility: 'hidden'}}
-                    />
-
-                    <ErrorModal
-                        display={errorModal}
-                        value={modalValue}
-                        onConfirmClickHandle={this.onHideErrorModal}
-                    />
-                    <SignModal/>
-                    <ShareModal propsClickHandle={this.doDiscoutHandle}/>
-                    {this.renderDiscountModal()}
-                    {this.renderLoading()}
-                    <Header/>
-                    {this.renderModal()}
-                    {this.redderSelectModal()}
-                    <div styleName="content">
-                        {this.renderName()}
-                        {/* {this.renderTime()} */}
-                        {this.renderCollect()}
-                        <audio
-                            src={getGashapon.music_url
-                                ? `//${config.host.pic}/${getGashapon.music_url}`
-                                : '//b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
-                            preload="metadata"
-                            autoPlay={true}
-                            ref={(audio) => { this.audio = audio; }}
-                            style={{width: '1px', height: '1px', visibility: 'hidden'}}
-                            onCanPlay={() => this.handleAudioCanplay()}
-                            loop={true}
-                        />
-                        {this.renderMusicIcon()}
-                        {this.renderDiscountButton()}
-                        <i styleName="barrage"/>
-                        <i styleName="chat"/>
-
-                        <div styleName="main">
-                            {/* 渲染扭蛋图片 */}
-                            <div styleName="gashaponImagePart">
-                                <div 
-                                    styleName="centerClick"
-                                    onClick={this.doShowSelectModalHandle}
-                                />
-                            </div>
+                    <div styleName="main">
+                        {/* 渲染扭蛋图片 */}
+                        <div styleName="gashaponImagePart">
                             <div 
-                                bgimg-center="bgimg-center"
-                                styleName="gashaponImg"
-                                style={{backgroundImage: 
-                                        getGashapon.pics && getGashapon.pics[0]
-                                        ? `url(//${config.host.pic}/${getGashapon.pics[0]})`
-                                        : `url(${config.empty_pic.url})`}}
+                                styleName="centerClick"
+                                onClick={this.doShowSelectModalHandle}
                             />
-                            <i styleName="show" bgimg-center="100" onClick={() => this.goGashaponShow(getGashapon._id)}/>
-                            {this.renderStore()}
-                            <i styleName="button1" button-attr="button-attr" onClick={() => this.doGashaponHandle(3)}/>
-                            <i styleName="button2" button-attr="button-attr" onClick={() => this.doGashaponHandle(10)}/>
-                            <i styleName="button3" button-attr="button-attr" onClick={() => this.onTestOneTime()}/>
-                            <i styleName="button4" button-attr="button-attr" onClick={() => this.doGashaponHandle(1)}/>
                         </div>
+                        <div 
+                            bgimg-center="bgimg-center"
+                            styleName="gashaponImg"
+                            style={{backgroundImage: 
+                                    getGashapon.pics && getGashapon.pics[0]
+                                    ? `url(//${config.host.pic}/${getGashapon.pics[0]})`
+                                    : `url(${config.empty_pic.url})`}}
+                        />
+                        <i styleName="show" bgimg-center="100" onClick={() => this.goGashaponShow(getGashapon._id)}/>
+                        {this.renderStore()}
+                        <i styleName="button1" button-attr="button-attr" onClick={() => this.doGashaponHandle(3)}/>
+                        <i styleName="button2" button-attr="button-attr" onClick={() => this.doGashaponHandle(10)}/>
+                        <i styleName="button3" button-attr="button-attr" onClick={() => this.onTestOneTime()}/>
+                        <i styleName="button4" button-attr="button-attr" onClick={() => this.doGashaponHandle(1)}/>
                     </div>
                 </div>
-            </Hoc>
+            </div>
         );
     }
 
@@ -773,13 +779,14 @@ const mapStateToProps = (state: Stores) => ({
     getCreateDiscount   : getCreateDiscount(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions | HomeActions>) => ({
     loadGashapon            : bindActionCreators(loadGashapon, dispatch),
     changeGashaponLoading   : bindActionCreators(changeGashaponLoading, dispatch),
     showSignModal           : bindActionCreators(showSignModal, dispatch),
     showShareModal          : bindActionCreators(showShareModal, dispatch),
     loadGashaponDiscountById: bindActionCreators(loadGashaponDiscountById, dispatch),
-    receiveCreateDiscount   : bindActionCreators(receiveCreateDiscount, dispatch)
+    receiveCreateDiscount   : bindActionCreators(receiveCreateDiscount, dispatch),
+    loadUserDataFromUuid    : bindActionCreators(loadUserDataFromUuid, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 
