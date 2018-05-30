@@ -223,7 +223,16 @@ class AddAddress extends React.Component <Props, State> {
 
     public checkInput = (): CheckInputReturn => {
 
-        const { receiver, phone, detail_area, detail_home, postal_code, is_default  } = this.state;
+        const { 
+            receiver, 
+            phone, 
+            detail_home, 
+            postal_code, 
+            is_default,
+            province,
+            city,
+            area, 
+        } = this.state;
 
         const helper = new Validator();
 
@@ -245,10 +254,22 @@ class AddAddress extends React.Component <Props, State> {
             elementName : 'phone'
         }]);
 
-        helper.add(detail_area, [{
+        helper.add(province, [{
             strategy: 'isNonEmpty',
-            errorMsg: '请输入地区~',
-            elementName: 'detail_area'
+            errorMsg: '请选择地区~',
+            elementName: 'province'
+        }]);
+
+        helper.add(city, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请选择地区~',
+            elementName: 'city'
+        }]);
+
+        helper.add(area, [{
+            strategy: 'isNonEmpty',
+            errorMsg: '请选择地区~',
+            elementName: 'area'
         }]);
 
         helper.add(detail_home, [{
@@ -276,7 +297,14 @@ class AddAddress extends React.Component <Props, State> {
 
             return {
                 success : true,
-                data    : merge({}, { receiver, phone, detail_area, detail_home, postal_code, is_default }, {})
+                data    : merge({}, { 
+                    receiver, 
+                    phone, 
+                    detail_area: province.name + ' ' + city.name + ' ' + area.name, 
+                    detail_home, 
+                    postal_code, 
+                    is_default 
+                }, {})
             };
         }
     }
@@ -403,6 +431,7 @@ class AddAddress extends React.Component <Props, State> {
                     subTitle="保存"
                     subPropsClick={() => this.doSaveAddressHandle()}
                 />
+
                 <Modal
                     display={showModal}
                     value={modalValue}
@@ -525,7 +554,6 @@ class AddAddress extends React.Component <Props, State> {
         const { 
             receiver, 
             phone, 
-            detail_area, 
             detail_home, 
             postal_code,
             province,
@@ -545,13 +573,10 @@ class AddAddress extends React.Component <Props, State> {
                 value           : phone,
                 placeholder     : '请输入手机号码',
                 onChangeHandle  : this.onPhoneChangeHandle
-            },
-            {
-                title           : '地区',
-                value           : detail_area,
-                placeholder     : '省份 城市 县区',
-                onChangeHandle  : this.onAreaChangeHandle
-            },
+            }
+        ];
+
+        const secondData = [
             {
                 title           : '地址',
                 value           : detail_home,
@@ -583,6 +608,9 @@ class AddAddress extends React.Component <Props, State> {
                         {`${province.name ? province.name : ''}  ${city.name ? city.name : ''}  ${area.name ? area.name : ''}`}
                     </span>
                 </div>
+                {secondData.map((item: Item, i) => {
+                    return this.renderItem(item);
+                })}
             </div>
         );
     }

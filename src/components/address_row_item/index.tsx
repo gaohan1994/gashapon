@@ -16,6 +16,7 @@ import { Stores } from '../../reducers/type';
 export interface Props {
     data                : AddressType;
     propsClickHandle    ?: (address?: AddressType) => void;
+    boxClickHandle      ?: () => void;
     loadUserDataFromUuid?: () => void;
 }
 
@@ -60,7 +61,11 @@ class AddressItem extends React.Component <Props, State> {
 
     render (): JSX.Element {
         const { showDeleteModal } = this.state;
-        const { data, propsClickHandle } = this.props;
+        const { 
+            data, 
+            propsClickHandle, 
+            boxClickHandle 
+        } = this.props;
         return (
             <div styleName="item">
                 <Modal
@@ -69,7 +74,10 @@ class AddressItem extends React.Component <Props, State> {
                     onCancelClickHandle={this.onHideDeleteHandle}
                     onConfirmClickHandle={() => this.onConfirmHandle(data._id)}
                 />
-                <div styleName="border">
+                <div 
+                    styleName="border"
+                    onClick={boxClickHandle ? boxClickHandle : () => {/**/}}
+                >
     
                     <div styleName="box">
                         <span styleName="big">{data.receiver}</span>

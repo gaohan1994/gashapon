@@ -194,7 +194,6 @@ class Profit extends React.Component <Props, State> {
             history.push('/success');
         } else {
             
-            console.log(`${result.type}--${result.message}`);
             switch (result.message) {
                 case 'address':
                     history.push('/address');
@@ -328,7 +327,7 @@ class Profit extends React.Component <Props, State> {
                     />
                 </div>
                 
-                <div 
+                {/* <div 
                     styleName="way"
                     flex-center="all-center"
                     onClick={() => this.onChangePayWayHandle(2)}
@@ -349,14 +348,16 @@ class Profit extends React.Component <Props, State> {
                             background: payway === 2 ? '#f27a7a' : '#ffffff'
                         }}
                     />
-                </div>
+                </div> */}
             </div>
         );
     }
 
     private renderFooter = (): JSX.Element => {
 
-        const { getSelectedGashapons } = this.props;
+        const { 
+            getSelectedGashapons
+        } = this.props;
 
         return (
             <div styleName="footer">
@@ -373,7 +374,7 @@ class Profit extends React.Component <Props, State> {
                             {getSelectedGashapons && getSelectedGashapons.length 
                             ? getSelectedGashapons.length >= 9
                                 ? '￥0.00'
-                                : '￥10.00'
+                                : this.renderMoney()
                             : ''}
                             
                         </span>
@@ -386,6 +387,26 @@ class Profit extends React.Component <Props, State> {
                 />
             </div>
         );
+    }
+
+    private renderMoney = (): string => {
+
+        const { getSelectedAddress } = this.props;
+
+        if (!!getSelectedAddress) {
+            let money: number = 10;
+            if (new RegExp('西藏|新疆', 'g').test(getSelectedAddress.detail_area)) {
+                money = 15;
+            } else if (new RegExp('广西|青海|宁夏|贵州|云南|内蒙古', 'g').test(getSelectedAddress.detail_area)) {
+                money = 12;
+            } else {
+                money = 10;
+            }
+
+            return `￥${money}.00`;
+        } else {
+            return `￥10.00`;
+        }
     }
 
     private renderAddressModal = (): JSX.Element => {
@@ -411,7 +432,7 @@ class Profit extends React.Component <Props, State> {
                     <AddressItem 
                         data={item} 
                         key={i} 
-                        propsClickHandle={this.onAddressChangeHandle}
+                        boxClickHandle={() => this.onAddressChangeHandle(item)}
                     />
                 ))}
             </div>

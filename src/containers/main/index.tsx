@@ -121,7 +121,7 @@ class Main extends React.Component<Props, State> {
         if (!!data.flash_sale) {
             
             if (!!data.flash_sale.open_time) {
-                this.timer = setInterval(() => this.setDateHandle(data.flash_sale.end_time), 1000);
+                this.timer = setInterval(() => this.setDateHandle(data.flash_sale.start_time), 1000);
             }
         }
     }
