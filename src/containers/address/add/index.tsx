@@ -415,6 +415,16 @@ class AddAddress extends React.Component <Props, State> {
         this.onHideChoiceModal();
     }
 
+    public onShowChoiceOverseasHandle = (): void => {
+        
+        this.setState({
+            modalValue: `您选择收货地区为海外`
+                        + `特殊订单请联系客服（QQ：1763781972）。`
+                        + `-----订单不能正常提交`
+        });
+        this.onShowModal();
+    }
+
     render (): React.ReactNode {
 
         const { 
@@ -488,6 +498,7 @@ class AddAddress extends React.Component <Props, State> {
                     })}
                     <div 
                         styleName="addItem"
+                        onClick={this.onShowChoiceOverseasHandle}
                     >
                         海外其他
                     </div>
