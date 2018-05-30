@@ -61,7 +61,7 @@ export interface Props {
     loadAreas               : () => void;
     getProvinces            : Province[];
     getCities               : City[];
-    getAreas                : {}[];
+    getAreas                : Province[];
 }
 
 export interface State {
@@ -119,7 +119,7 @@ class AddAddress extends React.Component <Props, State> {
             modalType       : '',
             province        : {},
             city            : {},
-            area            : {}
+            area            : {},
         };
 
         this.onAddressChangeHandle = this.onAddressChangeHandle.bind(this);
@@ -389,7 +389,10 @@ class AddAddress extends React.Component <Props, State> {
 
     render (): React.ReactNode {
 
-        const { showModal, modalValue } = this.state;
+        const { 
+            showModal, 
+            modalValue 
+        } = this.state;
         return (
             <div
                 styleName="container"

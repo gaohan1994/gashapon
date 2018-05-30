@@ -32,8 +32,6 @@ import {
     changeGashaponLoading,
     loadGashaponDiscountById,
     receiveCreateDiscount,
-
-    loadGashaponComments
 } from '../../actions/gashapon';
 import { 
     StatusActions,
@@ -137,9 +135,11 @@ class Gashapon extends React.Component<Props, State> {
         const { 
             match,
             loadGashapon,
+            loadUserDataFromUuid,
         } = this.props;
-        console.log('willmount');
+
         loadGashapon(match.params.id);
+        loadUserDataFromUuid();
     }
 
     componentWillUnmount () {
@@ -226,7 +226,10 @@ class Gashapon extends React.Component<Props, State> {
 
     public doCollectGashaponHandle = async (): Promise<void> => {
 
-        const { getGashapon, showSignModal } = this.props;
+        const { 
+            getGashapon, 
+            showSignModal,
+        } = this.props;
         const user = User.getUser();
         
         if (!user.uid) {
@@ -242,6 +245,7 @@ class Gashapon extends React.Component<Props, State> {
             
             if (result.success === true) {
                 
+                // loadGashapon(match.params.id);
                 window.location.reload();
             } else {
                 console.log(`${result.type}--${result.message}`);
@@ -459,12 +463,16 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     public handleAudioCanplay = (): void => {
-        if (this.audio.paused === true) {
-            this.audio.play();
+
+        if (this.audio) {
+
+            if (this.audio.paused === true) {
+                this.audio.play();
+            }
+            this.setState({
+                audioPlaying: this.audio.paused === true ? false : true
+            });
         }
-        this.setState({
-            audioPlaying: this.audio.paused === true ? false : true
-        });
     }
 
     public handleDropPlay = (): void => {
@@ -521,6 +529,18 @@ class Gashapon extends React.Component<Props, State> {
                     style={{width: '1px', height: '1px', visibility: 'hidden'}}
                 />
 
+                <audio
+                    src={getGashapon.music_url
+                        ? `//${config.host.pic}/${getGashapon.music_url}`
+                        : '//b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
+                    preload="metadata"
+                    autoPlay={true}
+                    ref={(audio) => { this.audio = audio; }}
+                    style={{width: '1px', height: '1px', visibility: 'hidden'}}
+                    onCanPlay={() => this.handleAudioCanplay()}
+                    loop={true}
+                />
+
                 <ErrorModal
                     display={errorModal}
                     value={modalValue}
@@ -534,27 +554,17 @@ class Gashapon extends React.Component<Props, State> {
                 {this.renderModal()}
                 {this.redderSelectModal()}
                 <div styleName="content">
+
                     {this.renderName()}
-                    {/* {this.renderTime()} */}
                     {this.renderCollect()}
-                    <audio
-                        src={getGashapon.music_url
-                            ? `//${config.host.pic}/${getGashapon.music_url}`
-                            : '//b.hy233.tv/36fba583-9c93-4fd4-acbb-a94aaa3f82ba.aac?sign=f41ef738dc5cb6f72a4ebb80ec9cfced&t=5adeae2d'}
-                        preload="metadata"
-                        autoPlay={true}
-                        ref={(audio) => { this.audio = audio; }}
-                        style={{width: '1px', height: '1px', visibility: 'hidden'}}
-                        onCanPlay={() => this.handleAudioCanplay()}
-                        loop={true}
-                    />
+
                     {this.renderMusicIcon()}
                     {this.renderDiscountButton()}
+
                     <i styleName="barrage"/>
                     <i styleName="chat"/>
 
                     <div styleName="main">
-                        {/* 渲染扭蛋图片 */}
                         <div styleName="gashaponImagePart">
                             <div 
                                 styleName="centerClick"
@@ -665,7 +675,7 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋标题
      */
     private renderName = (): JSX.Element => {
-
+        // console.log(this.renderName);
         const { getGashapon } = this.props;
         return (
             <div styleName="name" word-overflow="word-overflow">
@@ -680,7 +690,6 @@ class Gashapon extends React.Component<Props, State> {
      */
     private renderTime = (): JSX.Element => {
         console.log(this.renderTime);
-
         const { getGashapon } = this.props;
         return (
             <div styleName="time" word-overflow="word-overflow">
@@ -691,21 +700,30 @@ class Gashapon extends React.Component<Props, State> {
 
     /*渲染 是否收藏*/
     private renderCollect = (): JSX.Element | string => {
-
-        const { getUserdata, match } = this.props;
         
+        const { 
+            getUserdata,
+            match
+        } = this.props;
+
         if (getUserdata.collect_machines) {
-            const result = getUserdata.collect_machines 
-                        && getUserdata.collect_machines
-                        && getUserdata.collect_machines.findIndex(item => item._id === match.params.id);
             
+            let result: boolean = false;
+            // getUserdata.collect_machines && getUserdata.collect_machines.some(item => item._id === match.params.id);
+
+            for (let i = 0; i < getUserdata.collect_machines.length; i++) {
+                if (getUserdata.collect_machines[i]._id === match.params.id) {
+                    result = true;
+                }
+            }
+
             return (
                 <i 
-                    onClick={typeof(result) === 'number' && result !== -1 
+                    onClick={result === true
                             ? this.doCancelCollectGashaponHandle
                             : this.doCollectGashaponHandle}
                     bgimg-center="100"
-                    styleName={typeof(result) === 'number' && result !== -1 
+                    styleName={result === true
                                 ? 'notcollect'
                                 : 'collect'}
                 />
@@ -719,7 +737,7 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋音乐播放开关
      */
     private renderMusicIcon = (): JSX.Element => {
-
+        // console.log(this.renderMusicIcon);
         const { audioPlaying } = this.state;
         return (
             <i 
@@ -739,7 +757,6 @@ class Gashapon extends React.Component<Props, State> {
      * 渲染扭蛋库存
      */
     private renderStore = (): JSX.Element => {
-
         const { getGashapon } = this.props;
         return (
             <div styleName="store">
@@ -756,19 +773,24 @@ class Gashapon extends React.Component<Props, State> {
     /**
      * 渲染生成砍价链接按钮
      */
-    private renderDiscountButton = (): JSX.Element | string => {
-        
-        const { getGashapon, /*showShareModal*/ } = this.props;
-        if (getGashapon.is_discount === true) {
-            return (
-                <div 
-                    styleName="discount"
-                    bgimg-center="100"
-                    onClick={this.onShowDiscountModal}
-                />
-            );
+    private renderDiscountButton = (): JSX.Element => {
+        // console.log(this.renderDiscountButton);
+        const { getGashapon } = this.props;
+        if (!!getGashapon) {
+
+            if (getGashapon.is_discount === true) {
+                return (
+                    <div 
+                        styleName="discount"
+                        bgimg-center="100"
+                        onClick={this.onShowDiscountModal}
+                    />
+                );
+            } else {
+                return <span/>;
+            }
         } else {
-            return '';
+            return <span/>;
         }        
     }
 }
@@ -790,9 +812,7 @@ const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions | Hom
     showShareModal          : bindActionCreators(showShareModal, dispatch),
     loadGashaponDiscountById: bindActionCreators(loadGashaponDiscountById, dispatch),
     receiveCreateDiscount   : bindActionCreators(receiveCreateDiscount, dispatch),
-    loadUserDataFromUuid    : bindActionCreators(loadUserDataFromUuid, dispatch),
-
-    loadGashaponComments    : bindActionCreators(loadGashaponComments, dispatch),
+    loadUserDataFromUuid    : bindActionCreators(loadUserDataFromUuid, dispatch)
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

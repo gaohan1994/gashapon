@@ -205,7 +205,7 @@ export const loadProvinces = () => (dispatch: Dispatch<HomeActions>, state: () =
         const data = state().home.provinces;
 
         if (data.length === 0) {
-            fetch(`http://net.huanmusic.com/gasha/provinces.json`)
+            fetch(`//net.huanmusic.com/gasha/provinces.json`)
             .then(res => res.json())
             .then(res => {
                 dispatch({type: constants.RECEIVE_PROVINCES, provinces: res});
@@ -223,7 +223,7 @@ export const loadCities = () => (dispatch: Dispatch<HomeActions>, state: () => S
         const data = state().home.cities;
 
         if (data.length === 0) {
-            fetch(`http://net.huanmusic.com/gasha/cities.json`)
+            fetch(`//net.huanmusic.com/gasha/cities.json`)
             .then(res => res.json())
             .then(res => {
                 dispatch({type: constants.RECEIVE_CITIES, cities: res});
@@ -242,7 +242,7 @@ export const loadAreas = () => (dispatch: Dispatch<HomeActions>, state: () => St
         const data = state().home.areas;
 
         if (data.length === 0) {
-            fetch(`http://net.huanmusic.com/gasha/areas.json`)
+            fetch(`//net.huanmusic.com/gasha/areas.json`)
             .then(res => res.json())
             .then(res => {
                 dispatch({type: constants.RECEIVE_AREAS, areas: res});

@@ -51,7 +51,6 @@ export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                alert(res.result._id);
                 dispatch({type: constants.RECEIVE_GASHAPON, gashapon: res.result});
             } else {
                 throw new Error('fetch callback error');
