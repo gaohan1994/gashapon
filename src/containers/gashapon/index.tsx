@@ -32,6 +32,8 @@ import {
     changeGashaponLoading,
     loadGashaponDiscountById,
     receiveCreateDiscount,
+
+    loadGashaponComments
 } from '../../actions/gashapon';
 import { 
     StatusActions,
@@ -135,11 +137,9 @@ class Gashapon extends React.Component<Props, State> {
         const { 
             match,
             loadGashapon,
-            loadUserDataFromUuid,
         } = this.props;
-
+        console.log('willmount');
         loadGashapon(match.params.id);
-        loadUserDataFromUuid();
     }
 
     componentWillUnmount () {
@@ -311,7 +311,9 @@ class Gashapon extends React.Component<Props, State> {
             const shareConfig = {
                 url         : `${config.url}/discount/${getCreateDiscount}`,
                 title       : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
-                pic         : `//${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`,
+                pic         : getGashapon.pics && getGashapon.pics[0]
+                            ? `//${config.host.pic}/${getGashapon.pics && getGashapon.pics[0]}`
+                            : `${config.empty_pic.url}`,
                 description : `我在嘀哩扭蛋发现了一个超好玩的${getGashapon.name}，快来帮我砍价吧！`,
             };
 
@@ -497,8 +499,10 @@ class Gashapon extends React.Component<Props, State> {
     }
 
     render (): JSX.Element {
+        
         const { errorModal, modalValue } = this.state;
         const { getGashapon } = this.props;
+        
         return (
             <div styleName="container" bg-white="true">
                 <audio
@@ -787,6 +791,8 @@ const mapDispatchToProps = (dispatch: Dispatch<MainActions | StatusActions | Hom
     loadGashaponDiscountById: bindActionCreators(loadGashaponDiscountById, dispatch),
     receiveCreateDiscount   : bindActionCreators(receiveCreateDiscount, dispatch),
     loadUserDataFromUuid    : bindActionCreators(loadUserDataFromUuid, dispatch),
+
+    loadGashaponComments    : bindActionCreators(loadGashaponComments, dispatch),
 });
 
 const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

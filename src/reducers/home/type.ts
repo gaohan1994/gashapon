@@ -4,4 +4,7 @@ export type Home = {
     gashapons   : object[];
     code        : object;
     count       : number[];
+    provinces   : object[];
+    cities      : object[];
+    areas       : object[];
 };

@@ -17,12 +17,51 @@ import {
     setOrderAddressConfig,
 } from '../../../actions/status';
 import { getConfig } from '../../../reducers/status';
+import { 
+    HomeActions,
+    loadProvinces,
+    loadCities,
+    loadAreas
+} from '../../../actions/home';
+import { 
+    getProvinces,
+    getCities,
+    getAreas
+} from '../../../reducers/home';
 import { orderAddressConfig } from '../../../types/componentTypes';
 import Modal from '../../../components/modal';
+
+export interface Province {
+    name?: string;
+    code?: string;
+}
+
+export interface City {
+    code?: string;
+    name?: string;
+    provinceCode?: string;
+}
+
+export interface Area {
+    code?: string;
+    name?: string;
+    provinceCode?: string;
+    cityCode?: string;
+}
+
+export interface Area {
+    code?: string;
+}
 
 export interface Props {
     getConfig               : orderAddressConfig;
     setOrderAddressConfig   : (config: orderAddressConfig) => void;
+    loadProvinces           : () => void;
+    loadCities              : () => void;
+    loadAreas               : () => void;
+    getProvinces            : Province[];
+    getCities               : City[];
+    getAreas                : {}[];
 }
 
 export interface State {
@@ -35,6 +74,11 @@ export interface State {
     showModal       : boolean;
     modalValue      : string;
     showChoiceModal : boolean;
+
+    modalType       : string;
+    province        : Province;
+    city            : City;
+    area            : Area;
 }
 
 export interface Item {
@@ -71,6 +115,11 @@ class AddAddress extends React.Component <Props, State> {
             showModal       : false,
             modalValue      : '',
             showChoiceModal : false,
+
+            modalType       : '',
+            province        : {},
+            city            : {},
+            area            : {}
         };
 
         this.onAddressChangeHandle = this.onAddressChangeHandle.bind(this);
@@ -89,6 +138,13 @@ class AddAddress extends React.Component <Props, State> {
         this.renderDefault = this.renderDefault.bind(this);
         this.renderDetail = this.renderDetail.bind(this);
         this.renderItem = this.renderItem.bind(this);
+    }
+
+    componentWillMount (): void {
+        const { loadProvinces, loadAreas, loadCities } = this.props;
+        loadProvinces();
+        loadAreas();
+        loadCities();
     }
 
     public onNameChangeHandle = (event: any): void => {
@@ -141,7 +197,21 @@ class AddAddress extends React.Component <Props, State> {
 
     public onShowChoiceModal = (): void => {
         this.setState({
-            showChoiceModal: true
+            showChoiceModal : true,
+            modalType       : 'province',
+            province        : {},
+            city            : {},
+            area            : {}
+        });
+    }
+
+    public onCancelChoiceModal = (): void => {
+        this.setState({
+            showChoiceModal: false,
+            modalType: '',
+            province: {},
+            city: {},
+            area: {}
         });
     }
 
@@ -153,7 +223,7 @@ class AddAddress extends React.Component <Props, State> {
 
     public checkInput = (): CheckInputReturn => {
 
-        const { receiver, phone, detail_area, detail_home, postal_code  } = this.state;
+        const { receiver, phone, detail_area, detail_home, postal_code, is_default  } = this.state;
 
         const helper = new Validator();
 
@@ -206,7 +276,7 @@ class AddAddress extends React.Component <Props, State> {
 
             return {
                 success : true,
-                data    : merge({}, this.state, {})
+                data    : merge({}, { receiver, phone, detail_area, detail_home, postal_code, is_default }, {})
             };
         }
     }
@@ -260,7 +330,64 @@ class AddAddress extends React.Component <Props, State> {
         }
     }
 
-    render (): JSX.Element {
+    public onSaveProvince = (param: Province): void => {
+        this.setState({
+            province: param
+        });
+    }
+
+    public onSaveCity = (param: City): void => {
+        this.setState({
+            city: param
+        });
+    }
+
+    public onSaveArea = (param: Area): void => {
+        this.setState({
+            area: param
+        });
+    }
+
+    public changeModalType = (param: string): void => {
+        this.setState({
+            modalType: param
+        });
+    }
+
+    /**
+     * 保存Province
+     * 修改ModalType = city
+     * @memberof AddAddress
+     */
+    public onProvinceClickHandle = (item: Province): void => {
+
+        this.onSaveProvince(item);
+        this.changeModalType('city');
+    }
+
+    /**
+     * 保存Province
+     * 修改ModalType = area
+     * @memberof AddAddress
+     */
+    public onCityClickHandle = (item: City): void => {
+
+        this.onSaveCity(item);
+        this.changeModalType('area');
+    }
+
+    /**
+     * 保存Province
+     * 关闭modal
+     * @memberof AddAddress
+     */
+    public onAreaClickHandle = (item: Area): void => {
+
+        this.onSaveArea(item);
+        this.onHideChoiceModal();
+    }
+
+    render (): React.ReactNode {
 
         const { showModal, modalValue } = this.state;
         return (
@@ -273,7 +400,6 @@ class AddAddress extends React.Component <Props, State> {
                     subTitle="保存"
                     subPropsClick={() => this.doSaveAddressHandle()}
                 />
-
                 <Modal
                     display={showModal}
                     value={modalValue}
@@ -289,7 +415,18 @@ class AddAddress extends React.Component <Props, State> {
 
     private renderChangeAddressModal = (): JSX.Element => {
 
-        const { showChoiceModal } = this.state;
+        const { 
+            showChoiceModal, 
+            modalType,
+            province,
+            city,
+        } = this.state;
+
+        const {
+            getProvinces,
+            getCities,
+            getAreas
+        } = this.props;
 
         return (
             <div
@@ -298,13 +435,75 @@ class AddAddress extends React.Component <Props, State> {
                     visibility  : showChoiceModal === true ? 'visible' : 'hidden',
                     opacity     : showChoiceModal === true ? 1 : 0
                 }}
-                onClick={this.onHideChoiceModal}
             >
-                <Header title="选择地区"/>
-                <div styleName="choinceContent">
-                    content
+                <Header 
+                    title="选择地区"
+                    propsClick={this.onCancelChoiceModal}
+                />
+
+                {modalType === 'province'
+                ? <div styleName="choinceContent">
+                    {getProvinces.map((item: Province) => {
+                        return (
+                            <div 
+                                styleName="addItem" 
+                                key={item.code}
+                                onClick={() => this.onProvinceClickHandle(item)}
+                            >
+                                {item.name}
+                            </div>
+                        );
+                    })}
+                    <div 
+                        styleName="addItem"
+                    >
+                        海外其他
+                    </div>
                 </div>
-                
+                : ''}
+
+                {modalType === 'city'
+                ? <div styleName="choinceContent">
+                    {getCities.map((item: City) => {
+                        if (item.provinceCode === province.code) {
+                            return (
+                                <div
+                                    styleName="addItem" 
+                                    key={item.code}
+                                    onClick={() => this.onCityClickHandle(item)}
+                                >
+                                    {item.name}
+                                </div>
+                            );
+                        } else {
+                            return '';
+                        }
+                    })}
+                </div>
+                : ''}
+
+                {modalType === 'area'
+                ? <div styleName="choinceContent">
+                    {getAreas.map((item: Area) => {
+                        if (
+                            item.provinceCode === province.code
+                            && item.cityCode === city.code
+                        ) {
+                            return (
+                                <div 
+                                    styleName="addItem" 
+                                    key={item.code}
+                                    onClick={() => this.onAreaClickHandle(item)}
+                                >
+                                    {item.name}
+                                </div>
+                            );
+                        } else {
+                            return '';
+                        }
+                    })}
+                </div>
+                : ''}
             </div>
         );
     }
@@ -320,7 +519,16 @@ class AddAddress extends React.Component <Props, State> {
 
     private renderDetail = (): JSX.Element => {
 
-        const { receiver, phone, detail_area, detail_home, postal_code  } = this.state;
+        const { 
+            receiver, 
+            phone, 
+            detail_area, 
+            detail_home, 
+            postal_code,
+            province,
+            city,
+            area
+        } = this.state;
 
         const data: Item[] = [
             {
@@ -368,7 +576,9 @@ class AddAddress extends React.Component <Props, State> {
                     <span 
                         styleName="input"
                         onClick={this.onShowChoiceModal}
-                    />
+                    >
+                        {`${province.name ? province.name : ''}  ${city.name ? city.name : ''}  ${area.name ? area.name : ''}`}
+                    </span>
                 </div>
             </div>
         );
@@ -415,11 +625,17 @@ class AddAddress extends React.Component <Props, State> {
 const AddAddressHoc = CSSModules(AddAddress, styles);
 
 export const mapStateToProps = (state: Stores) => ({
-    getConfig: getConfig(state),
+    getConfig   : getConfig(state),
+    getProvinces: getProvinces(state),
+    getCities   : getCities(state),
+    getAreas    : getAreas(state),
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch<StatusActions>, state: Stores) => ({
-    setOrderAddressConfig: bindActionCreators(setOrderAddressConfig, dispatch)
+export const mapDispatchToProps = (dispatch: Dispatch<StatusActions | HomeActions>, state: Stores) => ({
+    setOrderAddressConfig   : bindActionCreators(setOrderAddressConfig, dispatch),
+    loadProvinces           : bindActionCreators(loadProvinces, dispatch),
+    loadCities              : bindActionCreators(loadCities, dispatch),
+    loadAreas               : bindActionCreators(loadAreas, dispatch),
 });
 
 export const mergeProps = (stateProps: Object, dispatchProps: Object, ownProps: Object) => 

@@ -6,6 +6,9 @@ import {
     RECEIVE_HOME_COLLECT,
     RECEIVE_CODE,
     RECEIVE_OREDER_COUNT,
+    RECEIVE_PROVINCES,
+    RECEIVE_CITIES,
+    RECEIVE_AREAS,
 } from '../../constants/home';
 import initState from './state';
 import { merge } from 'lodash';
@@ -33,6 +36,21 @@ export default function home (state: Home = initState, action: HomeActions): Hom
             state.count = count;
             return merge({}, state, {});
 
+        case RECEIVE_PROVINCES:
+            const { provinces } = action;
+            state.provinces = provinces;
+            return merge({}, state, {});
+
+        case RECEIVE_CITIES:
+            const { cities } = action;
+            state.cities = cities;
+            return merge({}, state, {});
+
+        case RECEIVE_AREAS:
+            const { areas } = action;
+            state.areas = areas;
+            return merge({}, state, {});
+
         default :
             return state;
     }
@@ -45,3 +63,9 @@ export const getCollectGashapons = (state: Stores) => state.home.gashapons;
 export const getCode = (state: Stores) => state.home.code;
 
 export const getCount = (state: Stores) => state.home.count;
+
+export const getProvinces = (state: Stores) => state.home.provinces;
+
+export const getCities = (state: Stores) => state.home.cities;
+
+export const getAreas = (state: Stores) => state.home.areas;

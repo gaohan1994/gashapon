@@ -32,7 +32,7 @@ class Share {
     doShare () {
 
         try {
-            console.log(mobShare);
+            // console.log(mobShare);
             mobShare.config({
                 debug: true, // 开启调试，将在浏览器的控制台输出调试信息
                 appkey: '227cacf4a7474', // appkey

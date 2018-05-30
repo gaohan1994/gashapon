@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { Gashapon, OrderCount } from '../types/componentTypes';
 import { getAccessToken } from '../config/util';
 import User from '../classes/user';
+import { Stores } from '../reducers/type';
 // import config from '../config/index';
 
 export interface LoadUserData {
@@ -32,12 +33,30 @@ export interface LoadOrderCount {
     count   : OrderCount;
 }
 
+export interface LoadProvinces {
+    type: constants.RECEIVE_PROVINCES;
+    provinces: {}[];
+}
+
+export interface LoadCities {
+    type: constants.RECEIVE_CITIES;
+    cities: {}[];
+}
+
+export interface LoadAreas {
+    type: constants.RECEIVE_AREAS;
+    areas: {}[];
+}
+
 export type HomeActions = 
     LoadUserData 
     | LoadCollectGashapons 
     | LoadCode
     | LoadUserDataFromUuid
-    | LoadOrderCount;
+    | LoadOrderCount
+    | LoadProvinces
+    | LoadCities
+    | LoadAreas;
 
 export const loadUserData = (userId: string) => (dispatch: Dispatch<HomeActions>): void => {
     if (!userId) {
@@ -177,5 +196,60 @@ export const loadOrderCount = (uid: string) => (dispatch: Dispatch<HomeActions>)
         });
     } catch (err) {
         console.log('loadOrderCount', err);
+    }
+};
+
+export const loadProvinces = () => (dispatch: Dispatch<HomeActions>, state: () => Stores): void => {
+    
+    try {
+        const data = state().home.provinces;
+
+        if (data.length === 0) {
+            fetch(`http://net.huanmusic.com/gasha/provinces.json`)
+            .then(res => res.json())
+            .then(res => {
+                dispatch({type: constants.RECEIVE_PROVINCES, provinces: res});
+            });
+        }
+        
+    } catch (err) {
+        console.log('loadProvinces', err);
+    }
+};
+
+export const loadCities = () => (dispatch: Dispatch<HomeActions>, state: () => Stores): void => {
+    
+    try {
+        const data = state().home.cities;
+
+        if (data.length === 0) {
+            fetch(`http://net.huanmusic.com/gasha/cities.json`)
+            .then(res => res.json())
+            .then(res => {
+                dispatch({type: constants.RECEIVE_CITIES, cities: res});
+            });
+        }
+        
+    } catch (err) {
+        console.log('loadCities', err);
+    }
+};
+
+export const loadAreas = () => (dispatch: Dispatch<HomeActions>, state: () => Stores): void => {
+    
+    try {
+
+        const data = state().home.areas;
+
+        if (data.length === 0) {
+            fetch(`http://net.huanmusic.com/gasha/areas.json`)
+            .then(res => res.json())
+            .then(res => {
+                dispatch({type: constants.RECEIVE_AREAS, areas: res});
+            });
+        }
+        
+    } catch (err) {
+        console.log('loadAreas', err);
     }
 };

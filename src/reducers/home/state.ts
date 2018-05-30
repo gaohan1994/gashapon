@@ -2,5 +2,8 @@ export default {
     userdata    : {},
     gashapons   : [],
     code        : {},
-    count       : []
+    count       : [],
+    provinces   : [],
+    cities      : [],
+    areas       : []
 };
