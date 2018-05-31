@@ -98,6 +98,11 @@ export const browser = {
 
 export const inApp = !!navigator.userAgent.toLowerCase().match('gacha'); 
 
+export const isMobile = (): boolean => {
+  let reg = /blackberry|iphone|webos|nokia|mobile|android|ipod/;
+  return reg.test(navigator.userAgent.toLowerCase());
+};
+
 export const timeFn = (d1: string): string => {
     /* 
     /di作为一个变量传进来

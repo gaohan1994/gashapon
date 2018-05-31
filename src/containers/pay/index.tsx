@@ -18,7 +18,7 @@ import User from '../../classes/user';
 import config from '../../config';
 import * as QRcode from 'qrcode.react';
 import Modal from '../../components/modal';
-import { inApp } from '../../config/util';
+import { inApp, isMobile } from '../../config/util';
 import Schema, { SchemaConfig } from '../../classes/schema';
 import { HomeActions, loadUserDataFromUuid } from '../../actions/home';
 
@@ -34,7 +34,30 @@ interface State {
 
     showModal   : boolean;
     modalValue  : string;
+
+    payway      : 1 | 2;
+    
 }
+
+const Payways: Array<{
+    _id: number;
+    value: string;
+    type: 1 | 2;
+    img: string;
+}> = [
+    {
+        _id: 2,
+        value: '微信',
+        type: 2,
+        img: '//net.huanmusic.com/gasha/%E5%BE%AE%E4%BF%A1.png'
+    },
+    {
+        _id: 1,
+        value: '支付宝',
+        type: 1,
+        img: '//net.huanmusic.com/gasha/%E6%94%AF%E4%BB%98%E5%AE%9D.png'
+    },
+];
 
 class Pay extends React.Component<Props, State> {
 
@@ -44,7 +67,8 @@ class Pay extends React.Component<Props, State> {
             showQrcode  : false,
             qrcodeUrl   : '',
             showModal   : false,
-            modalValue  : ''
+            modalValue  : '',
+            payway      : 2,
         };
         this.onClickHandle = this.onClickHandle.bind(this);
         this.doNavHandle = this.doNavHandle.bind(this);
@@ -54,10 +78,12 @@ class Pay extends React.Component<Props, State> {
         this.onShowModal = this.onShowModal.bind(this);
         this.onHideModal = this.onHideModal.bind(this);
         this.renderInput = this.renderInput.bind(this);
+        this.onChangePayWayHandle = this.onChangePayWayHandle.bind(this);
+        this.renderPayway = this.renderPayway.bind(this);
     }
 
     public onClickHandle = async (): Promise<void> => {
-        const { value } = this.state;
+        const { value, payway } = this.state;
         const { getUserdata } = this.props;
 
         if (!value) {
@@ -93,28 +119,67 @@ class Pay extends React.Component<Props, State> {
                 const recharge = await Business.doRechargeMethod({
                     user    : user,
                     value   : value,
-                    app     : inApp
+                    app     : inApp,
+                    type    : payway
                 });
-                
+
                 if (recharge.success === true) {
 
                     if (inApp === true) {
-                        const config: SchemaConfig = {
-                            protocal: 'dgacha',
-                            schema  : `pay/${recharge.result},${value},${user.uid}`
-                        };
 
-                        const schema = new Schema(config);
-                        schema.loadSchema();
+                        /*
+                         * APP
+                         * 微信schema
+                         * 支付宝二维码
+                         */
+                        if (payway === 2) {
+
+                            const config: SchemaConfig = {
+                                protocal: 'dgacha',
+                                schema  : `wxpay/${recharge.result},${value},${user.uid}`
+                            };
+    
+                            const schema = new Schema(config);
+                            schema.loadSchema();
+
+                        } else {
+
+                            // window.location.href = `${recharge.result}`;
+                            const config: SchemaConfig = {
+                                protocal: 'dgacha',
+                                schema  : process.env.NODE_ENV === 'production'
+                                            ? `alipay/${recharge.result},https://gacha.hy233.tv/my`
+                                            : `alipay/${recharge.result},https://gacha-dev.hy233.tv/my`
+                            };
+    
+                            const schema = new Schema(config);
+                            schema.loadSchema();
+                        }
                     } else {
                         
-                        this.setState({
-                            qrcodeUrl: recharge.result
-                        }, () => { 
-                            this.showQrcodeHandle(); 
-                        });
-                    }
+                        /* 
+                         * PC 显示二维码
+                         * H5
+                         * 点微信去下载
+                         * 支付宝打开地址二维码
+                         */
 
+                        if (isMobile() === true) {
+
+                            if (payway === 2) {
+                                window.location.href = '//www.pgyer.com/DLND';
+                            } else {
+                                window.location.href = `${recharge.result}`;
+                            }
+                        } else {
+                            
+                            this.setState({
+                                qrcodeUrl: recharge.result
+                            }, () => { 
+                                this.showQrcodeHandle(); 
+                            });
+                        }
+                    }
                 } else {
                     console.log(`${recharge.type}--${recharge.message}`);
                     this.setState({
@@ -160,13 +225,19 @@ class Pay extends React.Component<Props, State> {
         });
     }
 
+    public onChangePayWayHandle = (param: 1 | 2) => {
+        this.setState({
+            payway: param
+        });
+    }
+
     render() {
         
         const { 
             showQrcode, 
             qrcodeUrl,
             showModal,
-            modalValue
+            modalValue,
         } = this.state;
         const { getUserdata } = this.props;
         
@@ -197,7 +268,6 @@ class Pay extends React.Component<Props, State> {
                             clickHandle={() => this.hideQrcodeHandle()}
                         />
                     </div>
-                    
                 </div>
                
                 <Header 
@@ -225,6 +295,7 @@ class Pay extends React.Component<Props, State> {
                             : '0.00'}元
                         </span>
                     </div>
+                    {this.renderPayway()}
                 </div>
 
                 <div 
@@ -239,6 +310,47 @@ class Pay extends React.Component<Props, State> {
                         // clickHandle={() => this.showQrcodeHandle()}
                     />
                 </div>
+            </div>
+        );
+    }
+
+    private renderPayway = (): JSX.Element => {
+
+        const { payway } = this.state;
+        return (
+            <div styleName="ways">
+                <span font-s="30" styleName="paytext">选择支付方式</span>
+               
+                {Payways.map(item => {
+                    return (
+                        <div
+                            key={item._id}
+                            styleName="way"
+                            flex-center="all-center"
+                            onClick={() => this.onChangePayWayHandle(item.type)}
+                        >
+                            <i 
+                                styleName="wayicon" 
+                                bgimg-center="100"
+                                style={{backgroundImage: `url(${item.img})`}}
+                            />
+                            <div styleName="waycontent" >
+                                <span font-s="30" style={{color: payway === item.type ? '#fea270' : '#444444'}}>
+                                    使用{item.value}支付
+                                    {item.value === '微信' ? `（推荐使用）` : ''}
+                                </span>
+                                {/* <span font-s="24" style={{color: payway === 1 ? '#fea270' : '#444444'}}>使用余额</span> */}
+                            </div>
+                            <i 
+                                styleName="waystatus" 
+                                bgimg-center="100"
+                                style={{
+                                    background: payway === item.type ? '#f27a7a' : '#ffffff'
+                                }}
+                            />
+                        </div>
+                    );
+                })}
             </div>
         );
     }

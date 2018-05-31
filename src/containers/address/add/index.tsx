@@ -8,8 +8,8 @@ import Validator from '../../../classes/validate';
 import history from '../../../history';
 import { connect } from 'react-redux';
 import { 
-    Dispatch, 
-    bindActionCreators 
+    Dispatch,
+    bindActionCreators
 } from 'redux';
 import { Stores } from '../../../reducers/type';
 import { 
@@ -207,11 +207,11 @@ class AddAddress extends React.Component <Props, State> {
 
     public onCancelChoiceModal = (): void => {
         this.setState({
-            showChoiceModal: false,
-            modalType: '',
-            province: {},
-            city: {},
-            area: {}
+            showChoiceModal : false,
+            modalType       : '',
+            province        : {},
+            city            : {},
+            area            : {}
         });
     }
 
@@ -223,15 +223,15 @@ class AddAddress extends React.Component <Props, State> {
 
     public checkInput = (): CheckInputReturn => {
 
-        const { 
-            receiver, 
-            phone, 
-            detail_home, 
-            postal_code, 
+        const {
+            receiver,
+            phone,
+            detail_home,
+            postal_code,
             is_default,
             province,
             city,
-            area, 
+            area
         } = this.state;
 
         const helper = new Validator();
@@ -326,8 +326,8 @@ class AddAddress extends React.Component <Props, State> {
             if (result.success === true) {
 
                 /*
-                 * 如果有config的path 走config的path 之后置空
-                 * 如果没有config的path 正常走
+                 * 如果 有config的path 走config的path 之后置空
+                 * 如果 没有config的path 正常走
                  */
                 if (!getConfig.path) {
 

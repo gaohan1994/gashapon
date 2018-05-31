@@ -182,7 +182,14 @@ class Address extends React.Component <Props, State> {
 
     public checkInput = (): CheckInputReturn => {
 
-        const { receiver, phone, detail_area, detail_home, postal_code, is_default  } = this.state;
+        const { 
+            receiver, 
+            phone, 
+            detail_area, 
+            detail_home, 
+            postal_code, 
+            is_default
+        } = this.state;
 
         const helper = new Validator();
 
@@ -254,12 +261,14 @@ class Address extends React.Component <Props, State> {
                 this.onClearStateHandle();
                 this.onHideModifyAddress();
             } else {
+
                 this.setState({
                     modalValue: result.message ? result.message : '修改地址失败!'
                 });
                 this.onShowModal();
             }
         } else {
+
             this.setState({
                 modalValue: data.message ? data.message : '请校验输入的数据'
             });
@@ -299,7 +308,6 @@ class Address extends React.Component <Props, State> {
                 : ''}
 
                 {this.renderFooter()}
-
                 {this.renderModifyAddress()}
             </div>
         );

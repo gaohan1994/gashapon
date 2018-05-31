@@ -135,8 +135,8 @@ class Business {
         } catch (err) {
             console.log('回收失败', err);
             return {
-                type: 'ERROR_ORDER',
-                message: '回收失败'
+                type    : 'ERROR_ORDER',
+                message : '回收失败'
             };
         }
     }
@@ -164,8 +164,8 @@ class Business {
         } catch (err) {
             console.log(err.message);
             return {
-                type: 'GET_WRONG_PARAM',
-                message: err.message
+                type    : 'GET_WRONG_PARAM',
+                message : err.message ? err.message : '数据错误'
             };
         }
 
@@ -200,7 +200,6 @@ class Business {
             }
 
         } catch (err) {
-            console.log('充值失败', err);
             return {
                 type    : 'ERROR_RECHARGE',
                 message : err.message ? err.message : '充值失败'
