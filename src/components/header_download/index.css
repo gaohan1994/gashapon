@@ -1,5 +1,4 @@
 .container {
-    
     width: 750;
     height: 90px;
     background: #ffffff;
@@ -25,7 +24,7 @@
 .logo {
     width: 236px;
     height: 50px;
-    background-image: url('//net.huanmusic.com/www/h5/%E5%B9%BB%E9%9F%B3logo2.png');
+    background-image: url('//net.huanmusic.com/gasha/%E5%98%80%E5%93%A9.png');
     float: left;
     margin: 20px 0 0 30px;
 }

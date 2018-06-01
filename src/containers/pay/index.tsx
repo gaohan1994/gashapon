@@ -167,7 +167,7 @@ class Pay extends React.Component<Props, State> {
                         if (isMobile() === true) {
 
                             if (payway === 2) {
-                                window.location.href = '//www.pgyer.com/DLND';
+                                window.location.href = `${config.downloadUrl}`;
                             } else {
                                 window.location.href = `${recharge.result}`;
                             }

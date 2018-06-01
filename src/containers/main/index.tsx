@@ -28,7 +28,7 @@ import {
 } from '../../actions/main';
 import { loadNotifies } from '../../actions/status';
 import { getData } from '../../reducers/main';
-import { timeFn } from '../../config/util';
+import { timeFn, inApp } from '../../config/util';
 import * as moment from 'moment';
 
 interface Props {
@@ -144,7 +144,9 @@ class Main extends React.Component<Props, State> {
             <Hoc>
                 <div styleName="container" bg-white="true">
                     <SignModal/>
-                    <HeaderDownload/>
+                    {inApp === true
+                    ? ''
+                    : <HeaderDownload/>}
                     <Header/>
                     <Search/>
                     <News/>

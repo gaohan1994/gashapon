@@ -26,6 +26,7 @@ let config = {
         list_limit: 3,
         qntoken: 'www-dev.huanmusic.com',
         url: '//gacha-dev.hy233.tv',
+        downloadUrl: '//www.pgyer.com/DLND',
     },
 
     pro: {
@@ -54,6 +55,7 @@ let config = {
         list_limit: 8,
         qntoken: 'www.huanmusic.com',
         url: '//gacha.hy233.tv',
+        downloadUrl: '//www.pgyer.com/DLND',
     },
 };
 
