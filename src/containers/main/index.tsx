@@ -14,6 +14,7 @@ import DataItem from '../../components/content_item';
 import Sign from '../../classes/sign';
 import Base from '../../classes/base';
 import SignModal from '../sign';
+import HeaderDownload from '../../components/header_download';
 import Hoc from '../hoc';
 import config from '../../config/index';
 import { Stores } from '../../reducers/type';
@@ -143,6 +144,7 @@ class Main extends React.Component<Props, State> {
             <Hoc>
                 <div styleName="container" bg-white="true">
                     <SignModal/>
+                    <HeaderDownload/>
                     <Header/>
                     <Search/>
                     <News/>
