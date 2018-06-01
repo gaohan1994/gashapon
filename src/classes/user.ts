@@ -96,25 +96,24 @@ class User {
      * @memberof User
      */
     public init = async (): Promise<void> => {
-        console.log('init');
 
         const uuid = getAccessToken();
 
         if (!uuid) {
             return;
-        }
-
-        try {
-            const result = await fetch(`/accesstoken/${uuid}`).then(res => res.json());
-            console.log('result', result);
-            if (result.success === true) {
-                
-                this.uid = result.result._id;
-            } else {
-                throw new Error('请求accesstoken接口出错');
+        } else {
+            try {
+                const result = await fetch(`/accesstoken/${uuid}`).then(res => res.json());
+                console.log('result', result);
+                if (result.success === true) {
+                    
+                    this.uid = result.result._id;
+                } else {
+                    throw new Error('请求accesstoken接口出错');
+                }
+            } catch (err) {
+                console.log('setUserId err', err);
             }
-        } catch (err) {
-            console.log('setUserId err', err);
         }
     }
 

@@ -60,7 +60,7 @@ interface Props {
     loadBannersByGenre  : (genre: string) => void;
     loadBannersByTopic  : (topic: string) => void;
     getGashaponBanner   : BannerType[];
-    getBanners          : {contents: BannerType[]};
+    getBanners          : {contents?: BannerType[]};
     loadGenres          : () => void;
     loadTopics          : () => void;
     getGenres           : Genres;
@@ -331,23 +331,27 @@ class Gashapon extends React.Component<Props, State> {
                     <Search/>
                     <News/>
 
-                    {(getGashaponBanner && getGashaponBanner.length > 0) || 
-                    (getBanners.contents && getBanners.contents.length > 0)
-                    ? this.renderBanners()
-                    : ''}
-                    
-                    {!!match.params && match.params.topic
-                    ? ''
-                    : this.renderClass()}
+                    {
+                        (getGashaponBanner && getGashaponBanner.length > 0) || 
+                        (getBanners && getBanners.contents && getBanners.contents.length > 0)
+                        ? this.renderBanners()
+                        : ''
+                    }
+                        
+                    {
+                        !!match.params && match.params.topic
+                        ? ''
+                        : this.renderClass()}
 
-                    {getGashapons.map((item, i) => (
-                        <div 
-                            key={i}
-                            styleName="item"
-                        >
-                            <GashaItem item={item}/>
-                        </div>
-                    ))}
+                        {getGashapons.map((item, i) => (
+                            <div 
+                                key={i}
+                                styleName="item"
+                            >
+                                <GashaItem item={item}/>
+                            </div>
+                        ))
+                    }
                     <Footer/>
                 </div>
             </Hoc>
@@ -441,23 +445,28 @@ class Gashapon extends React.Component<Props, State> {
         );
     }
 
-    private readonly renderBanners = (): JSX.Element => {
-
+    private readonly renderBanners = (): JSX.Element | string => {
         const { getGashaponBanner, getBanners } = this.props;
 
         let prepareData: BannerType[] = [];
 
         if (getGashaponBanner && getGashaponBanner.length > 0) {
             prepareData = getGashaponBanner;
-        } else {
+            return (
+                <Swiper
+                    images={prepareData}
+                />
+            );
+        } else if (getBanners && getBanners.contents && getBanners.contents.length > 0) {
             prepareData = getBanners.contents;
+            return (
+                <Swiper
+                    images={prepareData}
+                />
+            );
+        } else {
+            return '';
         }
-
-        return (
-            <Swiper
-                images={prepareData}
-            />
-        );
     }
 }
 

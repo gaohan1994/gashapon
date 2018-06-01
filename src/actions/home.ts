@@ -139,36 +139,31 @@ export const loadCode = (phone: string) => (dispatch: Dispatch<HomeActions>): vo
 };
 
 export const loadUserDataFromUuid = (callback?: (uid: string) => void) => (dispatch: Dispatch<HomeActions>): void => {
-    try {
-        if (!getAccessToken()) {
-            throw new Error('uuid');
-        } 
-    } catch (err) {
-        console.log('receiveUserdata', err);
-    }
 
     try {
         const uuid = getAccessToken();
+        if (!uuid) {
+            throw new Error('uuid');
+        } else {
+            fetch(`/accesstoken/${uuid}`)
+            .then(res => res.json())
+            .then(res => {
+                if (res.success === true) {
+                    const user = User.getUser();
 
-        fetch(`/accesstoken/${uuid}`)
-        .then(res => res.json())
-        .then(res => {
-            if (res.success === true) {
-                const user = User.getUser();
-
-                if (user.uid !== res.result._id) {
-                    User.setUser({uid: res.result._id});
+                    if (user.uid !== res.result._id) {
+                        User.setUser({uid: res.result._id});
+                    }
+                    dispatch({type: constants.RECEIVE_HOME_USERDATA, userdata: res.result});
+                    
+                    if (!!callback) {
+                        callback(res.result._id);
+                    }
+                } else {
+                    throw new Error('通过uuid请求uid出错');
                 }
-                dispatch({type: constants.RECEIVE_HOME_USERDATA, userdata: res.result});
-                
-                if (!!callback) {
-                    callback(res.result._id);
-                }
-            } else {
-                throw new Error('通过uuid请求uid出错');
-            }
-        });
-        
+            });
+        }
     } catch (err) {
         console.log('dispatching userdata error', err);
     }

@@ -391,6 +391,9 @@ module.exports = {
         // Pending further investigation:
         // https://github.com/mishoo/UglifyJS2/issues/2011
         comparisons: false,
+        // add drop console config at 2018-6-1 Ghan
+        drop_console: true,
+        drop_debugger: true,
       },
       mangle: {
         safari10: true,

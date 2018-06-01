@@ -400,8 +400,7 @@ export const loadBannersByGenre = (genre: string) => (dispatch: Dispatch<MainAct
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-
-                if (res.result.contents) {
+                if (res.result && res.result.contents && res.result.contents.length > 0) {
                     dispatch({type: constants.RECEIVE_BANNERS_BY_GENRE, gashaponBanner: res.result.contents});
                 }
             } else {
@@ -420,7 +419,7 @@ export const loadBannersByTopic = (topic: string) => (dispatch: Dispatch<MainAct
         .then(res => {
             if (res.success === true) {
 
-                if (res.result.contents) {
+                if (res.result && res.result.contents && res.result.contents.length > 0) {
                     dispatch({type: constants.RECEIVE_BANNERS_BY_TOPIC, gashaponBanner: res.result.contents});
                 }
             } else {
