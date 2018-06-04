@@ -11,7 +11,7 @@ import {
 } from '../../actions/discount';
 import { getUserdata } from '../../reducers/home';
 import { 
-    getHomeDiscount, 
+    getHomeDiscount,
     getHomeDiscounting 
 } from '../../reducers/discount';
 import { Userdata } from '../../types/user';

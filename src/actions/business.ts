@@ -65,7 +65,6 @@ export const loadOrders = (_id: string) => (dispatch: Dispatch<BusinessActions>)
         fetch(`/product/orders/shipped/${_id}`)
         .then(res => res.json())
         .then(res => {
-            console.log('res', res);
             if (res.success === true) {
                 dispatch({type: constants.RECEIVE_ORDERS, orders: res.result});
             } else {

@@ -103,6 +103,11 @@ export const isMobile = (): boolean => {
   return reg.test(navigator.userAgent.toLowerCase());
 };
 
+export const isIos = (): boolean => {
+  var reg = /iphone|ipod/;
+  return reg.test(navigator.userAgent.toLowerCase());
+};
+
 export const timeFn = (d1: string): string => {
     /* 
     /di作为一个变量传进来

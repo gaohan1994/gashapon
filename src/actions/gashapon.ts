@@ -43,9 +43,11 @@ export type GashaponActions =
     | ReceiveCreateDiscount;
 
 export const loadGashapon = (_id: string) => (dispatch: Dispatch<GashaponActions>): void => {
+
     if (!_id) {
         throw new Error('PARAM ERROR');
     }
+
     try {
         fetch(`/machine/info/${_id}`)
         .then(res => res.json())

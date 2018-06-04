@@ -39,6 +39,7 @@ import Vip from './containers/vip';
 import Payment from './containers/payment';
 import Location from './containers/location';
 import Faq from './containers/about/faq';
+import Download from './containers/download';
 
 const routes = (
     <Switch>
@@ -85,6 +86,7 @@ const routes = (
         <Route path="/payment"                  component={Payment}/>
         <Route path="/location/:id/:comid"      component={Location}/>
         <Route path="/faq"                      component={Faq}/>
+        <Route path="/download"                 component={Download}/>
 
         <Route component={NoMatch}/>
     </Switch>

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as styles from './index.css';
-import config from '../../config/index';
+// import config from '../../config/index';
+import history from '../../history';
 
 interface Props {
 
@@ -21,13 +22,14 @@ class Header extends React.Component <Props, State> {
         return (
             <header styleName="container">
                 <div styleName="logo"/>
-                <div styleName="download" onClick={this.clickHandle}/>
+                <div styleName="download" onClick={() => this.clickHandle()}/>
             </header>
         );
     }
 
     private clickHandle = (): void => {
-        window.location.href = `${config.downloadUrl}`;
+        // window.location.href = `${config.downloadUrl}`;
+        history.push('/download');
     }
 }
 
